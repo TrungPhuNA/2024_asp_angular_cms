@@ -23,10 +23,14 @@ export class CategoryService {
 	}
 
 	createOrUpdateData(params: any, id?: any) {
+		const formData = new FormData();
+		formData.append('Name', params?.Name);
+		formData.append('Image', params?.Image);
+		formData.append('Content', params?.Content);
 		if(id) {
-			return this.baseApiService.putMethod(`Category/${id}`, params);
+			return this.baseApiService.putMethod(`Category/${id}`, formData);
 		}
-		return this.baseApiService.postMethod('Category', params);
+		return this.baseApiService.postMethod('Category', formData);
 	}
 
 	deleteData(id: any) {
