@@ -24,6 +24,7 @@ export class PaginationComponent {
 	}
 
 	ngOnChanges(changes: SimpleChanges): void {
+		console.log(this.paging);
 	}
 
 	changed(e: any) {

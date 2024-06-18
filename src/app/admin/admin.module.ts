@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { AddNewCategoryComponent } from './components/category/add-new-category/add-new-category.component';
 import { DetailCategoryComponent } from './components/category/detail-category/detail-category.component';
 import { UpdateCategoryComponent } from './components/category/update-category/update-category.component';
-import { DeleteCategoryComponent } from './components/category/delete-category/delete-category.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CategoryAdminPageComponent } from './pages/category-admin-page/category-admin-page.component';
 
@@ -92,7 +91,6 @@ const route: Routes = [
 		AddNewCategoryComponent,
 		DetailCategoryComponent,
 		UpdateCategoryComponent,
-		DeleteCategoryComponent,
 
 		ProductAdminPageComponent,
 		AddNewProductComponent,

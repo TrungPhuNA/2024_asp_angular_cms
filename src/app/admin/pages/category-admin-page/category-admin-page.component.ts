@@ -12,8 +12,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 export class CategoryAdminPageComponent {
 
 	categories: any = [
-		// { id: 1, name: 'Category 1', image: '/assets/images/product1.jpg', content: 'Content of Product 1', selected: false },
-		// { id: 2, name: 'Product 2', image: '/assets/images/product2.jpg', content: 'Content of Product 2', selected: false }
+		{ id: 1, name: 'Category 1', image: '/assets/images/product1.jpg', content: 'Content of Product 1', selected: false },
+		{ id: 2, name: 'Product 2', image: '/assets/images/product2.jpg', content: 'Content of Product 2', selected: false }
 	];
 
 	selectedCategory: any = {};
@@ -26,7 +26,7 @@ export class CategoryAdminPageComponent {
 	totalPages: number = 5;
 	pageName: string = 'categories';
 
-	paging: any = {...INIT_PAGING}
+	paging: any = { ...INIT_PAGING }
 
 	loading = false;
 
@@ -56,17 +56,18 @@ export class CategoryAdminPageComponent {
 	ngOnInit(): void {
 		//Called after the constructor, initializing input properties, and the first call to ngOnChanges.
 		//Add 'implements OnInit' to the class.
-		this.getDataList({...this.paging})
+		this.getDataList({ ...this.paging })
 	}
 
 	getDataList(params: any) {
 		this.loading = true;
 		this.categoryService.getListCategory(params).subscribe((res: any) => {
 			this.loading = false;
-			if(res?.status == 'success') {
+			if (res?.status == 'success') {
 				this.categories = res?.data;
-				this.paging.total = res?.total || 0
-			} else if(res?.length > 0 && typeof res == 'object') {
+				this.paging.total = res?.total || 0;
+				this.paging.page = params?.page || 1
+			} else if (res?.length > 0 && typeof res == 'object') {
 				this.categories = res?.data;
 			}
 		})
@@ -78,12 +79,12 @@ export class CategoryAdminPageComponent {
 	}
 
 	search() {
-		this.getDataList({...this.paging, page: 1, ...this.formSearch.value})
+		this.getDataList({ ...this.paging, page: 1, ...this.formSearch.value })
 	}
 
 	pageChanged(e: any) {
 		this.paging.page = e;
-		this.getDataList({...this.paging, ...this.formSearch.value})
+		this.getDataList({ ...this.paging, ...this.formSearch.value })
 	}
 
 	toggleSelectAll() {
@@ -104,15 +105,38 @@ export class CategoryAdminPageComponent {
 		this.showDeleteCategoryModal = false;
 	}
 
-	saveCategory(category: any) {
+	saveCategory(data: any) {
 		if (this.modalTitle === 'Create Category') {
-			category.id = this.categories.length + 1;
-			this.categories.push(category);
+			// category.id = this.categories.length + 1;
+			// this.categories.push(category);
+			this.loading = true;
+			this.categoryService.createOrUpdateData(data?.form).subscribe((res: any) => {
+				this.loading = false;
+				if (res?.message == 'Category added successfully.') {
+					this.alertService.fireSmall('success', res?.message);
+					this.closeModal();
+					this.getDataList({page: 1, page_size: 10})
+				} else if (res?.errors) {
+					this.alertService.showListError(res?.errors);
+				} else {
+					this.alertService.fireSmall('error', "Add Category failed!");
+				}
+			})
 		} else {
-			const index = this.categories.findIndex((p: any) => p.id === category.id);
-			this.categories[index] = category;
+			this.loading = true;
+			this.categoryService.createOrUpdateData(data?.form, data.id).subscribe((res: any) => {
+				this.loading = false;
+				if (res?.message == 'Category updated successfully.') {
+					this.alertService.fireSmall('success', res?.message);
+					this.closeModal();
+					this.getDataList({page: 1, page_size: 10})
+				} else if (res?.errors) {
+					this.alertService.showListError(res?.errors);
+				} else {
+					this.alertService.fireSmall('error', "Updated Category failed!");
+				}
+			})
 		}
-		this.closeModal();
 	}
 
 	viewCategory(id: number) {
@@ -131,9 +155,30 @@ export class CategoryAdminPageComponent {
 	}
 
 	deleteCategory(id: number) {
-		this.selectedCategory = this.categories.find((c: any) => c.id === id);
-		this.modalTitle = 'Delete Category';
-		this.showDeleteCategoryModal = true;
+		this.alertService.fireConfirm(
+			'Delete Category',
+			'Are you sure you want to delete this category?',
+			'warning',
+			'Cancel',
+			'Delete',
+		)
+			.then((result) => {
+				if (result.isConfirmed) {
+					this.loading = true;
+					this.categoryService.deleteData(id).subscribe((res: any) => {
+						this.loading = false;
+						if (res?.message == 'Category deleted successfully.') {
+							this.alertService.fireSmall('success', res?.message);
+							this.getDataList({page: 1, page_size: 10})
+						} else if (res?.errors) {
+							this.alertService.showListError(res?.errors);
+						} else {
+							this.alertService.fireSmall('error', "Delete Category failed!");
+						}
+					})
+				}
+			})
+
 	}
 
 	confirmDelete(id: number) {

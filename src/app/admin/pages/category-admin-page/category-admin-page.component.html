@@ -34,7 +34,7 @@
 		</div>
 	</div>
 	<div class="card-body">
-		<div class="table-container table-responsive">
+		<div class="table-responsive">
 			<table class="table">
 				<thead>
 					<tr>
@@ -107,7 +107,7 @@
 	</div>
 </div>
 
-<app-add-new-category [category]="selectedCategory" [modalTitle]="modalTitle" [isVisible]="showAddNewCategoryModal"
+<app-add-new-category  [modalTitle]="modalTitle" [isVisible]="showAddNewCategoryModal"
 	(save)="saveCategory($event)" (close)="closeModal()">
 </app-add-new-category>
 
@@ -118,9 +118,5 @@
 <app-update-category [category]="selectedCategory" [modalTitle]="modalTitle" [isVisible]="showUpdateCategoryModal"
 	(save)="saveCategory($event)" (close)="closeModal()">
 </app-update-category>
-
-<app-delete-category [category]="selectedCategory" [modalTitle]="modalTitle" [isVisible]="showDeleteCategoryModal"
-	(delete)="confirmDelete($event)" (close)="closeModal()">
-</app-delete-category>
 
 <app-loading [loading]="loading"></app-loading>

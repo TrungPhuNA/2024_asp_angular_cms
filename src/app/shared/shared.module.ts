@@ -4,13 +4,15 @@ import { LoadingComponent } from './component/loading/loading.component';
 import { PaginationComponent } from './component/pagination/pagination.component';
 import { NgxLoadingModule } from 'ngx-loading';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormErrorComponent } from './component/form-error/form-error.component';
 
 
 
 @NgModule({
 	declarations: [
 		LoadingComponent,
-		PaginationComponent
+		PaginationComponent,
+		FormErrorComponent
 	],
 	imports: [
 		CommonModule,
@@ -19,7 +21,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 	],
 	exports: [
 		LoadingComponent,
-		PaginationComponent
+		PaginationComponent,
+		FormErrorComponent
 	]
 })
 export class SharedDataModule { }

@@ -1,21 +1,35 @@
 <div *ngIf="isVisible" class="modal">
-  <div class="modal-content">
-    <span class="close-button" (click)="closeModal()">&times;</span>
-    <h2>{{ modalTitle }}</h2>
-    <form>
-      <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" id="name" [(ngModel)]="category.name" name="name">
-      </div>
-      <div class="form-group">
-        <label for="image">Image URL</label>
-        <input type="text" id="image" [(ngModel)]="category.image" name="image">
-      </div>
-      <div class="form-group">
-        <label for="content">Content</label>
-        <textarea id="content" [(ngModel)]="category.content" name="content"></textarea>
-      </div>
-      <button type="button" (click)="saveCategory()">Save</button>
-    </form>
-  </div>
+	<div class="modal-content">
+		<div class="d-flex justify-content-between">
+			<h2>{{ modalTitle }}</h2>
+			<span class="close-button" (click)="closeModal()">&times;</span>
+		</div>
+		<form [formGroup]="form" (ngSubmit)="saveCategory()">
+			<div class="form-group required mb-3">
+				<label for="name" class="form-label">Name</label>
+				<input type="text" id="name" class="form-control"
+					[ngClass]="{'is-invalid': commonService.showStatusErrorV2(form, 'Name')}" formControlName="Name"
+					name="name" (focusout)="commonService.onTrimFocusOutForm(form, 'Name', $event)" />
+
+				<app-form-error [control]="form.controls['Name']" [message]="'Category Name is required!'"
+					[validation]="'required'"></app-form-error>
+			</div>
+			<div class="form-group required mb-3">
+				<label for="image" class="form-label ">Image URL</label>
+				<input type="text" id="image" class="form-control"
+					[ngClass]="{'is-invalid': commonService.showStatusErrorV2(form, 'Image')}" formControlName="Image"
+					name="image">
+				<app-form-error [control]="form.controls['Image']" [message]="'Category image is required!'"
+					[validation]="'required'"></app-form-error>
+			</div>
+			<div class="form-group mb-3">
+				<label for="content" class="form-label">Content</label>
+				<textarea id="content" formControlName="Content" name="Content" class="form-control"></textarea>
+			</div>
+			<div class="d-flex justify-content-center my-3">
+				<button type="button" (click)="closeModal()" class="btn btn-secondary">Cancel</button>
+				<button type="submit" class="btn btn-success mx-2">Save</button>
+			</div>
+		</form>
+	</div>
 </div>

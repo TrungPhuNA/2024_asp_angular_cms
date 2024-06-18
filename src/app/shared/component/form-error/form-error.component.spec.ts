@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DeleteCategoryComponent } from './delete-category.component';
+import { FormErrorComponent } from './form-error.component';
 
-describe('DeleteCategoryComponent', () => {
-  let component: DeleteCategoryComponent;
-  let fixture: ComponentFixture<DeleteCategoryComponent>;
+describe('FormErrorComponent', () => {
+  let component: FormErrorComponent;
+  let fixture: ComponentFixture<FormErrorComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [DeleteCategoryComponent]
+      declarations: [FormErrorComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(DeleteCategoryComponent);
+    fixture = TestBed.createComponent(FormErrorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
