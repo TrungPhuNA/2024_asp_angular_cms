@@ -10,8 +10,8 @@ import { AdminModule } from './admin/admin.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CloudinaryModule } from '@cloudinary/ng';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { tokenInterceptor } from './interceptor/token.interceptor';
+import { HttpClientModule } from '@angular/common/http';
+// import { tokenInterceptor } from './interceptor/token.interceptor';
 
 @NgModule({
 	declarations: [
@@ -32,8 +32,9 @@ import { tokenInterceptor } from './interceptor/token.interceptor';
 	providers: [
 		// provideClientHydration()
 
-		provideAnimationsAsync(),
-		provideHttpClient(withInterceptorsFromDi())
+		provideAnimationsAsync()
+		// ,
+		// provideHttpClient(withInterceptorsFromDi())
 		
 		
 	],
