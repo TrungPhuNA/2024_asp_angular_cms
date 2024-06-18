@@ -63,13 +63,9 @@ export class CategoryAdminPageComponent {
 		this.loading = true;
 		this.categoryService.getListCategory(params).subscribe((res: any) => {
 			this.loading = false;
-			if (res?.status == 'success') {
-				this.categories = res?.data;
-				this.paging.total = res?.total || 0;
-				this.paging.page = params?.page || 1
-			} else if (res?.length > 0 && typeof res == 'object') {
-				this.categories = res?.data;
-			}
+            this.categories = res;
+            // this.paging.total = res?.total || 0;
+            // this.paging.page = params?.page || 1
 		})
 	}
 
