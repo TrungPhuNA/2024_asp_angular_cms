@@ -137,6 +137,7 @@ export class CategoryAdminPageComponent {
 
 	viewCategory(id: number) {
         console.info("===========[viewCategory] ===========[id] : ",id);
+        console.info("===========[viewCategory] ===========[this.categories] : ",this.categories);
 		const category = this.categories.find((c: any) => c.id === id);
 		console.log("Category", category)
 		this.selectedCategory = { ...category };
