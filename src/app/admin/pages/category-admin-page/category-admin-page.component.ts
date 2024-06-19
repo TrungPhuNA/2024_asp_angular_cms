@@ -54,8 +54,6 @@ export class CategoryAdminPageComponent {
 	}
 
 	ngOnInit(): void {
-		//Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-		//Add 'implements OnInit' to the class.
 		this.getDataList({ ...this.paging })
 	}
 
@@ -136,17 +134,13 @@ export class CategoryAdminPageComponent {
 	}
 
 	viewCategory(id: number) {
-        console.info("===========[viewCategory] ===========[id] : ",id);
-        console.info("===========[viewCategory] ===========[this.categories] : ",this.categories);
 		const category = this.categories.find((c: any) => c.categoryId === id);
-		console.log("Category", category)
 		this.selectedCategory = { ...category };
 		this.modalTitle = 'View Category';
 		this.showDetailCategoryModal = true;
 	}
 
 	editCategory(id: number) {
-        console.info("===========[editCategory] ===========[id] : ",id);
 		const category = this.categories.find((c: any) => c.categoryId === id);
 		this.selectedCategory = { ...category };
 		this.modalTitle = 'Edit Category';
@@ -154,7 +148,6 @@ export class CategoryAdminPageComponent {
 	}
 
 	deleteCategory(id: number) {
-        console.info("===========[deleteCategory] ===========[id] : ",id);
 		this.alertService.fireConfirm(
 			'Delete Category',
 			'Are you sure you want to delete this category?',
