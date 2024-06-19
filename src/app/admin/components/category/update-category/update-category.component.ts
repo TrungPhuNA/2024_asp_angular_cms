@@ -18,7 +18,6 @@ export class UpdateCategoryComponent {
 	form = new FormGroup({
 		Name: new FormControl(null, Validators.required),
 		Image: new FormControl(null, Validators.required),
-		Content: new FormControl(null)
 	});
 
 	constructor(
@@ -35,7 +34,6 @@ export class UpdateCategoryComponent {
 			this.form.patchValue({
 				Name: this.category?.name,
 				Image: this.category?.image,
-				Content: this.category?.content,
 			});
 			console.log(this.form.value);
 		}
