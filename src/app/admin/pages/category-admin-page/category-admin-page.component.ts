@@ -138,7 +138,7 @@ export class CategoryAdminPageComponent {
 	viewCategory(id: number) {
         console.info("===========[viewCategory] ===========[id] : ",id);
         console.info("===========[viewCategory] ===========[this.categories] : ",this.categories);
-		const category = this.categories.find((c: any) => c.id === id);
+		const category = this.categories.find((c: any) => c.categoryId === id);
 		console.log("Category", category)
 		this.selectedCategory = { ...category };
 		this.modalTitle = 'View Category';
@@ -147,7 +147,7 @@ export class CategoryAdminPageComponent {
 
 	editCategory(id: number) {
         console.info("===========[editCategory] ===========[id] : ",id);
-		const category = this.categories.find((c: any) => c.id === id);
+		const category = this.categories.find((c: any) => c.categoryId === id);
 		this.selectedCategory = { ...category };
 		this.modalTitle = 'Edit Category';
 		this.showUpdateCategoryModal = true;
