@@ -64,7 +64,7 @@ export class CategoryAdminPageComponent {
 		this.categoryService.getListCategory(params).subscribe((res: any) => {
 			this.loading = false;
             this.categories = res;
-            // this.paging.total = res?.total || 0;
+            this.paging.total = res?.length || 0;
             // this.paging.page = params?.page || 1
 		})
 	}
