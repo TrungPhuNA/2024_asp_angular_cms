@@ -30,6 +30,17 @@ export class BrandAdminPageComponent {
 
     }
 
+    breadCrumb: any = [
+        {
+            label: 'Admin',
+            link: '/'
+        },
+        {
+            label: 'Brand',
+            link: '/admin/brand'
+        }
+    ];
+
     ngOnInit(): void {
         this.getDataList({ ...this.paging })
     }
@@ -50,8 +61,8 @@ export class BrandAdminPageComponent {
     }
 
     openAddNewBrandModal() {
-        this.selectedBrand = {id: null, name: '', image: '', content: '', selected: false};
-        this.modalTitle = 'Create brand';
+        this.selectedBrand = { id: null, name: '', image: '', content: '', selected: false };
+        this.modalTitle = 'Create Brand';
         this.showAddNewBrandModal = true;
     }
 
@@ -62,52 +73,90 @@ export class BrandAdminPageComponent {
         this.showDeleteBrandModal = false;
     }
 
-    saveBrand(brand: any) {
-        // if (this.modalTitle === 'Create brand') {
-        //     brand.id = this.brands.length + 1;
-        //     this.brands.push(brand);
-        // } else {
-        //     const index = this.brands.findIndex(p => p.brandId === brand.id);
-        //     this.brands[index] = brand;
-        // }
-        // this.closeModal();
+    search() {
+        this.getDataList({ ...this.paging, page: 1, ...this.formSearch.value })
     }
 
-    viewBrand(id: number) {
-        // const brand = this.brands.find(p => p.brandId === id);
-        // console.log("brand", brand)
-        // this.selectedBrand = {...brand};
-        // this.modalTitle = 'View brand';
-        // this.showDetailBrandModal = true;
+    resetSearchForm() {
+        this.formSearch.reset();
+        this.search();
     }
 
-    editBrand(id: number) {
-        // const brand = this.brands.find(p => p.brandId === id);
-        // this.selectedBrand = {...brand};
-        // this.modalTitle = 'Edit brand';
-        // this.showUpdateBrandModal = true;
-    }
-
-    deleteBrand(id: number) {
-
-    }
-
-    confirmDelete(id: number) {
-        // this.brands = this.brands.filter(p => p.brandId !== id);
-        // this.closeModal();
-    }
-
-    prevPage() {
-        if (this.currentPage > 1) {
-            this.currentPage--;
+    saveItem(data: any) {
+        if (this.modalTitle === 'Create Brand') {
+            // category.id = this.categories.length + 1;
+            // this.categories.push(category);
+            this.loading = true;
+            this.brandService.createOrUpdateData(data?.form).subscribe((res: any) => {
+                this.loading = false;
+                if (res?.message == 'Brand added successfully.') {
+                    this.alertService.fireSmall('success', res?.message);
+                    this.closeModal();
+                    this.getDataList({page: 1, page_size: 10})
+                } else if (res?.errors) {
+                    this.alertService.showListError(res?.errors);
+                } else {
+                    this.alertService.fireSmall('error', "Add Brand failed!");
+                }
+            })
+        } else {
+            this.loading = true;
+            this.brandService.createOrUpdateData(data?.form, data.id).subscribe((res: any) => {
+                this.loading = false;
+                if (res?.message == 'Brand updated successfully.') {
+                    this.alertService.fireSmall('success', res?.message);
+                    this.closeModal();
+                    this.getDataList({page: 1, page_size: 10})
+                } else if (res?.errors) {
+                    this.alertService.showListError(res?.errors);
+                } else {
+                    this.alertService.fireSmall('error', "Updated Brand failed!");
+                }
+            })
         }
     }
 
-    nextPage() {
-        if (this.currentPage < this.totalPages) {
-            this.currentPage++;
-        }
+    viewItem(id: number) {
+        // const category = this.categories.find((c: any) => c.categoryId === id);
+        // this.selectedCategory = { ...category };
+        // this.modalTitle = 'View Category';
+        // this.showDetailCategoryModal = true;
     }
+
+    editItem(id: number) {
+        // const category = this.categories.find((c: any) => c.categoryId === id);
+        // this.selectedCategory = { ...category };
+        // this.modalTitle = 'Edit Category';
+        // this.showUpdateCategoryModal = true;
+    }
+
+    deleteItem(id: number) {
+        // this.alertService.fireConfirm(
+        //     'Delete Category',
+        //     'Are you sure you want to delete this category?',
+        //     'warning',
+        //     'Cancel',
+        //     'Delete',
+        // )
+        //     .then((result) => {
+        //         if (result.isConfirmed) {
+        //             this.loading = true;
+        //             this.categoryService.deleteData(id).subscribe((res: any) => {
+        //                 this.loading = false;
+        //                 if (res?.message == 'Category deleted successfully.') {
+        //                     this.alertService.fireSmall('success', res?.message);
+        //                     this.getDataList({page: 1, page_size: 10})
+        //                 } else if (res?.errors) {
+        //                     this.alertService.showListError(res?.errors);
+        //                 } else {
+        //                     this.alertService.fireSmall('error', "Delete Category failed!");
+        //                 }
+        //             })
+        //         }
+        //     })
+
+    }
+
 
     formSearch = new FormGroup({
         id: new FormControl(null),
