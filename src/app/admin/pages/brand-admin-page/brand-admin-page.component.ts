@@ -10,11 +10,7 @@ import {FormControl, FormGroup} from "@angular/forms";
     styleUrls: ['./brand-admin-page.component.scss']
 })
 export class BrandAdminPageComponent {
-    brands = [
-        {id: 1, name: 'Brands 1', image: '/assets/images/brand1.jpg', content: 'Content of brand 1', selected: false},
-        {id: 2, name: 'Brands 2', image: '/assets/images/brand2.jpg', content: 'Content of brand 2', selected: false}
-    ];
-
+    brands : any = {}
     selectedBrand: any = {};
     modalTitle: string = '';
     showAddNewBrandModal: boolean = false;
@@ -49,8 +45,8 @@ export class BrandAdminPageComponent {
     }
 
     toggleSelectAll() {
-        const allSelected = this.brands.every(brand => brand.selected);
-        this.brands.forEach(brand => brand.selected = !allSelected);
+        // const allSelected = this.brands.every(brand => brand.selected);
+        // this.brands.forEach(brand => brand.selected = !allSelected);
     }
 
     openAddNewBrandModal() {
@@ -67,40 +63,38 @@ export class BrandAdminPageComponent {
     }
 
     saveBrand(brand: any) {
-        if (this.modalTitle === 'Create brand') {
-            brand.id = this.brands.length + 1;
-            this.brands.push(brand);
-        } else {
-            const index = this.brands.findIndex(p => p.brandId === brand.id);
-            this.brands[index] = brand;
-        }
-        this.closeModal();
+        // if (this.modalTitle === 'Create brand') {
+        //     brand.id = this.brands.length + 1;
+        //     this.brands.push(brand);
+        // } else {
+        //     const index = this.brands.findIndex(p => p.brandId === brand.id);
+        //     this.brands[index] = brand;
+        // }
+        // this.closeModal();
     }
 
     viewBrand(id: number) {
-        const brand = this.brands.find(p => p.brandId === id);
-        console.log("brand", brand)
-        this.selectedBrand = {...brand};
-        this.modalTitle = 'View brand';
-        this.showDetailBrandModal = true;
+        // const brand = this.brands.find(p => p.brandId === id);
+        // console.log("brand", brand)
+        // this.selectedBrand = {...brand};
+        // this.modalTitle = 'View brand';
+        // this.showDetailBrandModal = true;
     }
 
     editBrand(id: number) {
-        const brand = this.brands.find(p => p.brandId === id);
-        this.selectedBrand = {...brand};
-        this.modalTitle = 'Edit brand';
-        this.showUpdateBrandModal = true;
+        // const brand = this.brands.find(p => p.brandId === id);
+        // this.selectedBrand = {...brand};
+        // this.modalTitle = 'Edit brand';
+        // this.showUpdateBrandModal = true;
     }
 
     deleteBrand(id: number) {
-        this.selectedBrand = this.brands.find(p => p.brandId === id);
-        this.modalTitle = 'Delete brand';
-        this.showDeleteBrandModal = true;
+
     }
 
     confirmDelete(id: number) {
-        this.brands = this.brands.filter(p => p.brandId !== id);
-        this.closeModal();
+        // this.brands = this.brands.filter(p => p.brandId !== id);
+        // this.closeModal();
     }
 
     prevPage() {
