@@ -35,8 +35,10 @@
 					<tr>
 						<th><input type="checkbox" (click)="toggleSelectAll()"></th>
 						<th>ID</th>
-						<th style="min-width: 80px;">Image</th>
+						<!-- <th style="min-width: 80px;">Image</th> -->
 						<th style="min-width: 300px;">Name</th>
+						<th style="min-width: 300px;">Price</th>
+						<th style="min-width: 300px;">Shop</th>
 						<!-- <th>Category</th> -->
 						<th>Actions</th>
 					</tr>
@@ -48,22 +50,24 @@
 								<input type="checkbox" [(ngModel)]="item.selected">
 							</td>
 							<td>{{ (paging.page - 1) * paging.page_size + i + 1 }}</td>
-							<td>
+							<!-- <td>
 								<img [src]="item.image" alt="{{ item.name }}" class="thumbnail" width="80"
 									height="80" />
-							</td>
+							</td> -->
 							<td>{{ item.name }}</td>
+							<td>{{ item.price }}</td>
+							<td>{{ item.owner?.fullname }}</td>
 							<!-- <td>{{ item.category?.name}}</td> -->
 							<td>
 								
 								<div class="d-flex justify-content-center">
-									<button class="icon-button view-button" (click)="viewItem(item.brandId)">
+									<button class="icon-button view-button" (click)="viewItem(item.productId)">
 										<i class="bi bi-eye"></i> View
 									</button>
-									<button class="icon-button edit-button" (click)="editItem(item.brandId)">
+									<button class="icon-button edit-button" (click)="editItem(item.productId)">
 										<i class="bi bi-pencil"></i> Edit
 									</button>
-									<button class="icon-button delete-button" (click)="deleteItem(item.brandId)">
+									<button class="icon-button delete-button" (click)="deleteItem(item.productId)">
 										<i class="bi bi-trash"></i> Delete
 									</button>
 								</div>

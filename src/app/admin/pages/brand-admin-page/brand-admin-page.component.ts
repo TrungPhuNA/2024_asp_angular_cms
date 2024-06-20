@@ -61,7 +61,7 @@ export class BrandAdminPageComponent {
     }
 
 	getCategories() {
-        this.categories.getLists({page: 1, page_size: 100}).subscribe((res: any) => {
+        this.categoryService.getListCategory({page: 1, page_size: 100}).subscribe((res: any) => {
             console.info("===========[categories] ===========[res] : ",res);
             this.categories = res;
         })

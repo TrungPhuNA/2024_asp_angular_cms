@@ -60,7 +60,7 @@ export class ProductAdminPageComponent {
 	}
 
 	createItem() {
-		this.modalTitle = 'Create Account';
+		this.modalTitle = 'Create Product';
 		this.createModal = true;
 	}
 
@@ -81,34 +81,34 @@ export class ProductAdminPageComponent {
 	}
 
 	saveItem(data: any) {
-		if (this.modalTitle === 'Create Account') {
+		if (this.modalTitle === 'Create Product') {
 			// category.id = this.categories.length + 1;
 			// this.categories.push(category);
 			this.loading = true;
 			this.productService.createOrUpdateData(data?.form).subscribe((res: any) => {
 				this.loading = false;
-				if (res?.message == 'Account added successfully.') {
+				if (res?.message == 'Product added successfully.') {
 					this.alertService.fireSmall('success', res?.message);
 					this.closeModal();
 					this.getDataList({ page: 1, page_size: 10 })
 				} else if (res?.errors) {
 					this.alertService.showListError(res?.errors);
 				} else {
-					this.alertService.fireSmall('error', res?.message || "Add Account failed!");
+					this.alertService.fireSmall('error', res?.message || "Add Product failed!");
 				}
 			})
 		} else {
 			this.loading = true;
 			this.productService.createOrUpdateData(data?.form, data.id).subscribe((res: any) => {
 				this.loading = false;
-				if (res?.message == 'Account updated successfully.') {
+				if (res?.message == 'Product updated successfully.') {
 					this.alertService.fireSmall('success', res?.message);
 					this.closeModal();
 					this.getDataList({ page: 1, page_size: 10 })
 				} else if (res?.errors) {
 					this.alertService.showListError(res?.errors);
 				} else {
-					this.alertService.fireSmall('error', res?.message || "Updated Account failed!");
+					this.alertService.fireSmall('error', res?.message || "Updated Product failed!");
 				}
 			})
 		}
@@ -116,23 +116,23 @@ export class ProductAdminPageComponent {
 
 	selected: any;
 	viewItem(id: number) {
-		const data = this.dataList.find((c: any) => c.accountId === id);
+		const data = this.dataList.find((c: any) => c.productId === id);
 		this.selected = { ...data };
-		this.modalTitle = 'View Account';
+		this.modalTitle = 'View Product';
 		this.showModal = true;
 	}
 
 	editItem(id: number) {
-		const data = this.dataList.find((c: any) => c.accountId === id);
+		const data = this.dataList.find((c: any) => c.productId === id);
 		this.selected = { ...data };
-		this.modalTitle = 'Edit Account';
+		this.modalTitle = 'Edit Product';
 		this.updateModal = true;
 	}
 
 	deleteItem(id: number) {
 		this.alertService.fireConfirm(
-			'Delete Account',
-			'Are you sure you want to delete this Account?',
+			'Delete Product',
+			'Are you sure you want to delete this Product?',
 			'warning',
 			'Cancel',
 			'Delete',
@@ -142,13 +142,13 @@ export class ProductAdminPageComponent {
 					this.loading = true;
 					this.productService.deleteData(id).subscribe((res: any) => {
 						this.loading = false;
-						if (res?.message == 'Account deleted successfully.') {
+						if (res?.message == 'product deleted successfully.') {
 							this.alertService.fireSmall('success', res?.message);
 							this.getDataList({ page: 1, page_size: 10 })
 						} else if (res?.errors) {
 							this.alertService.showListError(res?.errors);
 						} else {
-							this.alertService.fireSmall('error', res?.message || "Delete Account failed!");
+							this.alertService.fireSmall('error', res?.message || "Delete Product failed!");
 						}
 					})
 				}
