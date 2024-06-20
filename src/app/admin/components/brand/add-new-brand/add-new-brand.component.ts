@@ -1,7 +1,7 @@
 import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {CommonService} from "../../../../service/admin/common.service";
-import {AlertService} from "../../../../service/admin/alert.service";
+import {CommonService} from "../../../helpers/common.service";
+import {AlertService} from "../../../helpers/alert.service";
 
 @Component({
     selector: 'app-add-new-brand',
@@ -10,6 +10,7 @@ import {AlertService} from "../../../../service/admin/alert.service";
 })
 export class AddNewBrandComponent {
     @Input() modalTitle: string = '';
+    @Input() categories: any;
     @Input() isVisible: boolean = false;
     @Output() save = new EventEmitter<any>();
     @Output() close = new EventEmitter<void>();
@@ -26,6 +27,14 @@ export class AddNewBrandComponent {
     ) {
 
     }
+
+	ngOnChanges(): void {
+		//Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+		//Add '${implements OnChanges}' to the class.
+		if(!this.isVisible) {
+			this.form.reset();
+		}
+	}
 
     saveBrand() {
         if(this.form.invalid) {

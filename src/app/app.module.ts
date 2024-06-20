@@ -30,13 +30,7 @@ import { HttpClientModule } from '@angular/common/http';
 		AdminModule,
 	],
 	providers: [
-		// provideClientHydration()
-
 		provideAnimationsAsync()
-		// ,
-		// provideHttpClient(withInterceptorsFromDi())
-		
-		
 	],
 	bootstrap: [AppComponent]
 })

@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import {CategoryService} from "../../../service/admin/category.service";
-import {AlertService} from "../../../service/admin/alert.service";
+import {AlertService} from "../../helpers/alert.service";
+import { BlogService } from '../../services/blog.service';
 
 @Component({
     selector: 'app-blog-admin-page',
@@ -24,7 +24,7 @@ export class BlogAdminPageComponent {
     pageName: string = 'blogs';
 
     constructor(
-        private categoryService: CategoryService,
+        private blogService: BlogService,
         private alertService: AlertService
     ) {
 

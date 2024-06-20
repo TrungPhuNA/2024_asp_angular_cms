@@ -1,34 +1,30 @@
 import {Component} from '@angular/core';
 import {AlertService} from "../../helpers/alert.service";
-import {INIT_PAGING} from "../../helpers/constant";
-import {BrandService} from "../../services/brand.service";
-import {FormControl, FormGroup} from "@angular/forms";
-import { CategoryService } from '../../services/category.service';
+import { BlogService } from '../../services/blog.service';
+import { AccountService } from '../../services/account.service';
+import { FormControl, FormGroup } from '@angular/forms';
+import { INIT_PAGING } from '../../helpers/constant';
 
 @Component({
-    selector: 'app-brand-admin-page',
-    templateUrl: './brand-admin-page.component.html',
-    styleUrls: ['./brand-admin-page.component.scss']
+  selector: 'app-account-admin-page',
+  templateUrl: './account-admin-page.component.html',
+  styleUrl: './account-admin-page.component.scss'
 })
-export class BrandAdminPageComponent {
-    brands : any = {}
-    selectedBrand: any = {};
+export class AccountAdminPageComponent {
+	dataList : any = []
+    selectedBrand: any = null;
     modalTitle: string = '';
-    showAddNewBrandModal: boolean = false;
-    showDetailBrandModal: boolean = false;
-    showUpdateBrandModal: boolean = false;
-    showDeleteBrandModal: boolean = false;
-    currentPage: number = 1;
-    totalPages: number = 5;
+
+    createModal: boolean = false;
+    showModal: boolean = false;
+    updateModal: boolean = false;
+
     pageName: string = 'brands';
     paging: any = { ...INIT_PAGING }
     loading = false;
 
-	categories : any = [];
-
     constructor(
-        private brandService: BrandService,
-        private categoryService: CategoryService,
+        private accountService: AccountService,
         private alertService: AlertService
     ) {
 
@@ -40,30 +36,22 @@ export class BrandAdminPageComponent {
             link: '/'
         },
         {
-            label: 'Brand',
-            link: '/admin/brand'
+            label: 'Account',
+            link: '/admin/account'
         }
     ];
 
     ngOnInit(): void {
-        this.getDataList({ ...this.paging });
-		this.getCategories()
+        this.getDataList({ ...this.paging })
     }
 
     getDataList(params: any) {
         this.loading = true;
-        this.brandService.getLists(params).subscribe((res: any) => {
+        this.accountService.getLists(params).subscribe((res: any) => {
             console.info("===========[getDataListBrand] ===========[res] : ",res);
             this.loading = false;
-            this.brands = res;
+            this.dataList = res;
             this.paging.total = res?.length || 0;
-        })
-    }
-
-	getCategories() {
-        this.categories.getLists({page: 1, page_size: 100}).subscribe((res: any) => {
-            console.info("===========[categories] ===========[res] : ",res);
-            this.categories = res;
         })
     }
 
@@ -74,15 +62,15 @@ export class BrandAdminPageComponent {
 
     openAddNewBrandModal() {
         this.selectedBrand = { id: null, name: '', image: '', content: '', selected: false };
-        this.modalTitle = 'Create Brand';
-        this.showAddNewBrandModal = true;
+        this.modalTitle = 'Create Account';
+        this.createModal = true;
     }
 
     closeModal() {
-        this.showAddNewBrandModal = false;
-        this.showDetailBrandModal = false;
-        this.showUpdateBrandModal = false;
-        this.showDeleteBrandModal = false;
+        this.createModal = false;
+        this.showModal = false;
+        this.updateModal = false;
+		
     }
 
     search() {
@@ -95,34 +83,34 @@ export class BrandAdminPageComponent {
     }
 
     saveItem(data: any) {
-        if (this.modalTitle === 'Create Brand') {
+        if (this.modalTitle === 'Create Account') {
             // category.id = this.categories.length + 1;
             // this.categories.push(category);
             this.loading = true;
-            this.brandService.createOrUpdateData(data?.form).subscribe((res: any) => {
+            this.accountService.createOrUpdateData(data?.form).subscribe((res: any) => {
                 this.loading = false;
-                if (res?.message == 'Brand added successfully.') {
+                if (res?.message == 'Account added successfully.') {
                     this.alertService.fireSmall('success', res?.message);
                     this.closeModal();
                     this.getDataList({page: 1, page_size: 10})
                 } else if (res?.errors) {
                     this.alertService.showListError(res?.errors);
                 } else {
-                    this.alertService.fireSmall('error', res?.message || "Add Brand failed!");
+                    this.alertService.fireSmall('error', res?.message || "Add Account failed!");
                 }
             })
         } else {
             this.loading = true;
-            this.brandService.createOrUpdateData(data?.form, data.id).subscribe((res: any) => {
+            this.accountService.createOrUpdateData(data?.form, data.id).subscribe((res: any) => {
                 this.loading = false;
-                if (res?.message == 'Brand updated successfully.') {
+                if (res?.message == 'Account updated successfully.') {
                     this.alertService.fireSmall('success', res?.message);
                     this.closeModal();
                     this.getDataList({page: 1, page_size: 10})
                 } else if (res?.errors) {
                     this.alertService.showListError(res?.errors);
                 } else {
-                    this.alertService.fireSmall('error', res?.message || "Updated Brand failed!");
+                    this.alertService.fireSmall('error', res?.message || "Updated Account failed!");
                 }
             })
         }
@@ -130,23 +118,23 @@ export class BrandAdminPageComponent {
 
 	selected: any;
     viewItem(id: number) {
-        const category = this.brands.find((c: any) => c.brandId === id);
-        this.selected = { ...category };
-        this.modalTitle = 'View Brand';
-        this.showDetailBrandModal = true;
+        const data = this.dataList.find((c: any) => c.accountId === id);
+        this.selected = { ...data };
+        this.modalTitle = 'View Account';
+        this.showModal = true;
     }
 
     editItem(id: number) {
-        const category = this.brands.find((c: any) => c.brandId === id);
-        this.selected = { ...category };
-        this.modalTitle = 'Edit Brand';
-        this.showUpdateBrandModal = true;
+		const data = this.dataList.find((c: any) => c.accountId === id);
+        this.selected = { ...data };
+        this.modalTitle = 'Edit Account';
+        this.updateModal = true;
     }
 
     deleteItem(id: number) {
         this.alertService.fireConfirm(
-            'Delete Brand',
-            'Are you sure you want to delete this brand?',
+            'Delete Account',
+            'Are you sure you want to delete this Account?',
             'warning',
             'Cancel',
             'Delete',
@@ -154,15 +142,15 @@ export class BrandAdminPageComponent {
             .then((result) => {
                 if (result.isConfirmed) {
                     this.loading = true;
-                    this.brandService.deleteData(id).subscribe((res: any) => {
+                    this.accountService.deleteData(id).subscribe((res: any) => {
                         this.loading = false;
-                        if (res?.message == 'Brand deleted successfully.') {
+                        if (res?.message == 'Account deleted successfully.') {
                             this.alertService.fireSmall('success', res?.message);
                             this.getDataList({page: 1, page_size: 10})
                         } else if (res?.errors) {
                             this.alertService.showListError(res?.errors);
                         } else {
-                            this.alertService.fireSmall('error', res?.message || "Delete Brand failed!");
+                            this.alertService.fireSmall('error', res?.message || "Delete Account failed!");
                         }
                     })
                 }

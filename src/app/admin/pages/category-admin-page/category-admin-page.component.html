@@ -83,15 +83,15 @@
 	</div>
 </div>
 
-<app-add-new-category  [modalTitle]="modalTitle" [isVisible]="showAddNewCategoryModal"
+<app-add-new-category #addCpn [modalTitle]="modalTitle" [isVisible]="showAddNewCategoryModal"
 	(save)="saveCategory($event)" (close)="closeModal()">
 </app-add-new-category>
 
-<app-detail-category [category]="selectedCategory" [modalTitle]="modalTitle" [isVisible]="showDetailCategoryModal"
+<app-detail-category #detailCpn [category]="selectedCategory" [modalTitle]="modalTitle" [isVisible]="showDetailCategoryModal"
 	(close)="closeModal()">
 </app-detail-category>
 
-<app-update-category [category]="selectedCategory" [modalTitle]="modalTitle" [isVisible]="showUpdateCategoryModal"
+<app-update-category #updateCpn [category]="selectedCategory" [modalTitle]="modalTitle" [isVisible]="showUpdateCategoryModal"
 	(save)="saveCategory($event)" (close)="closeModal()">
 </app-update-category>
 

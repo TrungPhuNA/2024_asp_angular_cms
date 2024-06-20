@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
-import { CategoryService } from '../../../service/admin/category.service';
-import { AlertService } from '../../../service/admin/alert.service';
-import { INIT_PAGING } from '../../../service/constant';
+import { Component, ElementRef, ViewChild} from '@angular/core';
+import { CategoryService } from '../../services/category.service';
+import { AlertService } from '../../helpers/alert.service';
+import { INIT_PAGING } from '../../helpers/constant';
 import { FormControl, FormGroup } from '@angular/forms';
+import { AddNewCategoryComponent } from '../../components/category/add-new-category/add-new-category.component';
 
 @Component({
 	selector: 'app-category-admin-page',
@@ -11,10 +12,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class CategoryAdminPageComponent {
 
-	categories: any = [
-		{ id: 1, name: 'Category 1', image: '/assets/images/product1.jpg', content: 'Content of Product 1', selected: false },
-		{ id: 2, name: 'Product 2', image: '/assets/images/product2.jpg', content: 'Content of Product 2', selected: false }
-	];
+	categories: any = [];
 
 	selectedCategory: any = {};
 	modalTitle: string = '';
@@ -92,11 +90,15 @@ export class CategoryAdminPageComponent {
 		this.showAddNewCategoryModal = true;
 	}
 
+
+	resetForm = false;
 	closeModal() {
 		this.showAddNewCategoryModal = false;
 		this.showDetailCategoryModal = false;
 		this.showUpdateCategoryModal = false;
 		this.showDeleteCategoryModal = false;
+		this.resetForm = true;
+		this.modalTitle = "";
 	}
 
 	saveCategory(data: any) {

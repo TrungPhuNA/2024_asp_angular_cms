@@ -34,6 +34,11 @@ import { Route, RouterModule, Routes } from '@angular/router';
 import { AdminComponent } from './admin.component';
 import { SharedModule } from '../../shared/share.module';
 import { SharedDataModule } from '../shared/shared.module';
+import { AccountAdminPageComponent } from './pages/account-admin-page/account-admin-page.component';
+import { AddNewAccountComponent } from './components/account/add-new-account/add-new-account.component';
+import { UpdateAccountComponent } from './components/account/update-account/update-account.component';
+import { DetailAccountComponent } from './components/account/detail-account/detail-account.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 const route: Routes = [
@@ -116,10 +121,15 @@ const route: Routes = [
 		UpdateOrderComponent,
 		DeleteOrderComponent,
 		AdminComponent,
+  AccountAdminPageComponent,
+  AddNewAccountComponent,
+  UpdateAccountComponent,
+  DetailAccountComponent,
 	],
 	imports: [
 		FormsModule,
 		CommonModule,
+		NgSelectModule,
 		SharedModule,
 		ReactiveFormsModule,
 		SharedDataModule,

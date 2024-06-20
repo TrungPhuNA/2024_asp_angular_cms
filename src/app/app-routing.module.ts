@@ -20,11 +20,6 @@ import { VerifyEmailUserComponent } from './user/pages/verify-email-user/verify-
 import { VerifyCodeUserComponent } from './user/pages/verify-code-user/verify-code-user.component';
 import { RegisterUserComponent } from './user/pages/register-user/register-user.component';
 import { CartPageComponent } from './user/pages/cart-page/cart-page.component';
-import { ProductAdminPageComponent } from './admin/pages/product-admin-page/product-admin-page.component';
-import { CategoryAdminPageComponent } from './admin/pages/category-admin-page/category-admin-page.component';
-import { BlogAdminPageComponent } from './admin/pages/blog-admin-page/blog-admin-page.component';
-import { BrandAdminPageComponent } from './admin/pages/brand-admin-page/brand-admin-page.component';
-import { OrderAdminPageComponent } from './admin/pages/order-admin-page/order-admin-page.component';
 
 const routes: Routes = [
   { path: '', redirectTo: "/homepage", pathMatch: "full" },
