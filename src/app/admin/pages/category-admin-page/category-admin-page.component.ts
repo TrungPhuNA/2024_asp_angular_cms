@@ -54,8 +54,6 @@ export class CategoryAdminPageComponent {
 	}
 
 	ngOnInit(): void {
-		//Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-		//Add 'implements OnInit' to the class.
 		this.getDataList({ ...this.paging })
 	}
 
@@ -136,15 +134,14 @@ export class CategoryAdminPageComponent {
 	}
 
 	viewCategory(id: number) {
-		const category = this.categories.find((c: any) => c.id === id);
-		console.log("Category", category)
+		const category = this.categories.find((c: any) => c.categoryId === id);
 		this.selectedCategory = { ...category };
 		this.modalTitle = 'View Category';
 		this.showDetailCategoryModal = true;
 	}
 
 	editCategory(id: number) {
-		const category = this.categories.find((c: any) => c.id === id);
+		const category = this.categories.find((c: any) => c.categoryId === id);
 		this.selectedCategory = { ...category };
 		this.modalTitle = 'Edit Category';
 		this.showUpdateCategoryModal = true;

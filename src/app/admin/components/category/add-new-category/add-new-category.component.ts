@@ -16,8 +16,7 @@ export class AddNewCategoryComponent {
 
 	form = new FormGroup({
 		Name: new FormControl(null, Validators.required),
-		Image: new FormControl(null, Validators.required),
-		Content: new FormControl(null)
+		Image: new FormControl(null, Validators.required)
 	});
 
 	constructor(

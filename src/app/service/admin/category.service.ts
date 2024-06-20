@@ -1,7 +1,4 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { URL_API } from '../constant';
-import { catchError } from 'rxjs';
 import { BaseApiService } from '../base-api.service';
 
 @Injectable({
