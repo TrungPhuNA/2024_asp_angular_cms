@@ -16,7 +16,8 @@ export class AddNewBrandComponent {
 
     form = new FormGroup({
         Name: new FormControl(null, Validators.required),
-        Image: new FormControl(null, Validators.required)
+        Image: new FormControl(null, Validators.required),
+        CategoryId: new FormControl(null, Validators.required),
     });
 
     constructor(

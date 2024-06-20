@@ -41,7 +41,7 @@ const routes: Routes = [
   { path: "change-password", component: ChangePwUserPageComponent, title: "Đổi mật khẩu" },
   { path: "blogs", component: BlogPageComponent, title: "Blogs" },
   { path: "blog-details", component: BlogDetailsPageComponent, title: "Chi tiet blog" },
-  { path: "call-for-service", component: CallForServicePageComponent, title: "Nhận tư vấn" },
+  { path: "call-for-services", component: CallForServicePageComponent, title: "Nhận tư vấn" },
   { path: "products", component: ProductPageComponent, title: "Products" },
   { path: "product-detail/:id", component: ProductDetailComponent, title: "Product Detail" },
   { path: "services", component: ServicePageComponent, title: "Services" },
@@ -50,16 +50,16 @@ const routes: Routes = [
 	path: 'admin',
 	loadChildren: () =>
 		import('./admin/admin.module').then((m) => m.AdminModule),
-	
+
   },
 
-  
+
   { path: "403", component: ForbiddenComponent, title: "403 - Bị từ chối truy cập" },
   { path: "401", component: UnauthorizedComponent, title: "401 - Không có quyền truy cập" },
   { path: "500", component: ServerErrorComponent, title: "500 - Lỗi máy chủ" },
   { path: "**", component: FileNotFoundComponent, title: "404 - Không tìm thấy trang" },
 
-  
+
 
 ];
 
