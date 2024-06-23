@@ -55,18 +55,21 @@
 							<td>{{ item.name }}</td>
 							<!-- <td>{{ item.category?.name}}</td> -->
 							<td>
-
-								<div class="d-flex justify-content-center">
-									<button class="icon-button view-button" (click)="viewItem(item.brandId)">
+								<button mat-icon-button [matMenuTriggerFor]="menu"
+									class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary">
+									<i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+								</button>
+								<mat-menu #menu="matMenu">
+									<button mat-menu-item class="icon-button view-button" (click)="viewItem(item.brandId)">
 										<i class="bi bi-eye"></i> View
 									</button>
-									<button class="icon-button edit-button" (click)="editItem(item.brandId)">
+									<button mat-menu-item class="icon-button edit-button" (click)="editItem(item.brandId)">
 										<i class="bi bi-pencil"></i> Edit
 									</button>
-									<button class="icon-button delete-button" (click)="deleteItem(item.brandId)">
+									<button mat-menu-item class="icon-button delete-button" (click)="deleteItem(item.brandId)">
 										<i class="bi bi-trash"></i> Delete
 									</button>
-								</div>
+								</mat-menu>
 							</td>
 						</tr>
 					</ng-container>

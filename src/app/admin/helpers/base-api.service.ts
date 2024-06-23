@@ -22,7 +22,7 @@ export class BaseApiService {
 	) { }
 
 
-	getMethod(url: string, params: any) {
+	getMethod(url: string, params: any, typeHeader?: any) {
 		let filters = this.commonService.buildParams(params);
 		return this.http.get(`${URL_API}` + url, { params: filters, headers: this.headers })
 			.pipe(delay(500),catchError((e: any) => {
@@ -32,11 +32,11 @@ export class BaseApiService {
 			));
 	}
 
-	postMethod(url: string, data: any) {
+	postMethod(url: string, data: any, typeHeader?: any) {
 
 
 		return this.http.post(`${URL_API}` + url, data, {
-			headers: this.headersForm
+			headers: typeHeader ? this.headers : this.headersForm
 		})
 			.pipe(
 				delay(500),
@@ -47,19 +47,19 @@ export class BaseApiService {
 				));
 	}
 
-	putMethod(url: string, data: any) {
+	putMethod(url: string, data: any, typeHeader?: any) {
 
 		return this.http.put(`${URL_API}` + url, data, {
-			headers: this.headersForm
+			headers: typeHeader ? this.headers : this.headersForm
 		})
 			.pipe(delay(500),catchError((e: any) => {
 				return of(e?.error)
 			}
 			));
 	}
-	patchMethod(url: string, data: any) {
+	patchMethod(url: string, data: any, typeHeader?: any) {
 		return this.http.patch(`${URL_API}` + url, data, {
-			headers: this.headersForm
+			headers: typeHeader ? this.headers : this.headersForm
 		})
 			.pipe(delay(500),catchError((e: any) => {
 				return of(e?.error)

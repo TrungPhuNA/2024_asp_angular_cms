@@ -4,21 +4,17 @@ import { AlertService } from '../../../helpers/alert.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-	selector: 'app-update-account',
-	templateUrl: './update-account.component.html',
-	styleUrl: './update-account.component.scss'
+  selector: 'app-form-owner',
+  templateUrl: './form-owner.component.html',
+  styleUrl: './form-owner.component.scss'
 })
-export class UpdateAccountComponent {
+export class FormOwnerComponent  {
 	@Input() data: any;
 	@Input() typeForm: any;
 	@Input() modalTitle: string = '';
 	@Input() isVisible: boolean = false;
 	@Output() save = new EventEmitter<any>();
 	@Output() close = new EventEmitter<void>();
-
-	@Input() categories: any;
-	@Input() brands: any;
-	@Input() owners: any;
 
 	isBans = [
 		{
@@ -34,7 +30,7 @@ export class UpdateAccountComponent {
 	form = new FormGroup({
 		ownerId: new FormControl(0, Validators.required),
 		email: new FormControl(null, Validators.required),
-		password: new FormControl(null, Validators.required),
+		password: new FormControl(null),
 		fullname: new FormControl(null, Validators.required),
 		image: new FormControl(null),
 		phone: new FormControl(null, Validators.required),
@@ -55,7 +51,10 @@ export class UpdateAccountComponent {
 		if (!this.isVisible) {
 			this.form.reset();
 			this.form.enable();
+			this.form.get('password')?.clearValidators();
+			this.form.get('password')?.updateValueAndValidity()
 		}
+		
 		if (this.data) {
 			this.form.patchValue({
 				ownerId: this.data?.ownerId,
@@ -66,20 +65,24 @@ export class UpdateAccountComponent {
 				address: this.data?.address,
 				isBan: this.data?.isBan,
 			});
-			console.log(this.typeForm);
+			
 			if(this.typeForm == 2) {
 				this.form.disable();
 			}
 		}
+		if(this.typeForm == 1) {
+			this.form.get('password')?.addValidators(Validators.required);
+			this.form.get('password')?.updateValueAndValidity()
+		}
 	}
 	submit() {
 		if (this.form.invalid) {
-			this.alertService.fireSmall('error', "Form Product is invalid");
+			this.alertService.fireSmall('error', "Form is invalid");
 			return;
 		}
 		this.save.emit({
 			form: this.form.value,
-			id: this.data.brandId
+			id: this.data.ownerId
 		});
 	}
 

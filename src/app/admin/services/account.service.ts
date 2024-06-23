@@ -20,17 +20,27 @@ export class AccountService {
 	}
 
 	createOrUpdateData(params: any, id?: any) {
-		const formData = new FormData();
-		formData.append('Name', params?.Name);
-		formData.append('Image', params?.Image);
-		formData.append('CategoryId', params?.CategoryId);
 		if (id) {
-			return this.baseApiService.putMethod(`Account/${id}`, formData);
+			return this.baseApiService.putMethod(`Account/${id}`, params, true);
 		}
-		return this.baseApiService.postMethod('Account', formData);
+		return this.baseApiService.postMethod('Account', params, true);
 	}
 
 	deleteData(id: any) {
 		return this.baseApiService.deleteMethod(`Account/${id}`);
 	}
+
+	updateBan(id: any, status: any) {
+		let url = `Account/${id}/`;
+		if(!status) {
+			url += 'unban'
+		} else {
+			url += 'ban'
+		}
+		return this.baseApiService.putMethod(url, {}, true);
+
+	}
+
+
+	
 }

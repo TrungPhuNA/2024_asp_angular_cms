@@ -13,114 +13,89 @@ import { INIT_PAGING } from '../../helpers/constant';
 export class AccountAdminPageComponent {
 	dataList: any = [
 		{
-			"ownerId": 1,
-			"email": "owner1@example.com",
+			"accountId": 1,
+			"email": "nguoidung1@example.com",
 			"password": "password1                                                   ",
-			"fullname": "Ch? s? h?u 1",
-			"image": "owner1.jpg",
-			"phone": "1234567890",
-			"address": "123 Ðu?ng A, Thành ph? A",
-			"isBan": false
-		},
-		{
-			"ownerId": 2,
-			"email": "owner2@example.com",
-			"password": "password2                                                   ",
-			"fullname": "Ch? s? h?u 2",
-			"image": "owner2.jpg",
-			"phone": "0987654321",
-			"address": "456 Ðu?ng B, Thành ph? B",
-			"isBan": false
-		},
-		{
-			"ownerId": 3,
-			"email": "owner3@example.com",
-			"password": "password3                                                   ",
-			"fullname": "Ch? s? h?u 3",
-			"image": "owner3.jpg",
+			"fullname": "Ngu?i Dùng M?t",
+			"image": "nguoidung1.jpg",
 			"phone": "0123456789",
-			"address": "789 Ðu?ng C, Thành ph? C",
-			"isBan": false
+			"dob": "1990-01-01T00:00:00",
+			"gender": "Nam",
+			"address": "123 Ðu?ng Chính",
+			"role": "user",
+			"isBan": false,
+			"comments": [],
+			"notifications": [],
+			"orders": [],
+			"rooms": []
 		},
 		{
-			"ownerId": 4,
-			"email": "owner4@example.com",
-			"password": "password4                                                   ",
-			"fullname": "Ch? s? h?u 4",
-			"image": "owner4.jpg",
-			"phone": "9876543210",
-			"address": "101 Ðu?ng D, Thành ph? D",
-			"isBan": false
-		},
-		{
-			"ownerId": 5,
-			"email": "owner5@example.com",
-			"password": "password5                                                   ",
-			"fullname": "Ch? s? h?u 5",
-			"image": "owner5.jpg",
-			"phone": "1122334455",
-			"address": "202 Ðu?ng E, Thành ph? E",
-			"isBan": false
-		},
-		{
-			"ownerId": 6,
-			"email": "owner6@example.com",
-			"password": "password6                                                   ",
-			"fullname": "Ch? s? h?u 6",
-			"image": "owner6.jpg",
-			"phone": "5544332211",
-			"address": "303 Ðu?ng F, Thành ph? F",
-			"isBan": false
-		},
-		{
-			"ownerId": 7,
-			"email": "owner7@example.com",
-			"password": "password7                                                   ",
-			"fullname": "Ch? s? h?u 7",
-			"image": "owner7.jpg",
-			"phone": "6677889900",
-			"address": "404 Ðu?ng G, Thành ph? G",
-			"isBan": false
-		},
-		{
-			"ownerId": 8,
-			"email": "owner8@example.com",
-			"password": "password8                                                   ",
-			"fullname": "Dai hoc FPT",
-			"image": "owner8.jpg",
-			"phone": "098765678",
-			"address": "Can Tho City",
-			"isBan": false
-		},
-		{
-			"ownerId": 9,
-			"email": "owner9@example.com",
-			"password": "password9                                                   ",
-			"fullname": "Ch? s? h?u 9",
-			"image": "updatehinhanhavatarowner.jpg",
-			"phone": "7788990011",
-			"address": "606 Ðu?ng I, Thành ph? I",
-			"isBan": false
-		},
-		{
-			"ownerId": 10,
-			"email": "owner10@example.com",
-			"password": "password10                                                  ",
-			"fullname": "Ch? s? h?u 10",
-			"image": "owner10.jpg",
-			"phone": "9900112233",
-			"address": "707 Ðu?ng K, Thành ph? K",
-			"isBan": false
-		},
-		{
-			"ownerId": 12,
-			"email": "shop giay thu 2@example.com",
-			"password": "$2a$11$oM531nZ7lFPIamfp/AuecO1By44gnJyY7G8nLWvnLr7jzDJFdpLEO",
-			"fullname": "Minh Tuan",
-			"image": "image",
+			"accountId": 2,
+			"email": "nguoidung2@example.com",
+			"password": "password2                                                   ",
+			"fullname": "Ngu?i Dùng Hai",
+			"image": "nguoidung2.jpg",
 			"phone": "0987654321",
-			"address": "Can Tho",
-			"isBan": false
+			"dob": "1992-02-02T00:00:00",
+			"gender": "N?",
+			"address": "456 Ðu?ng Ph?",
+			"role": "user",
+			"isBan": false,
+			"comments": [],
+			"notifications": [],
+			"orders": [],
+			"rooms": []
+		},
+		{
+			"accountId": 3,
+			"email": "quantri@example.com",
+			"password": "password3                                                   ",
+			"fullname": "Qu?n Tr? Viên",
+			"image": "quantri.jpg",
+			"phone": "0123456780",
+			"dob": "1985-03-03T00:00:00",
+			"gender": "Nam",
+			"address": "789 Ðu?ng Thông",
+			"role": "admin",
+			"isBan": false,
+			"comments": [],
+			"notifications": [],
+			"orders": [],
+			"rooms": []
+		},
+		{
+			"accountId": 4,
+			"email": "chu@example.com",
+			"password": "password4                                                   ",
+			"fullname": "Ch? S? H?u",
+			"image": "chu.jpg",
+			"phone": "1122334455",
+			"dob": "1980-04-04T00:00:00",
+			"gender": "N?",
+			"address": "101 Ðu?ng Phong",
+			"role": "owner",
+			"isBan": false,
+			"comments": [],
+			"notifications": [],
+			"orders": [],
+			"rooms": []
+		},
+		{
+			"accountId": 5,
+			"email": "nhanvien@example.com",
+			"password": "password5                                                   ",
+			"fullname": "Nhân Viên",
+			"image": "nhanvien.jpg",
+			"phone": "2233445566",
+			"dob": "1988-05-05T00:00:00",
+			"gender": "Nam",
+			"address": "202 Ðu?ng S?i",
+			"role": "staff",
+			"isBan": false,
+			"comments": [],
+			"notifications": [],
+			"orders": [],
+			"rooms": []
 		}
 	];
 	selectedBrand: any = null;
@@ -128,7 +103,7 @@ export class AccountAdminPageComponent {
 
 	createModal: boolean = false;
 	showModal: boolean = false;
-	updateModal: boolean = false;
+	openModal: boolean = false;
 
 	pageName: string = 'accounts';
 	paging: any = { ...INIT_PAGING }
@@ -162,12 +137,9 @@ export class AccountAdminPageComponent {
 		this.loading = true;
 		this.accountService.getLists(params).subscribe((res: any) => {
 			this.loading = false;
-
-			if (res?.result) {
-				console.info("===========[getDataListBrand] ===========[res] : ", res);
-				this.dataList = res;
-				this.paging.total = res?.length || 0;
-			}
+			console.info("===========[getDataListBrand] ===========[res] : ", res);
+			this.dataList = res;
+			this.paging.total = res?.length || 0;
 		})
 	}
 
@@ -178,14 +150,12 @@ export class AccountAdminPageComponent {
 
 	createItem() {
 		this.modalTitle = 'Create Account';
-		this.createModal = true;
+		this.openModal = true;
 		this.typeForm = 1;
 	}
 
 	closeModal() {
-		this.createModal = false;
-		this.showModal = false;
-		this.updateModal = false;
+		this.openModal = false;
 		this.typeForm = 0;
 
 	}
@@ -236,7 +206,7 @@ export class AccountAdminPageComponent {
 		const data = this.dataList.find((c: any) => c.accountId === id);
 		this.selected = { ...data };
 		this.modalTitle = 'View Account';
-		this.showModal = true;
+		this.openModal = true;
 		this.typeForm = 2;
 	}
 
@@ -244,7 +214,7 @@ export class AccountAdminPageComponent {
 		const data = this.dataList.find((c: any) => c.accountId === id);
 		this.selected = { ...data };
 		this.modalTitle = 'Edit Account';
-		this.updateModal = true;
+		this.openModal = true;
 		this.typeForm = 3;
 
 	}
@@ -274,6 +244,32 @@ export class AccountAdminPageComponent {
 				}
 			})
 
+	}
+
+	updateBan(id: any, isBan: boolean) {
+		this.alertService.fireConfirm(
+			`${isBan ? 'Ban' : 'UnBan'} Account`,
+			`Are you sure you want to ${isBan ? 'Ban' : 'UnBan'} this Account?`,
+			'warning',
+			'Cancel',
+			'Yes',
+		)
+			.then((result) => {
+				if (result.isConfirmed) {
+					this.loading = true;
+					this.accountService.updateBan(id, isBan).subscribe((res: any) => {
+						this.loading = false;
+						if (res?.message == `Account ${isBan ? 'banned' : 'unbanned'} successfully.`) {
+							this.alertService.fireSmall('success', res?.message);
+							this.getDataList({ page: 1, page_size: 10 })
+						} else if (res?.errors) {
+							this.alertService.showListError(res?.errors);
+						} else {
+							this.alertService.fireSmall('error', res?.message || "Delete Account failed!");
+						}
+					})
+				}
+			})
 	}
 
 

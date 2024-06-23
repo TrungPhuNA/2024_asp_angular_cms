@@ -64,48 +64,8 @@ h1 {
   flex-direction: row;
   justify-content: space-between;
 }
-.edit-button{
-  background: none;
-  border: 1px solid #007bff;
-  color: #007bff;
-  padding: 5px 10px;
-  cursor: pointer;
-  border-radius: 5px;
-  margin-right: 5px;
-  &:hover{
-    background-color: #007bff;
-    color:white;
 
-  }
-}
-.view-button{
-  background: none;
-  border: 1px solid #007bff;
-  color: #007bff;
-  padding: 5px 10px;
-  cursor: pointer;
-  border-radius: 5px;
-  margin-right: 5px;
-  &:hover{
-    background-color: #007bff;
-    color:white;
 
-  }
-}
-.delete-button{
-  background: none;
-  border: 1px solid red;
-  color: red;
-  padding: 5px 10px;
-  cursor: pointer;
-  border-radius: 5px;
-  margin-right: 5px;
-  &:hover{
-    background-color: red;
-    color:white;
-
-  }
-}
 .table-container {
   width: 80vw;
   flex-grow: 1;

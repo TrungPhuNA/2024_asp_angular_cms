@@ -58,15 +58,25 @@
 							</td>
 							<td>{{ category.name }}</td>
 							<td>
-								<button class="icon-button view-button" (click)="viewCategory(category.categoryId)">
-									<i class="bi bi-eye"></i> View
+								<button mat-icon-button [matMenuTriggerFor]="menu"
+									class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary">
+									<i class="fa fa-ellipsis-v" aria-hidden="true"></i>
 								</button>
-								<button class="icon-button edit-button" (click)="editCategory(category.categoryId)">
-									<i class="bi bi-pencil"></i> Edit
-								</button>
-								<button class="icon-button delete-button" (click)="deleteCategory(category.categoryId)">
-									<i class="bi bi-trash"></i> Delete
-								</button>
+								<mat-menu #menu="matMenu">
+									<button mat-menu-item class="icon-button view-button"
+										(click)="viewCategory(category.categoryId)">
+										<i class="fa fa-eye"></i> View
+									</button>
+									<button mat-menu-item class="icon-button edit-button"
+										(click)="editCategory(category.categoryId)">
+										<i class="fa fa-pencil"></i> Edit
+									</button>
+									<button mat-menu-item class="icon-button delete-button"
+										(click)="deleteCategory(category.categoryId)">
+										<i class="fa fa-trash"></i> Delete
+									</button>
+								</mat-menu>
+
 							</td>
 						</tr>
 					</ng-container>
@@ -87,12 +97,12 @@
 	(save)="saveCategory($event)" (close)="closeModal()">
 </app-add-new-category>
 
-<app-detail-category #detailCpn [category]="selectedCategory" [modalTitle]="modalTitle" [isVisible]="showDetailCategoryModal"
-	(close)="closeModal()">
+<app-detail-category #detailCpn [category]="selectedCategory" [modalTitle]="modalTitle"
+	[isVisible]="showDetailCategoryModal" (close)="closeModal()">
 </app-detail-category>
 
-<app-update-category #updateCpn [category]="selectedCategory" [modalTitle]="modalTitle" [isVisible]="showUpdateCategoryModal"
-	(save)="saveCategory($event)" (close)="closeModal()">
+<app-update-category #updateCpn [category]="selectedCategory" [modalTitle]="modalTitle"
+	[isVisible]="showUpdateCategoryModal" (save)="saveCategory($event)" (close)="closeModal()">
 </app-update-category>
 
 <app-loading [loading]="loading"></app-loading>

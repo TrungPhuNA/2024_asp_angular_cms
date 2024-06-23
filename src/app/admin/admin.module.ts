@@ -39,8 +39,14 @@ import { AddNewAccountComponent } from './components/account/add-new-account/add
 import { UpdateAccountComponent } from './components/account/update-account/update-account.component';
 import { DetailAccountComponent } from './components/account/detail-account/detail-account.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatChipsModule } from '@angular/material/chips';
+
 import { DashboardAdminPageComponent } from './pages/dashboard-admin-page/dashboard-admin-page.component';
 import { ServiceAdminPageComponent } from './pages/service-admin-page/service-admin-page.component';
+import { OwnerAdminPageComponent } from './pages/owner-admin-page/owner-admin-page.component';
+import { FormOwnerComponent } from './components/owner/form-owner/form-owner.component';
+import { ServiceAdminComponent } from './components/service-admin/service-admin.component';
 
 
 const route: Routes = [
@@ -99,6 +105,11 @@ const route: Routes = [
 				component: ServiceAdminPageComponent,
 				title: 'Manage Service'
 			},
+			{
+				path: 'owner',
+				component: OwnerAdminPageComponent,
+				title: 'Manage Owner'
+			},
 		]
 	}
 ]
@@ -139,12 +150,18 @@ const route: Routes = [
 		AddNewAccountComponent,
 		UpdateAccountComponent,
 		DetailAccountComponent,
+		OwnerAdminPageComponent,
+		FormOwnerComponent,
+		ServiceAdminComponent,
+		ServiceAdminPageComponent
 	],
 	imports: [
 		FormsModule,
 		CommonModule,
 		NgSelectModule,
 		SharedModule,
+		MatMenuModule,
+		MatChipsModule,
 		ReactiveFormsModule,
 		SharedDataModule,
 		RouterModule.forChild(route),
