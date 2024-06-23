@@ -12,7 +12,16 @@ import { AddNewCategoryComponent } from '../../components/category/add-new-categ
 })
 export class CategoryAdminPageComponent {
 
-	categories: any = [];
+	categories: any = [
+		{
+		  "categoryId": 5,
+		  "name": "Giày leo núi",
+		  "image": "giayleonui.jpg",
+		  "isdelete": false,
+		  "brands": [],
+		  "products": []
+		}
+	  ];
 
 	selectedCategory: any = {};
 	modalTitle: string = '';
@@ -59,7 +68,7 @@ export class CategoryAdminPageComponent {
 		this.loading = true;
 		this.categoryService.getListCategory(params).subscribe((res: any) => {
 			this.loading = false;
-            this.categories = res;
+            // this.categories = res;
             this.paging.total = res?.length || 0;
             // this.paging.page = params?.page || 1
 		})

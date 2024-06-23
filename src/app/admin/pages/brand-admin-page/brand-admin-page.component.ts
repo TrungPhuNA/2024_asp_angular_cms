@@ -24,7 +24,16 @@ export class BrandAdminPageComponent {
     paging: any = { ...INIT_PAGING }
     loading = false;
 
-	categories : any = [];
+	categories: any = [
+		{
+		  "categoryId": 5,
+		  "name": "Giày leo núi",
+		  "image": "giayleonui.jpg",
+		  "isdelete": false,
+		  "brands": [],
+		  "products": []
+		}
+	  ];
 
     constructor(
         private brandService: BrandService,
@@ -47,7 +56,7 @@ export class BrandAdminPageComponent {
 
     ngOnInit(): void {
         this.getDataList({ ...this.paging });
-		this.getCategories()
+		// this.getCategories()
     }
 
     getDataList(params: any) {

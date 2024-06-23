@@ -22,15 +22,14 @@
                 <app-form-error [control]="form.controls['Image']" [message]="'Brand image is required!'"
                                 [validation]="'required'"></app-form-error>
             </div>
-            <div class="form-group required mb-3">
+            <div class="required mb-3">
                 <label for="image" class="form-label ">CategoryID</label>
-				<!-- <ng-select [items]="categories" bindLabel="name" 
+				<ng-select [items]="categories" bindLabel="name"
+				[ngClass]="{'is-invalid': commonService.showStatusErrorV2(form, 'CategoryId')}" formControlName="Image"
 				bindValue="categoryId" formControlName="CategoryId"></ng-select>
-				<app-form-error [control]="form.controls['CategoryId']" [message]="'Category id is required!'"
-                                [validation]="'required'"></app-form-error> -->
-                <input type="text" id="CategoryId" class="form-control"
+                <!-- <input type="text" id="CategoryId" class="form-control"
                        [ngClass]="{'is-invalid': commonService.showStatusErrorV2(form, 'categoryId')}" formControlName="CategoryId"
-                       name="image">
+                       name="image"> -->
                 <app-form-error [control]="form.controls['CategoryId']" [message]="'Category id is required!'"
                                 [validation]="'required'"></app-form-error>
             </div>

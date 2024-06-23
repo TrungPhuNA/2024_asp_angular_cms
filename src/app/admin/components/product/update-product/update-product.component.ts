@@ -63,7 +63,7 @@ export class UpdateProductComponent {
 		}
 		this.save.emit({
 			form: this.form.value,
-			id: this.product.brandId
+			id: this.product.productId
 		});
 	}
 

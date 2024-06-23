@@ -39,6 +39,8 @@ import { AddNewAccountComponent } from './components/account/add-new-account/add
 import { UpdateAccountComponent } from './components/account/update-account/update-account.component';
 import { DetailAccountComponent } from './components/account/detail-account/detail-account.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { DashboardAdminPageComponent } from './pages/dashboard-admin-page/dashboard-admin-page.component';
+import { ServiceAdminPageComponent } from './pages/service-admin-page/service-admin-page.component';
 
 
 const route: Routes = [
@@ -48,12 +50,12 @@ const route: Routes = [
 		children: [
 			{
 				path: '',
-				component: CategoryAdminPageComponent,
+				component: DashboardAdminPageComponent,
 				title: 'Dashboard'
 			},
 			{
 				path: 'dashboard',
-				component: CategoryAdminPageComponent,
+				component: DashboardAdminPageComponent,
 				title: 'Dashboard'
 			},
 			{
@@ -86,6 +88,16 @@ const route: Routes = [
 				path: 'category',
 				component: CategoryAdminPageComponent,
 				title: 'Manage Category'
+			},
+			{
+				path: 'account',
+				component: AccountAdminPageComponent,
+				title: 'Manage Account'
+			},
+			{
+				path: 'service',
+				component: ServiceAdminPageComponent,
+				title: 'Manage Service'
 			},
 		]
 	}
@@ -120,11 +132,13 @@ const route: Routes = [
 		DetailOrderComponent,
 		UpdateOrderComponent,
 		DeleteOrderComponent,
+
 		AdminComponent,
-  AccountAdminPageComponent,
-  AddNewAccountComponent,
-  UpdateAccountComponent,
-  DetailAccountComponent,
+
+		AccountAdminPageComponent,
+		AddNewAccountComponent,
+		UpdateAccountComponent,
+		DetailAccountComponent,
 	],
 	imports: [
 		FormsModule,

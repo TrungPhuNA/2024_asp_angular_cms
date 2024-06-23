@@ -51,5 +51,11 @@
 	border: 1px solid #ccc;
 	border-radius: 4px;
   }
+
+  ::ng-deep .ng-select.ng-invalid.ng-touched, .ng-select.is-invalid {
+    .ng-select-container{
+        border-color: red !important;
+    }
+}
   
   
