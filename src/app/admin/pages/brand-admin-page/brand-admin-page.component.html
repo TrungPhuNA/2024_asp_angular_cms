@@ -32,12 +32,55 @@
 		<div class="table-responsive">
 			<table class="table">
 				<thead>
+                    <tr>
+                        <th class="text-center align-middle"><input type="checkbox" (click)="toggleSelectAll()"></th>
+                        <th class="text-center align-middle">ID</th>
+                        <th class="text-center align-middle" style="min-width: 300px;">Name</th>
+                        <th class="text-center align-middle" style="min-width: 80px;">Image</th>
+                        <th class="text-center align-middle">Actions</th>
+                    </tr>
+                </thead>
+				<tbody>
+                    <ng-container *ngIf="brands?.length > 0">
+                        <tr *ngFor="let item of brands, index as i">
+                            <td class="text-center align-middle">
+                                <input type="checkbox" [(ngModel)]="item.selected">
+                            </td>
+                            <td class="text-center align-middle">{{ (paging.page - 1) * paging.page_size + i + 1 }}</td>
+                            <td class="text-center align-middle">{{ item.name }}</td>
+                            <td class="text-center align-middle">
+                                <div class="image-container">
+                                    <img [src]="item.image" alt="{{ item.name }}" class="thumbnail" width="80" height="80" />
+                                </div>
+                            </td>
+                            <td class="text-center align-middle">
+                                <div class="d-flex justify-content-center">
+                                    <button class="icon-button view-button" (click)="viewItem(item.brandId)">
+                                        <i class="bi bi-eye"></i>View
+                                    </button>
+                                    <button class="icon-button edit-button" (click)="editItem(item.brandId)">
+                                        <i class="bi bi-pencil"></i>Edit
+                                    </button>
+                                    <button class="icon-button delete-button" (click)="deleteItem(item.brandId)">
+                                        <i class="bi bi-trash"></i>Delete
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-container>
+                    <ng-container *ngIf="brands?.length <= 0">
+                        <tr>
+                            <td class="text-center align-middle" colspan="5">No data</td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+				<!-- <thead>
 					<tr>
 						<th><input type="checkbox" (click)="toggleSelectAll()"></th>
 						<th>ID</th>
 						<th style="min-width: 80px;">Image</th>
 						<th style="min-width: 300px;">Name</th>
-						<!-- <th>Category</th> -->
+						<th>Category</th>
 						<th>Actions</th>
 					</tr>
 				</thead>
@@ -53,7 +96,7 @@
 									height="80" />
 							</td>
 							<td>{{ item.name }}</td>
-							<!-- <td>{{ item.category?.name}}</td> -->
+							<td>{{ item.category?.name}}</td>
 							<td>
 								<button mat-icon-button [matMenuTriggerFor]="menu"
 									class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary">
@@ -79,7 +122,7 @@
 						</tr>
 					</ng-container>
 
-				</tbody>
+				</tbody> -->
 			</table>
 		</div>
 		<app-pagination [paging]="paging" (changePaged)="pageChanged($event)"></app-pagination>
