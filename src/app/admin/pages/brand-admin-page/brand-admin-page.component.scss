@@ -186,3 +186,43 @@ h1 {
   font-size: 24px;
   cursor: pointer;
 }
+.text-center {
+  text-align: center;
+}
+
+.align-middle {
+  vertical-align: middle;
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%; /* Ensure it takes the full height of the table cell */
+}
+
+.thumbnail {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+// .icon-button {
+//   background: none;
+//   border: none;
+//   cursor: pointer;
+//   padding: 0;
+//   margin: 0 5px; /* Add some margin for spacing between buttons */
+//   color: #000; /* You can change the color as needed */
+//   font-size: 1.25rem; /* Increase the size of the icons */
+// }
+
+// .icon-button:hover {
+//   color: #007bff; /* Change to a desired hover color */
+// }
+
+.d-flex.justify-content-center {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
