@@ -6,79 +6,78 @@
 			<button class="btn btn-success my-2" (click)="createItem()">Create New Blog</button>
 		</div>
 		<div class="">
-
-			<form [formGroup]="formSearch" (ngSubmit)="search()">
-				<div class="row mb-5">
-					<div class="col-md-3 col-xs-12">
-						<label class="form-label">Blog title: </label>
-						<input formControlName="name" type="text" class="form-control" placeholder="Blog title" />
-					</div>
-				</div>
-				<div class="row mb-5 align-items-end">
-					<div class="col-md-6 col-xs-12 justify-content-between align-items-center">
-						<div class="filter-btn d-flex gap-3">
-							<button autofocus type="submit" class="btn btn-primary"><i class="fa fa-search">
-								</i>Search</button>
-							<button type="button" class="btn btn-secondary" (click)="resetSearchForm()">
-								<i class="fa fa-sync"> </i>
-							</button>
-						</div>
-					</div>
-				</div>
-			</form>
-		</div>
+            <form [formGroup]="formSearch" (ngSubmit)="search()">
+                <div class="row mb-5 align-items-end">
+                    <div class="col-md-3 col-xs-12">
+                        <label class="form-label">Blog Name: </label>
+                        <input formControlName="name" type="text" class="form-control" placeholder="" />
+                    </div>
+                    <div class="col-md-6 col-xs-12 justify-content-between align-items-center">
+                        <div class="filter-btn d-flex gap-3">
+                            <button autofocus type="submit" class="btn btn-primary"><i class="fa fa-search">
+                                </i> Search</button>
+                            <button type="button" class="btn btn-secondary" (click)="resetSearchForm()">
+                                <i class="fa fa-sync"></i> Reset
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+		
 	</div>
 	<div class="card-body">
 		<div class="table-responsive">
 			<table class="table">
 				<thead>
 					<tr>
-						<th><input type="checkbox" (click)="toggleSelectAll()"></th>
-						<th>ID</th>
-						<th style="min-width: 80px;">Image</th>
-						<th>Full Name</th>
-						<th>Email</th>
-						<th>Phone</th>
-						<th>Address</th>
-						<th>Actions</th>
+						<th class="text-center align-middle" style="width: 5%;">STT</th>
+						<th class="text-center align-middle" style="min-width: 30px;">Image</th>
+						<th class="text-center align-middle">Full Name</th>
+						<th class="text-center align-middle">Email</th>
+						<th class="text-center align-middle">Phone</th>
+						<th class="text-center align-middle">Address</th>
+						<th class="text-center align-middle" style="width: 10%;">Actions</th>
 					</tr>
 				</thead>
 				<tbody>
 					<ng-container *ngIf="dataList?.length > 0">
 						<tr *ngFor="let item of dataList, index as i">
-							<td>
-								<input type="checkbox" [(ngModel)]="item.selected">
-							</td>
-							<td>{{ (paging.page - 1) * paging.page_size + i + 1 }}</td>
-							<td>
+							<td class="text-center align-middle">{{ (paging.page - 1) * paging.page_size + i + 1 }}</td>
+							<td class="text-center align-middle">
+								<div class="image-container">
 								<img [src]="item.image" alt="{{ item.name }}" class="thumbnail" width="80"
 									height="80" />
+								</div>
 							</td>
-							<td>{{ item.fullname }}</td>
-							<td>{{ item.email }}</td>
-							<td>{{ item.phone }}</td>
-							<td>{{ item.address}}</td>
-							<td>
-								
+							<td class="text-center align-middle">{{ item.fullname }}</td>
+							<td class="text-center align-middle">{{ item.email }}</td>
+							<td class="text-center align-middle">{{ item.phone }}</td>
+							<td class="text-center align-middle">{{ item.address}}</td>
+							<td class="text-center align-middle">
 								<button mat-icon-button [matMenuTriggerFor]="menu"
 									class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary">
 									<i class="fa fa-ellipsis-v" aria-hidden="true"></i>
 								</button>
 								<mat-menu #menu="matMenu">
-									
-									<button mat-menu-item class="icon-button view-button" (click)="viewItem(item.accountId)">
+									<button mat-menu-item class="icon-button view-button"
+										(click)="viewItem(item.accountId)">
 										<i class="fa fa-eye"></i> View
 									</button>
-									<button  mat-menu-item class="icon-button edit-button" (click)="editItem(item.accountId)">
+									<button mat-menu-item class="icon-button edit-button"
+										(click)="editItem(item.accountId)">
 										<i class="fa fa-pencil"></i> Edit
 									</button>
-									<button  mat-menu-item class="icon-button delete-button" (click)="deleteItem(item.accountId)">
+									<button mat-menu-item class="icon-button delete-button"
+										(click)="deleteItem(item.accountId)">
 										<i class="fa fa-trash"></i> Delete
 									</button>
-									<button  mat-menu-item class="icon-button delete-button" (click)="deleteItem(item.accountId)">
+									<button mat-menu-item class="icon-button delete-button"
+										(click)="deleteItem(item.accountId)">
 										<i class="fa fa-lock"></i> Ban
 									</button>
-									<button  mat-menu-item class="icon-button delete-button" (click)="deleteItem(item.accountId)">
+									<button mat-menu-item class="icon-button delete-button"
+										(click)="deleteItem(item.accountId)">
 										<i class="fa fa-unlock"></i> Unban
 									</button>
 								</mat-menu>
@@ -87,10 +86,9 @@
 					</ng-container>
 					<ng-container *ngIf="dataList?.length <= 0">
 						<tr>
-							<td colspan="5">No data</td>
+							<td class="text-center align-middle" colspan="7">No data</td>
 						</tr>
 					</ng-container>
-
 				</tbody>
 			</table>
 		</div>
@@ -98,7 +96,6 @@
 	</div>
 </div>
 <app-loading [loading]="loading"></app-loading>
-
 
 <!-- <app-add-new-account [data]="selected" [modalTitle]="modalTitle" [isVisible]="createModal"
 	(save)="saveItem($event)" (close)="closeModal()">

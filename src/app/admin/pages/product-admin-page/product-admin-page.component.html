@@ -6,71 +6,69 @@
 			<button class="btn btn-success my-2" (click)="createItem()">Create New Product</button>
 		</div>
 		<div class="">
-
-			<form [formGroup]="formSearch" (ngSubmit)="search()">
-				<div class="row mb-5">
-					<div class="col-md-3 col-xs-12">
-						<label class="form-label">Product Name: </label>
-						<input formControlName="name" type="text" class="form-control" placeholder="Product name" />
-					</div>
-				</div>
-				<div class="row mb-5 align-items-end">
-					<div class="col-md-6 col-xs-12 justify-content-between align-items-center">
-						<div class="filter-btn d-flex gap-3">
-							<button autofocus type="submit" class="btn btn-primary"><i class="fa fa-search">
-								</i>Search</button>
-							<button type="button" class="btn btn-secondary" (click)="resetSearchForm()">
-								<i class="fa fa-sync"> </i>
-							</button>
-						</div>
-					</div>
-				</div>
-			</form>
-		</div>
+            <form [formGroup]="formSearch" (ngSubmit)="search()">
+                <div class="row mb-5 align-items-end">
+                    <div class="col-md-3 col-xs-12">
+                        <label class="form-label">Product Name: </label>
+                        <input formControlName="name" type="text" class="form-control" placeholder="" />
+                    </div>
+                    <div class="col-md-6 col-xs-12 justify-content-between align-items-center">
+                        <div class="filter-btn d-flex gap-3">
+                            <button autofocus type="submit" class="btn btn-primary"><i class="fa fa-search">
+                                </i> Search</button>
+                            <button type="button" class="btn btn-secondary" (click)="resetSearchForm()">
+                                <i class="fa fa-sync"></i> Reset
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
 	</div>
 	<div class="card-body">
 		<div class="table-responsive">
 			<table class="table">
 				<thead>
 					<tr>
-						<th><input type="checkbox" (click)="toggleSelectAll()"></th>
 						<th>STT</th>
 						<!-- <th style="min-width: 80px;">Image</th> -->
 						<th style="min-width: 300px;">Name</th>
 						<th style="min-width: 300px;">Price</th>
 						<th style="min-width: 300px;">Shop</th>
 						<!-- <th>Category</th> -->
-						<th>Actions</th>
+						<th style="width: 10%;">Actions</th>
 					</tr>
 				</thead>
 				<tbody>
 					<ng-container *ngIf="dataList?.length > 0">
 						<tr *ngFor="let item of dataList, index as i">
-							<td>
-								<input type="checkbox" [(ngModel)]="item.selected">
-							</td>
-							<td>{{ (paging.page - 1) * paging.page_size + i + 1 }}</td>
+							<td class="text-center align-middle">{{ (paging.page - 1) * paging.page_size + i + 1 }}</td>
 							<!-- <td>
-								<img [src]="item.image" alt="{{ item.name }}" class="thumbnail" width="80"
-									height="80" />
+								<img [src]="item.image" alt="{{ item.name }}" class="thumbnail" width="80" height="80" />
 							</td> -->
-							<td>{{ item.name }}</td>
-							<td>{{ item.price }}</td>
-							<td>{{ item.owner?.fullname }}</td>
+							<td class="text-center align-middle">{{ item.name }}</td>
+							<td class="text-center align-middle">{{ item.price }}</td>
+							<td class="text-center align-middle">{{ item.owner?.fullname }}</td>
 							<!-- <td>{{ item.category?.name}}</td> -->
-							<td>
-								
-								<div class="d-flex justify-content-center">
-									<button class="icon-button view-button" (click)="viewItem(item.productId)">
-										<i class="bi bi-eye"></i> View
+							<td class="text-center align-middle">
+								<button mat-icon-button [matMenuTriggerFor]="menu"
+									class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary">
+									<i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+								</button>
+								<mat-menu #menu="matMenu">
+									<button mat-menu-item class="icon-button view-button"
+										(click)="viewItem(item.productId)">
+										<i class="fa fa-eye"></i> View
 									</button>
-									<button class="icon-button edit-button" (click)="editItem(item.productId)">
-										<i class="bi bi-pencil"></i> Edit
+									<button mat-menu-item class="icon-button edit-button"
+										(click)="editItem(item.productId)">
+										<i class="fa fa-pencil"></i> Edit
 									</button>
-									<button class="icon-button delete-button" (click)="deleteItem(item.productId)">
-										<i class="bi bi-trash"></i> Delete
+									<button mat-menu-item class="icon-button delete-button"
+										(click)="deleteItem(item.productId)">
+										<i class="fa fa-trash"></i> Delete
 									</button>
-								</div>
+								</mat-menu>
 							</td>
 						</tr>
 					</ng-container>
@@ -79,24 +77,22 @@
 							<td colspan="5">No data</td>
 						</tr>
 					</ng-container>
-
 				</tbody>
 			</table>
 		</div>
 		<app-pagination [paging]="paging" (changePaged)="pageChanged($event)"></app-pagination>
 	</div>
 </div>
+
 <app-loading [loading]="loading"></app-loading>
 
-
-<app-add-new-product [product]="selected" [modalTitle]="modalTitle" [isVisible]="createModal"
-	(save)="saveItem($event)" (close)="closeModal()">
+<app-add-new-product [product]="selected" [modalTitle]="modalTitle" [isVisible]="createModal" (save)="saveItem($event)"
+	(close)="closeModal()">
 </app-add-new-product>
 
-<app-detail-product [product]="selected" [modalTitle]="modalTitle" [isVisible]="showModal"
-	(close)="closeModal()">
+<app-detail-product [product]="selected" [modalTitle]="modalTitle" [isVisible]="showModal" (close)="closeModal()">
 </app-detail-product>
 
-<app-update-product [product]="selected" [modalTitle]="modalTitle" [isVisible]="updateModal"
-	(save)="saveItem($event)" (close)="closeModal()">
+<app-update-product [product]="selected" [modalTitle]="modalTitle" [isVisible]="updateModal" (save)="saveItem($event)"
+	(close)="closeModal()">
 </app-update-product>

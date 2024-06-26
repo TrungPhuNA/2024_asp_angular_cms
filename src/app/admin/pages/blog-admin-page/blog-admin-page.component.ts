@@ -286,4 +286,6 @@ export class BlogAdminPageComponent {
 		this.paging.page = e;
 		this.getDataList({ ...this.paging, ...this.formSearch.value })
 	}
+	
 }
+

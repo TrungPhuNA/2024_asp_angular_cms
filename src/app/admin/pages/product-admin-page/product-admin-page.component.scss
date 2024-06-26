@@ -64,48 +64,8 @@ h1 {
   flex-direction: row;
   justify-content: space-between;
 }
-.edit-button{
-  background: none;
-  border: 1px solid #007bff;
-  color: #007bff;
-  padding: 5px 10px;
-  cursor: pointer;
-  border-radius: 5px;
-  margin-right: 5px;
-  &:hover{
-    background-color: #007bff;
-    color:white;
 
-  }
-}
-.view-button{
-  background: none;
-  border: 1px solid #007bff;
-  color: #007bff;
-  padding: 5px 10px;
-  cursor: pointer;
-  border-radius: 5px;
-  margin-right: 5px;
-  &:hover{
-    background-color: #007bff;
-    color:white;
 
-  }
-}
-.delete-button{
-  background: none;
-  border: 1px solid red;
-  color: red;
-  padding: 5px 10px;
-  cursor: pointer;
-  border-radius: 5px;
-  margin-right: 5px;
-  &:hover{
-    background-color: red;
-    color:white;
-
-  }
-}
 .table-container {
   width: 80vw;
   flex-grow: 1;
@@ -118,7 +78,8 @@ h1 {
 }
 
 .table th, .table td {
-  border: 1px solid #ddd;
+  border-left: none;
+  border-right: none;
   text-align: center;
 }
 
@@ -185,4 +146,24 @@ h1 {
   float: right;
   font-size: 24px;
   cursor: pointer;
+}
+.text-center {
+  text-align: center;
+}
+
+.align-middle {
+  vertical-align: middle;
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%; /* Ensure it takes the full height of the table cell */
+}
+
+.thumbnail {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
 }
