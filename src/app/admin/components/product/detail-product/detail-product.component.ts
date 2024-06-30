@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, input } from '@angular/core';
 import { CommonService } from '../../../helpers/common.service';
 import { AlertService } from '../../../helpers/alert.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -13,7 +13,6 @@ export class DetailProductComponent {
 	@Input() modalTitle: string = '';
 	@Input() isVisible: boolean = false;
 	@Output() close = new EventEmitter<void>();
-
 	@Input() categories: any;
 	@Input() brands: any;
 	@Input() owners: any;
