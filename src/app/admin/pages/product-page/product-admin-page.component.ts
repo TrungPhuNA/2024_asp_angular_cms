@@ -195,6 +195,32 @@ export class ProductAdminPageComponent {
 
 	}
 
+	updateBan(id: any, isBan: boolean) {
+		this.alertService.fireConfirm(
+			`${isBan ? 'Ban' : 'UnBan'} Product`,
+			`Are you sure you want to ${isBan ? 'Ban' : 'UnBan'} this Product?`,
+			'warning',
+			'Cancel',
+			'Yes',
+		)
+			.then((result) => {
+				if (result.isConfirmed) {
+					this.loading = true;
+					this.productService.updateBan(id, isBan).subscribe((res: any) => {
+						this.loading = false;
+						if (res?.message == `Product ${isBan ? 'banned' : 'unbanned'} successfully.`) {
+							this.alertService.fireSmall('success', res?.message);
+							this.getDataList({ page: 1, page_size: 10 })
+						} else if (res?.errors) {
+							this.alertService.showListError(res?.errors);
+						} else {
+							this.alertService.fireSmall('error', res?.message || `${isBan ? 'banned' : 'unbanned'}  Product failed!`);
+						}
+					})
+				}
+			})
+	}
+
 
 	formSearch = new FormGroup({
 		id: new FormControl(null),

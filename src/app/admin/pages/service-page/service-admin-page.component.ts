@@ -210,7 +210,7 @@ export class ServiceAdminPageComponent {
 						} else if (res?.errors) {
 							this.alertService.showListError(res?.errors);
 						} else {
-							this.alertService.fireSmall('error', res?.message || "Service Account failed!");
+							this.alertService.fireSmall('error', res?.message || "Service deleted failed!");
 						}
 					})
 				}

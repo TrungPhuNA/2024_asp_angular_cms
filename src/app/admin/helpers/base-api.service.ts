@@ -74,4 +74,14 @@ export class BaseApiService {
 			}
 			));
 	}
+
+	setFormData(data: any) {
+		let formData = new FormData();
+		if(data) {
+			Object.entries(data)?.forEach((item: any) => {
+				formData.append(item[0], item[1]);
+			})
+		}
+		return formData;
+	}
 }

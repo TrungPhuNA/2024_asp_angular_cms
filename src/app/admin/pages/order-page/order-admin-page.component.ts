@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { AlertService } from "../../helpers/alert.service";
 import { BlogService } from '../../services/blog.service';
-import { AccountService } from '../../services/account.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { INIT_PAGING } from '../../helpers/constant';
 import { OwnerService } from '../../services/owner.service';
+import { OrderService } from '../../services/order.service';
 
 
 @Component({
@@ -28,8 +28,8 @@ export class OrderAdminPageComponent {
 	typeForm = 0;
 
 	constructor(
-		private accountService: OwnerService,
-		private alertService: AlertService
+		private orderService: OrderService,
+		private alertService: AlertService,
 	) {
 
 	}
@@ -52,7 +52,7 @@ export class OrderAdminPageComponent {
 	dataListAll = [];
 	getDataList(params: any) {
 		this.loading = true;
-		this.accountService.getLists(params).subscribe((res: any) => {
+		this.orderService.getLists(params).subscribe((res: any) => {
 			this.loading = false;
 
 			if (res?.result) {
@@ -97,7 +97,7 @@ export class OrderAdminPageComponent {
 	saveItem(data: any) {
 		if (this.typeForm == 1) {
 			this.loading = true;
-			this.accountService.createOrUpdateData(data?.form).subscribe((res: any) => {
+			this.orderService.createOrUpdateData(data?.form).subscribe((res: any) => {
 				this.loading = false;
 				if (res?.result) {
 					this.alertService.fireSmall('success', res?.message);
@@ -113,7 +113,7 @@ export class OrderAdminPageComponent {
 			this.loading = true;
 			let dataForm = data?.form;
 			delete (dataForm.password);
-			this.accountService.createOrUpdateData(dataForm, data.id).subscribe((res: any) => {
+			this.orderService.createOrUpdateData(dataForm, data.id).subscribe((res: any) => {
 				this.loading = false;
 				if (res?.result) {
 					this.alertService.fireSmall('success', res?.message);
@@ -130,7 +130,7 @@ export class OrderAdminPageComponent {
 
 	selected: any;
 	viewItem(id: number) {
-		const data = this.dataList.find((c: any) => c.ownerId === id);
+		const data = this.dataList.find((c: any) => c.orderId === id);
 		this.selected = { ...data };
 		this.modalTitle = 'View Owner';
 		this.openModal = true;
@@ -138,7 +138,7 @@ export class OrderAdminPageComponent {
 	}
 
 	editItem(id: number) {
-		const data = this.dataList.find((c: any) => c.ownerId === id);
+		const data = this.dataList.find((c: any) => c.orderId === id);
 		this.selected = { ...data };
 		this.modalTitle = 'Edit Owner';
 		this.openModal = true;
@@ -157,7 +157,7 @@ export class OrderAdminPageComponent {
 	// 		.then((result) => {
 	// 			if (result.isConfirmed) {
 	// 				this.loading = true;
-	// 				this.accountService.deleteData(id).subscribe((res: any) => {
+	// 				this.orderService.deleteData(id).subscribe((res: any) => {
 	// 					this.loading = false;
 	// 					if (res?.message == 'Account deleted successfully.') {
 	// 						this.alertService.fireSmall('success', res?.message);
@@ -173,31 +173,31 @@ export class OrderAdminPageComponent {
 
 	// }
 
-	updateBan(id: any, isBan: boolean) {
-		this.alertService.fireConfirm(
-			`${isBan ? 'Ban' : 'UnBan'} Owner`,
-			`Are you sure you want to ${isBan ? 'Ban' : 'UnBan'} this Owner?`,
-			'warning',
-			'Cancel',
-			'Yes',
-		)
-			.then((result) => {
-				if (result.isConfirmed) {
-					this.loading = true;
-					this.accountService.updateBan(id, isBan).subscribe((res: any) => {
-						this.loading = false;
-						if (res?.message == `Owner ${isBan ? 'banned' : 'unbanned'} successfully.`) {
-							this.alertService.fireSmall('success', res?.message);
-							this.getDataList({ page: 1, page_size: 10 })
-						} else if (res?.errors) {
-							this.alertService.showListError(res?.errors);
-						} else {
-							this.alertService.fireSmall('error', res?.message || `${isBan ? 'banned' : 'unbanned'}  Owner failed!`);
-						}
-					})
-				}
-			})
-	}
+	// updateBan(id: any, isBan: boolean) {
+	// 	this.alertService.fireConfirm(
+	// 		`${isBan ? 'Ban' : 'UnBan'} Owner`,
+	// 		`Are you sure you want to ${isBan ? 'Ban' : 'UnBan'} this Owner?`,
+	// 		'warning',
+	// 		'Cancel',
+	// 		'Yes',
+	// 	)
+	// 		.then((result) => {
+	// 			if (result.isConfirmed) {
+	// 				this.loading = true;
+	// 				this.orderService.updateBan(id, isBan).subscribe((res: any) => {
+	// 					this.loading = false;
+	// 					if (res?.message == `Owner ${isBan ? 'banned' : 'unbanned'} successfully.`) {
+	// 						this.alertService.fireSmall('success', res?.message);
+	// 						this.getDataList({ page: 1, page_size: 10 })
+	// 					} else if (res?.errors) {
+	// 						this.alertService.showListError(res?.errors);
+	// 					} else {
+	// 						this.alertService.fireSmall('error', res?.message || `${isBan ? 'banned' : 'unbanned'}  Owner failed!`);
+	// 					}
+	// 				})
+	// 			}
+	// 		})
+	// }
 
 
 	formSearch = new FormGroup({

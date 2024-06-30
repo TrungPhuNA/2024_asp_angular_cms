@@ -17,11 +17,8 @@ export class ProductService {
 		return this.baseApiService.getMethod(`Product/${id}`, {});
 	}
 
-	createOrUpdateData(formData: any, id?: any) {
-		// const formData = new FormData();
-		// formData.append('Name', params?.Name);
-		// formData.append('Image', params?.Image);
-		// formData.append('CategoryId', params?.CategoryId);
+	createOrUpdateData(data: any, id?: any) {
+		const formData = this.baseApiService.setFormData(data);
 		if (id) {
 			return this.baseApiService.putMethod(`Product/${id}`, formData);
 		}
@@ -30,5 +27,16 @@ export class ProductService {
 
 	deleteData(id: any) {
 		return this.baseApiService.deleteMethod(`Product/${id}`);
+	}
+
+	updateBan(id: any, status: any) {
+		let url = `Product/`;
+		if (!status) {
+			url += `unban/${id}`
+		} else {
+			url += `ban/${id}`
+		}
+		return this.baseApiService.putMethod(url, {}, true);
+
 	}
 }

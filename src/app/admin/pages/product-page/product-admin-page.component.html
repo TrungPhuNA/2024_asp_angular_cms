@@ -76,6 +76,15 @@
 										(click)="deleteItem(item.productId)">
 										<i class="fa fa-trash"></i> Delete
 									</button>
+
+									<button *ngIf="!item.isBan" mat-menu-item class="icon-button delete-button"
+										(click)="updateBan(item.productId, true)">
+										<i class="fa fa-lock"></i> Ban
+									</button>
+									<button *ngIf="item.isBan" mat-menu-item class="icon-button delete-button"
+										(click)="updateBan(item.productId, false)">
+										<i class="fa fa-unlock"></i> Unban
+									</button>
 									
 								</mat-menu>
 							</td>

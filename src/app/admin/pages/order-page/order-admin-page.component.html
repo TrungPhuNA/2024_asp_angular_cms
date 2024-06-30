@@ -78,14 +78,14 @@
 										(click)="editItem(item.ownerId)">
 										<i class="fa fa-pencil"></i> Edit
 									</button>
-									<button *ngIf="!item.isBan" mat-menu-item class="icon-button delete-button"
+									<!-- <button *ngIf="!item.isBan" mat-menu-item class="icon-button delete-button"
 										(click)="updateBan(item.ownerId, true)">
 										<i class="fa fa-lock"></i> Ban
 									</button>
 									<button *ngIf="item.isBan" mat-menu-item class="icon-button delete-button"
 										(click)="updateBan(item.ownerId, false)">
 										<i class="fa fa-unlock"></i> Unban
-									</button>
+									</button> -->
 								</mat-menu>
 							</td>
 						</tr>

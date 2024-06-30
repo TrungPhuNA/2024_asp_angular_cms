@@ -10,8 +10,8 @@
 			<form [formGroup]="formSearch" (ngSubmit)="search()">
 				<div class="row mb-5">
 					<div class="col-md-3 col-xs-12">
-						<label class="form-label">Blog title: </label>
-						<input formControlName="name" type="text" class="form-control" placeholder="Blog title" />
+						<label class="form-label">Search: </label>
+						<input formControlName="searchQuery" type="text" class="form-control" placeholder="Enter value" />
 					</div>
 				</div>
 				<div class="row mb-5 align-items-end">
@@ -36,10 +36,11 @@
 						<th><input type="checkbox" (click)="toggleSelectAll()"></th>
 						<th>ID</th>
 						<th style="min-width: 80px;">Image</th>
-						<th>Full Name</th>
-						<th>Email</th>
-						<th>Phone</th>
-						<th>Address</th>
+						<th>Title</th>
+						<th>Content</th>
+						<th>Status</th>
+						<th>Service</th>
+						<th>Owner</th>
 						<th>Actions</th>
 					</tr>
 				</thead>
@@ -54,40 +55,49 @@
 								<img [src]="item.image" alt="{{ item.name }}" class="thumbnail" width="80"
 									height="80" />
 							</td>
-							<td>{{ item.fullname }}</td>
-							<td>{{ item.email }}</td>
-							<td>{{ item.phone }}</td>
-							<td>{{ item.address}}</td>
+							<td>{{ item.title }}</td>
 							<td>
-								
+								<p class="text-break" style="max-width: 300px;">
+									{{ item.content }}
+								</p>
+							</td>
+							<td>
+								<span >
+									{{item.statusPost?.name || item.statusPostId}}
+								</span>
+							</td>
+							<td>{{ item.service?.name || item.serviceId }}</td>
+							<td>{{ item.owner?.fullname || item.ownerId}}</td>
+							<td>
+
 								<button mat-icon-button [matMenuTriggerFor]="menu"
 									class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary">
 									<i class="fa fa-ellipsis-v" aria-hidden="true"></i>
 								</button>
 								<mat-menu #menu="matMenu">
-									
-									<button mat-menu-item class="icon-button view-button" (click)="viewItem(item.accountId)">
+									<button mat-menu-item class="icon-button view-button"
+										(click)="viewItem(item.ownerId)">
 										<i class="fa fa-eye"></i> View
 									</button>
-									<button  mat-menu-item class="icon-button edit-button" (click)="editItem(item.accountId)">
+									<button mat-menu-item class="icon-button edit-button"
+										(click)="editItem(item.ownerId)">
 										<i class="fa fa-pencil"></i> Edit
 									</button>
-									<button  mat-menu-item class="icon-button delete-button" (click)="deleteItem(item.accountId)">
-										<i class="fa fa-trash"></i> Delete
-									</button>
-									<button  mat-menu-item class="icon-button delete-button" (click)="deleteItem(item.accountId)">
+									<!-- <button *ngIf="!item.isBan" mat-menu-item class="icon-button delete-button"
+										(click)="updateBan(item.ownerId, true)">
 										<i class="fa fa-lock"></i> Ban
 									</button>
-									<button  mat-menu-item class="icon-button delete-button" (click)="deleteItem(item.accountId)">
+									<button *ngIf="item.isBan" mat-menu-item class="icon-button delete-button"
+										(click)="updateBan(item.ownerId, false)">
 										<i class="fa fa-unlock"></i> Unban
-									</button>
+									</button> -->
 								</mat-menu>
 							</td>
 						</tr>
 					</ng-container>
 					<ng-container *ngIf="dataList?.length <= 0">
 						<tr>
-							<td colspan="5">No data</td>
+							<td colspan="9">No data</td>
 						</tr>
 					</ng-container>
 
@@ -99,15 +109,8 @@
 </div>
 <app-loading [loading]="loading"></app-loading>
 
-
-<!-- <app-add-new-account [data]="selected" [modalTitle]="modalTitle" [isVisible]="createModal"
+<app-update-blog [data]="selected" [modalTitle]="modalTitle" 
+[typeForm]="typeForm" [isVisible]="openModal"
+[services]="services" [owners]="owners"
 	(save)="saveItem($event)" (close)="closeModal()">
-</app-add-new-account>
-
-<app-detail-account [data]="selected" [modalTitle]="modalTitle" [isVisible]="showModal"
-	(close)="closeModal()">
-</app-detail-account> -->
-
-<app-update-account [data]="selected" [modalTitle]="modalTitle" [typeForm]="typeForm" [isVisible]="updateModal"
-	(save)="saveItem($event)" (close)="closeModal()">
-</app-update-account>
+</app-update-blog>
