@@ -17,11 +17,11 @@ export class ProductService {
 		return this.baseApiService.getMethod(`Product/${id}`, {});
 	}
 
-	createOrUpdateData(params: any, id?: any) {
-		const formData = new FormData();
-		formData.append('Name', params?.Name);
-		formData.append('Image', params?.Image);
-		formData.append('CategoryId', params?.CategoryId);
+	createOrUpdateData(formData: any, id?: any) {
+		// const formData = new FormData();
+		// formData.append('Name', params?.Name);
+		// formData.append('Image', params?.Image);
+		// formData.append('CategoryId', params?.CategoryId);
 		if (id) {
 			return this.baseApiService.putMethod(`Product/${id}`, formData);
 		}

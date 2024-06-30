@@ -63,12 +63,17 @@ export class CategoryAdminPageComponent {
 	ngOnInit(): void {
 		this.getDataList({ ...this.paging })
 	}
-
+	dataListAll = [];
 	getDataList(params: any) {
 		this.loading = true;
 		this.categoryService.getListCategory(params).subscribe((res: any) => {
 			this.loading = false;
-            this.categories = res;
+			this.dataListAll = res;
+			if(this.dataListAll?.length > 0) {
+				let start = (this.paging?.page - 1) * this.paging.page_size;
+				let end = this.paging?.page * this.paging.page_size;
+				this.categories = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
+			}
             this.paging.total = res?.length || 0;
             // this.paging.page = params?.page || 1
 		})
@@ -85,7 +90,11 @@ export class CategoryAdminPageComponent {
 
 	pageChanged(e: any) {
 		this.paging.page = e;
-		this.getDataList({ ...this.paging, ...this.formSearch.value })
+		if(this.dataListAll?.length > 0) {
+			let start = (this.paging?.page - 1) * this.paging.page_size;
+			let end = this.paging?.page * this.paging.page_size;
+			this.categories = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
+		}
 	}
 
 	toggleSelectAll() {

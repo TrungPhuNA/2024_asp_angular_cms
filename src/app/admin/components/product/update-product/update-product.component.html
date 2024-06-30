@@ -57,52 +57,29 @@
 				</div>
 				<div class="form-group col-md-6  required mb-3">
 					<label for="image" class="form-label ">CategoryID</label>
-					<!-- <ng-select [items]="categories" bindLabel="name" 
+					<ng-select [items]="categories" bindLabel="name" 
 				bindValue="categoryId" formControlName="CategoryId"></ng-select>
-				<app-form-error [control]="form.controls['CategoryId']" [message]="'Category id is required!'"
-                                [validation]="'required'"></app-form-error> -->
-					<input type="text" id="CategoryId" class="form-control"
-						[ngClass]="{'is-invalid': commonService.showStatusErrorV2(form, 'categoryId')}"
-						formControlName="CategoryId" name="image">
 					<app-form-error [control]="form.controls['CategoryId']" [message]="'Category id is required!'"
 						[validation]="'required'"></app-form-error>
 				</div>
 				<div class="form-group col-md-6  required mb-3">
 					<label for="BrandId" class="form-label ">Brand</label>
-					<!-- <ng-select [items]="categories" bindLabel="name" 
-				bindValue="categoryId" formControlName="CategoryId"></ng-select>
-				<app-form-error [control]="form.controls['CategoryId']" [message]="'Category id is required!'"
-                                [validation]="'required'"></app-form-error> -->
-					<input type="text" id="BrandId" class="form-control"
-						[ngClass]="{'is-invalid': commonService.showStatusErrorV2(form, 'BrandId')}"
-						formControlName="BrandId" name="image">
+					<ng-select [items]="brands" bindLabel="name" 
+				bindValue="brandId" formControlName="BrandId"></ng-select>
 					<app-form-error [control]="form.controls['BrandId']" [message]="'Brand id is required!'"
 						[validation]="'required'"></app-form-error>
 				</div>
 				<div class="form-group col-md-6  required mb-3">
 					<label for="ownerId" class="form-label ">Owner</label>
-					<!-- <ng-select [items]="categories" bindLabel="name" 
-				bindValue="categoryId" formControlName="CategoryId"></ng-select>
-				<app-form-error [control]="form.controls['CategoryId']" [message]="'Category id is required!'"
-                                [validation]="'required'"></app-form-error> -->
-					<input type="text" id="ownerId" class="form-control"
+					<ng-select [items]="owners" bindLabel="name" 
+				bindValue="ownerId" formControlName="OwnerId"></ng-select>
+					<!-- <input type="text" id="ownerId" class="form-control"
 						[ngClass]="{'is-invalid': commonService.showStatusErrorV2(form, 'OwnerId')}"
-						formControlName="OwnerId" name="image">
+						formControlName="OwnerId" name="image"> -->
 					<app-form-error [control]="form.controls['OwnerId']" [message]="'Owner id is required!'"
 						[validation]="'required'"></app-form-error>
 				</div>
-				<div class="form-group col-md-6  required mb-3">
-					<label for="image" class="form-label ">CategoryID</label>
-					<!-- <ng-select [items]="categories" bindLabel="name" 
-				bindValue="categoryId" formControlName="CategoryId"></ng-select>
-				<app-form-error [control]="form.controls['CategoryId']" [message]="'Category id is required!'"
-                                [validation]="'required'"></app-form-error> -->
-					<input type="text" id="CategoryId" class="form-control"
-						[ngClass]="{'is-invalid': commonService.showStatusErrorV2(form, 'categoryId')}"
-						formControlName="CategoryId" name="image">
-					<app-form-error [control]="form.controls['CategoryId']" [message]="'Category id is required!'"
-						[validation]="'required'"></app-form-error>
-				</div>
+				
 			</div>
 			<div class="d-flex justify-content-center my-3">
 				<button type="button" (click)="closeModal()" class="btn btn-secondary">Cancel</button>

@@ -6,124 +6,14 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { INIT_PAGING } from '../../helpers/constant';
 import { OwnerService } from '../../services/owner.service';
 
+
 @Component({
-  selector: 'app-owner-admin-page',
-  templateUrl: './owner-admin-page.component.html',
-  styleUrl: './owner-admin-page.component.scss'
+  selector: 'app-order-admin-page',
+  templateUrl: './order-admin-page.component.html',
+  styleUrls: ['./order-admin-page.component.scss']
 })
-export class OwnerAdminPageComponent {
-	dataList: any = [
-		{
-			"ownerId": 1,
-			"email": "owner1@example.com",
-			"password": "password1                                                   ",
-			"fullname": "Ch? s? h?u 1",
-			"image": "owner1.jpg",
-			"phone": "1234567890",
-			"address": "123 Ðu?ng A, Thành ph? A",
-			"isBan": false
-		},
-		{
-			"ownerId": 2,
-			"email": "owner2@example.com",
-			"password": "password2                                                   ",
-			"fullname": "Ch? s? h?u 2",
-			"image": "owner2.jpg",
-			"phone": "0987654321",
-			"address": "456 Ðu?ng B, Thành ph? B",
-			"isBan": false
-		},
-		{
-			"ownerId": 3,
-			"email": "owner3@example.com",
-			"password": "password3                                                   ",
-			"fullname": "Ch? s? h?u 3",
-			"image": "owner3.jpg",
-			"phone": "0123456789",
-			"address": "789 Ðu?ng C, Thành ph? C",
-			"isBan": false
-		},
-		{
-			"ownerId": 4,
-			"email": "owner4@example.com",
-			"password": "password4                                                   ",
-			"fullname": "Ch? s? h?u 4",
-			"image": "owner4.jpg",
-			"phone": "9876543210",
-			"address": "101 Ðu?ng D, Thành ph? D",
-			"isBan": false
-		},
-		{
-			"ownerId": 5,
-			"email": "owner5@example.com",
-			"password": "password5                                                   ",
-			"fullname": "Ch? s? h?u 5",
-			"image": "owner5.jpg",
-			"phone": "1122334455",
-			"address": "202 Ðu?ng E, Thành ph? E",
-			"isBan": false
-		},
-		{
-			"ownerId": 6,
-			"email": "owner6@example.com",
-			"password": "password6                                                   ",
-			"fullname": "Ch? s? h?u 6",
-			"image": "owner6.jpg",
-			"phone": "5544332211",
-			"address": "303 Ðu?ng F, Thành ph? F",
-			"isBan": false
-		},
-		{
-			"ownerId": 7,
-			"email": "owner7@example.com",
-			"password": "password7                                                   ",
-			"fullname": "Ch? s? h?u 7",
-			"image": "owner7.jpg",
-			"phone": "6677889900",
-			"address": "404 Ðu?ng G, Thành ph? G",
-			"isBan": false
-		},
-		{
-			"ownerId": 8,
-			"email": "owner8@example.com",
-			"password": "password8                                                   ",
-			"fullname": "Dai hoc FPT",
-			"image": "owner8.jpg",
-			"phone": "098765678",
-			"address": "Can Tho City",
-			"isBan": false
-		},
-		{
-			"ownerId": 9,
-			"email": "owner9@example.com",
-			"password": "password9                                                   ",
-			"fullname": "Ch? s? h?u 9",
-			"image": "updatehinhanhavatarowner.jpg",
-			"phone": "7788990011",
-			"address": "606 Ðu?ng I, Thành ph? I",
-			"isBan": false
-		},
-		{
-			"ownerId": 10,
-			"email": "owner10@example.com",
-			"password": "password10                                                  ",
-			"fullname": "Ch? s? h?u 10",
-			"image": "owner10.jpg",
-			"phone": "9900112233",
-			"address": "707 Ðu?ng K, Thành ph? K",
-			"isBan": false
-		},
-		{
-			"ownerId": 12,
-			"email": "shop giay thu 2@example.com",
-			"password": "$2a$11$oM531nZ7lFPIamfp/AuecO1By44gnJyY7G8nLWvnLr7jzDJFdpLEO",
-			"fullname": "Minh Tuan",
-			"image": "image",
-			"phone": "0987654321",
-			"address": "Can Tho",
-			"isBan": false
-		}
-	];
+export class OrderAdminPageComponent {
+	dataList: any = [];
 	selectedBrand: any = null;
 	modalTitle: string = '';
 
@@ -150,8 +40,8 @@ export class OwnerAdminPageComponent {
 			link: '/'
 		},
 		{
-			label: 'Owner',
-			link: '/admin/owner'
+			label: 'Order',
+			link: '/admin/order'
 		}
 	];
 
@@ -159,6 +49,7 @@ export class OwnerAdminPageComponent {
 		this.getDataList({ ...this.paging })
 	}
 
+	dataListAll = [];
 	getDataList(params: any) {
 		this.loading = true;
 		this.accountService.getLists(params).subscribe((res: any) => {
@@ -166,7 +57,12 @@ export class OwnerAdminPageComponent {
 
 			if (res?.result) {
 				console.info("===========[getDataListBrand] ===========[res] : ", res);
-				this.dataList = res?.data;
+				this.dataListAll = res?.data;
+				if (this.dataListAll?.length > 0) {
+					let start = (this.paging?.page - 1) * this.paging.page_size;
+					let end = this.paging?.page * this.paging.page_size;
+					this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
+				}
 				this.paging.total = res?.data?.length || 0;
 			}
 		})
@@ -216,7 +112,7 @@ export class OwnerAdminPageComponent {
 		} else {
 			this.loading = true;
 			let dataForm = data?.form;
-			delete(dataForm.password);
+			delete (dataForm.password);
 			this.accountService.createOrUpdateData(dataForm, data.id).subscribe((res: any) => {
 				this.loading = false;
 				if (res?.result) {
@@ -311,6 +207,11 @@ export class OwnerAdminPageComponent {
 
 	pageChanged(e: any) {
 		this.paging.page = e;
-		this.getDataList({ ...this.paging, ...this.formSearch.value })
+		// this.getDataList({ ...this.paging, ...this.formSearch.value })
+		if (this.dataListAll?.length > 0) {
+			let start = (this.paging?.page - 1) * this.paging.page_size;
+			let end = this.paging?.page * this.paging.page_size;
+			this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
+		}
 	}
 }

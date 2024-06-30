@@ -203,16 +203,7 @@ export class BrandAdminPageComponent {
 	paging: any = { ...INIT_PAGING }
 	loading = false;
 
-	categories: any = [
-		{
-			"categoryId": 5,
-			"name": "Giày leo núi",
-			"image": "giayleonui.jpg",
-			"isdelete": false,
-			"brands": [],
-			"products": []
-		}
-	];
+	categories: any = [];
 
 	constructor(
 		private brandService: BrandService,
@@ -237,13 +228,19 @@ export class BrandAdminPageComponent {
 		this.getDataList({ ...this.paging });
 		this.getCategories()
 	}
-
+	dataListAll = []
 	getDataList(params: any) {
 		this.loading = true;
 		this.brandService.getLists(params).subscribe((res: any) => {
 			console.info("===========[getDataListBrand] ===========[res] : ", res);
 			this.loading = false;
 			this.brands = res;
+			this.dataListAll = res;
+			if (this.dataListAll?.length > 0) {
+				let start = (this.paging?.page - 1) * this.paging.page_size;
+				let end = this.paging?.page * this.paging.page_size;
+				this.brands = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
+			}
 			this.paging.total = res?.length || 0;
 		})
 	}
@@ -366,6 +363,11 @@ export class BrandAdminPageComponent {
 
 	pageChanged(e: any) {
 		this.paging.page = e;
-		this.getDataList({ ...this.paging, ...this.formSearch.value })
+		// this.getDataList({ ...this.paging, ...this.formSearch.value })
+		if (this.dataListAll?.length > 0) {
+			let start = (this.paging?.page - 1) * this.paging.page_size;
+			let end = this.paging?.page * this.paging.page_size;
+			this.brands = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
+		}
 	}
 }

@@ -3,6 +3,9 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { ProductService } from '../../services/product.service';
 import { AlertService } from '../../helpers/alert.service';
 import { INIT_PAGING } from '../../helpers/constant';
+import { CategoryService } from '../../services/category.service';
+import { BrandService } from '../../services/brand.service';
+import { OwnerService } from '../../services/owner.service';
 
 @Component({
 	selector: 'app-product-admin-page',
@@ -10,7 +13,8 @@ import { INIT_PAGING } from '../../helpers/constant';
 	styleUrls: ['./product-admin-page.component.scss']
 })
 export class ProductAdminPageComponent {
-	dataList: any = []
+	dataList: any = [];
+	dataListAll: any = [];
 	selectedBrand: any = null;
 	modalTitle: string = '';
 
@@ -24,7 +28,10 @@ export class ProductAdminPageComponent {
 
 	constructor(
 		private productService: ProductService,
-		private alertService: AlertService
+		private alertService: AlertService,
+		private brandService: BrandService,
+		private ownerService: OwnerService,
+		private categoryService: CategoryService
 	) {
 
 	}
@@ -41,7 +48,10 @@ export class ProductAdminPageComponent {
 	];
 
 	ngOnInit(): void {
-		this.getDataList({ ...this.paging })
+		this.getDataList({ ...this.paging });
+		this.getCategories();
+		this.getBrands();
+		this.getOwners();
 	}
 
 	getDataList(params: any) {
@@ -49,8 +59,38 @@ export class ProductAdminPageComponent {
 		this.productService.getLists(params).subscribe((res: any) => {
 			console.info("===========[getDataListBrand] ===========[res] : ", res);
 			this.loading = false;
-			this.dataList = res;
+			this.dataListAll = res;
+			if(this.dataListAll?.length > 0) {
+				let start = (this.paging?.page - 1) * this.paging.page_size;
+				let end = this.paging?.page * this.paging.page_size;
+				this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
+			}
 			this.paging.total = res?.length || 0;
+		})
+	}
+
+	categories = []
+	getCategories() {
+		this.categoryService.getListCategory({ page: 1, page_size: 100 }).subscribe((res: any) => {
+			console.info("===========[categories] ===========[res] : ", res);
+			this.categories = res;
+		})
+	}
+
+	brands = []
+	getBrands() {
+		this.brandService.getLists({ page: 1, page_size: 100 }).subscribe((res: any) => {
+			console.info("===========[Brands] ===========[res] : ", res);
+			this.brands = res;
+		})
+	}
+	owners = []
+	getOwners() {
+		this.ownerService.getLists({ page: 1, page_size: 100 }).subscribe((res: any) => {
+			console.info("===========[Brands] ===========[res] : ", res);
+			if(res?.result) {
+				this.owners = res?.data;
+			}
 		})
 	}
 
@@ -82,8 +122,7 @@ export class ProductAdminPageComponent {
 
 	saveItem(data: any) {
 		if (this.modalTitle === 'Create Product') {
-			// category.id = this.categories.length + 1;
-			// this.categories.push(category);
+			
 			this.loading = true;
 			this.productService.createOrUpdateData(data?.form).subscribe((res: any) => {
 				this.loading = false;
@@ -164,6 +203,11 @@ export class ProductAdminPageComponent {
 
 	pageChanged(e: any) {
 		this.paging.page = e;
-		this.getDataList({ ...this.paging, ...this.formSearch.value })
+		if(this.dataListAll?.length > 0) {
+			let start = (this.paging?.page - 1) * this.paging.page_size;
+			let end = this.paging?.page * this.paging.page_size;
+			this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
+		}
+		// this.getDataList({ ...this.paging, ...this.formSearch.value })
 	}
 }

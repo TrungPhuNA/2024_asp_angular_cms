@@ -3,28 +3,28 @@ import { AddNewCategoryComponent } from './components/category/add-new-category/
 import { DetailCategoryComponent } from './components/category/detail-category/detail-category.component';
 import { UpdateCategoryComponent } from './components/category/update-category/update-category.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CategoryAdminPageComponent } from './pages/category-admin-page/category-admin-page.component';
+import { CategoryAdminPageComponent } from './pages/category-page/category-admin-page.component';
 
 
 import { AddNewProductComponent } from './components/product/add-new-product/add-new-product.component';
 import { DetailProductComponent } from './components/product/detail-product/detail-product.component';
 import { UpdateProductComponent } from './components/product/update-product/update-product.component';
 import { DeleteProductComponent } from './components/product/delete-product/delete-product.component';
-import { ProductAdminPageComponent } from './pages/product-admin-page/product-admin-page.component';
+import { ProductAdminPageComponent } from './pages/product-page/product-admin-page.component';
 
-import { BlogAdminPageComponent } from './pages/blog-admin-page/blog-admin-page.component';
+import { BlogAdminPageComponent } from './pages/blog-page/blog-admin-page.component';
 import { AddNewBlogComponent } from './components/blog/add-new-blog/add-new-blog.component';
 import { DeleteBlogComponent } from './components/blog/delete-blog/delete-blog.component';
 import { DetailBlogComponent } from './components/blog/detail-blog/detail-blog.component';
 import { UpdateBlogComponent } from './components/blog/update-blog/update-blog.component';
 
-import { BrandAdminPageComponent } from './pages/brand-admin-page/brand-admin-page.component';
+import { BrandAdminPageComponent } from './pages/brand-page/brand-admin-page.component';
 import { AddNewBrandComponent } from './components/brand/add-new-brand/add-new-brand.component';
 import { DetailBrandComponent } from './components/brand/detail-brand/detail-brand.component';
 import { UpdateBrandComponent } from './components/brand/update-brand/update-brand.component';
 import { DeleteBrandComponent } from './components/brand/delete-brand/delete-brand.component';
 
-import { OrderAdminPageComponent } from './pages/order-admin-page/order-admin-page.component';
+import { OrderAdminPageComponent } from './pages/order-page/order-admin-page.component';
 import { AddNewOrderComponent } from './components/order/add-new-order/add-new-order.component';
 import { DetailOrderComponent } from './components/order/detail-order/detail-order.component';
 import { UpdateOrderComponent } from './components/order/update-order/update-order.component';
@@ -34,7 +34,7 @@ import { Route, RouterModule, Routes } from '@angular/router';
 import { AdminComponent } from './admin.component';
 import { SharedModule } from '../../shared/share.module';
 import { SharedDataModule } from '../shared/shared.module';
-import { AccountAdminPageComponent } from './pages/account-admin-page/account-admin-page.component';
+import { AccountAdminPageComponent } from './pages/account-page/account-admin-page.component';
 import { AddNewAccountComponent } from './components/account/add-new-account/add-new-account.component';
 import { UpdateAccountComponent } from './components/account/update-account/update-account.component';
 import { DetailAccountComponent } from './components/account/detail-account/detail-account.component';
@@ -42,9 +42,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatChipsModule } from '@angular/material/chips';
 
-import { DashboardAdminPageComponent } from './pages/dashboard-admin-page/dashboard-admin-page.component';
-import { ServiceAdminPageComponent } from './pages/service-admin-page/service-admin-page.component';
-import { OwnerAdminPageComponent } from './pages/owner-admin-page/owner-admin-page.component';
+import { DashboardAdminPageComponent } from './pages/dashboard-page/dashboard-admin-page.component';
+import { ServiceAdminPageComponent } from './pages/service-page/service-admin-page.component';
+import { OwnerAdminPageComponent } from './pages/owner-page/owner-admin-page.component';
 import { FormOwnerComponent } from './components/owner/form-owner/form-owner.component';
 import { ServiceAdminComponent } from './components/service-admin/service-admin.component';
 

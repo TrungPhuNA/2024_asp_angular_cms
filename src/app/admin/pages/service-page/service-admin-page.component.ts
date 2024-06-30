@@ -95,13 +95,19 @@ export class ServiceAdminPageComponent {
 		this.getDataList({ ...this.paging })
 	}
 
+	dataListAll = []
 	getDataList(params: any) {
 		this.loading = true;
 		this.service.getLists(params).subscribe((res: any) => {
 			this.loading = false;
 			if (res?.result) {
 				console.info("===========[getDataListBrand] ===========[res] : ", res);
-				this.dataList = res?.data;
+				this.dataListAll = res?.data;
+				if (this.dataListAll?.length > 0) {
+					let start = (this.paging?.page - 1) * this.paging.page_size;
+					let end = this.paging?.page * this.paging.page_size;
+					this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
+				}
 				this.paging.total = res?.data?.length || 0;
 			}
 		})
@@ -219,7 +225,12 @@ export class ServiceAdminPageComponent {
 
 	pageChanged(e: any) {
 		this.paging.page = e;
-		this.getDataList({ ...this.paging, ...this.formSearch.value })
+		// this.getDataList({ ...this.paging, ...this.formSearch.value })
+		if (this.dataListAll?.length > 0) {
+			let start = (this.paging?.page - 1) * this.paging.page_size;
+			let end = this.paging?.page * this.paging.page_size;
+			this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
+		}
 	}
 }
 

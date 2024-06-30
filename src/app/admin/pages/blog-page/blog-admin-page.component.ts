@@ -165,7 +165,7 @@ export class BlogAdminPageComponent {
 
 			if (res?.result) {
 				console.info("===========[getDataListBrand] ===========[res] : ", res);
-				this.dataList = res;
+				this.dataList = res?.data;
 				this.paging.total = res?.length || 0;
 			}
 		})
