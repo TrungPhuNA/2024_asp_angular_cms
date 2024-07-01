@@ -1,17 +1,16 @@
 import { Component } from '@angular/core';
 import { AlertService } from "../../helpers/alert.service";
-import { BlogService } from '../../services/blog.service';
-import { AccountService } from '../../services/account.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { INIT_PAGING } from '../../helpers/constant';
-import { ServiceService } from '../../services/service.service';
+import { VoucherService } from '../../services/voucher.service';
+import { OwnerService } from '../../services/owner.service';
 
 @Component({
-	selector: 'app-service-admin-page',
-	templateUrl: './service-admin-page.component.html',
-	styleUrl: './service-admin-page.component.scss'
+  selector: 'app-voucher-page',
+  templateUrl: './voucher-page.component.html',
+  styleUrl: './voucher-page.component.scss'
 })
-export class ServiceAdminPageComponent {
+export class VoucherPageComponent {
 
 	dataList: any =[];
 	modalTitle: string = '';
@@ -23,8 +22,9 @@ export class ServiceAdminPageComponent {
 	typeForm = 0;
 
 	constructor(
-		private service: ServiceService,
-		private alertService: AlertService
+		private service: VoucherService,
+		private alertService: AlertService,
+		private ownerService: OwnerService
 	) {
 
 	}
@@ -35,8 +35,8 @@ export class ServiceAdminPageComponent {
 			link: '/'
 		},
 		{
-			label: 'Service',
-			link: '/admin/service'
+			label: 'Voucher',
+			link: '/owner/voucher'
 		}
 	];
 
@@ -58,6 +58,16 @@ export class ServiceAdminPageComponent {
 					this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
 				}
 				this.paging.total = res?.data?.length || 0;
+			}
+		})
+	}
+
+	owners = []
+	getOwners() {
+		this.ownerService.getLists({ page: 1, page_size: 100 }).subscribe((res: any) => {
+			console.info("===========[Brands] ===========[res] : ", res);
+			if(res?.result) {
+				this.owners = res?.data;
 			}
 		})
 	}
@@ -123,16 +133,16 @@ export class ServiceAdminPageComponent {
 	}
 
 	selected: any;
-	viewItem(id: number) {
-		const data = this.dataList.find((c: any) => c.serviceId === id);
+	viewItem(id: any) {
+		const data = this.dataList.find((c: any) => c.voucherId === id);
 		this.selected = { ...data };
 		this.modalTitle = 'View Service';
 		this.openModal = true;
 		this.typeForm = 2;
 	}
 
-	editItem(id: number) {
-		const data = this.dataList.find((c: any) => c.serviceId === id);
+	editItem(id: any) {
+		const data = this.dataList.find((c: any) => c.voucherId === id);
 		this.selected = { ...data };
 		this.modalTitle = 'Edit Service';
 		this.openModal = true;
@@ -140,10 +150,10 @@ export class ServiceAdminPageComponent {
 
 	}
 
-	deleteItem(id: number) {
+	deleteItem(id: any) {
 		this.alertService.fireConfirm(
-			'Delete Service',
-			'Are you sure you want to delete this Service?',
+			'Delete Voucher',
+			'Are you sure you want to delete this Voucher?',
 			'warning',
 			'Cancel',
 			'Delete',
@@ -153,13 +163,13 @@ export class ServiceAdminPageComponent {
 					this.loading = true;
 					this.service.deleteData(id).subscribe((res: any) => {
 						this.loading = false;
-						if (res?.message == 'Service deleted successfully.') {
+						if (res?.message == 'Voucher deleted successfully.') {
 							this.alertService.fireSmall('success', res?.message);
 							this.getDataList({ page: 1, page_size: 10 })
 						} else if (res?.errors) {
 							this.alertService.showListError(res?.errors);
 						} else {
-							this.alertService.fireSmall('error', res?.message || "Service deleted failed!");
+							this.alertService.fireSmall('error', res?.message || "Voucher deleted failed!");
 						}
 					})
 				}

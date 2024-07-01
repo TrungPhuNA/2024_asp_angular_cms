@@ -47,6 +47,8 @@ import { ServiceAdminPageComponent } from './pages/service-page/service-admin-pa
 import { OwnerAdminPageComponent } from './pages/owner-page/owner-admin-page.component';
 import { FormOwnerComponent } from './components/owner/form-owner/form-owner.component';
 import { ServiceAdminComponent } from './components/service-admin/service-admin.component';
+import { VoucherPageComponent } from './pages/voucher-page/voucher-page.component';
+import { VoucherComponent } from './components/voucher/voucher.component';
 
 const route: Routes = [
 	{
@@ -63,11 +65,7 @@ const route: Routes = [
 				component: DashboardAdminPageComponent,
 				title: 'Dashboard'
 			},
-			{
-				path: 'category',
-				component: CategoryAdminPageComponent,
-				title: 'Manage Category'
-			},
+			
 			{
 				path: 'product',
 				component: ProductAdminPageComponent,
@@ -88,27 +86,15 @@ const route: Routes = [
 				component: BlogAdminPageComponent,
 				title: 'Manage Blog'
 			},
+			{
+				path: 'voucher',
+				component: VoucherPageComponent,
+				title: 'Manage Voucher'
+			},
 
-			{
-				path: 'category',
-				component: CategoryAdminPageComponent,
-				title: 'Manage Category'
-			},
-			{
-				path: 'account',
-				component: AccountAdminPageComponent,
-				title: 'Manage Account'
-			},
-			{
-				path: 'service',
-				component: ServiceAdminPageComponent,
-				title: 'Manage Service'
-			},
-			{
-				path: 'owner',
-				component: OwnerAdminPageComponent,
-				title: 'Manage Owner'
-			},
+			
+			
+			
 		]
 	}
 ]
@@ -153,7 +139,9 @@ const route: Routes = [
 		OwnerAdminPageComponent,
 		FormOwnerComponent,
 		ServiceAdminComponent,
-		ServiceAdminPageComponent
+		ServiceAdminPageComponent,
+		VoucherPageComponent,
+		VoucherComponent,
 	],
 	imports: [
 		FormsModule,

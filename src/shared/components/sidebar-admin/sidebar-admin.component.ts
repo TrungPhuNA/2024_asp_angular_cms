@@ -50,7 +50,7 @@ export class SidebarAdminComponent implements OnChanges {
 		},
 		{
 			route: "/order",
-			role:['OWNER'],
+			role:['OWNER','STAFF'],
 			name: "Orders"
 		},
 		{

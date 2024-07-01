@@ -47,6 +47,10 @@ import { ServiceAdminPageComponent } from './pages/service-page/service-admin-pa
 import { OwnerAdminPageComponent } from './pages/owner-page/owner-admin-page.component';
 import { FormOwnerComponent } from './components/owner/form-owner/form-owner.component';
 import { ServiceAdminComponent } from './components/service-admin/service-admin.component';
+import { VoucherPageComponent } from './pages/voucher-page/voucher-page.component';
+import { WarehousePageComponent } from './pages/warehouse-page/warehouse-page.component';
+import { WarehouseComponent } from './components/warehouse/warehouse.component';
+import { VoucherComponent } from './components/voucher/voucher.component';
 
 const route: Routes = [
 	{
@@ -64,11 +68,6 @@ const route: Routes = [
 				title: 'Dashboard'
 			},
 			{
-				path: 'category',
-				component: CategoryAdminPageComponent,
-				title: 'Manage Category'
-			},
-			{
 				path: 'product',
 				component: ProductAdminPageComponent,
 				title: 'Manage Product'
@@ -78,21 +77,11 @@ const route: Routes = [
 				component: OrderAdminPageComponent,
 				title: 'Manage Order'
 			},
-			{
-				path: 'brand',
-				component: BrandAdminPageComponent,
-				title: 'Manage Brand'
-			},
+			
 			{
 				path: 'blog',
 				component: BlogAdminPageComponent,
 				title: 'Manage Blog'
-			},
-
-			{
-				path: 'category',
-				component: CategoryAdminPageComponent,
-				title: 'Manage Category'
 			},
 			{
 				path: 'account',
@@ -100,14 +89,14 @@ const route: Routes = [
 				title: 'Manage Account'
 			},
 			{
-				path: 'service',
-				component: ServiceAdminPageComponent,
-				title: 'Manage Service'
+				path: 'voucher',
+				component: VoucherPageComponent,
+				title: 'Manage Voucher'
 			},
 			{
-				path: 'owner',
-				component: OwnerAdminPageComponent,
-				title: 'Manage Owner'
+				path: 'warehouse',
+				component: WarehousePageComponent,
+				title: 'Manage warehouse'
 			},
 		]
 	}
@@ -152,7 +141,11 @@ const route: Routes = [
 		OwnerAdminPageComponent,
 		FormOwnerComponent,
 		ServiceAdminComponent,
-		ServiceAdminPageComponent
+		ServiceAdminPageComponent,
+		VoucherPageComponent,
+  WarehousePageComponent,
+  WarehouseComponent,
+  VoucherComponent,
 	],
 	imports: [
 		FormsModule,

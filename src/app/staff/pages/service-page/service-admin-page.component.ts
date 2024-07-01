@@ -13,58 +13,7 @@ import { ServiceService } from '../../services/service.service';
 })
 export class ServiceAdminPageComponent {
 
-	dataList: any = [
-		{
-			"serviceId": 1,
-			"name": "Sneaker Cleaning",
-			"isdelete": false
-		},
-		{
-			"serviceId": 2,
-			"name": "Sneaker Washing",
-			"isdelete": false
-		},
-		{
-			"serviceId": 3,
-			"name": "Sneaker Deodorizing",
-			"isdelete": false
-		},
-		{
-			"serviceId": 4,
-			"name": "Sneaker Restoration",
-			"isdelete": false
-		},
-		{
-			"serviceId": 5,
-			"name": "Sneaker Customization",
-			"isdelete": false
-		},
-		{
-			"serviceId": 6,
-			"name": "Sneaker Repair",
-			"isdelete": false
-		},
-		{
-			"serviceId": 7,
-			"name": "Sneaker Lace Replacement",
-			"isdelete": false
-		},
-		{
-			"serviceId": 8,
-			"name": "Sneaker Sole Replacement",
-			"isdelete": false
-		},
-		{
-			"serviceId": 9,
-			"name": "Sneaker Waterproofing",
-			"isdelete": false
-		},
-		{
-			"serviceId": 10,
-			"name": "Sneaker Stain Removal",
-			"isdelete": false
-		}
-	];
+	dataList: any =[];
 	modalTitle: string = '';
 	openModal: boolean = false;
 
