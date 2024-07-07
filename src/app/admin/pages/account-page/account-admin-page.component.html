@@ -75,11 +75,11 @@
 									</button>
 									<mat-menu #menu="matMenu">
 										<button *ngIf="!item.isBan" mat-menu-item class="icon-button delete-button"
-											(click)="updateBan(item.ownerId, true)">
+											(click)="updateBan(item.accountId, true)">
 											<i class="fa fa-lock text-danger"></i> Ban
 										</button>
 										<button *ngIf="item.isBan" mat-menu-item class="icon-button delete-button"
-											(click)="updateBan(item.ownerId, false)">
+											(click)="updateBan(item.accountId, false)">
 											<i class="fa fa-unlock text-success"></i> Unban
 										</button>
 										<button mat-menu-item class="icon-button delete-button">
@@ -106,7 +106,7 @@
 				<table class="table">
 					<thead>
 						<tr>
-							<th><input type="checkbox" (click)="toggleSelectAll()"></th>
+							<!-- <th><input type="checkbox" (click)="toggleSelectAll()"></th> -->
 							<th>STT</th>
 							<th style="min-width: 80px;">Image</th>
 							<th>Full Name</th>
@@ -120,9 +120,9 @@
 					<tbody>
 						<ng-container *ngIf="dataList?.length > 0">
 							<tr *ngFor="let item of dataList, index as i">
-								<td>
+								<!-- <td>
 									<input type="checkbox" [(ngModel)]="item.selected">
-								</td>
+								</td> -->
 								<td>{{ (paging.page - 1) * paging.pageSize + i + 1 }}</td>
 								<td>
 									<img [src]="item.image" alt="{{ item.name }}" class="thumbnail" width="80"

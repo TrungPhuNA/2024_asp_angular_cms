@@ -150,6 +150,7 @@ export class BlogAdminPageComponent {
 	selected: any;
 	viewItem(id: number) {
 		const data = this.dataList.find((c: any) => c.adId === id);
+		console.log(data);
 		this.selected = { ...data };
 		this.modalTitle = 'View Owner';
 		this.openModal = true;
