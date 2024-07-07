@@ -126,8 +126,8 @@ export class CategoryAdminPageComponent {
 			this.loading = true;
 			this.categoryService.createOrUpdateData(data?.form).subscribe((res: any) => {
 				this.loading = false;
-				if (res?.message == 'Category added successfully.') {
-					this.alertService.fireSmall('success', res?.message);
+				if (res?.message.includes('successfully')) {
+					this.alertService.fireSmall('success', res?.message|| 'Create successfully');
 					this.closeModal();
 					this.getDataList({page: 1, pageSize: 10})
 				} else if (res?.errors) {
@@ -140,14 +140,14 @@ export class CategoryAdminPageComponent {
 			this.loading = true;
 			this.categoryService.createOrUpdateData(data?.form, data.id).subscribe((res: any) => {
 				this.loading = false;
-				if (res?.message == 'Category updated successfully.') {
-					this.alertService.fireSmall('success', res?.message);
+				if (res?.message.includes('successfully')) {
+					this.alertService.fireSmall('success', res?.message || 'Update successfully');
 					this.closeModal();
 					this.getDataList({page: 1, pageSize: 10})
 				} else if (res?.errors) {
 					this.alertService.showListError(res?.errors);
 				} else {
-					this.alertService.fireSmall('error', "Updated Category failed!");
+					this.alertService.fireSmall('error', res?.message || "Updated Category failed!");
 				}
 			})
 		}

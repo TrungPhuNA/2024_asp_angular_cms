@@ -24,9 +24,7 @@ export class CategoryService {
 	}
 
 	createOrUpdateData(params: any, id?: any) {
-		const formData = new FormData();
-		formData.append('Name', params?.Name);
-		formData.append('Image', params?.Image);
+		const formData = this.baseApiService.setFormData(params)
 		if(id) {
 			return this.baseApiService.putMethod(`Category/${id}`, formData);
 		}

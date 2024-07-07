@@ -14,7 +14,7 @@ export class BaseApiService {
 	});
 
 	headersForm = new HttpHeaders({
-		'Accept': 'application/json, multipart/form-data, *'
+		'Accept': '*/*',
 	});
 	constructor(
 		private http: HttpClient,
