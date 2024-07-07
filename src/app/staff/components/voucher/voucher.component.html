@@ -36,6 +36,15 @@
 					<app-form-error [control]="form.controls['price']" [message]="'Price is required!'"
 						[validation]="'required'"></app-form-error>
 				</div>
+				<div class="form-group required mb-3 col-md-6 ">
+					<label for="quantityUsed" class="form-label">quantity Used</label>
+					<input type="number" id="quantityUsed" class="form-control" placeholder="Enter value"
+						[ngClass]="{'is-invalid': commonService.showStatusErrorV2(form, 'quantityUsed')}"
+						formControlName="quantityUsed" name="quantityUsed"
+						(focusout)="commonService.onTrimFocusOutForm(form, 'quantityUsed', $event)" />
+					<app-form-error [control]="form.controls['quantityUsed']" [message]="'quantityUsed is required!'"
+						[validation]="'required'"></app-form-error>
+				</div>
 				
 				<!-- <div class="form-group required mb-3">
 					<label for="ban" class="form-label">Delete</label>
