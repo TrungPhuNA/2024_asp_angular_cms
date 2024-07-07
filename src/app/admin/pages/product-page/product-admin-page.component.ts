@@ -6,6 +6,7 @@ import { INIT_PAGING } from '../../helpers/constant';
 import { CategoryService } from '../../services/category.service';
 import { BrandService } from '../../services/brand.service';
 import { OwnerService } from '../../services/owner.service';
+import { DescriptionService } from '../../services/description.service';
 
 @Component({
 	selector: 'app-product-admin-page',
@@ -31,7 +32,8 @@ export class ProductAdminPageComponent {
 		private alertService: AlertService,
 		private brandService: BrandService,
 		private ownerService: OwnerService,
-		private categoryService: CategoryService
+		private categoryService: CategoryService,
+		private descriptionService: DescriptionService
 	) {
 
 	}
@@ -48,19 +50,16 @@ export class ProductAdminPageComponent {
 	];
 
 	ngOnInit(): void {
-		this.getDataList({ ...this.paging });
-		this.getCategories();
-		this.getBrands();
-		this.getOwners();
+		this.getDataList({ ...this.paging, pageSize: 10000 });
+		this.getDataRelation();
 	}
 
 	getDataList(params: any) {
 		this.loading = true;
 		this.productService.getLists(params).subscribe((res: any) => {
-			console.info("===========[getDataListBrand] ===========[res] : ", res);
 			this.loading = false;
 			this.dataListAll = res;
-			if(this.dataListAll?.length > 0) {
+			if (this.dataListAll?.length > 0) {
 				let start = (this.paging?.page - 1) * this.paging.pageSize;
 				let end = this.paging?.page * this.paging.pageSize;
 				this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
@@ -70,26 +69,27 @@ export class ProductAdminPageComponent {
 	}
 
 	categories = []
-	getCategories() {
-		this.categoryService.getListCategory({ page: 1, pageSize: 1000 }).subscribe((res: any) => {
-			this.categories = res;
-		})
-	}
-
-	brands = []
-	getBrands() {
-		this.brandService.getLists({ page: 1, pageSize: 110000 }).subscribe((res: any) => {
+	owners = [];
+	brands = [];
+	descriptions = [];
+	getDataRelation() {
+		this.brandService.getLists({ page: 1, pageSize: 100 }).subscribe((res: any) => {
 			this.brands = res;
-		})
-	}
-	owners = []
-	getOwners() {
-		this.ownerService.getLists({ page: 1, pageSize: 1000 }).subscribe((res: any) => {
-			if(res?.data?.length > 0) {
-				this.owners = res?.data;
-				console.log(this.owners);
+		});
+		this.categoryService.getListCategory({ page: 1, pageSize: 100 }).subscribe((res: any) => {
+			this.categories = res;
+		});
+		this.descriptionService.getLists({ page: 1, pageSize: 100 }).subscribe((res: any) => {
+			if (res?.data) {
+				this.descriptions = res?.data;
+
 			}
-		})
+		});
+		this.ownerService.getLists({ page: 1, pageSize: 100 }).subscribe((res: any) => {
+			if (res?.data) {
+				this.owners = res?.data;
+			}
+		});
 	}
 
 	toggleSelectAll() {
@@ -120,11 +120,11 @@ export class ProductAdminPageComponent {
 
 	saveItem(data: any) {
 		if (this.modalTitle === 'Create Product') {
-			
+
 			this.loading = true;
 			this.productService.createOrUpdateData(data?.form).subscribe((res: any) => {
 				this.loading = false;
-				if (res?.message == 'Product added successfully.') {
+				if (res?.message.includes('successfully') ) {
 					this.alertService.fireSmall('success', res?.message);
 					this.closeModal();
 					this.getDataList({ page: 1, pageSize: 10 })
@@ -138,7 +138,7 @@ export class ProductAdminPageComponent {
 			this.loading = true;
 			this.productService.createOrUpdateData(data?.form, data.id).subscribe((res: any) => {
 				this.loading = false;
-				if (res?.message == 'Product updated successfully.') {
+				if (res?.message.includes('successfully') ) {
 					this.alertService.fireSmall('success', res?.message);
 					this.closeModal();
 					this.getDataList({ page: 1, pageSize: 10 })
@@ -227,7 +227,7 @@ export class ProductAdminPageComponent {
 
 	pageChanged(e: any) {
 		this.paging.page = e;
-		if(this.dataListAll?.length > 0) {
+		if (this.dataListAll?.length > 0) {
 			let start = (this.paging?.page - 1) * this.paging.pageSize;
 			let end = this.paging?.page * this.paging.pageSize;
 			this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)

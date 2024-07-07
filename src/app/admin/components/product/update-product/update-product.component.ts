@@ -1,52 +1,74 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { CommonService } from '../../../helpers/common.service';
 import { AlertService } from '../../../helpers/alert.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { NgxSummernoteDirective } from 'ngx-summernote';
 
 @Component({
-  selector: 'app-update-product',
-  templateUrl: './update-product.component.html',
-  styleUrls: ['./update-product.component.scss']
+	selector: 'app-update-product',
+	templateUrl: './update-product.component.html',
+	styleUrls: ['./update-product.component.scss']
 })
 export class UpdateProductComponent {
-  @Input() product: any = {};
-  @Input() modalTitle: string = '';
-  @Input() isVisible: boolean = false;
-  @Output() save = new EventEmitter<any>();
-  @Output() close = new EventEmitter<void>();
+	@Input() product: any = {};
+	@Input() modalTitle: string = '';
+	@Input() isVisible: boolean = false;
+	@Output() save = new EventEmitter<any>();
+	@Output() close = new EventEmitter<void>();
 
-  @Input() categories: any;
-  @Input() brands: any;
-  @Input() owners: any;
+
+	@Input() categories: any;
+	@Input() brands: any;
+	@Input() owners: any;
+	@Input() descriptions: any;
+
+	@ViewChild(NgxSummernoteDirective) summernote: any;
+	public config: any = {
+	  placeholder: 'Nội dung',
+	  tabsize: 2,
+	  height: '200px',
+	  // uploadImagePath: '/api/upload',
+	  toolbar: [
+		  ['misc', ['codeview', 'undo', 'redo']],
+		  ['style', ['bold', 'italic', 'underline', 'clear']],
+		  ['font', ['strikethrough', 'superscript', 'subscript']],
+		  ['fontsize', ['fontname', 'fontsize', 'color']],
+		  ['para', ['style', 'ul', 'ol', 'paragraph', 'height']],
+		  ['insert', ['table', 'picture', 'link', 'video', 'hr']]
+	  ],
+	  fontNames: ['Helvetica', 'Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', 'Roboto', 'Times']
+	}
 
 	form = new FormGroup({
-        Name: new FormControl(null, Validators.required),
-        ImageLinks: new FormControl(null, Validators.required),
-        ShortDescription: new FormControl(null, Validators.required),
-        Price: new FormControl(null, Validators.required),
-        DescriptionId: new FormControl(null, Validators.required),
-        BrandId: new FormControl(null, Validators.required),
-        CategoryId: new FormControl(null, Validators.required),
-        OwnerId: new FormControl(null, Validators.required),
-    });
+		Name: new FormControl(null, Validators.required),
+		ImageLinks: new FormControl(null),
+		ShortDescription: new FormControl(null, Validators.required),
+		Price: new FormControl(null, Validators.required),
+		DescriptionId: new FormControl(null, Validators.required),
+		BrandId: new FormControl(null, Validators.required),
+		CategoryId: new FormControl(null, Validators.required),
+		OwnerId: new FormControl(null, Validators.required),
+	});
 
 	constructor(
-        public commonService: CommonService,
-        private alertService: AlertService
-    ) {
+		public commonService: CommonService,
+		private alertService: AlertService
+	) {
 
-    }
+	}
 
 	ngOnChanges(): void {
 		//Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
 		//Add '${implements OnChanges}' to the class.
-		if(!this.isVisible) {
+		if (!this.isVisible) {
 			this.form.reset();
 		}
-		if(this.product) {
+		console.log("descriptions----->?", this.descriptions);
+		if (this.product) {
+			let images = this.product?.images;
 			this.form.patchValue({
 				Name: this.product?.name,
-				ImageLinks: this.product?.images,
+				ImageLinks: images?.length > 0 ? images[0]?.linkImage : null,
 				ShortDescription: this.product?.shortDescription,
 				Price: this.product?.price,
 				DescriptionId: this.product?.descriptionId,
@@ -71,5 +93,9 @@ export class UpdateProductComponent {
 		this.form.reset();
 
 		this.close.emit();
+	}
+
+	logEvent(e: any) {
+
 	}
 }
