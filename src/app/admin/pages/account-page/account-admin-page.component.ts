@@ -4,6 +4,7 @@ import { BlogService } from '../../services/blog.service';
 import { AccountService } from '../../services/account.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { INIT_PAGING } from '../../helpers/constant';
+import { OwnerService } from '../../services/owner.service';
 
 @Component({
 	selector: 'app-account-admin-page',
@@ -39,7 +40,8 @@ export class AccountAdminPageComponent {
 
 	constructor(
 		private accountService: AccountService,
-		private alertService: AlertService
+		private alertService: AlertService,
+		private ownerService: OwnerService
 	) {
 
 	}
@@ -59,18 +61,38 @@ export class AccountAdminPageComponent {
 		this.getDataList({ ...this.paging })
 	}
 
+	dataListAll: any
 	getDataList(params: any) {
 		this.loading = true;
-		this.accountService.getLists(params).subscribe((res: any) => {
-			this.loading = false;
-			console.info("===========[getDataListBrand] ===========[res] : ", res);
-			this.dataList = res;
-			this.paging.total = res?.length || 0;
-		})
+		if (this.tabType == 'user') {
+			this.accountService.getLists({ ...params, pageSize: 100000 }).subscribe((res: any) => {
+				this.loading = false;
+				this.dataListAll = res;
+				if (this.dataListAll?.length > 0) {
+					let start = (this.paging?.page - 1) * this.paging.pageSize;
+					let end = this.paging?.page * this.paging.pageSize;
+					this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
+				}
+				this.paging.total = res?.data?.length || 0;
+			});
+		} else {
+			this.ownerService.getLists({ ...params, pageSize: 100000 }).subscribe((res: any) => {
+				this.loading = false;
+				this.dataListAll = res?.data;
+				if (this.dataListAll?.length > 0) {
+					let start = (this.paging?.page - 1) * this.paging.pageSize;
+					let end = this.paging?.page * this.paging.pageSize;
+					this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
+				}
+				this.paging.total = res?.data?.length || 0;
+			})
+		}
+
 	}
 
 	changeTab(type: any) {
 		this.tabType = type;
+		this.getDataList({ page: 1 })
 	}
 	toggleSelectAll() {
 		// const allSelected = this.brands.every(brand => brand.selected);
@@ -99,9 +121,9 @@ export class AccountAdminPageComponent {
 	}
 
 	saveItem(data: any) {
-		if (this.modalTitle === 'Create Account') {
-			this.loading = true;
-			this.accountService.createOrUpdateData(data?.form).subscribe((res: any) => {
+		this.loading = true;
+		if (this.tabType == 'user') {
+			this.accountService.createOrUpdateData(data?.form, data?.id).subscribe((res: any) => {
 				this.loading = false;
 				if (res?.message?.includes('successfully')) {
 					this.alertService.fireSmall('success', res?.message);
@@ -112,19 +134,18 @@ export class AccountAdminPageComponent {
 				} else {
 					this.alertService.fireSmall('error', res?.message || "Add Account failed!");
 				}
-			})
+			});
 		} else {
-			this.loading = true;
-			this.accountService.createOrUpdateData(data?.form, data.id).subscribe((res: any) => {
+			this.ownerService.createOrUpdateData(data?.form, data?.id).subscribe((res: any) => {
 				this.loading = false;
-				if (res?.message?.includes('successfully')) {
+				if (res?.data) {
 					this.alertService.fireSmall('success', res?.message);
 					this.closeModal();
 					this.getDataList({ page: 1, pageSize: 10 })
 				} else if (res?.errors) {
 					this.alertService.showListError(res?.errors);
 				} else {
-					this.alertService.fireSmall('error', res?.message || "Updated Account failed!");
+					this.alertService.fireSmall('error', res?.message || "Add Owner failed!");
 				}
 			})
 		}
@@ -132,7 +153,7 @@ export class AccountAdminPageComponent {
 
 	selected: any;
 	viewItem(id: number) {
-		const data = this.dataList.find((c: any) => c.accountId === id);
+		let data = this.dataList.find((c: any) => c.accountId === id);
 		this.selected = { ...data };
 		this.modalTitle = 'View Account';
 		this.openModal = true;
@@ -148,37 +169,51 @@ export class AccountAdminPageComponent {
 
 	}
 
-	deleteItem(id: number) {
-		this.alertService.fireConfirm(
-			'Delete Account',
-			'Are you sure you want to delete this Account?',
-			'warning',
-			'Cancel',
-			'Delete',
-		)
-			.then((result) => {
-				if (result.isConfirmed) {
-					this.loading = true;
-					this.accountService.deleteData(id).subscribe((res: any) => {
-						this.loading = false;
-						if (res?.message?.includes('successfully')) {
-							this.alertService.fireSmall('success', res?.message);
-							this.getDataList({ page: 1, pageSize: 10 })
-						} else if (res?.errors) {
-							this.alertService.showListError(res?.errors);
-						} else {
-							this.alertService.fireSmall('error', res?.message || "Delete Account failed!");
-						}
-					})
-				}
-			})
+	// deleteItem(id: number) {
+	// 	this.alertService.fireConfirm(
+	// 		'Delete',
+	// 		'Are you sure you want to delete this item?',
+	// 		'warning',
+	// 		'Cancel',
+	// 		'Delete',
+	// 	)
+	// 		.then((result) => {
+	// 			if (result.isConfirmed) {
+	// 				this.loading = true;
+	// 				if(this.tabType == 'user') {
+	// 					this.accountService.deleteData(id).subscribe((res: any) => {
+	// 						this.loading = false;
+	// 						if (res?.message?.includes('successfully')) {
+	// 							this.alertService.fireSmall('success', res?.message);
+	// 							this.getDataList({ page: 1, pageSize: 10 })
+	// 						} else if (res?.errors) {
+	// 							this.alertService.showListError(res?.errors);
+	// 						} else {
+	// 							this.alertService.fireSmall('error', res?.message || "Delete Account failed!");
+	// 						}
+	// 					})
+	// 				} else {
+	// 					this.ownerService.deleteData(id).subscribe((res: any) => {
+	// 						this.loading = false;
+	// 						if (res?.message?.includes('successfully')) {
+	// 							this.alertService.fireSmall('success', res?.message);
+	// 							this.getDataList({ page: 1, pageSize: 10 })
+	// 						} else if (res?.errors) {
+	// 							this.alertService.showListError(res?.errors);
+	// 						} else {
+	// 							this.alertService.fireSmall('error', res?.message || "Delete Account failed!");
+	// 						}
+	// 					})
+	// 				}
+ 	// 			}
+	// 		})
 
-	}
+	// }
 
 	updateBan(id: any, isBan: boolean) {
 		this.alertService.fireConfirm(
-			`${isBan ? 'Ban' : 'UnBan'} Account`,
-			`Are you sure you want to ${isBan ? 'Ban' : 'UnBan'} this Account?`,
+			`${isBan ? 'Ban' : 'UnBan'} Item`,
+			`Are you sure you want to ${isBan ? 'Ban' : 'UnBan'} this Item?`,
 			'warning',
 			'Cancel',
 			'Yes',
@@ -186,17 +221,31 @@ export class AccountAdminPageComponent {
 			.then((result) => {
 				if (result.isConfirmed) {
 					this.loading = true;
-					this.accountService.updateBan(id, isBan).subscribe((res: any) => {
-						this.loading = false;
-						if (res?.message?.includes('successfully')) {
-							this.alertService.fireSmall('success', res?.message);
-							this.getDataList({ page: 1, pageSize: 10 })
-						} else if (res?.errors) {
-							this.alertService.showListError(res?.errors);
-						} else {
-							this.alertService.fireSmall('error', res?.message || "Delete Account failed!");
-						}
-					})
+					if(this.tabType == 'user') {
+						this.accountService.updateBan(id, isBan).subscribe((res: any) => {
+							this.loading = false;
+							if (res?.message?.includes('successfully')) {
+								this.alertService.fireSmall('success', res?.message);
+								this.getDataList({ page: 1, pageSize: 10 })
+							} else if (res?.errors) {
+								this.alertService.showListError(res?.errors);
+							} else {
+								this.alertService.fireSmall('error', res?.message || "Delete Account failed!");
+							}
+						})
+					} else {
+						this.ownerService.updateBan(id, isBan).subscribe((res: any) => {
+							this.loading = false;
+							if (res?.message?.includes('successfully')) {
+								this.alertService.fireSmall('success', res?.message);
+								this.getDataList({ page: 1, pageSize: 10 })
+							} else if (res?.errors) {
+								this.alertService.showListError(res?.errors);
+							} else {
+								this.alertService.fireSmall('error', res?.message || `${isBan ? 'banned' : 'unbanned'}  Owner failed!`);
+							}
+						})
+					}
 				}
 			})
 	}

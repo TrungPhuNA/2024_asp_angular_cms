@@ -80,11 +80,11 @@
 									</button>
 									<button *ngIf="!item.isBan" mat-menu-item class="icon-button delete-button"
 										(click)="updateBan(item.ownerId, true)">
-										<i class="fa fa-lock"></i> Ban
+										<i class="fa fa-lock text-danger"></i> Ban
 									</button>
 									<button *ngIf="item.isBan" mat-menu-item class="icon-button delete-button"
 										(click)="updateBan(item.ownerId, false)">
-										<i class="fa fa-unlock"></i> Unban
+										<i class="fa fa-unlock text-success"></i> Unban
 									</button>
 								</mat-menu>
 							</td>
