@@ -180,7 +180,7 @@ export class CategoryAdminPageComponent {
 					this.loading = true;
 					this.categoryService.deleteData(id).subscribe((res: any) => {
 						this.loading = false;
-						if (res?.message == 'Category deleted successfully.') {
+						if (res?.message?.includes('successfully')) {
 							this.alertService.fireSmall('success', res?.message);
 							this.getDataList({page: 1, pageSize: 10})
 						} else if (res?.errors) {

@@ -179,7 +179,7 @@ export class ProductAdminPageComponent {
 					this.loading = true;
 					this.productService.deleteData(id).subscribe((res: any) => {
 						this.loading = false;
-						if (res?.message == 'product deleted successfully.') {
+						if (res?.message?.includes('successfully')) {
 							this.alertService.fireSmall('success', res?.message);
 							this.getDataList({ page: 1, pageSize: 10 })
 						} else if (res?.errors) {
@@ -206,7 +206,7 @@ export class ProductAdminPageComponent {
 					this.loading = true;
 					this.productService.updateBan(id, isBan).subscribe((res: any) => {
 						this.loading = false;
-						if (res?.message == `Product ${isBan ? 'banned' : 'unbanned'} successfully.`) {
+						if (res?.message?.includes('successfully')) {
 							this.alertService.fireSmall('success', res?.message);
 							this.getDataList({ page: 1, pageSize: 10 })
 						} else if (res?.errors) {

@@ -11,91 +11,17 @@ import { INIT_PAGING } from '../../helpers/constant';
 	styleUrl: './account-admin-page.component.scss'
 })
 export class AccountAdminPageComponent {
-	dataList: any = [
+	dataList: any = [];
+
+	tabType = 'user';
+	tabLinks = [
 		{
-			"accountId": 1,
-			"email": "nguoidung1@example.com",
-			"password": "password1                                                   ",
-			"fullname": "Ngu?i Dùng M?t",
-			"image": "nguoidung1.jpg",
-			"phone": "0123456789",
-			"dob": "1990-01-01T00:00:00",
-			"gender": "Nam",
-			"address": "123 Ðu?ng Chính",
-			"role": "user",
-			"isBan": false,
-			"comments": [],
-			"notifications": [],
-			"orders": [],
-			"rooms": []
+			id: 'user',
+			name: 'User'
 		},
 		{
-			"accountId": 2,
-			"email": "nguoidung2@example.com",
-			"password": "password2                                                   ",
-			"fullname": "Ngu?i Dùng Hai",
-			"image": "nguoidung2.jpg",
-			"phone": "0987654321",
-			"dob": "1992-02-02T00:00:00",
-			"gender": "N?",
-			"address": "456 Ðu?ng Ph?",
-			"role": "user",
-			"isBan": false,
-			"comments": [],
-			"notifications": [],
-			"orders": [],
-			"rooms": []
-		},
-		{
-			"accountId": 3,
-			"email": "quantri@example.com",
-			"password": "password3                                                   ",
-			"fullname": "Qu?n Tr? Viên",
-			"image": "quantri.jpg",
-			"phone": "0123456780",
-			"dob": "1985-03-03T00:00:00",
-			"gender": "Nam",
-			"address": "789 Ðu?ng Thông",
-			"role": "admin",
-			"isBan": false,
-			"comments": [],
-			"notifications": [],
-			"orders": [],
-			"rooms": []
-		},
-		{
-			"accountId": 4,
-			"email": "chu@example.com",
-			"password": "password4                                                   ",
-			"fullname": "Ch? S? H?u",
-			"image": "chu.jpg",
-			"phone": "1122334455",
-			"dob": "1980-04-04T00:00:00",
-			"gender": "N?",
-			"address": "101 Ðu?ng Phong",
-			"role": "owner",
-			"isBan": false,
-			"comments": [],
-			"notifications": [],
-			"orders": [],
-			"rooms": []
-		},
-		{
-			"accountId": 5,
-			"email": "nhanvien@example.com",
-			"password": "password5                                                   ",
-			"fullname": "Nhân Viên",
-			"image": "nhanvien.jpg",
-			"phone": "2233445566",
-			"dob": "1988-05-05T00:00:00",
-			"gender": "Nam",
-			"address": "202 Ðu?ng S?i",
-			"role": "staff",
-			"isBan": false,
-			"comments": [],
-			"notifications": [],
-			"orders": [],
-			"rooms": []
+			id: 'owner',
+			name: 'Owner'
 		}
 	];
 	selectedBrand: any = null;
@@ -143,6 +69,9 @@ export class AccountAdminPageComponent {
 		})
 	}
 
+	changeTab(type: any) {
+		this.tabType = type;
+	}
 	toggleSelectAll() {
 		// const allSelected = this.brands.every(brand => brand.selected);
 		// this.brands.forEach(brand => brand.selected = !allSelected);
@@ -174,7 +103,7 @@ export class AccountAdminPageComponent {
 			this.loading = true;
 			this.accountService.createOrUpdateData(data?.form).subscribe((res: any) => {
 				this.loading = false;
-				if (res?.message == 'Account added successfully.') {
+				if (res?.message?.includes('successfully')) {
 					this.alertService.fireSmall('success', res?.message);
 					this.closeModal();
 					this.getDataList({ page: 1, pageSize: 10 })
@@ -188,7 +117,7 @@ export class AccountAdminPageComponent {
 			this.loading = true;
 			this.accountService.createOrUpdateData(data?.form, data.id).subscribe((res: any) => {
 				this.loading = false;
-				if (res?.message == 'Account updated successfully.') {
+				if (res?.message?.includes('successfully')) {
 					this.alertService.fireSmall('success', res?.message);
 					this.closeModal();
 					this.getDataList({ page: 1, pageSize: 10 })
@@ -232,7 +161,7 @@ export class AccountAdminPageComponent {
 					this.loading = true;
 					this.accountService.deleteData(id).subscribe((res: any) => {
 						this.loading = false;
-						if (res?.message == 'Account deleted successfully.') {
+						if (res?.message?.includes('successfully')) {
 							this.alertService.fireSmall('success', res?.message);
 							this.getDataList({ page: 1, pageSize: 10 })
 						} else if (res?.errors) {
@@ -259,7 +188,7 @@ export class AccountAdminPageComponent {
 					this.loading = true;
 					this.accountService.updateBan(id, isBan).subscribe((res: any) => {
 						this.loading = false;
-						if (res?.message == `Account ${isBan ? 'banned' : 'unbanned'} successfully.`) {
+						if (res?.message?.includes('successfully')) {
 							this.alertService.fireSmall('success', res?.message);
 							this.getDataList({ page: 1, pageSize: 10 })
 						} else if (res?.errors) {

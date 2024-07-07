@@ -21,10 +21,12 @@
                     </div>
                 </div>
             </form>
-            <div class="d-md-flex justify-content-start mb-3 gap-3">
-                <button class="btn btn-info">List User</button>
-                <button class="btn btn-warning">List Owner</button>
-            </div>
+			<ul class="nav nav-tabs mt-3" id="campain-tabs--link" role="tablist">
+				<li class="nav-item pointer font-weight-bold" *ngFor="let item of tabLinks">
+					<a class="nav-link" [ngClass]="{ 'active': tabType == item.id}" data-toggle="tab" role="tab"
+						(click)="changeTab(item.id)">{{item.name}}</a>
+				</li>
+			</ul>
         </div>
         
     </div>

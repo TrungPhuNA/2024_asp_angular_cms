@@ -174,7 +174,7 @@ export class AccountAdminPageComponent {
 			this.loading = true;
 			this.accountService.createOrUpdateData(data?.form).subscribe((res: any) => {
 				this.loading = false;
-				if (res?.message == 'Account added successfully.') {
+				if (res?.message?.includes('successfully')) {
 					this.alertService.fireSmall('success', res?.message);
 					this.closeModal();
 					this.getDataList({ page: 1, pageSize: 10 })
@@ -188,7 +188,7 @@ export class AccountAdminPageComponent {
 			this.loading = true;
 			this.accountService.createOrUpdateData(data?.form, data.id).subscribe((res: any) => {
 				this.loading = false;
-				if (res?.message == 'Account updated successfully.') {
+				if (res?.message?.includes('successfully')) {
 					this.alertService.fireSmall('success', res?.message);
 					this.closeModal();
 					this.getDataList({ page: 1, pageSize: 10 })
@@ -232,7 +232,7 @@ export class AccountAdminPageComponent {
 					this.loading = true;
 					this.accountService.deleteData(id).subscribe((res: any) => {
 						this.loading = false;
-						if (res?.message == 'Account deleted successfully.') {
+						if (res?.message?.includes('successfully')) {
 							this.alertService.fireSmall('success', res?.message);
 							this.getDataList({ page: 1, pageSize: 10 })
 						} else if (res?.errors) {
@@ -259,7 +259,7 @@ export class AccountAdminPageComponent {
 					this.loading = true;
 					this.accountService.updateBan(id, isBan).subscribe((res: any) => {
 						this.loading = false;
-						if (res?.message == `Account ${isBan ? 'banned' : 'unbanned'} successfully.`) {
+						if (res?.message?.includes('successfully')) {
 							this.alertService.fireSmall('success', res?.message);
 							this.getDataList({ page: 1, pageSize: 10 })
 						} else if (res?.errors) {

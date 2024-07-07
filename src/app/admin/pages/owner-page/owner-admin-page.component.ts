@@ -185,7 +185,7 @@ export class OwnerAdminPageComponent {
 					this.loading = true;
 					this.accountService.updateBan(id, isBan).subscribe((res: any) => {
 						this.loading = false;
-						if (res?.message == `Owner ${isBan ? 'banned' : 'unbanned'} successfully.`) {
+						if (res?.message?.includes('successfully')) {
 							this.alertService.fireSmall('success', res?.message);
 							this.getDataList({ page: 1, pageSize: 10 })
 						} else if (res?.errors) {

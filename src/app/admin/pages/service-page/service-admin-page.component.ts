@@ -154,7 +154,7 @@ export class ServiceAdminPageComponent {
 					this.loading = true;
 					this.service.deleteData(id).subscribe((res: any) => {
 						this.loading = false;
-						if (res?.message == 'Delete service successfully') {
+						if (res?.message?.includes('successfully')) {
 							this.alertService.fireSmall('success', res?.message);
 							this.getDataList({ page: 1, pageSize: 10 })
 						} else if (res?.errors) {

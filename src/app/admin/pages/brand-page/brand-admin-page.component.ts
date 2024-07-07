@@ -107,7 +107,7 @@ export class BrandAdminPageComponent {
 			this.loading = true;
 			this.brandService.createOrUpdateData(data?.form).subscribe((res: any) => {
 				this.loading = false;
-				if (res?.message == 'Brand added successfully.') {
+				if (res?.message?.includes('successfully')) {
 					this.alertService.fireSmall('success', res?.message);
 					this.closeModal();
 					this.getDataList({ page: 1, pageSize: 10 })
@@ -121,7 +121,7 @@ export class BrandAdminPageComponent {
 			this.loading = true;
 			this.brandService.createOrUpdateData(data?.form, data.id).subscribe((res: any) => {
 				this.loading = false;
-				if (res?.message == 'Brand updated successfully.') {
+				if (res?.message?.includes('successfully')) {
 					this.alertService.fireSmall('success', res?.message);
 					this.closeModal();
 					this.getDataList({ page: 1, pageSize: 10 })
@@ -162,7 +162,7 @@ export class BrandAdminPageComponent {
 					this.loading = true;
 					this.brandService.deleteData(id).subscribe((res: any) => {
 						this.loading = false;
-						if (res?.message == 'Brand deleted successfully.') {
+						if (res?.message?.includes('successfully')) {
 							this.alertService.fireSmall('success', res?.message);
 							this.getDataList({ page: 1, pageSize: 10 })
 						} else if (res?.errors) {

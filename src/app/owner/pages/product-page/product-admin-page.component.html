@@ -69,13 +69,13 @@
 										<i class="fa fa-trash"></i> Delete
 									</button>
 
-									<button *ngIf="!item.isBan" mat-menu-item class="icon-button delete-button"
+									<button mat-menu-item class="icon-button delete-button text-danger"
 										(click)="updateBan(item.productId, true)">
-										<i class="fa fa-lock"></i> Ban
+										<i class="fa fa-lock text-danger"></i> Ban
 									</button>
-									<button *ngIf="item.isBan" mat-menu-item class="icon-button delete-button"
+									<button  mat-menu-item class="icon-button delete-button text-success"
 										(click)="updateBan(item.productId, false)">
-										<i class="fa fa-unlock"></i> Unban
+										<i class="fa fa-unlock text-success"></i> Unban
 									</button>
 									
 								</mat-menu>

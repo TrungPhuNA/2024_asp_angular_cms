@@ -164,7 +164,7 @@ export class VoucherPageComponent {
 					this.loading = true;
 					this.service.deleteData(id).subscribe((res: any) => {
 						this.loading = false;
-						if (res?.message == 'Voucher deleted successfully.') {
+						if (res?.message?.includes('successfully')) {
 							this.alertService.fireSmall('success', res?.message);
 							this.getDataList({ page: 1, pageSize: 10 })
 						} else if (res?.errors) {
