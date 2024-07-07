@@ -55,12 +55,12 @@ export class OrderAdminPageComponent {
 		this.orderService.getLists(params).subscribe((res: any) => {
 			this.loading = false;
 
-			if (res?.result) {
+			if (res?.data) {
 				console.info("===========[getDataListBrand] ===========[res] : ", res);
 				this.dataListAll = res?.data;
 				if (this.dataListAll?.length > 0) {
-					let start = (this.paging?.page - 1) * this.paging.page_size;
-					let end = this.paging?.page * this.paging.page_size;
+					let start = (this.paging?.page - 1) * this.paging.pageSize;
+					let end = this.paging?.page * this.paging.pageSize;
 					this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
 				}
 				this.paging.total = res?.data?.length || 0;
@@ -99,10 +99,10 @@ export class OrderAdminPageComponent {
 			this.loading = true;
 			this.orderService.createOrUpdateData(data?.form).subscribe((res: any) => {
 				this.loading = false;
-				if (res?.result) {
+				if (res?.data) {
 					this.alertService.fireSmall('success', res?.message);
 					this.closeModal();
-					this.getDataList({ page: 1, page_size: 10 })
+					this.getDataList({ page: 1, pageSize: 10 })
 				} else if (res?.errors) {
 					this.alertService.showListError(res?.errors);
 				} else {
@@ -115,10 +115,10 @@ export class OrderAdminPageComponent {
 			delete (dataForm.password);
 			this.orderService.createOrUpdateData(dataForm, data.id).subscribe((res: any) => {
 				this.loading = false;
-				if (res?.result) {
+				if (res?.data) {
 					this.alertService.fireSmall('success', res?.message);
 					this.closeModal();
-					this.getDataList({ page: 1, page_size: 10 })
+					this.getDataList({ page: 1, pageSize: 10 })
 				} else if (res?.errors) {
 					this.alertService.showListError(res?.errors);
 				} else {
@@ -161,7 +161,7 @@ export class OrderAdminPageComponent {
 	// 					this.loading = false;
 	// 					if (res?.message == 'Account deleted successfully.') {
 	// 						this.alertService.fireSmall('success', res?.message);
-	// 						this.getDataList({ page: 1, page_size: 10 })
+	// 						this.getDataList({ page: 1, pageSize: 10 })
 	// 					} else if (res?.errors) {
 	// 						this.alertService.showListError(res?.errors);
 	// 					} else {
@@ -188,7 +188,7 @@ export class OrderAdminPageComponent {
 	// 					this.loading = false;
 	// 					if (res?.message == `Owner ${isBan ? 'banned' : 'unbanned'} successfully.`) {
 	// 						this.alertService.fireSmall('success', res?.message);
-	// 						this.getDataList({ page: 1, page_size: 10 })
+	// 						this.getDataList({ page: 1, pageSize: 10 })
 	// 					} else if (res?.errors) {
 	// 						this.alertService.showListError(res?.errors);
 	// 					} else {
@@ -209,8 +209,8 @@ export class OrderAdminPageComponent {
 		this.paging.page = e;
 		// this.getDataList({ ...this.paging, ...this.formSearch.value })
 		if (this.dataListAll?.length > 0) {
-			let start = (this.paging?.page - 1) * this.paging.page_size;
-			let end = this.paging?.page * this.paging.page_size;
+			let start = (this.paging?.page - 1) * this.paging.pageSize;
+			let end = this.paging?.page * this.paging.pageSize;
 			this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
 		}
 	}

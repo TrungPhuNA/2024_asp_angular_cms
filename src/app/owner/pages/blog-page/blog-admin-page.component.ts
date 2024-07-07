@@ -57,8 +57,9 @@ export class BlogAdminPageComponent {
 		this.loading = true;
 		this.blogService.getLists(params).subscribe((res: any) => {
 			this.loading = false;
-			if (res?.result) {
-				console.info("===========[getDataListBrand] ===========[res] : ", res);
+			console.info("===========[getDataListBrand] ===========[res] : ", res);
+			if (res?.data) {
+				
 				this.dataListAll = res?.data;
 				if (this.dataListAll?.length > 0) {
 					let start = (this.paging?.page - 1) * this.paging.pageSize;
@@ -72,16 +73,16 @@ export class BlogAdminPageComponent {
 
 	services = []
 	getServices() {
-		this.serviceService.getLists({ page: 1, page_size: 100 }).subscribe((res: any) => {
-			if(res?.result) {
+		this.serviceService.getLists({ page: 1, pageSize: 100 }).subscribe((res: any) => {
+			if(res?.data) {
 				this.services = res?.data || [];
 			}
 		})
 	}
 	owners = []
 	getOwners() {
-		this.ownerService.getLists({ page: 1, page_size: 100 }).subscribe((res: any) => {
-			if(res?.result) {
+		this.ownerService.getLists({ page: 1, pageSize: 100 }).subscribe((res: any) => {
+			if(res?.data) {
 				this.owners = res?.data;
 			}
 		})
@@ -118,7 +119,7 @@ export class BlogAdminPageComponent {
 			this.loading = true;
 			this.blogService.createOrUpdateData(data?.form).subscribe((res: any) => {
 				this.loading = false;
-				if (res?.result) {
+				if (res?.data) {
 					this.alertService.fireSmall('success', res?.message);
 					this.closeModal();
 					this.getDataList({ page: 1, pageSize: 10 })
@@ -134,7 +135,7 @@ export class BlogAdminPageComponent {
 			delete (dataForm.password);
 			this.blogService.createOrUpdateData(dataForm, data.id).subscribe((res: any) => {
 				this.loading = false;
-				if (res?.result) {
+				if (res?.data) {
 					this.alertService.fireSmall('success', res?.message);
 					this.closeModal();
 					this.getDataList({ page: 1, pageSize: 10 })
@@ -149,16 +150,17 @@ export class BlogAdminPageComponent {
 
 	selected: any;
 	viewItem(id: number) {
-		const data = this.dataList.find((c: any) => c.adId === id);
-		this.selected = { ...data };
+		const item: any = this.dataListAll.find((c: any) => c.adId === id);
+		this.selected = { ...item };
 		this.modalTitle = 'View Owner';
 		this.openModal = true;
 		this.typeForm = 2;
 	}
 
 	editItem(id: number) {
-		const data = this.dataList.find((c: any) => c.adId === id);
-		this.selected = { ...data };
+		const item: any = this.dataListAll.find((c: any) => c.adId === id);
+		this.selected = { ...item };
+		console.log(this.selected);
 		this.modalTitle = 'Edit Owner';
 		this.openModal = true;
 		this.typeForm = 3;

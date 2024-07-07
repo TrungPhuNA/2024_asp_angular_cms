@@ -57,7 +57,7 @@ export class BlogAdminPageComponent {
 		this.loading = true;
 		this.blogService.getLists(params).subscribe((res: any) => {
 			this.loading = false;
-			if (res?.result) {
+			if (res?.data) {
 				console.info("===========[getDataListBrand] ===========[res] : ", res);
 				this.dataListAll = res?.data;
 				if (this.dataListAll?.length > 0) {
@@ -72,16 +72,16 @@ export class BlogAdminPageComponent {
 
 	services = []
 	getServices() {
-		this.serviceService.getLists({ page: 1, page_size: 100 }).subscribe((res: any) => {
-			if(res?.result) {
+		this.serviceService.getLists({ page: 1, pageSize: 100 }).subscribe((res: any) => {
+			if(res?.data) {
 				this.services = res?.data || [];
 			}
 		})
 	}
 	owners = []
 	getOwners() {
-		this.ownerService.getLists({ page: 1, page_size: 100 }).subscribe((res: any) => {
-			if(res?.result) {
+		this.ownerService.getLists({ page: 1, pageSize: 100 }).subscribe((res: any) => {
+			if(res?.data) {
 				this.owners = res?.data;
 			}
 		})
@@ -118,7 +118,7 @@ export class BlogAdminPageComponent {
 			this.loading = true;
 			this.blogService.createOrUpdateData(data?.form).subscribe((res: any) => {
 				this.loading = false;
-				if (res?.result) {
+				if (res?.data) {
 					this.alertService.fireSmall('success', res?.message);
 					this.closeModal();
 					this.getDataList({ page: 1, pageSize: 10 })
@@ -134,7 +134,7 @@ export class BlogAdminPageComponent {
 			delete (dataForm.password);
 			this.blogService.createOrUpdateData(dataForm, data.id).subscribe((res: any) => {
 				this.loading = false;
-				if (res?.result) {
+				if (res?.data) {
 					this.alertService.fireSmall('success', res?.message);
 					this.closeModal();
 					this.getDataList({ page: 1, pageSize: 10 })

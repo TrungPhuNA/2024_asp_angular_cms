@@ -22,10 +22,10 @@ export class ServiceService {
         if(id) {
             return this.baseApiService.putMethod(`Service/UpdateService`, formData, true);
         }
-        return this.baseApiService.postMethod('Service', formData, true);
+        return this.baseApiService.postMethod('Service/CreateService', formData, true);
     }
 
     deleteData(id: any) {
-        return this.baseApiService.deleteMethod(`Service/DeleteService/${id}`);
+        return this.baseApiService.patchMethod(`Service/DeleteService/${id}`, {});
     }
 }

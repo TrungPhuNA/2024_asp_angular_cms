@@ -237,8 +237,8 @@ export class BrandAdminPageComponent {
 			this.brands = res;
 			this.dataListAll = res;
 			if (this.dataListAll?.length > 0) {
-				let start = (this.paging?.page - 1) * this.paging.page_size;
-				let end = this.paging?.page * this.paging.page_size;
+				let start = (this.paging?.page - 1) * this.paging.pageSize;
+				let end = this.paging?.page * this.paging.pageSize;
 				this.brands = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
 			}
 			this.paging.total = res?.length || 0;
@@ -246,7 +246,7 @@ export class BrandAdminPageComponent {
 	}
 
 	getCategories() {
-		this.categoryService.getListCategory({ page: 1, page_size: 100 }).subscribe((res: any) => {
+		this.categoryService.getListCategory({ page: 1, pageSize: 100 }).subscribe((res: any) => {
 			console.info("===========[categories] ===========[res] : ", res);
 			this.categories = res;
 		})
@@ -289,7 +289,7 @@ export class BrandAdminPageComponent {
 				if (res?.message == 'Brand added successfully.') {
 					this.alertService.fireSmall('success', res?.message);
 					this.closeModal();
-					this.getDataList({ page: 1, page_size: 10 })
+					this.getDataList({ page: 1, pageSize: 10 })
 				} else if (res?.errors) {
 					this.alertService.showListError(res?.errors);
 				} else {
@@ -303,7 +303,7 @@ export class BrandAdminPageComponent {
 				if (res?.message == 'Brand updated successfully.') {
 					this.alertService.fireSmall('success', res?.message);
 					this.closeModal();
-					this.getDataList({ page: 1, page_size: 10 })
+					this.getDataList({ page: 1, pageSize: 10 })
 				} else if (res?.errors) {
 					this.alertService.showListError(res?.errors);
 				} else {
@@ -343,7 +343,7 @@ export class BrandAdminPageComponent {
 						this.loading = false;
 						if (res?.message == 'Brand deleted successfully.') {
 							this.alertService.fireSmall('success', res?.message);
-							this.getDataList({ page: 1, page_size: 10 })
+							this.getDataList({ page: 1, pageSize: 10 })
 						} else if (res?.errors) {
 							this.alertService.showListError(res?.errors);
 						} else {
@@ -365,8 +365,8 @@ export class BrandAdminPageComponent {
 		this.paging.page = e;
 		// this.getDataList({ ...this.paging, ...this.formSearch.value })
 		if (this.dataListAll?.length > 0) {
-			let start = (this.paging?.page - 1) * this.paging.page_size;
-			let end = this.paging?.page * this.paging.page_size;
+			let start = (this.paging?.page - 1) * this.paging.pageSize;
+			let end = this.paging?.page * this.paging.pageSize;
 			this.brands = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
 		}
 	}

@@ -70,8 +70,8 @@ export class CategoryAdminPageComponent {
 			this.loading = false;
 			this.dataListAll = res;
 			if(this.dataListAll?.length > 0) {
-				let start = (this.paging?.page - 1) * this.paging.page_size;
-				let end = this.paging?.page * this.paging.page_size;
+				let start = (this.paging?.page - 1) * this.paging.pageSize;
+				let end = this.paging?.page * this.paging.pageSize;
 				this.categories = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
 			}
             this.paging.total = res?.length || 0;
@@ -91,8 +91,8 @@ export class CategoryAdminPageComponent {
 	pageChanged(e: any) {
 		this.paging.page = e;
 		if(this.dataListAll?.length > 0) {
-			let start = (this.paging?.page - 1) * this.paging.page_size;
-			let end = this.paging?.page * this.paging.page_size;
+			let start = (this.paging?.page - 1) * this.paging.pageSize;
+			let end = this.paging?.page * this.paging.pageSize;
 			this.categories = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
 		}
 	}
@@ -129,7 +129,7 @@ export class CategoryAdminPageComponent {
 				if (res?.message == 'Category added successfully.') {
 					this.alertService.fireSmall('success', res?.message);
 					this.closeModal();
-					this.getDataList({page: 1, page_size: 10})
+					this.getDataList({page: 1, pageSize: 10})
 				} else if (res?.errors) {
 					this.alertService.showListError(res?.errors);
 				} else {
@@ -143,7 +143,7 @@ export class CategoryAdminPageComponent {
 				if (res?.message == 'Category updated successfully.') {
 					this.alertService.fireSmall('success', res?.message);
 					this.closeModal();
-					this.getDataList({page: 1, page_size: 10})
+					this.getDataList({page: 1, pageSize: 10})
 				} else if (res?.errors) {
 					this.alertService.showListError(res?.errors);
 				} else {
@@ -182,7 +182,7 @@ export class CategoryAdminPageComponent {
 						this.loading = false;
 						if (res?.message == 'Category deleted successfully.') {
 							this.alertService.fireSmall('success', res?.message);
-							this.getDataList({page: 1, page_size: 10})
+							this.getDataList({page: 1, pageSize: 10})
 						} else if (res?.errors) {
 							this.alertService.showListError(res?.errors);
 						} else {

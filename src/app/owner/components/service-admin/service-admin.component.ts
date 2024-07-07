@@ -28,7 +28,7 @@ export class ServiceAdminComponent {
 	]
 
 	form = new FormGroup({
-		serviceId: new FormControl(null, Validators.required),
+		serviceId: new FormControl(0),
 		name: new FormControl(null, Validators.required),
 		isdelete: new FormControl(false, Validators.required),
 	});
@@ -61,13 +61,15 @@ export class ServiceAdminComponent {
 		}
 	}
 	submit() {
+
 		if (this.form.invalid) {
+
 			this.alertService.fireSmall('error', "Form is invalid");
 			return;
 		}
 		this.save.emit({
 			form: this.form.value,
-			id: this.data.serviceId
+			id: this.data?.serviceId
 		});
 	}
 

@@ -49,12 +49,12 @@ export class ServiceAdminPageComponent {
 		this.loading = true;
 		this.service.getLists(params).subscribe((res: any) => {
 			this.loading = false;
-			if (res?.result) {
+			if (res?.data?.length > 0) {
 				console.info("===========[getDataListBrand] ===========[res] : ", res);
 				this.dataListAll = res?.data;
 				if (this.dataListAll?.length > 0) {
-					let start = (this.paging?.page - 1) * this.paging.page_size;
-					let end = this.paging?.page * this.paging.page_size;
+					let start = (this.paging?.page - 1) * this.paging.pageSize;
+					let end = this.paging?.page * this.paging.pageSize;
 					this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
 				}
 				this.paging.total = res?.data?.length || 0;
@@ -91,12 +91,14 @@ export class ServiceAdminPageComponent {
 	saveItem(data: any) {
 		if (this.typeForm == 1) {
 			this.loading = true;
+			let form = data.form;
+			delete form.serviceId
 			this.service.createOrUpdateData(data?.form).subscribe((res: any) => {
 				this.loading = false;
-				if (res?.result) {
+				if (res?.data) {
 					this.alertService.fireSmall('success', res?.message);
 					this.closeModal();
-					this.getDataList({ page: 1, page_size: 10 })
+					this.getDataList({ page: 1, pageSize: 10 })
 				} else if (res?.errors) {
 					this.alertService.showListError(res?.errors);
 				} else {
@@ -106,13 +108,12 @@ export class ServiceAdminPageComponent {
 		} else {
 			this.loading = true;
 			let dataForm = data?.form;
-			delete (dataForm.password);
 			this.service.createOrUpdateData(dataForm, data.id).subscribe((res: any) => {
 				this.loading = false;
-				if (res?.result) {
+				if (res?.data) {
 					this.alertService.fireSmall('success', res?.message);
 					this.closeModal();
-					this.getDataList({ page: 1, page_size: 10 })
+					this.getDataList({ page: 1, pageSize: 10 })
 				} else if (res?.errors) {
 					this.alertService.showListError(res?.errors);
 				} else {
@@ -153,9 +154,9 @@ export class ServiceAdminPageComponent {
 					this.loading = true;
 					this.service.deleteData(id).subscribe((res: any) => {
 						this.loading = false;
-						if (res?.message == 'Service deleted successfully.') {
+						if (res?.message == 'Delete service successfully') {
 							this.alertService.fireSmall('success', res?.message);
-							this.getDataList({ page: 1, page_size: 10 })
+							this.getDataList({ page: 1, pageSize: 10 })
 						} else if (res?.errors) {
 							this.alertService.showListError(res?.errors);
 						} else {
@@ -176,8 +177,8 @@ export class ServiceAdminPageComponent {
 		this.paging.page = e;
 		// this.getDataList({ ...this.paging, ...this.formSearch.value })
 		if (this.dataListAll?.length > 0) {
-			let start = (this.paging?.page - 1) * this.paging.page_size;
-			let end = this.paging?.page * this.paging.page_size;
+			let start = (this.paging?.page - 1) * this.paging.pageSize;
+			let end = this.paging?.page * this.paging.pageSize;
 			this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
 		}
 	}

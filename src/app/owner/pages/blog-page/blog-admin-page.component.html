@@ -50,7 +50,7 @@
 							<td>
 								<input type="checkbox" [(ngModel)]="item.selected">
 							</td>
-							<td>{{ (paging.page - 1) * paging.page_size + i + 1 }}</td>
+							<td>{{ (paging.page - 1) * paging.pageSize + i + 1 }}</td>
 							<td>
 								<img [src]="item.image" alt="{{ item.name }}" class="thumbnail" width="80"
 									height="80" />
@@ -76,11 +76,11 @@
 								</button>
 								<mat-menu #menu="matMenu">
 									<button mat-menu-item class="icon-button view-button"
-										(click)="viewItem(item.ownerId)">
+										(click)="viewItem(item.adId)">
 										<i class="fa fa-eye"></i> View
 									</button>
 									<button mat-menu-item class="icon-button edit-button"
-										(click)="editItem(item.ownerId)">
+										(click)="editItem(item.adId)">
 										<i class="fa fa-pencil"></i> Edit
 									</button>
 									<!-- <button *ngIf="!item.isBan" mat-menu-item class="icon-button delete-button"

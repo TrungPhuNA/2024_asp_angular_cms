@@ -9,7 +9,7 @@ export class PaginationComponent {
 
 	@Input() paging: any = {
 		page: 1,
-		page_size: 20,
+		pageSize: 20,
 		total: 0
 	};
 

@@ -11,186 +11,7 @@ import { CategoryService } from '../../services/category.service';
 	styleUrls: ['./brand-admin-page.component.scss']
 })
 export class BrandAdminPageComponent {
-	brands: any = [
-		{
-			"brandId": 1,
-			"name": "Nike",
-			"image": "nike.jpg",
-			"isdelete": false,
-			"categoryId": 1,
-			"category": {
-				"categoryId": 1,
-				"name": "Giày th? thao nam",
-				"image": "https://res.cloudinary.com/duwm7gfgi/image/upload/v1718699185/cld-sample-5.jpg",
-				"isdelete": false,
-				"brands": [
-					{
-						"brandId": 2,
-						"name": "Adidas",
-						"image": "adidas.jpg",
-						"isdelete": false,
-						"categoryId": 1,
-						"products": []
-					},
-					{
-						"brandId": 3,
-						"name": "Puma",
-						"image": "puma.jpg",
-						"isdelete": false,
-						"categoryId": 1,
-						"products": []
-					},
-					{
-						"brandId": 4,
-						"name": "New Balance",
-						"image": "newbalance.jpg",
-						"isdelete": false,
-						"categoryId": 1,
-						"products": []
-					},
-					{
-						"brandId": 5,
-						"name": "Reebok",
-						"image": "reebok.jpg",
-						"isdelete": false,
-						"categoryId": 1,
-						"products": []
-					},
-					{
-						"brandId": 6,
-						"name": "Under Armour",
-						"image": "underarmour.jpg",
-						"isdelete": false,
-						"categoryId": 1,
-						"products": []
-					},
-					{
-						"brandId": 7,
-						"name": "ASICS",
-						"image": "asics.jpg",
-						"isdelete": false,
-						"categoryId": 1,
-						"products": []
-					},
-					{
-						"brandId": 8,
-						"name": "Skechers",
-						"image": "skechers.jpg",
-						"isdelete": false,
-						"categoryId": 1,
-						"products": []
-					},
-					{
-						"brandId": 9,
-						"name": "Vans",
-						"image": "vans.jpg",
-						"isdelete": false,
-						"categoryId": 1,
-						"products": []
-					},
-					{
-						"brandId": 10,
-						"name": "Converse",
-						"image": "converse.jpg",
-						"isdelete": false,
-						"categoryId": 1,
-						"products": []
-					}
-				],
-				"products": []
-			},
-			"products": []
-		},
-		{
-			"brandId": 2,
-			"name": "Adidas",
-			"image": "adidas.jpg",
-			"isdelete": false,
-			"categoryId": 1,
-			"category": {
-				"categoryId": 1,
-				"name": "Giày th? thao nam",
-				"image": "https://res.cloudinary.com/duwm7gfgi/image/upload/v1718699185/cld-sample-5.jpg",
-				"isdelete": false,
-				"brands": [
-					{
-						"brandId": 1,
-						"name": "Nike",
-						"image": "nike.jpg",
-						"isdelete": false,
-						"categoryId": 1,
-						"products": []
-					},
-					{
-						"brandId": 3,
-						"name": "Puma",
-						"image": "puma.jpg",
-						"isdelete": false,
-						"categoryId": 1,
-						"products": []
-					},
-					{
-						"brandId": 4,
-						"name": "New Balance",
-						"image": "newbalance.jpg",
-						"isdelete": false,
-						"categoryId": 1,
-						"products": []
-					},
-					{
-						"brandId": 5,
-						"name": "Reebok",
-						"image": "reebok.jpg",
-						"isdelete": false,
-						"categoryId": 1,
-						"products": []
-					},
-					{
-						"brandId": 6,
-						"name": "Under Armour",
-						"image": "underarmour.jpg",
-						"isdelete": false,
-						"categoryId": 1,
-						"products": []
-					},
-					{
-						"brandId": 7,
-						"name": "ASICS",
-						"image": "asics.jpg",
-						"isdelete": false,
-						"categoryId": 1,
-						"products": []
-					},
-					{
-						"brandId": 8,
-						"name": "Skechers",
-						"image": "skechers.jpg",
-						"isdelete": false,
-						"categoryId": 1,
-						"products": []
-					},
-					{
-						"brandId": 9,
-						"name": "Vans",
-						"image": "vans.jpg",
-						"isdelete": false,
-						"categoryId": 1,
-						"products": []
-					},
-					{
-						"brandId": 10,
-						"name": "Converse",
-						"image": "converse.jpg",
-						"isdelete": false,
-						"categoryId": 1,
-						"products": []
-					}
-				],
-				"products": []
-			},
-			"products": []
-		}
-	]
+	brands: any = []
 	selectedBrand: any = {};
 	modalTitle: string = '';
 	showAddNewBrandModal: boolean = false;
@@ -237,8 +58,8 @@ export class BrandAdminPageComponent {
 			this.brands = res;
 			this.dataListAll = res;
 			if (this.dataListAll?.length > 0) {
-				let start = (this.paging?.page - 1) * this.paging.page_size;
-				let end = this.paging?.page * this.paging.page_size;
+				let start = (this.paging?.page - 1) * this.paging.pageSize;
+				let end = this.paging?.page * this.paging.pageSize;
 				this.brands = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
 			}
 			this.paging.total = res?.length || 0;
@@ -246,7 +67,7 @@ export class BrandAdminPageComponent {
 	}
 
 	getCategories() {
-		this.categoryService.getListCategory({ page: 1, page_size: 100 }).subscribe((res: any) => {
+		this.categoryService.getListCategory({ page: 1, pageSize: 100 }).subscribe((res: any) => {
 			console.info("===========[categories] ===========[res] : ", res);
 			this.categories = res;
 		})
@@ -289,7 +110,7 @@ export class BrandAdminPageComponent {
 				if (res?.message == 'Brand added successfully.') {
 					this.alertService.fireSmall('success', res?.message);
 					this.closeModal();
-					this.getDataList({ page: 1, page_size: 10 })
+					this.getDataList({ page: 1, pageSize: 10 })
 				} else if (res?.errors) {
 					this.alertService.showListError(res?.errors);
 				} else {
@@ -303,7 +124,7 @@ export class BrandAdminPageComponent {
 				if (res?.message == 'Brand updated successfully.') {
 					this.alertService.fireSmall('success', res?.message);
 					this.closeModal();
-					this.getDataList({ page: 1, page_size: 10 })
+					this.getDataList({ page: 1, pageSize: 10 })
 				} else if (res?.errors) {
 					this.alertService.showListError(res?.errors);
 				} else {
@@ -343,7 +164,7 @@ export class BrandAdminPageComponent {
 						this.loading = false;
 						if (res?.message == 'Brand deleted successfully.') {
 							this.alertService.fireSmall('success', res?.message);
-							this.getDataList({ page: 1, page_size: 10 })
+							this.getDataList({ page: 1, pageSize: 10 })
 						} else if (res?.errors) {
 							this.alertService.showListError(res?.errors);
 						} else {
@@ -365,8 +186,8 @@ export class BrandAdminPageComponent {
 		this.paging.page = e;
 		// this.getDataList({ ...this.paging, ...this.formSearch.value })
 		if (this.dataListAll?.length > 0) {
-			let start = (this.paging?.page - 1) * this.paging.page_size;
-			let end = this.paging?.page * this.paging.page_size;
+			let start = (this.paging?.page - 1) * this.paging.pageSize;
+			let end = this.paging?.page * this.paging.pageSize;
 			this.brands = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
 		}
 	}

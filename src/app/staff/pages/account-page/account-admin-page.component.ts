@@ -177,7 +177,7 @@ export class AccountAdminPageComponent {
 				if (res?.message == 'Account added successfully.') {
 					this.alertService.fireSmall('success', res?.message);
 					this.closeModal();
-					this.getDataList({ page: 1, page_size: 10 })
+					this.getDataList({ page: 1, pageSize: 10 })
 				} else if (res?.errors) {
 					this.alertService.showListError(res?.errors);
 				} else {
@@ -191,7 +191,7 @@ export class AccountAdminPageComponent {
 				if (res?.message == 'Account updated successfully.') {
 					this.alertService.fireSmall('success', res?.message);
 					this.closeModal();
-					this.getDataList({ page: 1, page_size: 10 })
+					this.getDataList({ page: 1, pageSize: 10 })
 				} else if (res?.errors) {
 					this.alertService.showListError(res?.errors);
 				} else {
@@ -234,7 +234,7 @@ export class AccountAdminPageComponent {
 						this.loading = false;
 						if (res?.message == 'Account deleted successfully.') {
 							this.alertService.fireSmall('success', res?.message);
-							this.getDataList({ page: 1, page_size: 10 })
+							this.getDataList({ page: 1, pageSize: 10 })
 						} else if (res?.errors) {
 							this.alertService.showListError(res?.errors);
 						} else {
@@ -261,7 +261,7 @@ export class AccountAdminPageComponent {
 						this.loading = false;
 						if (res?.message == `Account ${isBan ? 'banned' : 'unbanned'} successfully.`) {
 							this.alertService.fireSmall('success', res?.message);
-							this.getDataList({ page: 1, page_size: 10 })
+							this.getDataList({ page: 1, pageSize: 10 })
 						} else if (res?.errors) {
 							this.alertService.showListError(res?.errors);
 						} else {

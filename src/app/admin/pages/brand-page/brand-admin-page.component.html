@@ -39,7 +39,7 @@
 				<tbody>
 					<ng-container *ngIf="brands?.length > 0">
 						<tr *ngFor="let item of brands, index as i">
-							<td class="text-center align-middle">{{ (paging.page - 1) * paging.page_size + i + 1 }}</td>
+							<td class="text-center align-middle">{{ (paging.page - 1) * paging.pageSize + i + 1 }}</td>
 							<td class="text-center align-middle">{{ item.name }}</td>
 							<td class="text-center align-middle">
 								<div class="image-container">

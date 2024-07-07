@@ -11,7 +11,7 @@ export class OwnerService {
 	) { }
 
 	getLists(params: any) {
-		return this.baseApiService.getMethod('Owner', params);
+		return this.baseApiService.getMethod('Owner/GetAllOwners', params);
 	}
 
 	show(id: any) {

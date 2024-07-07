@@ -20,7 +20,6 @@ export class UpdateBrandComponent {
 	form = new FormGroup({
         Name: new FormControl(null, Validators.required),
         Image: new FormControl(null, Validators.required),
-        CategoryId: new FormControl(null, Validators.required),
     });
 
 	constructor(
@@ -40,7 +39,6 @@ export class UpdateBrandComponent {
 			this.form.patchValue({
 				Name: this.brand?.name,
 				Image: this.brand?.image,
-				CategoryId: this.brand?.categoryId,
 			});
 		}
 	}
@@ -51,7 +49,7 @@ export class UpdateBrandComponent {
 		}
 		this.save.emit({
 			form: this.form.value,
-			id: this.brand.brandId
+			id: this.brand?.brandId
 		});
 	}
 

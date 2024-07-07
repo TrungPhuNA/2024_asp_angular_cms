@@ -61,8 +61,8 @@ export class ProductAdminPageComponent {
 			this.loading = false;
 			this.dataListAll = res;
 			if(this.dataListAll?.length > 0) {
-				let start = (this.paging?.page - 1) * this.paging.page_size;
-				let end = this.paging?.page * this.paging.page_size;
+				let start = (this.paging?.page - 1) * this.paging.pageSize;
+				let end = this.paging?.page * this.paging.pageSize;
 				this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
 			}
 			this.paging.total = res?.length || 0;
@@ -71,7 +71,7 @@ export class ProductAdminPageComponent {
 
 	categories = []
 	getCategories() {
-		this.categoryService.getListCategory({ page: 1, page_size: 100 }).subscribe((res: any) => {
+		this.categoryService.getListCategory({ page: 1, pageSize: 100 }).subscribe((res: any) => {
 			console.info("===========[categories] ===========[res] : ", res);
 			this.categories = res;
 		})
@@ -79,16 +79,16 @@ export class ProductAdminPageComponent {
 
 	brands = []
 	getBrands() {
-		this.brandService.getLists({ page: 1, page_size: 100 }).subscribe((res: any) => {
+		this.brandService.getLists({ page: 1, pageSize: 100 }).subscribe((res: any) => {
 			console.info("===========[Brands] ===========[res] : ", res);
 			this.brands = res;
 		})
 	}
 	owners = []
 	getOwners() {
-		this.ownerService.getLists({ page: 1, page_size: 100 }).subscribe((res: any) => {
+		this.ownerService.getLists({ page: 1, pageSize: 100 }).subscribe((res: any) => {
 			console.info("===========[Brands] ===========[res] : ", res);
-			if(res?.result) {
+			if(res?.data) {
 				this.owners = res?.data;
 			}
 		})
@@ -129,7 +129,7 @@ export class ProductAdminPageComponent {
 				if (res?.message == 'Product added successfully.') {
 					this.alertService.fireSmall('success', res?.message);
 					this.closeModal();
-					this.getDataList({ page: 1, page_size: 10 })
+					this.getDataList({ page: 1, pageSize: 10 })
 				} else if (res?.errors) {
 					this.alertService.showListError(res?.errors);
 				} else {
@@ -143,7 +143,7 @@ export class ProductAdminPageComponent {
 				if (res?.message == 'Product updated successfully.') {
 					this.alertService.fireSmall('success', res?.message);
 					this.closeModal();
-					this.getDataList({ page: 1, page_size: 10 })
+					this.getDataList({ page: 1, pageSize: 10 })
 				} else if (res?.errors) {
 					this.alertService.showListError(res?.errors);
 				} else {
@@ -183,7 +183,7 @@ export class ProductAdminPageComponent {
 						this.loading = false;
 						if (res?.message == 'product deleted successfully.') {
 							this.alertService.fireSmall('success', res?.message);
-							this.getDataList({ page: 1, page_size: 10 })
+							this.getDataList({ page: 1, pageSize: 10 })
 						} else if (res?.errors) {
 							this.alertService.showListError(res?.errors);
 						} else {
@@ -210,7 +210,7 @@ export class ProductAdminPageComponent {
 						this.loading = false;
 						if (res?.message == `Product ${isBan ? 'banned' : 'unbanned'} successfully.`) {
 							this.alertService.fireSmall('success', res?.message);
-							this.getDataList({ page: 1, page_size: 10 })
+							this.getDataList({ page: 1, pageSize: 10 })
 						} else if (res?.errors) {
 							this.alertService.showListError(res?.errors);
 						} else {
@@ -230,8 +230,8 @@ export class ProductAdminPageComponent {
 	pageChanged(e: any) {
 		this.paging.page = e;
 		if(this.dataListAll?.length > 0) {
-			let start = (this.paging?.page - 1) * this.paging.page_size;
-			let end = this.paging?.page * this.paging.page_size;
+			let start = (this.paging?.page - 1) * this.paging.pageSize;
+			let end = this.paging?.page * this.paging.pageSize;
 			this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
 		}
 		// this.getDataList({ ...this.paging, ...this.formSearch.value })

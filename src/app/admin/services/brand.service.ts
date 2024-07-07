@@ -23,7 +23,6 @@ export class BrandService {
         const formData = new FormData();
         formData.append('Name', params?.Name);
         formData.append('Image', params?.Image);
-        formData.append('CategoryId', params?.CategoryId);
         if(id) {
             return this.baseApiService.putMethod(`Brand/${id}`, formData);
         }

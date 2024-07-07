@@ -19,7 +19,6 @@ export class DetailBrandComponent {
 	form = new FormGroup({
 		Name: new FormControl(null, Validators.required),
 		Image: new FormControl(null, Validators.required),
-		CategoryId: new FormControl(null, Validators.required),
 	});
 
 	constructor(
@@ -39,7 +38,6 @@ export class DetailBrandComponent {
 			this.form.patchValue({
 				Name: this.brand?.name,
 				Image: this.brand?.image,
-				CategoryId: this.brand?.categoryId,
 			});
 			this.form.disable();
 		}

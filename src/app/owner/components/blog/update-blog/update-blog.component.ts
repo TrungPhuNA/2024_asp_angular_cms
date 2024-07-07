@@ -52,6 +52,8 @@ export class UpdateBlogComponent {
 			this.form.reset();
 			this.form.enable();
 		}
+		console.log(this.isVisible);
+		console.log(this.form);
 		
 		if (this.data) {
 			this.form.patchValue({
@@ -66,6 +68,8 @@ export class UpdateBlogComponent {
 			if(this.typeForm == 2) {
 				this.form.disable();
 			}
+		} else {
+			this.form.reset();
 		}
 	}
 	submit() {

@@ -23,7 +23,6 @@ export class CategoryService {
 		const formData = new FormData();
 		formData.append('Name', params?.Name);
 		formData.append('Image', params?.Image);
-		formData.append('Content', params?.Content);
 		if(id) {
 			return this.baseApiService.putMethod(`Category/${id}`, formData);
 		}
