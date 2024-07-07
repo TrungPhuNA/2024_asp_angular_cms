@@ -77,7 +77,7 @@ const route: Routes = [
 				component: OrderAdminPageComponent,
 				title: 'Manage Order'
 			},
-			
+
 			{
 				path: 'blog',
 				component: BlogAdminPageComponent,
@@ -143,9 +143,9 @@ const route: Routes = [
 		ServiceAdminComponent,
 		ServiceAdminPageComponent,
 		VoucherPageComponent,
-  WarehousePageComponent,
-  WarehouseComponent,
-  VoucherComponent,
+		WarehousePageComponent,
+		WarehouseComponent,
+		VoucherComponent,
 	],
 	imports: [
 		FormsModule,

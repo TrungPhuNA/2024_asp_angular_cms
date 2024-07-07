@@ -35,7 +35,7 @@ export class VoucherComponent {
 		quantity: new FormControl(null, Validators.required),
 		startDate: new FormControl(null, Validators.required),
 		endDate: new FormControl(null, Validators.required),
-		quantityUsed: new FormControl(null, Validators.required),
+		quantityUsed: new FormControl(null),
 		ownerId: new FormControl(null),
 		isdelete: new FormControl(false),
 	});
@@ -70,10 +70,13 @@ export class VoucherComponent {
 			if (this.typeForm == 2) {
 				this.form.disable();
 			}
+		} else {
+			this.form.reset();
 		}
 	}
 	submit() {
 		if (this.form.invalid) {
+			console.log(this.form);
 			this.alertService.fireSmall('error', "Form is invalid");
 			return;
 		}

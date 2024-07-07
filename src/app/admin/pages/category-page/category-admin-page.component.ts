@@ -12,16 +12,8 @@ import { AddNewCategoryComponent } from '../../components/category/add-new-categ
 })
 export class CategoryAdminPageComponent {
 
-	categories: any = [
-		{
-		  "categoryId": 5,
-		  "name": "Giày leo núi",
-		  "image": "giayleonui.jpg",
-		  "isdelete": false,
-		  "brands": [],
-		  "products": []
-		}
-	  ];
+	categories: any = [];
+	categoryParents: any = [];
 
 	selectedCategory: any = {};
 	modalTitle: string = '';
@@ -62,6 +54,7 @@ export class CategoryAdminPageComponent {
 
 	ngOnInit(): void {
 		this.getDataList({ ...this.paging })
+		this.getDataListParent({ ...this.paging, pageSize: 10000 })
 	}
 	dataListAll = [];
 	getDataList(params: any) {
@@ -76,6 +69,13 @@ export class CategoryAdminPageComponent {
 			}
             this.paging.total = res?.length || 0;
             // this.paging.page = params?.page || 1
+		})
+	}
+	getDataListParent(params: any) {
+		console.log(params);
+		this.categoryService.getListCategoryParent(params).subscribe((res: any) => {
+			console.log(res);
+			this.categoryParents = res
 		})
 	}
 

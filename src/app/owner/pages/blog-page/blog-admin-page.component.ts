@@ -203,12 +203,12 @@ export class BlogAdminPageComponent {
 
 	pageChanged(e: any) {
 		this.paging.page = e;
-		this.getDataList({ ...this.paging, ...this.formSearch.value })
-		// if (this.dataListAll?.length > 0) {
-		// 	let start = (this.paging?.page - 1) * this.paging.pageSize;
-		// 	let end = this.paging?.page * this.paging.pageSize;
-		// 	this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
-		// }
+		// this.getDataList({ ...this.paging, ...this.formSearch.value })
+		if (this.dataListAll?.length > 0) {
+			let start = (this.paging?.page - 1) * this.paging.pageSize;
+			let end = this.paging?.page * this.paging.pageSize;
+			this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
+		}
 	}
 }
 

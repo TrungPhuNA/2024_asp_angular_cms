@@ -35,7 +35,7 @@ export class VoucherComponent {
 		quantity: new FormControl(null, Validators.required),
 		startDate: new FormControl(null, Validators.required),
 		endDate: new FormControl(null, Validators.required),
-		quantityUsed: new FormControl(null, Validators.required),
+		quantityUsed: new FormControl(null),
 		ownerId: new FormControl(null),
 		isdelete: new FormControl(false),
 	});

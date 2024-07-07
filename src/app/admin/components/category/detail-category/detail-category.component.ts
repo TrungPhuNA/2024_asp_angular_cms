@@ -6,7 +6,8 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./detail-category.component.scss']
 })
 export class DetailCategoryComponent {
-  @Input() category: any = {};
+	@Input() categoryParents: any = [];
+	@Input() category: any = {};
   @Input() modalTitle: string = '';
   @Input() isVisible: boolean = false;
   @Output() close = new EventEmitter<void>();

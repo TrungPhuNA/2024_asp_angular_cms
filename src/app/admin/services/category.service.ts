@@ -15,6 +15,10 @@ export class CategoryService {
 		return this.baseApiService.getMethod('Category', params);
 	}
 
+	getListCategoryParent(params: any) {
+		return this.baseApiService.getMethod('CateParent', params);
+	}
+
 	showCategory(id: any) {
 		return this.baseApiService.getMethod(`Category/${id}`, {});
 	}

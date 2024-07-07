@@ -76,11 +76,11 @@
 								</button>
 								<mat-menu #menu="matMenu">
 									<button mat-menu-item class="icon-button view-button"
-										(click)="viewItem(item.ownerId)">
+										(click)="viewItem(item.adId)">
 										<i class="fa fa-eye"></i> View
 									</button>
 									<button mat-menu-item class="icon-button edit-button"
-										(click)="editItem(item.ownerId)">
+										(click)="editItem(item.adId)">
 										<i class="fa fa-pencil"></i> Edit
 									</button>
 									<!-- <button *ngIf="!item.isBan" mat-menu-item class="icon-button delete-button"

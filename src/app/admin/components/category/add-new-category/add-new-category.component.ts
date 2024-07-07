@@ -9,6 +9,7 @@ import { AlertService } from '../../../helpers/alert.service';
 	styleUrls: ['./add-new-category.component.scss']
 })
 export class AddNewCategoryComponent {
+	@Input() categoryParents: any = [];
 	@Input() modalTitle: string = '';
 	@Input() isVisible: boolean = false;
 	@Output() save = new EventEmitter<any>();

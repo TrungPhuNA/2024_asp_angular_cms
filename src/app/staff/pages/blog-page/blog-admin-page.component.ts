@@ -47,7 +47,7 @@ export class BlogAdminPageComponent {
 	];
 
 	ngOnInit(): void {
-		this.getDataList({ ...this.paging });
+		this.getDataList({ ...this.paging, pageSize:1000 });
 		this.getServices();
 		this.getOwners();
 	}
@@ -57,8 +57,9 @@ export class BlogAdminPageComponent {
 		this.loading = true;
 		this.blogService.getLists(params).subscribe((res: any) => {
 			this.loading = false;
+			console.info("===========[getDataListBrand] ===========[res] : ", res);
 			if (res?.data) {
-				console.info("===========[getDataListBrand] ===========[res] : ", res);
+				
 				this.dataListAll = res?.data;
 				if (this.dataListAll?.length > 0) {
 					let start = (this.paging?.page - 1) * this.paging.pageSize;
@@ -149,16 +150,17 @@ export class BlogAdminPageComponent {
 
 	selected: any;
 	viewItem(id: number) {
-		const data = this.dataList.find((c: any) => c.adId === id);
-		this.selected = { ...data };
+		const item: any = this.dataListAll.find((c: any) => c.adId === id);
+		this.selected = { ...item };
 		this.modalTitle = 'View Owner';
 		this.openModal = true;
 		this.typeForm = 2;
 	}
 
 	editItem(id: number) {
-		const data = this.dataList.find((c: any) => c.adId === id);
-		this.selected = { ...data };
+		const item: any = this.dataListAll.find((c: any) => c.adId === id);
+		this.selected = { ...item };
+		console.log(this.selected);
 		this.modalTitle = 'Edit Owner';
 		this.openModal = true;
 		this.typeForm = 3;
@@ -201,12 +203,12 @@ export class BlogAdminPageComponent {
 
 	pageChanged(e: any) {
 		this.paging.page = e;
-		this.getDataList({ ...this.paging, ...this.formSearch.value })
-		// if (this.dataListAll?.length > 0) {
-		// 	let start = (this.paging?.page - 1) * this.paging.pageSize;
-		// 	let end = this.paging?.page * this.paging.pageSize;
-		// 	this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
-		// }
+		// this.getDataList({ ...this.paging, ...this.formSearch.value })
+		if (this.dataListAll?.length > 0) {
+			let start = (this.paging?.page - 1) * this.paging.pageSize;
+			let end = this.paging?.page * this.paging.pageSize;
+			this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
+		}
 	}
 }
 

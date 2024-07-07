@@ -48,8 +48,8 @@ export class UpdateBlogComponent {
 	ngOnChanges(): void {
 		//Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
 		//Add '${implements OnChanges}' to the class.
+		this.form.reset();
 		if (!this.isVisible) {
-			this.form.reset();
 			this.form.enable();
 		}
 		
@@ -66,6 +66,9 @@ export class UpdateBlogComponent {
 			if(this.typeForm == 2) {
 				this.form.disable();
 			}
+		} else {
+			console.log(1);
+			this.form.reset();
 		}
 	}
 	submit() {

@@ -66,6 +66,8 @@ export class UpdateBlogComponent {
 			if(this.typeForm == 2) {
 				this.form.disable();
 			}
+		} else {
+			this.form.reset()
 		}
 	}
 	submit() {

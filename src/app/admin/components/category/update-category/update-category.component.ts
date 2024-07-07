@@ -10,6 +10,7 @@ import { AlertService } from '../../../helpers/alert.service';
 })
 export class UpdateCategoryComponent {
 	@Input() category: any = null;
+	@Input() categoryParents: any = [];
 	@Input() modalTitle: string = '';
 	@Input() isVisible: boolean = false;
 	@Output() save = new EventEmitter<any>();
@@ -18,6 +19,7 @@ export class UpdateCategoryComponent {
 	form = new FormGroup({
 		Name: new FormControl(null, Validators.required),
 		Image: new FormControl(null, Validators.required),
+		CateParentId: new FormControl(null, Validators.required),
 	});
 
 	constructor(
@@ -30,10 +32,12 @@ export class UpdateCategoryComponent {
 	ngOnChanges(): void {
 		//Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
 		//Add '${implements OnChanges}' to the class.
+		console.log(this.categoryParents);
 		if(this.category) {
 			this.form.patchValue({
 				Name: this.category?.name,
 				Image: this.category?.image,
+				CateParentId: this.category?.cateParentId
 			});
 		}
 		if(!this.isVisible) {
