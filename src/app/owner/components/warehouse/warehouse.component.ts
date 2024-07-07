@@ -48,7 +48,7 @@ export class WarehouseComponent {
 			this.form.enable();
 		}
 		
-		if (this.data) {
+		if (this.data && this.typeForm != 1) {
 			this.form.patchValue({
 				serviceId: this.data?.serviceId,
 				name: this.data?.name,
@@ -67,7 +67,7 @@ export class WarehouseComponent {
 		}
 		this.save.emit({
 			form: this.form.value,
-			id: this.data.serviceId
+			id: this.data?.serviceId
 		});
 	}
 

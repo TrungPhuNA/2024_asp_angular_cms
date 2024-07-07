@@ -56,7 +56,7 @@ export class UpdateAccountComponent {
 			this.form.reset();
 			this.form.enable();
 		}
-		if (this.data) {
+		if (this.data && this.typeForm != 1) {
 			this.form.patchValue({
 				ownerId: this.data?.ownerId,
 				email: this.data?.email,
@@ -66,7 +66,6 @@ export class UpdateAccountComponent {
 				address: this.data?.address,
 				isBan: this.data?.isBan,
 			});
-			console.log(this.typeForm);
 			if(this.typeForm == 2) {
 				this.form.disable();
 			}
@@ -79,7 +78,7 @@ export class UpdateAccountComponent {
 		}
 		this.save.emit({
 			form: this.form.value,
-			id: this.data.brandId
+			id: this.data?.brandId
 		});
 	}
 

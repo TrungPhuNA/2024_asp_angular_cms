@@ -55,7 +55,7 @@ export class VoucherComponent {
 			this.form.enable();
 		}
 
-		if (this.data) {
+		if (this.data && this.typeForm != 1) {
 			this.form.patchValue({
 				voucherId: this.data?.voucherId,
 				price: this.data?.price,
@@ -79,7 +79,7 @@ export class VoucherComponent {
 		}
 		this.save.emit({
 			form: this.form.value,
-			id: this.data.voucherId
+			id: this.data?.voucherId
 		});
 	}
 

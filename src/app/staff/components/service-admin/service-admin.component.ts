@@ -48,7 +48,7 @@ export class ServiceAdminComponent {
 			this.form.enable();
 		}
 		
-		if (this.data) {
+		if (this.data && this.typeForm != 1) {
 			this.form.patchValue({
 				serviceId: this.data?.serviceId,
 				name: this.data?.name,

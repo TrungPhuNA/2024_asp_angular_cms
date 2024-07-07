@@ -55,7 +55,7 @@ export class FormOwnerComponent  {
 			this.form.get('password')?.updateValueAndValidity()
 		}
 		
-		if (this.data) {
+		if (this.data && this.typeForm != 1) {
 			this.form.patchValue({
 				ownerId: this.data?.ownerId,
 				email: this.data?.email,
@@ -82,7 +82,7 @@ export class FormOwnerComponent  {
 		}
 		this.save.emit({
 			form: this.form.value,
-			id: this.data.ownerId
+			id: this.data?.ownerId
 		});
 	}
 

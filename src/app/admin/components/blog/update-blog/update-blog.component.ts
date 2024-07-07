@@ -53,7 +53,7 @@ export class UpdateBlogComponent {
 			this.form.enable();
 		}
 		
-		if (this.data) {
+		if (this.data && this.typeForm != 1) {
 			this.form.patchValue({
 				Title: this.data?.title,
 				Content: this.data?.content,
@@ -75,7 +75,7 @@ export class UpdateBlogComponent {
 		}
 		this.save.emit({
 			form: this.form.value,
-			id: this.data.adId
+			id: this.data?.adId
 		});
 	}
 
