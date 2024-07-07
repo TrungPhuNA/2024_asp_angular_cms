@@ -60,6 +60,7 @@ export class AddNewProductComponent {
 	ngOnChanges(): void {
 		//Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
 		//Add '${implements OnChanges}' to the class.
+		this.form.reset();
 		if (!this.isVisible) {
 			this.form.reset();
 		}

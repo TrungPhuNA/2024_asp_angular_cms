@@ -68,7 +68,7 @@ export class ServiceAdminPageComponent {
 	}
 
 	createItem() {
-		this.modalTitle = 'Create Owner';
+		this.modalTitle = 'Create Service';
 		this.openModal = true;
 		this.typeForm = 1;
 	}

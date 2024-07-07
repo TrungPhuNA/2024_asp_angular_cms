@@ -42,6 +42,7 @@ export class VoucherPageComponent {
 
 	ngOnInit(): void {
 		this.getDataList({ ...this.paging, pageSize:10000 })
+		this.getOwners()
 	}
 
 	dataListAll = []
@@ -78,7 +79,7 @@ export class VoucherPageComponent {
 	}
 
 	createItem() {
-		this.modalTitle = 'Create Owner';
+		this.modalTitle = 'Create Voucher';
 		this.openModal = true;
 		this.typeForm = 1;
 	}

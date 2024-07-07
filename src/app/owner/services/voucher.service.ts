@@ -27,6 +27,6 @@ export class VoucherService {
     }
 
     deleteData(id: any) {
-        return this.baseApiService.deleteMethod(`Voucher/DeleteVoucher/${id}`);
+        return this.baseApiService.patchMethod(`Voucher/DeleteVoucher/${id}`, {});
     }
 }
