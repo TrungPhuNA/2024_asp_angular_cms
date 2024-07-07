@@ -51,6 +51,8 @@ import { VoucherPageComponent } from './pages/voucher-page/voucher-page.componen
 import { WarehousePageComponent } from './pages/warehouse-page/warehouse-page.component';
 import { WarehouseComponent } from './components/warehouse/warehouse.component';
 import { VoucherComponent } from './components/voucher/voucher.component';
+import { NgxSummernoteModule } from 'ngx-summernote';
+import { CategoryParentComponent } from './pages/category-parent/category-parent.component';
 
 const route: Routes = [
 	{
@@ -146,6 +148,7 @@ const route: Routes = [
 		WarehousePageComponent,
 		WarehouseComponent,
 		VoucherComponent,
+  CategoryParentComponent,
 	],
 	imports: [
 		FormsModule,
@@ -157,6 +160,7 @@ const route: Routes = [
 		ReactiveFormsModule,
 		SharedDataModule,
 		RouterModule.forChild(route),
+		NgxSummernoteModule
 	]
 })
 export class OwnerModule { }

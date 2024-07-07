@@ -43,10 +43,13 @@
               "node_modules/primeng/resources/primeng.min.css",
               "node_modules/primeflex/primeflex.css",
 			  "node_modules/@ng-select/ng-select/scss/default.theme.scss",
+			  "node_modules/summernote/dist/summernote-lite.min.css",
               "src/styles.scss"
             ],
             "scripts": [
-              "node_modules/bootstrap/dist/js/bootstrap.min.js"
+              "node_modules/bootstrap/dist/js/bootstrap.min.js",
+			  "node_modules/jquery/dist/jquery.min.js",
+			  "node_modules/summernote/dist/summernote-lite.min.js"
             ],
             "server": "src/main.server.ts",
             "prerender": true,

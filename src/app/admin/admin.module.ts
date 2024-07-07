@@ -47,6 +47,7 @@ import { ServiceAdminPageComponent } from './pages/service-page/service-admin-pa
 import { OwnerAdminPageComponent } from './pages/owner-page/owner-admin-page.component';
 import { FormOwnerComponent } from './components/owner/form-owner/form-owner.component';
 import { ServiceAdminComponent } from './components/service-admin/service-admin.component';
+import { NgxSummernoteModule } from 'ngx-summernote';
 
 
 const route: Routes = [
@@ -165,6 +166,7 @@ const route: Routes = [
 		ReactiveFormsModule,
 		SharedDataModule,
 		RouterModule.forChild(route),
+		NgxSummernoteModule
 	],
 	exports: [
 		CategoryAdminPageComponent,

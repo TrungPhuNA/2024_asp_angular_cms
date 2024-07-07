@@ -1,7 +1,8 @@
-import { Component, Input, Output, EventEmitter, input } from '@angular/core';
+import { Component, Input, Output, EventEmitter, input, ViewChild } from '@angular/core';
 import { CommonService } from '../../../helpers/common.service';
 import { AlertService } from '../../../helpers/alert.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { NgxSummernoteDirective } from 'ngx-summernote';
 
 @Component({
 	selector: 'app-detail-product',
@@ -16,6 +17,24 @@ export class DetailProductComponent {
 	@Input() categories: any;
 	@Input() brands: any;
 	@Input() owners: any;
+	@Input() descriptions: any;
+
+	@ViewChild(NgxSummernoteDirective) summernote: any;
+	public config: any = {
+		placeholder: 'Nội dung',
+		tabsize: 2,
+		height: '200px',
+		// uploadImagePath: '/api/upload',
+		toolbar: [
+			['misc', ['codeview', 'undo', 'redo']],
+			['style', ['bold', 'italic', 'underline', 'clear']],
+			['font', ['strikethrough', 'superscript', 'subscript']],
+			['fontsize', ['fontname', 'fontsize', 'color']],
+			['para', ['style', 'ul', 'ol', 'paragraph', 'height']],
+			['insert', ['table', 'picture', 'link', 'video', 'hr']]
+		],
+		fontNames: ['Helvetica', 'Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', 'Roboto', 'Times']
+	}
 
 	form = new FormGroup({
 		Name: new FormControl(null, Validators.required),

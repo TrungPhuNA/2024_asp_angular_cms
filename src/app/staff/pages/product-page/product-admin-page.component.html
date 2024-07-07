@@ -101,6 +101,9 @@
 [modalTitle]="modalTitle" 
 [isVisible]="createModal"
 [categories]="categories"
+[owners]="owners"
+[descriptions]="descriptions"
+
 [brands]="brands"
 	(save)="saveItem($event)" (close)="closeModal()">
 </app-add-new-product>
@@ -108,6 +111,9 @@
 <app-detail-product [product]="selected" 
 [categories]="categories"
 [brands]="brands"
+[descriptions]="descriptions"
+[owners]="owners"
+
 [modalTitle]="modalTitle" [isVisible]="showModal"
 	(close)="closeModal()">
 </app-detail-product>
@@ -115,6 +121,9 @@
 <app-update-product [product]="selected" 
 [categories]="categories"
 [brands]="brands"
+[owners]="owners"
+[descriptions]="descriptions"
+
 [modalTitle]="modalTitle" [isVisible]="updateModal"
 	(save)="saveItem($event)" (close)="closeModal()">
 </app-update-product>

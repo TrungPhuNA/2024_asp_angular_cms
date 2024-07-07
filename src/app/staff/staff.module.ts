@@ -49,6 +49,7 @@ import { FormOwnerComponent } from './components/owner/form-owner/form-owner.com
 import { ServiceAdminComponent } from './components/service-admin/service-admin.component';
 import { VoucherPageComponent } from './pages/voucher-page/voucher-page.component';
 import { VoucherComponent } from './components/voucher/voucher.component';
+import { NgxSummernoteModule } from 'ngx-summernote';
 
 const route: Routes = [
 	{
@@ -153,6 +154,7 @@ const route: Routes = [
 		ReactiveFormsModule,
 		SharedDataModule,
 		RouterModule.forChild(route),
+		NgxSummernoteModule
 	]
 })
 export class StaffModule { }
