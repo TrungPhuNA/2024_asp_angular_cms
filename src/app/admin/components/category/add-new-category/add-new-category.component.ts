@@ -9,16 +9,17 @@ import { AlertService } from '../../../helpers/alert.service';
 	styleUrls: ['./add-new-category.component.scss']
 })
 export class AddNewCategoryComponent {
+	@Input() category: any = null;
 	@Input() categoryParents: any = [];
 	@Input() modalTitle: string = '';
 	@Input() isVisible: boolean = false;
 	@Output() save = new EventEmitter<any>();
 	@Output() close = new EventEmitter<void>();
 
-
 	form = new FormGroup({
 		Name: new FormControl(null, Validators.required),
-		Image: new FormControl(null, Validators.required)
+		Image: new FormControl(null, Validators.required),
+		CateParentId: new FormControl(null, Validators.required),
 	});
 
 	constructor(
@@ -37,18 +38,21 @@ export class AddNewCategoryComponent {
 	}
 
 	saveCategory() {
-		if(this.form.invalid) {
+		if (this.form.invalid) {
 			this.alertService.fireSmall('error', "Form Catetory is invalid");
 			return;
 		}
 		this.save.emit({
 			form: this.form.value,
-			id: null
+			id: this.category?.categoryId
 		});
 	}
 
 	closeModal() {
 		this.form.reset();
 		this.close.emit();
+	}
+	saveProduct() {
+		this.save.emit(this.category);
 	}
 }

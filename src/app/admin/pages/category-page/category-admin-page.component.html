@@ -3,6 +3,7 @@
 		<app-breadcrum [items]="breadCrumb"></app-breadcrum>
 		<div class="d-md-flex justify-content-between">
 			<h2 class="my-2">View All Categorys</h2>
+			<button class="btn btn-success my-2" (click)="openAddNewCategoryModal()">Create New Category</button>
 		</div>
 		<div class="">
 			<form [formGroup]="formSearch" (ngSubmit)="search()">
