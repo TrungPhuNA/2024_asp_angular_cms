@@ -30,7 +30,7 @@ export class ServiceAdminComponent {
 	form = new FormGroup({
 		serviceId: new FormControl(0),
 		name: new FormControl(null, Validators.required),
-		isdelete: new FormControl(false, Validators.required),
+		isdelete: new FormControl(false),
 	});
 
 	constructor(
