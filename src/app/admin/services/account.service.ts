@@ -12,6 +12,9 @@ export class AccountService {
 
 
 	getLists(params: any) {
+		if(params?.keyword) {
+			return this.baseApiService.getMethod('Account/search', params);
+		}
 		return this.baseApiService.getMethod('Account', params);
 	}
 

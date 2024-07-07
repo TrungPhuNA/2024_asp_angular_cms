@@ -63,6 +63,7 @@ export class FormOwnerComponent  {
 				image: this.data?.image,
 				phone: this.data?.phone,
 				address: this.data?.address,
+				password: this.data?.password,
 				isBan: this.data?.isBan,
 			});
 			

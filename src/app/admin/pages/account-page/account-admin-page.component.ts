@@ -153,17 +153,29 @@ export class AccountAdminPageComponent {
 
 	selected: any;
 	viewItem(id: number) {
-		let data = this.dataList.find((c: any) => c.accountId === id);
-		this.selected = { ...data };
-		this.modalTitle = 'View Account';
+		if (this.tabType == 'user') {
+			let data = this.dataList.find((c: any) => c.accountId === id);
+			this.selected = { ...data };
+			this.modalTitle = 'View Account';
+		} else {
+			let data = this.dataList.find((c: any) => c.ownerId === id);
+			this.selected = { ...data };
+			this.modalTitle = 'View Owner';
+		}
 		this.openModal = true;
 		this.typeForm = 2;
 	}
 
 	editItem(id: number) {
-		const data = this.dataList.find((c: any) => c.accountId === id);
-		this.selected = { ...data };
-		this.modalTitle = 'Edit Account';
+		if (this.tabType == 'user') {
+			let data = this.dataList.find((c: any) => c.accountId === id);
+			this.selected = { ...data };
+			this.modalTitle = 'Edit Account';
+		} else {
+			let data = this.dataList.find((c: any) => c.ownerId === id);
+			this.selected = { ...data };
+			this.modalTitle = 'Edit Owner';
+		}
 		this.openModal = true;
 		this.typeForm = 3;
 
@@ -205,7 +217,7 @@ export class AccountAdminPageComponent {
 	// 						}
 	// 					})
 	// 				}
- 	// 			}
+	// 			}
 	// 		})
 
 	// }
@@ -221,7 +233,7 @@ export class AccountAdminPageComponent {
 			.then((result) => {
 				if (result.isConfirmed) {
 					this.loading = true;
-					if(this.tabType == 'user') {
+					if (this.tabType == 'user') {
 						this.accountService.updateBan(id, isBan).subscribe((res: any) => {
 							this.loading = false;
 							if (res?.message?.includes('successfully')) {
@@ -253,7 +265,7 @@ export class AccountAdminPageComponent {
 
 	formSearch = new FormGroup({
 		id: new FormControl(null),
-		name: new FormControl(null)
+		keyword: new FormControl(null)
 	});
 
 	pageChanged(e: any) {

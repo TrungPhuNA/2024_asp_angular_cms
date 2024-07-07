@@ -27,11 +27,11 @@ export class OwnerService {
 	}
 
 	updateBan(id: any, status: any) {
-		let url = `Owner/${id}/`;
+		let url = `Owner/`;
 		if (!status) {
-			url += 'UnBanOwner'
+			url += `UnBanOwner/${id}`
 		} else {
-			url += 'BanOwner'
+			url += `BanOwner/${id}`
 		}
 		return this.baseApiService.patchMethod(url, {}, true);
 
