@@ -124,7 +124,7 @@ export class ProductAdminPageComponent {
 			this.loading = true;
 			this.productService.createOrUpdateData(data?.form).subscribe((res: any) => {
 				this.loading = false;
-				if (res?.message.includes('successfully') ) {
+				if (res?.message.includes('successfully')) {
 					this.alertService.fireSmall('success', res?.message);
 					this.closeModal();
 					this.getDataList({ page: 1, pageSize: 10 })
@@ -138,7 +138,7 @@ export class ProductAdminPageComponent {
 			this.loading = true;
 			this.productService.createOrUpdateData(data?.form, data.id).subscribe((res: any) => {
 				this.loading = false;
-				if (res?.message.includes('successfully') ) {
+				if (res?.message.includes('successfully')) {
 					this.alertService.fireSmall('success', res?.message);
 					this.closeModal();
 					this.getDataList({ page: 1, pageSize: 10 })
@@ -193,10 +193,38 @@ export class ProductAdminPageComponent {
 
 	}
 
+	// updateBan(id: any, isBan: boolean) {
+	// 	const product = this.dataList.find((p: any) => p.productId === id);
+	// 	if (!product) return;
+
+	// 	this.alertService.fireConfirm(
+	// 		`${isBan ? 'Ban' : 'UnBan'} Product`,
+	// 		`Are you sure you want to ${isBan ? 'Ban' : 'UnBan'} this Product?`,
+	// 		'warning',
+	// 		'Cancel',
+	// 		'Yes',
+	// 	).then((result) => {
+	// 		if (result.isConfirmed) {
+	// 			this.loading = true;
+	// 			this.productService.updateBan(id, isBan).subscribe((res: any) => {
+	// 				this.loading = false;
+	// 				if (res?.message === `Product ${isBan ? 'banned' : 'unbanned'} successfully.`) {
+	// 					this.alertService.fireSmall('success', res?.message);
+	// 					product.isBan = isBan; // Cập nhật trạng thái isBan của sản phẩm trong dataList
+	// 					this.getDataList({ page: 1, pageSize: 10 });
+	// 				} else if (res?.errors) {
+	// 					this.alertService.showListError(res?.errors);
+	// 				} else {
+	// 					this.alertService.fireSmall('error', res?.message || `${isBan ? 'Ban' : 'Unban'} Product failed!`);
+	// 				}
+	// 			});
+	// 		}
+	// 	});
+	// }
 	updateBan(id: any, isBan: boolean) {
 		this.alertService.fireConfirm(
-			`${isBan ? 'Ban' : 'UnBan'} Product`,
-			`Are you sure you want to ${isBan ? 'Ban' : 'UnBan'} this Product?`,
+			`${isBan ? 'Ban' : 'UnBan'} Item`,
+			`Are you sure you want to ${isBan ? 'Ban' : 'UnBan'} this Item?`,
 			'warning',
 			'Cancel',
 			'Yes',
@@ -212,12 +240,59 @@ export class ProductAdminPageComponent {
 						} else if (res?.errors) {
 							this.alertService.showListError(res?.errors);
 						} else {
-							this.alertService.fireSmall('error', res?.message || `${isBan ? 'banned' : 'unbanned'}  Product failed!`);
+							this.alertService.fireSmall('error', res?.message || "Delete Account failed!");
 						}
 					})
 				}
 			})
 	}
+	toggleBan(id: any, isBan: boolean) {
+		const newBanStatus = !isBan;
+
+		// Confirm action with user
+		this.alertService.fireConfirm(
+			`${newBanStatus ? 'Ban' : 'UnBan'} Product`,
+			`Are you sure you want to ${newBanStatus ? 'Ban' : 'UnBan'} this Product?`,
+			'warning',
+			'Cancel',
+			'Yes',
+		).then((result) => {
+			if (result.isConfirmed) {
+				this.loading = true;
+
+				// Call API to update ban status
+				this.productService.updateBan(id, newBanStatus).subscribe((res: any) => {
+					this.loading = false;
+					if (res?.message?.includes('successfully')) {
+						this.alertService.fireSmall('success', res?.message);
+
+						// Update isBan status in dataList
+						this.dataList = this.dataList.map((item: any) => {
+							if (item.productId === id) {
+								item.isBan = newBanStatus; // Update with the new status
+							}
+							return item;
+						});
+
+						// Update isBan status in dataListAll (if necessary)
+						this.dataListAll = this.dataListAll.map((item: any) => {
+							if (item.productId === id) {
+								item.isBan = newBanStatus; // Update with the new status
+							}
+							return item;
+						});
+
+					} else if (res?.errors) {
+						this.alertService.showListError(res?.errors);
+					} else {
+						this.alertService.fireSmall('error', res?.message || `${newBanStatus ? 'Ban' : 'Unban'} Product failed!`);
+					}
+				});
+			}
+		});
+	}
+
+
 
 
 	formSearch = new FormGroup({
