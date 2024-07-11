@@ -6,42 +6,38 @@
 			<button class="btn btn-success my-2" (click)="createItem()">Create New Blog</button>
 		</div>
 		<div class="">
-
-			<form [formGroup]="formSearch" (ngSubmit)="search()">
-				<div class="row mb-5">
-					<div class="col-md-3 col-xs-12">
-						<label class="form-label">Search: </label>
-						<input formControlName="searchQuery" type="text" class="form-control" placeholder="Enter value" />
-					</div>
-				</div>
-				<div class="row mb-5 align-items-end">
-					<div class="col-md-6 col-xs-12 justify-content-between align-items-center">
-						<div class="filter-btn d-flex gap-3">
-							<button autofocus type="submit" class="btn btn-primary"><i class="fa fa-search">
-								</i>Search</button>
-							<button type="button" class="btn btn-secondary" (click)="resetSearchForm()">
-								<i class="fa fa-sync"> </i>
-							</button>
-						</div>
-					</div>
-				</div>
-			</form>
-		</div>
+            <form [formGroup]="formSearch" (ngSubmit)="search()">
+                <div class="row mb-5 align-items-end">
+                    <div class="col-md-3 col-xs-12">
+                        <label class="form-label">Brand Name: </label>
+                        <input formControlName="name" type="text" class="form-control" placeholder="" />
+                    </div>
+                    <div class="col-md-6 col-xs-12 justify-content-between align-items-center">
+                        <div class="filter-btn d-flex gap-3">
+                            <button autofocus type="submit" class="btn btn-primary"><i class="fa fa-search">
+                                </i> Search</button>
+                            <button type="button" class="btn btn-secondary" (click)="resetSearchForm()">
+                                <i class="fa fa-sync"></i> Reset
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
 	</div>
 	<div class="card-body">
 		<div class="table-responsive">
 			<table class="table">
 				<thead>
 					<tr>
-						<!-- <th><input type="checkbox" (click)="toggleSelectAll()"></th> -->
-						<th>ID</th>
-						<th style="min-width: 80px;">Image</th>
-						<th>Title</th>
-						<th>Content</th>
-						<th>Status</th>
-						<th>Service</th>
-						<th>Owner</th>
-						<th>Actions</th>
+						<th class="text-center align-middle" style="min-width: 5%;">STT</th>
+						<th class="text-center align-middle" style="min-width: 80px;">Image</th>
+						<th class="text-center align-middle">Title</th>
+						<th class="text-center align-middle">Content</th>
+						<th class="text-center align-middle">Status</th>
+						<th class="text-center align-middle">Service</th>
+						<th class="text-center align-middle">Owner</th>
+						<th class="text-center align-middle" style="min-width: 10%;">Actions</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -50,25 +46,27 @@
 							<!-- <td>
 								<input type="checkbox" [(ngModel)]="item.selected">
 							</td> -->
-							<td>{{ (paging.page - 1) * paging.pageSize + i + 1 }}</td>
-							<td>
-								<img [src]="item.image" alt="{{ item.name }}" class="thumbnail" width="80"
-									height="80" />
+							<td class="text-center align-middle">{{ (paging.page - 1) * paging.pageSize + i + 1 }}</td>
+							<td class="text-center align-middle">
+								<div class="image-container">
+									<img [src]="item.image" alt="{{ item.name }}" class="thumbnail" width="80"
+										height="80" />
+								</div>
 							</td>
-							<td>{{ item.title }}</td>
+							<td class="text-center align-middle">{{ item.title }}</td>
 							<td>
 								<p class="text-break" style="max-width: 300px;">
 									{{ item.content }}
 								</p>
 							</td>
-							<td>
+							<td class="text-center align-middle">
 								<span >
 									{{item.statusPost?.name || item.statusPostId}}
 								</span>
 							</td>
-							<td>{{ item.service?.name || item.serviceId }}</td>
-							<td>{{ item.owner?.fullname || item.ownerId}}</td>
-							<td>
+							<td class="text-center align-middle">{{ item.service?.name || item.serviceId }}</td>
+							<td class="text-center align-middle">{{ item.owner?.fullname || item.ownerId}}</td>
+							<td class="text-center align-middle">
 
 								<button mat-icon-button [matMenuTriggerFor]="menu"
 									class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary">
@@ -83,14 +81,6 @@
 										(click)="editItem(item.adId)">
 										<i class="fa fa-pencil"></i> Edit
 									</button>
-									<!-- <button *ngIf="!item.isBan" mat-menu-item class="icon-button delete-button"
-										(click)="updateBan(item.ownerId, true)">
-										<i class="fa fa-lock text-danger"></i> Ban
-									</button>
-									<button *ngIf="item.isBan" mat-menu-item class="icon-button delete-button"
-										(click)="updateBan(item.ownerId, false)">
-										<i class="fa fa-unlock text-success"></i> Unban
-									</button> -->
 								</mat-menu>
 							</td>
 						</tr>
