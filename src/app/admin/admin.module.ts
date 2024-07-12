@@ -49,6 +49,7 @@ import { FormOwnerComponent } from './components/owner/form-owner/form-owner.com
 import { ServiceAdminComponent } from './components/service-admin/service-admin.component';
 import { NgxSummernoteModule } from 'ngx-summernote';
 import { CateparentPageComponent } from './pages/cateparent-page/cateparent-page.component';
+import { LoginAdminPageComponent } from './pages/login-page/login-admin-page.component';
 
 
 const route: Routes = [
@@ -162,7 +163,8 @@ const route: Routes = [
 		ServiceAdminComponent,
 		ServiceAdminPageComponent,
 
-		CateparentPageComponent
+		CateparentPageComponent,
+    LoginAdminPageComponent
 	],
 	imports: [
 		FormsModule,
