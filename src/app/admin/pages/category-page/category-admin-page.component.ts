@@ -59,7 +59,7 @@ export class CategoryAdminPageComponent {
 	}
 	dataListAll: any;
 	getDataList(params: any) {
-		console.log('Executing getDataList() with parameters:', params);
+		// console.log('Executing getDataList() with parameters:', params);
 		this.loading = true;
 		this.categoryService.getListCategory({...params, pageSize: 100000}).subscribe((res: any) => {
 			this.loading = false;

@@ -13,13 +13,14 @@ export class CateparentPageComponent {
   dataListcateParent: any = [];
   modalTitle: string = '';
   openModal: boolean = false;
+
   paging: any = { ...INIT_PAGING }
   loading = false;
 
   typeForm = 0;
 
   constructor(
-    private cateparent: CateParentService,
+    private cateparentService: CateParentService,
     private alertService: AlertService
   ) {
 
@@ -35,36 +36,42 @@ export class CateparentPageComponent {
     }
   ];
   ngOnInit(): void {
-    console.log('Component initialized.');
-    this.getDataList({ ...this.paging });
+    this.getDataListParent(this.paging);
+    
   }
-  dataListAll = []
-  getDataList(params: any) {
-    console.log('getDataList called with params:', params);
+  
+  // getDataList(params: any) {
+  // 	this.loading = true;
+  // 	this.cateparentService.getListCateParent(params).subscribe((res: any) => {
+  // 		this.loading = false;
+  // 		if (res?.data?.length > 0) {
+  // 			console.info("===========[getDataListBrand] ===========[res] : ", res);
+  // 			this.dataListAll = res?.data;
+  // 			if (this.dataListAll?.length > 0) {
+  // 				let start = (this.paging?.page - 1) * this.paging.pageSize;
+  // 				let end = this.paging?.page * this.paging.pageSize;
+  // 				this.dataListcateParent = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
+  // 			}
+  // 			this.paging.total = res?.data?.length || 0;
+  // 		}
+  // 	})
+  // }
+  dataListAll: any;
+  getDataListParent(params: any) {
     this.loading = true;
-    this.cateparent.getListCateParent(params).subscribe((res: any) => {
+    this.cateparentService.getListCateParent(params).subscribe((res: any) => {
       this.loading = false;
-      if (res?.data?.length > 0) {
-        console.info("===========[getDataListCateParent] ===========[res] : ", res);
-        this.dataListAll = res?.data;
-        if (this.dataListAll?.length > 0) {
-          let start = (this.paging?.page - 1) * this.paging.pageSize;
-          let end = this.paging?.page * this.paging.pageSize;
-          this.dataListcateParent = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
-        }
-        this.paging.total = res?.data?.length || 0;
-      } else {
-        console.log('No data found');
+      this.dataListAll = res
+      console.info('data',res);
+      if (this.dataListAll?.length > 0) {
+        let start = (this.paging?.page - 1) * this.paging.pageSize;
+        let end = this.paging?.page * this.paging.pageSize;
+        this.dataListcateParent = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
       }
-    }, (error) => {
-      this.loading = false;
-      console.error('Error fetching data:', error);
-    });
+      this.paging.total = res?.length || 0;
+    })
   }
-  toggleSelectAll() {
-    // const allSelected = this.brands.every(brand => brand.selected);
-    // this.brands.forEach(brand => brand.selected = !allSelected);
-  }
+ 
   createItem() {
     this.modalTitle = 'Create CateParent';
     this.openModal = true;
@@ -76,7 +83,7 @@ export class CateparentPageComponent {
 
   }
   search() {
-    this.getDataList({ ...this.paging, page: 1, ...this.formSearch.value })
+    this.getDataListParent({ ...this.paging, page: 1, ...this.formSearch.value })
   }
   resetSearchForm() {
     this.formSearch.reset();
@@ -87,12 +94,12 @@ export class CateparentPageComponent {
       this.loading = true;
       let form = data.form;
       delete form.cateParentId
-      this.cateparent.createOrUpdateData(data?.form).subscribe((res: any) => {
+      this.cateparentService.createOrUpdateData(data?.form).subscribe((res: any) => {
         this.loading = false;
         if (res?.data) {
           this.alertService.fireSmall('success', res?.message);
           this.closeModal();
-          this.getDataList({ page: 1, pageSize: 10 })
+          this.getDataListParent({ page: 1, pageSize: 10 })
         } else if (res?.errors) {
           this.alertService.showListError(res?.errors);
         } else {
@@ -102,12 +109,12 @@ export class CateparentPageComponent {
     } else {
       this.loading = true;
       let dataForm = data?.form;
-      this.cateparent.createOrUpdateData(dataForm, data.id).subscribe((res: any) => {
+      this.cateparentService.createOrUpdateData(dataForm, data.id).subscribe((res: any) => {
         this.loading = false;
         if (res?.data) {
           this.alertService.fireSmall('success', res?.message);
           this.closeModal();
-          this.getDataList({ page: 1, pageSize: 10 })
+          this.getDataListParent({ page: 1, pageSize: 10 })
         } else if (res?.errors) {
           this.alertService.showListError(res?.errors);
         } else {
@@ -143,11 +150,11 @@ export class CateparentPageComponent {
       .then((result) => {
         if (result.isConfirmed) {
           this.loading = true;
-          this.cateparent.deleteData(id).subscribe((res: any) => {
+          this.cateparentService.deleteData(id).subscribe((res: any) => {
             this.loading = false;
             if (res?.message?.includes('successfully')) {
               this.alertService.fireSmall('success', res?.message);
-              this.getDataList({ page: 1, pageSize: 10 })
+              this.getDataListParent({ page: 1, pageSize: 10 })
             } else if (res?.errors) {
               this.alertService.showListError(res?.errors);
             } else {

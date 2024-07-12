@@ -38,22 +38,22 @@
 				</thead>
 				<tbody>
 					<ng-container *ngIf="dataListcateParent?.length > 0">
-						<tr *ngFor="let cateparent of dataListcateParent, index as i">
-							<td class="text-center align-middle">{{ i + 1 }}</td>
-							<td class="text-center align-middle">{{ cateparent.name }}</td>
+						<tr *ngFor="let item of dataListcateParent, let i = index">
+							<td class="text-center align-middle">{{  (paging.page - 1) * paging.pageSize + i + 1 }}</td>
+							<td class="text-center align-middle">{{ item.name }}</td>
 							<td class="text-center align-middle">
 								<button mat-icon-button [matMenuTriggerFor]="menu"
 									class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary">
 									<i class="fa fa-ellipsis-v" aria-hidden="true"></i>
 								</button>
 								<mat-menu #menu="matMenu">
-									<button mat-menu-item class="icon-button view-button" (click)="viewItem(cateparent.cateParentId)">
+									<button mat-menu-item class="icon-button view-button" (click)="viewItem(item.cateParentId)">
 										<i class="fa fa-eye"></i> View
 									</button>
-									<button mat-menu-item class="icon-button edit-button" (click)="editItem(cateparent.cateParentId)">
+									<button mat-menu-item class="icon-button edit-button" (click)="editItem(item.cateParentId)">
 										<i class="fa fa-pencil"></i> Edit
 									</button>
-									<button mat-menu-item class="icon-button delete-button" (click)="deleteItem(cateparent.cateParentId)">
+									<button mat-menu-item class="icon-button delete-button" (click)="deleteItem(item.cateParentId)">
 										<i class="fa fa-trash"></i> Delete
 									</button>
 								</mat-menu>

@@ -11,7 +11,7 @@ export class CateParentService {
 
 	
 	getListCateParent(params: any) {
-        console.log('getListCateParent called with params:', params);
+        // console.log('getListCateParent called with params:', params);
         if(params?.keyword) {
 			return this.baseApiService.getMethod('CateParent/search', params);
 		}

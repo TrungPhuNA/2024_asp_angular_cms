@@ -48,6 +48,7 @@ export class ServiceAdminPageComponent {
 	getDataList(params: any) {
 		this.loading = true;
 		this.service.getLists(params).subscribe((res: any) => {
+			console.log('params', params);
 			this.loading = false;
 			if (res?.data?.length > 0) {
 				console.info("===========[getDataListBrand] ===========[res] : ", res);
