@@ -12,6 +12,9 @@ export class CategoryService {
 
 
 	getListCategory(params: any) {
+		if(params?.keyword) {
+			return this.baseApiService.getMethod('Category/search', params);
+		}
 		return this.baseApiService.getMethod('Category', params);
 	}
 

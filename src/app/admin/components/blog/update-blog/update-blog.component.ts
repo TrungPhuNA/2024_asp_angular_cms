@@ -4,9 +4,9 @@ import { AlertService } from '../../../helpers/alert.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-update-blog',
-  templateUrl: './update-blog.component.html',
-  styleUrls: ['./update-blog.component.scss']
+	selector: 'app-update-blog',
+	templateUrl: './update-blog.component.html',
+	styleUrls: ['./update-blog.component.scss']
 })
 export class UpdateBlogComponent {
 	@Input() data: any;
@@ -21,11 +21,15 @@ export class UpdateBlogComponent {
 	statusPost = [
 		{
 			id: 1,
-			name: "Active"
+			name: "Watting"
 		},
 		{
 			id: 2,
-			name: "Inactive"
+			name: "Accept"
+		},
+		{
+			id: 3,
+			name: "Deny"
 		}
 	]
 
@@ -48,12 +52,14 @@ export class UpdateBlogComponent {
 	ngOnChanges(): void {
 		//Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
 		//Add '${implements OnChanges}' to the class.
+		console.log('Owners:', this.owners);
+		console.log('Services:', this.services);
 		this.form.reset();
 		if (!this.isVisible) {
 			this.form.reset();
 			this.form.enable();
 		}
-		
+
 		if (this.data && this.typeForm != 1) {
 			this.form.patchValue({
 				Title: this.data?.title,
@@ -63,8 +69,8 @@ export class UpdateBlogComponent {
 				StatusPostId: this.data?.statusPostId,
 				OwnerId: this.data?.ownerId
 			});
-			
-			if(this.typeForm == 2) {
+
+			if (this.typeForm == 2) {
 				this.form.disable();
 			}
 		} else {

@@ -137,7 +137,7 @@ export class VoucherPageComponent {
 	viewItem(id: any) {
 		const data = this.dataList.find((c: any) => c.voucherId === id);
 		this.selected = { ...data };
-		this.modalTitle = 'View Service';
+		this.modalTitle = 'View Voucher';
 		this.openModal = true;
 		this.typeForm = 2;
 	}
@@ -145,7 +145,7 @@ export class VoucherPageComponent {
 	editItem(id: any) {
 		const data = this.dataList.find((c: any) => c.voucherId === id);
 		this.selected = { ...data };
-		this.modalTitle = 'Edit Service';
+		this.modalTitle = 'Edit Voucher';
 		this.openModal = true;
 		this.typeForm = 3;
 

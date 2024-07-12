@@ -7,9 +7,9 @@ import { OwnerService } from '../../services/owner.service';
 import { ServiceService } from '../../services/service.service';
 
 @Component({
-    selector: 'app-blog-admin-page',
-    templateUrl: './blog-admin-page.component.html',
-    styleUrls: ['./blog-admin-page.component.scss']
+	selector: 'app-blog-admin-page',
+	templateUrl: './blog-admin-page.component.html',
+	styleUrls: ['./blog-admin-page.component.scss']
 })
 export class BlogAdminPageComponent {
 	dataList: any = [];
@@ -60,29 +60,40 @@ export class BlogAdminPageComponent {
 			if (res?.data) {
 				console.info("===========[getDataListBrand] ===========[res] : ", res);
 				this.dataListAll = res?.data;
+				this.updateDataList();
 				if (this.dataListAll?.length > 0) {
 					let start = (this.paging?.page - 1) * this.paging.pageSize;
 					let end = this.paging?.page * this.paging.pageSize;
 					this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
+					this.updateDataList();
 				}
 				this.paging.total = res?.data?.length || 0;
 			}
 		})
 	}
-
+	// Update dataList based on paging
+	updateDataList() {
+		if (this.dataListAll?.length > 0) {
+			let start = (this.paging.page - 1) * this.paging.pageSize;
+			let end = this.paging.page * this.paging.pageSize;
+			this.dataList = this.dataListAll.slice(start, end);
+		}
+	}
 	services = []
 	getServices() {
 		this.serviceService.getLists({ page: 1, pageSize: 100 }).subscribe((res: any) => {
-			if(res?.data) {
+			if (res?.data) {
 				this.services = res?.data || [];
+				console.info("Services data received:", res.data); // Log received data
 			}
 		})
 	}
 	owners = []
 	getOwners() {
 		this.ownerService.getLists({ page: 1, pageSize: 100 }).subscribe((res: any) => {
-			if(res?.data) {
+			if (res?.data) {
 				this.owners = res?.data;
+				console.info("Owners data received:", res.data); // Log received data
 			}
 		})
 	}
@@ -152,7 +163,7 @@ export class BlogAdminPageComponent {
 		const data = this.dataList.find((c: any) => c.adId === id);
 		console.log(data);
 		this.selected = { ...data };
-		this.modalTitle = 'View Owner';
+		this.modalTitle = 'View Blog';
 		this.openModal = true;
 		this.typeForm = 2;
 	}
@@ -160,7 +171,7 @@ export class BlogAdminPageComponent {
 	editItem(id: number) {
 		const data = this.dataList.find((c: any) => c.adId === id);
 		this.selected = { ...data };
-		this.modalTitle = 'Edit Owner';
+		this.modalTitle = 'Edit Blog';
 		this.openModal = true;
 		this.typeForm = 3;
 
@@ -202,12 +213,13 @@ export class BlogAdminPageComponent {
 
 	pageChanged(e: any) {
 		this.paging.page = e;
-		this.getDataList({ ...this.paging, ...this.formSearch.value })
-		// if (this.dataListAll?.length > 0) {
-		// 	let start = (this.paging?.page - 1) * this.paging.pageSize;
-		// 	let end = this.paging?.page * this.paging.pageSize;
-		// 	this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
-		// }
+		// this.getDataList({ ...this.paging, ...this.formSearch.value })
+		if (this.dataListAll?.length > 0) {
+			let start = (this.paging?.page - 1) * this.paging.pageSize;
+			let end = this.paging?.page * this.paging.pageSize;
+			this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
+		}
 	}
+	
 }
 

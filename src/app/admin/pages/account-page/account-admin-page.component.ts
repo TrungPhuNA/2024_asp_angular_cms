@@ -63,10 +63,12 @@ export class AccountAdminPageComponent {
 
 	dataListAll: any
 	getDataList(params: any) {
+		console.log('Executing getDataList() with parameters:', params);
 		this.loading = true;
 		if (this.tabType == 'user') {
 			this.accountService.getLists({ ...params, pageSize: 100000 }).subscribe((res: any) => {
 				this.loading = false;
+				console.log('Response from getListCategory:', res);
 				this.dataListAll = res;
 				if (this.dataListAll?.length > 0) {
 					let start = (this.paging?.page - 1) * this.paging.pageSize;
@@ -93,7 +95,10 @@ export class AccountAdminPageComponent {
 	changeTab(type: any) {
 		this.tabType = type;
 		this.getDataList({ page: 1 })
+		
 	}
+	
+	
 	toggleSelectAll() {
 		// const allSelected = this.brands.every(brand => brand.selected);
 		// this.brands.forEach(brand => brand.selected = !allSelected);
@@ -112,8 +117,12 @@ export class AccountAdminPageComponent {
 	}
 
 	search() {
+		console.log('Executing search() function...');
+		console.log('Form search value:', this.formSearch.value);
+		// Thực hiện các thao tác khác như gọi getDataList()
 		this.getDataList({ ...this.paging, page: 1, ...this.formSearch.value })
 	}
+	
 
 	resetSearchForm() {
 		this.formSearch.reset();

@@ -1,35 +1,36 @@
 <div class="card w-100">
 	<div class="card-body w-100">
 		<app-breadcrum [items]="breadCrumb"></app-breadcrum>
-		<div class="d-md-flex justify-content-between">
+		<!-- <div class="d-md-flex justify-content-between">
 			<h2 class="my-2">View All Blogs</h2>
 			<button class="btn btn-success my-2" (click)="createItem()">Create New Blog</button>
-		</div>
+		</div> -->
 		<div class="">
-            <form [formGroup]="formSearch" (ngSubmit)="search()">
-                <div class="row mb-5 align-items-end">
-                    <div class="col-md-3 col-xs-12">
-                        <label class="form-label">Brand Name: </label>
-                        <input formControlName="name" type="text" class="form-control" placeholder="" />
-                    </div>
-                    <div class="col-md-6 col-xs-12 justify-content-between align-items-center">
-                        <div class="filter-btn d-flex gap-3">
-                            <button autofocus type="submit" class="btn btn-primary"><i class="fa fa-search">
-                                </i> Search</button>
-                            <button type="button" class="btn btn-secondary" (click)="resetSearchForm()">
-                                <i class="fa fa-sync"></i> Reset
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
+			<form [formGroup]="formSearch" (ngSubmit)="search()">
+				<div class="row mb-5 align-items-end">
+					<div class="col-md-3 col-xs-12">
+						<label class="form-label">Blog Name: </label>
+						<input formControlName="name" type="text" class="form-control" placeholder="" />
+					</div>
+					<div class="col-md-6 col-xs-12 justify-content-between align-items-center">
+						<div class="filter-btn d-flex gap-3">
+							<button autofocus type="submit" class="btn btn-primary"><i class="fa fa-search">
+								</i> Search</button>
+							<button type="button" class="btn btn-secondary" (click)="resetSearchForm()">
+								<i class="fa fa-sync"></i> Reset
+							</button>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
 	</div>
 	<div class="card-body">
 		<div class="table-responsive">
 			<table class="table">
 				<thead>
 					<tr>
+						<!-- <th><input type="checkbox" (click)="toggleSelectAll()"></th> -->
 						<th class="text-center align-middle" style="min-width: 5%;">STT</th>
 						<th class="text-center align-middle" style="min-width: 80px;">Image</th>
 						<th class="text-center align-middle">Title</th>
@@ -54,16 +55,25 @@
 								</div>
 							</td>
 							<td class="text-center align-middle">{{ item.title }}</td>
-							<td>
-								<p class="text-break" style="max-width: 300px;">
+							<td class="text-center align-middle">
+								<p class="text-break">
 									{{ item.content }}
 								</p>
 							</td>
-							<td class="text-center align-middle">
+							<!-- <td class="text-center align-middle">
 								<span >
 									{{item.statusPost?.name || item.statusPostId}}
 								</span>
+							</td> -->
+							<td class="text-center align-middle">
+								<span class="badge badge-waiting" *ngIf="item.statusPostId === 1">Waiting</span>
+								<span class="badge badge-accept" *ngIf="item.statusPostId === 2">Accept</span>
+								<span class="badge badge-deny" *ngIf="item.statusPostId === 3">Deny</span>
+								<!-- <span class="badge badge-waiting"
+									*ngIf="!item.statusPostId || (item.statusPostId !== 'accept' && item.statusPostId !== 'deny')">Waiting</span> -->
 							</td>
+
+
 							<td class="text-center align-middle">{{ item.service?.name || item.serviceId }}</td>
 							<td class="text-center align-middle">{{ item.owner?.fullname || item.ownerId}}</td>
 							<td class="text-center align-middle">
@@ -73,14 +83,20 @@
 									<i class="fa fa-ellipsis-v" aria-hidden="true"></i>
 								</button>
 								<mat-menu #menu="matMenu">
-									<button mat-menu-item class="icon-button view-button"
-										(click)="viewItem(item.adId)">
+									<button mat-menu-item class="icon-button view-button" (click)="viewItem(item.adId)">
 										<i class="fa fa-eye"></i> View
 									</button>
-									<button mat-menu-item class="icon-button edit-button"
-										(click)="editItem(item.adId)">
+									<button mat-menu-item class="icon-button edit-button" (click)="editItem(item.adId)">
 										<i class="fa fa-pencil"></i> Edit
 									</button>
+									<!-- <button *ngIf="!item.isBan" mat-menu-item class="icon-button delete-button"
+										(click)="updateBan(item.ownerId, true)">
+										<i class="fa fa-lock text-danger"></i> Ban
+									</button>
+									<button *ngIf="item.isBan" mat-menu-item class="icon-button delete-button"
+										(click)="updateBan(item.ownerId, false)">
+										<i class="fa fa-unlock text-success"></i> Unban
+									</button> -->
 								</mat-menu>
 							</td>
 						</tr>
@@ -99,8 +115,6 @@
 </div>
 <app-loading [loading]="loading"></app-loading>
 
-<app-update-blog [data]="selected" [modalTitle]="modalTitle" 
-[typeForm]="typeForm" [isVisible]="openModal"
-[services]="services" [owners]="owners"
-	(save)="saveItem($event)" (close)="closeModal()">
+<app-update-blog [data]="selected" [modalTitle]="modalTitle" [typeForm]="typeForm" [isVisible]="openModal"
+	[services]="services" [owners]="owners" (save)="saveItem($event)" (close)="closeModal()">
 </app-update-blog>

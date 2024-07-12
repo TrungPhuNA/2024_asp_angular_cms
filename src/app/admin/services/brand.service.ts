@@ -12,6 +12,9 @@ export class BrandService {
 
 
     getLists(params: any) {
+        if(params?.keyword) {
+			return this.baseApiService.getMethod('Brand/search', params);
+		}
         return this.baseApiService.getMethod('Brand', params);
     }
 

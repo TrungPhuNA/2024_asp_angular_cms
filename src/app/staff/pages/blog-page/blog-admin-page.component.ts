@@ -7,9 +7,9 @@ import { OwnerService } from '../../services/owner.service';
 import { ServiceService } from '../../services/service.service';
 
 @Component({
-    selector: 'app-blog-admin-page',
-    templateUrl: './blog-admin-page.component.html',
-    styleUrls: ['./blog-admin-page.component.scss']
+	selector: 'app-blog-admin-page',
+	templateUrl: './blog-admin-page.component.html',
+	styleUrls: ['./blog-admin-page.component.scss']
 })
 export class BlogAdminPageComponent {
 	dataList: any = [];
@@ -47,7 +47,7 @@ export class BlogAdminPageComponent {
 	];
 
 	ngOnInit(): void {
-		this.getDataList({ ...this.paging, pageSize:1000 });
+		this.getDataList({ ...this.paging });
 		this.getServices();
 		this.getOwners();
 	}
@@ -57,33 +57,43 @@ export class BlogAdminPageComponent {
 		this.loading = true;
 		this.blogService.getLists(params).subscribe((res: any) => {
 			this.loading = false;
-			console.info("===========[getDataListBrand] ===========[res] : ", res);
 			if (res?.data) {
-				
+				console.info("===========[getDataListBrand] ===========[res] : ", res);
 				this.dataListAll = res?.data;
+				this.updateDataList();
 				if (this.dataListAll?.length > 0) {
 					let start = (this.paging?.page - 1) * this.paging.pageSize;
 					let end = this.paging?.page * this.paging.pageSize;
 					this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
+					this.updateDataList();
 				}
 				this.paging.total = res?.data?.length || 0;
 			}
 		})
 	}
-
+	// Update dataList based on paging
+	updateDataList() {
+		if (this.dataListAll?.length > 0) {
+			let start = (this.paging.page - 1) * this.paging.pageSize;
+			let end = this.paging.page * this.paging.pageSize;
+			this.dataList = this.dataListAll.slice(start, end);
+		}
+	}
 	services = []
 	getServices() {
 		this.serviceService.getLists({ page: 1, pageSize: 100 }).subscribe((res: any) => {
-			if(res?.data) {
+			if (res?.data) {
 				this.services = res?.data || [];
+				console.info("Services data received:", res.data); // Log received data
 			}
 		})
 	}
 	owners = []
 	getOwners() {
 		this.ownerService.getLists({ page: 1, pageSize: 100 }).subscribe((res: any) => {
-			if(res?.data) {
+			if (res?.data) {
 				this.owners = res?.data;
+				console.info("Owners data received:", res.data); // Log received data
 			}
 		})
 	}
@@ -150,18 +160,18 @@ export class BlogAdminPageComponent {
 
 	selected: any;
 	viewItem(id: number) {
-		const item: any = this.dataListAll.find((c: any) => c.adId === id);
-		this.selected = { ...item };
-		this.modalTitle = 'View Owner';
+		const data = this.dataList.find((c: any) => c.adId === id);
+		console.log(data);
+		this.selected = { ...data };
+		this.modalTitle = 'View Blog';
 		this.openModal = true;
 		this.typeForm = 2;
 	}
 
 	editItem(id: number) {
-		const item: any = this.dataListAll.find((c: any) => c.adId === id);
-		this.selected = { ...item };
-		console.log(this.selected);
-		this.modalTitle = 'Edit Owner';
+		const data = this.dataList.find((c: any) => c.adId === id);
+		this.selected = { ...data };
+		this.modalTitle = 'Edit Blog';
 		this.openModal = true;
 		this.typeForm = 3;
 
