@@ -39,6 +39,11 @@ export class SidebarAdminComponent implements OnChanges {
 			name: "Category"
 		},
 		{
+			route: "/cateparent",
+			role:['ADMIN'],
+			name: "CateParent"
+		},
+		{
 			route: "/product",
 			role:['ADMIN', 'OWNER','STAFF'],
 			name: "Product"

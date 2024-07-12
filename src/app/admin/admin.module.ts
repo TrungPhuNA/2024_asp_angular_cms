@@ -48,6 +48,7 @@ import { OwnerAdminPageComponent } from './pages/owner-page/owner-admin-page.com
 import { FormOwnerComponent } from './components/owner/form-owner/form-owner.component';
 import { ServiceAdminComponent } from './components/service-admin/service-admin.component';
 import { NgxSummernoteModule } from 'ngx-summernote';
+import { CateparentPageComponent } from './pages/cateparent-page/cateparent-page.component';
 
 
 const route: Routes = [
@@ -111,6 +112,11 @@ const route: Routes = [
 				component: OwnerAdminPageComponent,
 				title: 'Manage Owner'
 			},
+			{
+				path: 'cateparent',
+				component: CateparentPageComponent,
+				title: 'Manage CateParent'
+			},
 		]
 	}
 ]
@@ -154,7 +160,9 @@ const route: Routes = [
 		OwnerAdminPageComponent,
 		FormOwnerComponent,
 		ServiceAdminComponent,
-		ServiceAdminPageComponent
+		ServiceAdminPageComponent,
+
+		CateparentPageComponent
 	],
 	imports: [
 		FormsModule,
