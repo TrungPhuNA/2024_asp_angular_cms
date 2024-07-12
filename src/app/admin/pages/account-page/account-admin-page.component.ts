@@ -68,7 +68,7 @@ export class AccountAdminPageComponent {
 		if (this.tabType == 'user') {
 			this.accountService.getLists({ ...params, pageSize: 100000 }).subscribe((res: any) => {
 				this.loading = false;
-				console.log('Response from getListCategory:', res);
+				console.log('User', res);
 				this.dataListAll = res;
 				if (this.dataListAll?.length > 0) {
 					let start = (this.paging?.page - 1) * this.paging.pageSize;
@@ -80,11 +80,12 @@ export class AccountAdminPageComponent {
 		} else {
 			this.ownerService.getLists({ ...params, pageSize: 100000 }).subscribe((res: any) => {
 				this.loading = false;
+				console.log('Owner', res);
 				this.dataListAll = res?.data;
 				if (this.dataListAll?.length > 0) {
 					let start = (this.paging?.page - 1) * this.paging.pageSize;
 					let end = this.paging?.page * this.paging.pageSize;
-					this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
+					this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end && !item.isBan)
 				}
 				this.paging.total = res?.data?.length || 0;
 			})
