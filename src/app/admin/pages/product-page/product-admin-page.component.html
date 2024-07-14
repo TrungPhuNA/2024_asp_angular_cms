@@ -6,7 +6,7 @@
 			<button class="btn btn-success my-2" (click)="createItem()">Create New Product</button>
 		</div>
 		<div class="">
-			<form [formGroup]="formSearch" (ngSubmit)="search()">
+			<form [formGroup]="formSearch" (ngSubmit)="pageChanged(1)">
 				<div class="row mb-5 align-items-end">
 					<div class="col-md-3 col-xs-12">
 						<label class="form-label">Product Name: </label>
