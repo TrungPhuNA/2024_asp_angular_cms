@@ -34,7 +34,7 @@ export class UpdateBlogComponent {
 		Content: new FormControl(null, Validators.required),
 		Image: new FormControl(null),
 		ServiceId: new FormControl(null, Validators.required),
-		StatusPostId: new FormControl(null, Validators.required),
+		StatusPostId: new FormControl(1, Validators.required),
 		OwnerId: new FormControl(null, Validators.required)
 	});
 
@@ -59,7 +59,7 @@ export class UpdateBlogComponent {
 				Content: this.data?.content,
 				Image: this.data?.image,
 				ServiceId: this.data?.serviceId,
-				StatusPostId: this.data?.statusPostId,
+				StatusPostId: this.data?.statusPostId || 1,
 				OwnerId: this.data?.ownerId
 			});
 			

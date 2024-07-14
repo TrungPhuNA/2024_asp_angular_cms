@@ -24,7 +24,7 @@ export class AccountService {
 
 	createOrUpdateData(params: any, id?: any) {
 		if (id) {
-			return this.baseApiService.putMethod(`Account/${id}`, params, true);
+			return this.baseApiService.putMethod(`Account/${id}/update-profile`, params, true);
 		}
 		return this.baseApiService.postMethod('Account', params, true);
 	}

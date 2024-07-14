@@ -11,186 +11,7 @@ import { CategoryService } from '../../services/category.service';
 	styleUrls: ['./brand-admin-page.component.scss']
 })
 export class BrandAdminPageComponent {
-	brands: any = [
-		{
-			"brandId": 1,
-			"name": "Nike",
-			"image": "nike.jpg",
-			"isdelete": false,
-			"categoryId": 1,
-			"category": {
-				"categoryId": 1,
-				"name": "Giày th? thao nam",
-				"image": "https://res.cloudinary.com/duwm7gfgi/image/upload/v1718699185/cld-sample-5.jpg",
-				"isdelete": false,
-				"brands": [
-					{
-						"brandId": 2,
-						"name": "Adidas",
-						"image": "adidas.jpg",
-						"isdelete": false,
-						"categoryId": 1,
-						"products": []
-					},
-					{
-						"brandId": 3,
-						"name": "Puma",
-						"image": "puma.jpg",
-						"isdelete": false,
-						"categoryId": 1,
-						"products": []
-					},
-					{
-						"brandId": 4,
-						"name": "New Balance",
-						"image": "newbalance.jpg",
-						"isdelete": false,
-						"categoryId": 1,
-						"products": []
-					},
-					{
-						"brandId": 5,
-						"name": "Reebok",
-						"image": "reebok.jpg",
-						"isdelete": false,
-						"categoryId": 1,
-						"products": []
-					},
-					{
-						"brandId": 6,
-						"name": "Under Armour",
-						"image": "underarmour.jpg",
-						"isdelete": false,
-						"categoryId": 1,
-						"products": []
-					},
-					{
-						"brandId": 7,
-						"name": "ASICS",
-						"image": "asics.jpg",
-						"isdelete": false,
-						"categoryId": 1,
-						"products": []
-					},
-					{
-						"brandId": 8,
-						"name": "Skechers",
-						"image": "skechers.jpg",
-						"isdelete": false,
-						"categoryId": 1,
-						"products": []
-					},
-					{
-						"brandId": 9,
-						"name": "Vans",
-						"image": "vans.jpg",
-						"isdelete": false,
-						"categoryId": 1,
-						"products": []
-					},
-					{
-						"brandId": 10,
-						"name": "Converse",
-						"image": "converse.jpg",
-						"isdelete": false,
-						"categoryId": 1,
-						"products": []
-					}
-				],
-				"products": []
-			},
-			"products": []
-		},
-		{
-			"brandId": 2,
-			"name": "Adidas",
-			"image": "adidas.jpg",
-			"isdelete": false,
-			"categoryId": 1,
-			"category": {
-				"categoryId": 1,
-				"name": "Giày th? thao nam",
-				"image": "https://res.cloudinary.com/duwm7gfgi/image/upload/v1718699185/cld-sample-5.jpg",
-				"isdelete": false,
-				"brands": [
-					{
-						"brandId": 1,
-						"name": "Nike",
-						"image": "nike.jpg",
-						"isdelete": false,
-						"categoryId": 1,
-						"products": []
-					},
-					{
-						"brandId": 3,
-						"name": "Puma",
-						"image": "puma.jpg",
-						"isdelete": false,
-						"categoryId": 1,
-						"products": []
-					},
-					{
-						"brandId": 4,
-						"name": "New Balance",
-						"image": "newbalance.jpg",
-						"isdelete": false,
-						"categoryId": 1,
-						"products": []
-					},
-					{
-						"brandId": 5,
-						"name": "Reebok",
-						"image": "reebok.jpg",
-						"isdelete": false,
-						"categoryId": 1,
-						"products": []
-					},
-					{
-						"brandId": 6,
-						"name": "Under Armour",
-						"image": "underarmour.jpg",
-						"isdelete": false,
-						"categoryId": 1,
-						"products": []
-					},
-					{
-						"brandId": 7,
-						"name": "ASICS",
-						"image": "asics.jpg",
-						"isdelete": false,
-						"categoryId": 1,
-						"products": []
-					},
-					{
-						"brandId": 8,
-						"name": "Skechers",
-						"image": "skechers.jpg",
-						"isdelete": false,
-						"categoryId": 1,
-						"products": []
-					},
-					{
-						"brandId": 9,
-						"name": "Vans",
-						"image": "vans.jpg",
-						"isdelete": false,
-						"categoryId": 1,
-						"products": []
-					},
-					{
-						"brandId": 10,
-						"name": "Converse",
-						"image": "converse.jpg",
-						"isdelete": false,
-						"categoryId": 1,
-						"products": []
-					}
-				],
-				"products": []
-			},
-			"products": []
-		}
-	]
+	dataList: any = []
 	selectedBrand: any = {};
 	modalTitle: string = '';
 	showAddNewBrandModal: boolean = false;
@@ -215,12 +36,12 @@ export class BrandAdminPageComponent {
 
 	breadCrumb: any = [
 		{
-			label: 'Admin',
+			label: 'Owner',
 			link: '/'
 		},
 		{
 			label: 'Brand',
-			link: '/admin/brand'
+			link: '/owner/brand'
 		}
 	];
 
@@ -234,12 +55,12 @@ export class BrandAdminPageComponent {
 		this.brandService.getLists(params).subscribe((res: any) => {
 			console.info("===========[getDataListBrand] ===========[res] : ", res);
 			this.loading = false;
-			this.brands = res;
+			this.dataList = res;
 			this.dataListAll = res;
 			if (this.dataListAll?.length > 0) {
 				let start = (this.paging?.page - 1) * this.paging.pageSize;
 				let end = this.paging?.page * this.paging.pageSize;
-				this.brands = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
+				this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
 			}
 			this.paging.total = res?.length || 0;
 		})
@@ -253,8 +74,8 @@ export class BrandAdminPageComponent {
 	}
 
 	toggleSelectAll() {
-		// const allSelected = this.brands.every(brand => brand.selected);
-		// this.brands.forEach(brand => brand.selected = !allSelected);
+		// const allSelected = this.dataList.every(brand => brand.selected);
+		// this.dataList.forEach(brand => brand.selected = !allSelected);
 	}
 
 	openAddNewBrandModal() {
@@ -270,13 +91,10 @@ export class BrandAdminPageComponent {
 		this.showDeleteBrandModal = false;
 	}
 
-	search() {
-		this.getDataList({ ...this.paging, page: 1, ...this.formSearch.value })
-	}
 
 	resetSearchForm() {
 		this.formSearch.reset();
-		this.search();
+		this.getDataList({ ...this.paging, page: 1, ...this.formSearch.value })
 	}
 
 	saveItem(data: any) {
@@ -286,7 +104,7 @@ export class BrandAdminPageComponent {
 			this.loading = true;
 			this.brandService.createOrUpdateData(data?.form).subscribe((res: any) => {
 				this.loading = false;
-				if (res?.message == 'Brand added successfully.') {
+				if (res?.message?.includes('successfully')) {
 					this.alertService.fireSmall('success', res?.message);
 					this.closeModal();
 					this.getDataList({ page: 1, pageSize: 10 })
@@ -300,7 +118,7 @@ export class BrandAdminPageComponent {
 			this.loading = true;
 			this.brandService.createOrUpdateData(data?.form, data.id).subscribe((res: any) => {
 				this.loading = false;
-				if (res?.message == 'Brand updated successfully.') {
+				if (res?.message?.includes('successfully')) {
 					this.alertService.fireSmall('success', res?.message);
 					this.closeModal();
 					this.getDataList({ page: 1, pageSize: 10 })
@@ -315,14 +133,14 @@ export class BrandAdminPageComponent {
 
 	selected: any;
 	viewItem(id: number) {
-		const category = this.brands.find((c: any) => c.brandId === id);
+		const category = this.dataList.find((c: any) => c.brandId === id);
 		this.selected = { ...category };
 		this.modalTitle = 'View Brand';
 		this.showDetailBrandModal = true;
 	}
 
 	editItem(id: number) {
-		const category = this.brands.find((c: any) => c.brandId === id);
+		const category = this.dataList.find((c: any) => c.brandId === id);
 		this.selected = { ...category };
 		this.modalTitle = 'Edit Brand';
 		this.showUpdateBrandModal = true;
@@ -341,7 +159,7 @@ export class BrandAdminPageComponent {
 					this.loading = true;
 					this.brandService.deleteData(id).subscribe((res: any) => {
 						this.loading = false;
-						if (res?.message == 'Brand deleted successfully.') {
+						if (res?.message?.includes('successfully')) {
 							this.alertService.fireSmall('success', res?.message);
 							this.getDataList({ page: 1, pageSize: 10 })
 						} else if (res?.errors) {
@@ -356,7 +174,7 @@ export class BrandAdminPageComponent {
 	}
 
 
-	formSearch = new FormGroup({
+	formSearch: any = new FormGroup({
 		id: new FormControl(null),
 		name: new FormControl(null)
 	});
@@ -367,7 +185,14 @@ export class BrandAdminPageComponent {
 		if (this.dataListAll?.length > 0) {
 			let start = (this.paging?.page - 1) * this.paging.pageSize;
 			let end = this.paging?.page * this.paging.pageSize;
-			this.brands = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
+			console.log('brand---->',start, end, this.formSearch.value?.name);
+			if(this.formSearch.value?.name) {
+				let totalSearch = this.dataListAll?.filter((item: any) => item?.name?.includes(this.formSearch.value?.name?.trim()));
+				this.paging.total = totalSearch?.length || 0;
+				this.dataList = totalSearch?.filter((item: any, index: number) => index >= start && index < end && item?.name?.includes(this.formSearch.value?.name?.trim()) )
+			} else {
+				this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end )
+			}
 		}
 	}
 }

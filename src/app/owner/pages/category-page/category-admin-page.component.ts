@@ -12,16 +12,8 @@ import { AddNewCategoryComponent } from '../../components/category/add-new-categ
 })
 export class CategoryAdminPageComponent {
 
-	categories: any = [
-		{
-		  "categoryId": 5,
-		  "name": "Giày leo núi",
-		  "image": "giayleonui.jpg",
-		  "isdelete": false,
-		  "brands": [],
-		  "products": []
-		}
-	  ];
+	categories: any = [];
+	categoryParents: any = [];
 
 	selectedCategory: any = {};
 	modalTitle: string = '';
@@ -39,16 +31,16 @@ export class CategoryAdminPageComponent {
 
 	breadCrumb: any = [
 		{
-			label: 'Admin',
+			label: 'Owner',
 			link: '/'
 		},
 		{
 			label: 'Category',
-			link: '/admin/category'
+			link: '/owner/category'
 		}
 	];
 
-	formSearch = new FormGroup({
+	formSearch: any = new FormGroup({
 		id: new FormControl(null),
 		name: new FormControl(null)
 	});
@@ -61,13 +53,17 @@ export class CategoryAdminPageComponent {
 	}
 
 	ngOnInit(): void {
+		console.log('Component initialized.');
 		this.getDataList({ ...this.paging })
+		this.getDataListParent({ ...this.paging, pageSize: 10000 })
 	}
-	dataListAll = [];
+	dataListAll: any;
 	getDataList(params: any) {
+		// console.log('Executing getDataList() with parameters:', params);
 		this.loading = true;
-		this.categoryService.getListCategory(params).subscribe((res: any) => {
+		this.categoryService.getListCategory({...params, pageSize: 100000}).subscribe((res: any) => {
 			this.loading = false;
+			console.log('Response from getListCategory:', res);
 			this.dataListAll = res;
 			if(this.dataListAll?.length > 0) {
 				let start = (this.paging?.page - 1) * this.paging.pageSize;
@@ -78,11 +74,19 @@ export class CategoryAdminPageComponent {
             // this.paging.page = params?.page || 1
 		})
 	}
+	getDataListParent(params: any) {
+		console.log(params);
+		this.categoryService.getListCategoryParent(params).subscribe((res: any) => {
+			console.log(res);
+			this.categoryParents = res
+		})
+	}
 
 	resetSearchForm() {
 		this.formSearch.reset();
-		this.search();
+		this.getDataList({ ...this.paging, page: 1, ...this.formSearch.value })
 	}
+
 
 	search() {
 		this.getDataList({ ...this.paging, page: 1, ...this.formSearch.value })
@@ -90,10 +94,17 @@ export class CategoryAdminPageComponent {
 
 	pageChanged(e: any) {
 		this.paging.page = e;
-		if(this.dataListAll?.length > 0) {
+		if (this.dataListAll?.length > 0) {
 			let start = (this.paging?.page - 1) * this.paging.pageSize;
 			let end = this.paging?.page * this.paging.pageSize;
-			this.categories = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
+			console.log('brand---->',start, end, this.formSearch.value?.name);
+			if(this.formSearch.value?.name) {
+				let totalSearch = this.dataListAll?.filter((item: any) => item?.name?.includes(this.formSearch.value?.name?.trim()));
+				this.paging.total = totalSearch?.length || 0;
+				this.categories = totalSearch?.filter((item: any, index: number) => index >= start && index < end && item?.name?.includes(this.formSearch.value?.name?.trim()) )
+			} else {
+				this.categories = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end )
+			}
 		}
 	}
 
@@ -126,8 +137,8 @@ export class CategoryAdminPageComponent {
 			this.loading = true;
 			this.categoryService.createOrUpdateData(data?.form).subscribe((res: any) => {
 				this.loading = false;
-				if (res?.message == 'Category added successfully.') {
-					this.alertService.fireSmall('success', res?.message);
+				if (res?.message.includes('successfully')) {
+					this.alertService.fireSmall('success', res?.message|| 'Create successfully');
 					this.closeModal();
 					this.getDataList({page: 1, pageSize: 10})
 				} else if (res?.errors) {
@@ -140,14 +151,14 @@ export class CategoryAdminPageComponent {
 			this.loading = true;
 			this.categoryService.createOrUpdateData(data?.form, data.id).subscribe((res: any) => {
 				this.loading = false;
-				if (res?.message == 'Category updated successfully.') {
-					this.alertService.fireSmall('success', res?.message);
+				if (res?.message.includes('successfully')) {
+					this.alertService.fireSmall('success', res?.message || 'Update successfully');
 					this.closeModal();
 					this.getDataList({page: 1, pageSize: 10})
 				} else if (res?.errors) {
 					this.alertService.showListError(res?.errors);
 				} else {
-					this.alertService.fireSmall('error', "Updated Category failed!");
+					this.alertService.fireSmall('error', res?.message || "Updated Category failed!");
 				}
 			})
 		}
@@ -180,7 +191,7 @@ export class CategoryAdminPageComponent {
 					this.loading = true;
 					this.categoryService.deleteData(id).subscribe((res: any) => {
 						this.loading = false;
-						if (res?.message == 'Category deleted successfully.') {
+						if (res?.message?.includes('successfully')) {
 							this.alertService.fireSmall('success', res?.message);
 							this.getDataList({page: 1, pageSize: 10})
 						} else if (res?.errors) {

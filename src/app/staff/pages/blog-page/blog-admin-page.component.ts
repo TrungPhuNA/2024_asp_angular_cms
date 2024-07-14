@@ -143,6 +143,7 @@ export class BlogAdminPageComponent {
 			this.loading = true;
 			let dataForm = data?.form;
 			delete (dataForm.password);
+			dataForm.AdId = data.id;
 			this.blogService.createOrUpdateData(dataForm, data.id).subscribe((res: any) => {
 				this.loading = false;
 				if (res?.data) {

@@ -6,7 +6,7 @@
 			<button class="btn btn-success my-2" (click)="openAddNewBrandModal()">Create New Brand</button>
 		</div>
 		<div class="">
-            <form [formGroup]="formSearch" (ngSubmit)="search()">
+            <form [formGroup]="formSearch" (ngSubmit)="pageChanged(1)">
                 <div class="row mb-5 align-items-end">
                     <div class="col-md-3 col-xs-12">
                         <label class="form-label">Brand Name: </label>
@@ -31,14 +31,14 @@
 				<thead>
 					<tr>
 						<th class="text-center align-middle" style="width: 5%;">STT</th>
-						<th class="text-center align-middle" style="min-width: 300px;">Name</th>
+						<th class="text-center align-middle" style="min-width: 20%;">Name</th>
 						<th class="text-center align-middle" style="min-width: 80px;">Image</th>
-						<th class="text-center align-middle">Actions</th>
+						<th class="text-center align-middle" style="min-width: 10%;" >Actions</th>
 					</tr>
 				</thead>
 				<tbody>
-					<ng-container *ngIf="brands?.length > 0">
-						<tr *ngFor="let item of brands, index as i">
+					<ng-container *ngIf="dataList?.length > 0">
+						<tr *ngFor="let item of dataList, index as i">
 							<td class="text-center align-middle">{{ (paging.page - 1) * paging.pageSize + i + 1 }}</td>
 							<td class="text-center align-middle">{{ item.name }}</td>
 							<td class="text-center align-middle">
@@ -64,7 +64,7 @@
 							</td>
 						</tr>
 					</ng-container>
-					<ng-container *ngIf="brands?.length <= 0">
+					<ng-container *ngIf="dataList?.length <= 0">
 						<tr>
 							<td class="text-center align-middle" colspan="4">No data</td>
 						</tr>

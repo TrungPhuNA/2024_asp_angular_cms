@@ -142,10 +142,11 @@ export class AccountAdminPageComponent {
 				} else if (res?.errors) {
 					this.alertService.showListError(res?.errors);
 				} else {
-					this.alertService.fireSmall('error', res?.message || "Add Account failed!");
+					this.alertService.fireSmall('error', res?.message || "Action Account failed!");
 				}
 			});
 		} else {
+			
 			this.ownerService.createOrUpdateData(data?.form, data?.id).subscribe((res: any) => {
 				this.loading = false;
 				if (res?.data) {

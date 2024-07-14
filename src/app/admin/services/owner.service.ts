@@ -20,6 +20,7 @@ export class OwnerService {
 
 	createOrUpdateData(params: any, id?: any) {
 		if (id) {
+			console.log(params);
 			return this.baseApiService.putMethod(`Owner/UpdateOwner`, params, true);
 		}
 		return this.baseApiService.postMethod('Owner/CreateOwner', params, true);

@@ -11,7 +11,7 @@ import { CategoryService } from '../../services/category.service';
 	styleUrls: ['./brand-admin-page.component.scss']
 })
 export class BrandAdminPageComponent {
-	brands: any = []
+	dataList: any = []
 	selectedBrand: any = {};
 	modalTitle: string = '';
 	showAddNewBrandModal: boolean = false;
@@ -55,12 +55,12 @@ export class BrandAdminPageComponent {
 		this.brandService.getLists(params).subscribe((res: any) => {
 			console.info("===========[getDataListBrand] ===========[res] : ", res);
 			this.loading = false;
-			this.brands = res;
+			this.dataList = res;
 			this.dataListAll = res;
 			if (this.dataListAll?.length > 0) {
 				let start = (this.paging?.page - 1) * this.paging.pageSize;
 				let end = this.paging?.page * this.paging.pageSize;
-				this.brands = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
+				this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
 			}
 			this.paging.total = res?.length || 0;
 		})
@@ -74,8 +74,8 @@ export class BrandAdminPageComponent {
 	}
 
 	toggleSelectAll() {
-		// const allSelected = this.brands.every(brand => brand.selected);
-		// this.brands.forEach(brand => brand.selected = !allSelected);
+		// const allSelected = this.dataList.every(brand => brand.selected);
+		// this.dataList.forEach(brand => brand.selected = !allSelected);
 	}
 
 	openAddNewBrandModal() {
@@ -91,13 +91,10 @@ export class BrandAdminPageComponent {
 		this.showDeleteBrandModal = false;
 	}
 
-	search() {
-		this.getDataList({ ...this.paging, page: 1, ...this.formSearch.value })
-	}
 
 	resetSearchForm() {
 		this.formSearch.reset();
-		this.search();
+		this.getDataList({ ...this.paging, page: 1, ...this.formSearch.value })
 	}
 
 	saveItem(data: any) {
@@ -136,14 +133,14 @@ export class BrandAdminPageComponent {
 
 	selected: any;
 	viewItem(id: number) {
-		const category = this.brands.find((c: any) => c.brandId === id);
+		const category = this.dataList.find((c: any) => c.brandId === id);
 		this.selected = { ...category };
 		this.modalTitle = 'View Brand';
 		this.showDetailBrandModal = true;
 	}
 
 	editItem(id: number) {
-		const category = this.brands.find((c: any) => c.brandId === id);
+		const category = this.dataList.find((c: any) => c.brandId === id);
 		this.selected = { ...category };
 		this.modalTitle = 'Edit Brand';
 		this.showUpdateBrandModal = true;
@@ -177,7 +174,7 @@ export class BrandAdminPageComponent {
 	}
 
 
-	formSearch = new FormGroup({
+	formSearch: any = new FormGroup({
 		id: new FormControl(null),
 		name: new FormControl(null)
 	});
@@ -188,7 +185,14 @@ export class BrandAdminPageComponent {
 		if (this.dataListAll?.length > 0) {
 			let start = (this.paging?.page - 1) * this.paging.pageSize;
 			let end = this.paging?.page * this.paging.pageSize;
-			this.brands = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
+			console.log('brand---->',start, end, this.formSearch.value?.name);
+			if(this.formSearch.value?.name) {
+				let totalSearch = this.dataListAll?.filter((item: any) => item?.name?.includes(this.formSearch.value?.name?.trim()));
+				this.paging.total = totalSearch?.length || 0;
+				this.dataList = totalSearch?.filter((item: any, index: number) => index >= start && index < end && item?.name?.includes(this.formSearch.value?.name?.trim()) )
+			} else {
+				this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end )
+			}
 		}
 	}
 }

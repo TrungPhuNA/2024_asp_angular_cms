@@ -31,14 +31,16 @@ export class UpdateBlogComponent {
 			id: 3,
 			name: "Deny"
 		}
-	]
+	];
+
+
 
 	form = new FormGroup({
 		Title: new FormControl(null, Validators.required),
 		Content: new FormControl(null, Validators.required),
 		Image: new FormControl(null),
 		ServiceId: new FormControl(null, Validators.required),
-		StatusPostId: new FormControl(null, Validators.required),
+		StatusPostId: new FormControl(1, Validators.required),
 		OwnerId: new FormControl(null, Validators.required)
 	});
 
@@ -52,8 +54,6 @@ export class UpdateBlogComponent {
 	ngOnChanges(): void {
 		//Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
 		//Add '${implements OnChanges}' to the class.
-		console.log('Owners:', this.owners);
-		console.log('Services:', this.services);
 		this.form.reset();
 		if (!this.isVisible) {
 			this.form.reset();
@@ -66,7 +66,7 @@ export class UpdateBlogComponent {
 				Content: this.data?.content,
 				Image: this.data?.image,
 				ServiceId: this.data?.serviceId,
-				StatusPostId: this.data?.statusPostId,
+				StatusPostId: this.data?.statusPostId || 1,
 				OwnerId: this.data?.ownerId
 			});
 

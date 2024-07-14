@@ -82,6 +82,7 @@ export class FormOwnerComponent  {
 			this.alertService.fireSmall('error', "Form is invalid");
 			return;
 		}
+		console.log(this.form);
 		this.save.emit({
 			form: this.form.value,
 			id: this.data?.ownerId

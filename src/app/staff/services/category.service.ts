@@ -12,7 +12,14 @@ export class CategoryService {
 
 
 	getListCategory(params: any) {
+		if(params?.keyword) {
+			return this.baseApiService.getMethod('Category/search', params);
+		}
 		return this.baseApiService.getMethod('Category', params);
+	}
+
+	getListCategoryParent(params: any) {
+		return this.baseApiService.getMethod('CateParent', params);
 	}
 
 	showCategory(id: any) {
@@ -20,10 +27,7 @@ export class CategoryService {
 	}
 
 	createOrUpdateData(params: any, id?: any) {
-		const formData = new FormData();
-		formData.append('Name', params?.Name);
-		formData.append('Image', params?.Image);
-		formData.append('Content', params?.Content);
+		const formData = this.baseApiService.setFormData(params)
 		if(id) {
 			return this.baseApiService.putMethod(`Category/${id}`, formData);
 		}

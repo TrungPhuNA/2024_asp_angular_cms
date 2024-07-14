@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonService } from '../../../helpers/common.service';
 import { AlertService } from '../../../helpers/alert.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import moment from 'moment';
 
 @Component({
 	selector: 'app-update-account',
@@ -31,15 +32,16 @@ export class UpdateAccountComponent {
 		}
 	]
 
-	form = new FormGroup({
-		ownerId: new FormControl(0, Validators.required),
+	form: any = new FormGroup({
 		email: new FormControl(null, Validators.required),
-		password: new FormControl(null, Validators.required),
+		password: new FormControl(null),
 		fullname: new FormControl(null, Validators.required),
 		image: new FormControl(null),
 		phone: new FormControl(null, Validators.required),
 		address: new FormControl(null),
-		isBan: new FormControl(false, Validators.required),
+		gender: new FormControl(null, Validators.required),
+		dob: new FormControl(null),
+		isBan: new FormControl(null),
 	});
 
 	constructor(
@@ -59,10 +61,11 @@ export class UpdateAccountComponent {
 		}
 		if (this.data && this.typeForm != 1) {
 			this.form.patchValue({
-				ownerId: this.data?.ownerId,
 				email: this.data?.email,
 				fullname: this.data?.fullname,
 				image: this.data?.image,
+				gender: this.data?.gender,
+				dob: this.data?.dob ? moment(this.data.dob).format('yyyy-MM-dd') : null,
 				phone: this.data?.phone,
 				address: this.data?.address,
 				isBan: this.data?.isBan,
@@ -70,16 +73,30 @@ export class UpdateAccountComponent {
 			if(this.typeForm == 2) {
 				this.form.disable();
 			}
+			this.form.get('password')?.clearValidators();
+			this.form.get('password')?.updateValueAndValidity();
+		}
+		if(this.typeForm == 1) {
+			this.form.get('password')?.setValidators(Validators.required);
+			this.form.get('password')?.updateValueAndValidity();
+		} else {
+			this.form.get('password')?.clearValidators();
+			this.form.get('password')?.updateValueAndValidity();
 		}
 	}
 	submit() {
 		if (this.form.invalid) {
-			this.alertService.fireSmall('error', "Form Product is invalid");
+			console.log(this.form);
+			this.alertService.fireSmall('error', "Form account is invalid");
 			return;
+		}
+		let dataBody = this.form.value;
+		if(this.data?.accountId) {
+			delete dataBody.password
 		}
 		this.save.emit({
 			form: this.form.value,
-			id: this.data?.brandId
+			id: this.data?.accountId
 		});
 	}
 

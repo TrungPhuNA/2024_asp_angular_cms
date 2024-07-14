@@ -37,7 +37,7 @@
 						<th class="text-center align-middle">Content</th>
 						<th class="text-center align-middle">Status</th>
 						<th class="text-center align-middle">Service</th>
-						<th class="text-center align-middle">Owner</th>
+						<!-- <th class="text-center align-middle">Owner</th> -->
 						<th class="text-center align-middle" style="min-width: 10%;">Actions</th>
 					</tr>
 				</thead>
@@ -74,8 +74,8 @@
 							</td>
 
 
-							<td class="text-center align-middle">{{ item.service?.name || item.serviceId }}</td>
-							<td class="text-center align-middle">{{ item.owner?.fullname || item.ownerId}}</td>
+							<td class="text-center align-middle">{{ item?.serviceName || item.serviceId }}</td>
+							<!-- <td class="text-center align-middle">{{ item?.ownerName || item.ownerId}}</td> -->
 							<td class="text-center align-middle">
 
 								<button mat-icon-button [matMenuTriggerFor]="menu"

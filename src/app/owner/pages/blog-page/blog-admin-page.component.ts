@@ -37,12 +37,12 @@ export class BlogAdminPageComponent {
 
 	breadCrumb: any = [
 		{
-			label: 'Admin',
+			label: 'Owner',
 			link: '/'
 		},
 		{
 			label: 'Blog',
-			link: '/admin/blog'
+			link: '/owner/blog'
 		}
 	];
 
@@ -142,6 +142,7 @@ export class BlogAdminPageComponent {
 			this.loading = true;
 			let dataForm = data?.form;
 			delete (dataForm.password);
+			dataForm.AdId = data.id;
 			this.blogService.createOrUpdateData(dataForm, data.id).subscribe((res: any) => {
 				this.loading = false;
 				if (res?.data) {
