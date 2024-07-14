@@ -50,6 +50,8 @@ import { ServiceAdminComponent } from './components/service-admin/service-admin.
 import { VoucherPageComponent } from './pages/voucher-page/voucher-page.component';
 import { VoucherComponent } from './components/voucher/voucher.component';
 import { NgxSummernoteModule } from 'ngx-summernote';
+import { CateParentStaffComponent } from './pages/cate-parent-staff/cate-parent-staff.component';
+import { StaffCateParentFormComponent } from './components/staff-cate-parent-form/staff-cate-parent-form.component';
 
 const route: Routes = [
 	{
@@ -92,7 +94,11 @@ const route: Routes = [
 				component: VoucherPageComponent,
 				title: 'Manage Voucher'
 			},
-
+			{
+				path: 'cateparent',
+				component: CateParentStaffComponent,
+				title: 'Manage cateparent'
+			},
 			
 			
 			
@@ -143,6 +149,8 @@ const route: Routes = [
 		ServiceAdminPageComponent,
 		VoucherPageComponent,
 		VoucherComponent,
+  CateParentStaffComponent,
+  StaffCateParentFormComponent,
 	],
 	imports: [
 		FormsModule,

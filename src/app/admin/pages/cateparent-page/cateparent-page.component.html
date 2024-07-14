@@ -37,8 +37,8 @@
 					</tr>
 				</thead>
 				<tbody>
-					<ng-container *ngIf="dataListcateParent?.length > 0">
-						<tr *ngFor="let item of dataListcateParent, let i = index">
+					<ng-container *ngIf="dataList?.length > 0">
+						<tr *ngFor="let item of dataList, let i = index">
 							<td class="text-center align-middle">{{  (paging.page - 1) * paging.pageSize + i + 1 }}</td>
 							<td class="text-center align-middle">{{ item.name }}</td>
 							<td class="text-center align-middle">
@@ -60,7 +60,7 @@
 							</td>
 						</tr>
 					</ng-container>
-					<ng-container *ngIf="dataListcateParent?.length <= 0">
+					<ng-container *ngIf="dataList?.length <= 0">
 						<tr>
 							<td class="text-center align-middle" colspan="3">No data</td>
 						</tr>
@@ -73,8 +73,9 @@
 	</div>
 </div>
 
-<app-service-admin [data]="selected" [modalTitle]="modalTitle" [typeForm]="typeForm" [isVisible]="openModal"
+<app-cate-parent-form [data]="selected" 
+[modalTitle]="modalTitle" [typeForm]="typeForm" [isVisible]="openModal"
 	(save)="saveItem($event)" (close)="closeModal()">
-</app-service-admin>
+</app-cate-parent-form>
 
 <app-loading [loading]="loading"></app-loading>

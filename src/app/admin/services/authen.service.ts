@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { BaseApiService } from '../helpers/base-api.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,13 @@ export class AuthenService {
 
   private apiUrl = '/api/Authentication';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private baseApiService: BaseApiService) { }
+
+  loginAdmin(data: any): Observable<any> {
+	const formData = this.baseApiService.setFormData({...data, 'Role': 'Admin'})
+	return this.baseApiService.postMethod(`${this.apiUrl}/login-user`, formData)
+  }
+
 
   loginUser(email: string, password: string): Observable<any> {
     const formData = new FormData();

@@ -4,7 +4,7 @@
 
 		<div class="d-md-flex justify-content-between">
 			<h2 class="my-2">View All CateParent</h2>
-			<button class="btn btn-success my-2" (click)="createItem()">Create New CateParent</button>
+			<!-- <button class="btn btn-success my-2" (click)="createItem()">Create New CateParent</button> -->
 		</div>
 		<div class="">
             <form [formGroup]="formSearch" (ngSubmit)="search()">
@@ -33,7 +33,7 @@
 					<tr>
 						<th class="text-center align-middle" style="width: 5%;">STT</th>
 						<th class="text-center align-middle" >Name</th>
-						<th class="text-center align-middle" style="width: 10%;">Actions</th>
+						<!-- <th class="text-center align-middle" style="width: 10%;">Actions</th> -->
 					</tr>
 				</thead>
 				<tbody>
@@ -41,7 +41,7 @@
 						<tr *ngFor="let item of dataList, let i = index">
 							<td class="text-center align-middle">{{  (paging.page - 1) * paging.pageSize + i + 1 }}</td>
 							<td class="text-center align-middle">{{ item.name }}</td>
-							<td class="text-center align-middle">
+							<!-- <td class="text-center align-middle">
 								<button mat-icon-button [matMenuTriggerFor]="menu"
 									class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary">
 									<i class="fa fa-ellipsis-v" aria-hidden="true"></i>
@@ -57,7 +57,7 @@
 										<i class="fa fa-trash"></i> Delete
 									</button>
 								</mat-menu>
-							</td>
+							</td> -->
 						</tr>
 					</ng-container>
 					<ng-container *ngIf="dataList?.length <= 0">
@@ -73,9 +73,9 @@
 	</div>
 </div>
 
-<app-owner-cate-parent-form [data]="selected" 
+<app-staff-cate-parent-form [data]="selected" 
 [modalTitle]="modalTitle" [typeForm]="typeForm" [isVisible]="openModal"
 	(save)="saveItem($event)" (close)="closeModal()">
-</app-owner-cate-parent-form>
+</app-staff-cate-parent-form>
 
 <app-loading [loading]="loading"></app-loading>

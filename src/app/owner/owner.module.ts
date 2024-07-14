@@ -52,7 +52,8 @@ import { WarehousePageComponent } from './pages/warehouse-page/warehouse-page.co
 import { WarehouseComponent } from './components/warehouse/warehouse.component';
 import { VoucherComponent } from './components/voucher/voucher.component';
 import { NgxSummernoteModule } from 'ngx-summernote';
-import { CategoryParentComponent } from './pages/category-parent/category-parent.component';
+import { OwnerCategoryParentComponent } from './pages/category-parent/category-parent.component';
+import { OwnerCateParentFormComponent } from './components/owner-cate-parent-form/owner-cate-parent-form.component';
 
 const route: Routes = [
 	{
@@ -99,6 +100,11 @@ const route: Routes = [
 				path: 'warehouse',
 				component: WarehousePageComponent,
 				title: 'Manage warehouse'
+			},
+			{
+				path: 'cateparent',
+				component: OwnerCategoryParentComponent,
+				title: 'Manage cateparent'
 			},
 		]
 	}
@@ -148,7 +154,8 @@ const route: Routes = [
 		WarehousePageComponent,
 		WarehouseComponent,
 		VoucherComponent,
-  CategoryParentComponent,
+		OwnerCategoryParentComponent,
+		OwnerCateParentFormComponent,
 	],
 	imports: [
 		FormsModule,

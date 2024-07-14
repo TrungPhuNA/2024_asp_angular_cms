@@ -4,12 +4,13 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { INIT_PAGING } from '../../helpers/constant';
 import { CateParentService } from '../../services/cateparent.service';
 
+
 @Component({
-	selector: 'app-cateparent-page',
-	templateUrl: './cateparent-page.component.html',
-	styleUrl: './cateparent-page.component.scss'
+  selector: 'app-cate-parent-staff',
+  templateUrl: './cate-parent-staff.component.html',
+  styleUrl: './cate-parent-staff.component.scss'
 })
-export class CateparentPageComponent {
+export class CateParentStaffComponent {
 	dataList: any = [];
 	modalTitle: string = '';
 	openModal: boolean = false;
@@ -27,12 +28,12 @@ export class CateparentPageComponent {
 	}
 	breadCrumb: any = [
 		{
-			label: 'Owner',
+			label: 'Staff',
 			link: '/'
 		},
 		{
 			label: 'CateParent',
-			link: '/owner/cateparent'
+			link: '/staff/cateparent'
 		}
 	];
 	ngOnInit(): void {
