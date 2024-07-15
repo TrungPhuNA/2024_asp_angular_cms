@@ -53,7 +53,7 @@ export class CategoryAdminPageComponent {
 	}
 
 	ngOnInit(): void {
-		console.log('Component initialized.');
+		// console.log('Component initialized.');
 		this.getDataList({ ...this.paging })
 		this.getDataListParent({ ...this.paging, pageSize: 10000 })
 	}

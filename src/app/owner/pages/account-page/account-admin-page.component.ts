@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { AlertService } from "../../helpers/alert.service";
-import { BlogService } from '../../services/blog.service';
-import { AccountService } from '../../services/account.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { INIT_PAGING } from '../../helpers/constant';
 import { StaffService } from '../../services/staff.service';
@@ -12,7 +10,7 @@ import { StaffService } from '../../services/staff.service';
 	styleUrl: './account-admin-page.component.scss'
 })
 export class AccountAdminPageComponent {
-	dataListStaff: any = [];
+	dataList: any = [];
 	selectedBrand: any = null;
 	modalTitle: string = '';
 
@@ -20,7 +18,10 @@ export class AccountAdminPageComponent {
 	showModal: boolean = false;
 	openModal: boolean = false;
 
+	currentPage: number = 1;
+	totalPages: number = 5;
 	pageName: string = 'accounts';
+
 	paging: any = { ...INIT_PAGING }
 	loading = false;
 
@@ -28,7 +29,7 @@ export class AccountAdminPageComponent {
 
 	constructor(
 		private staffService: StaffService,
-		private alertService: AlertService
+		private alertService: AlertService,
 	) {
 
 	}
@@ -45,37 +46,24 @@ export class AccountAdminPageComponent {
 	];
 
 	ngOnInit(): void {
-		this.getDataList({ ...this.paging, pageSize: 100000 })
+		this.getDataList({ ...this.paging, pageSize: 10000 });
 	}
-	dataListAll: any;
+	// dataListAll: any;
+	dataListAll = [];
 	getDataList(params: any) {
 		this.loading = true;
-		this.staffService.getLists({ ...this.paging, pageSize: 100000 }).subscribe((res: any) => {
+		this.staffService.getLists(params).subscribe((res: any) => {
 			this.loading = false;
-			console.info("===========[getDataListBrand] ===========[res] : ", res);
-			this.dataListAll = res?.data;
-			this.updateDataList();
-			if (this.dataListAll?.length > 0) {
-				let start = (this.paging?.page - 1) * this.paging.pageSize;
-				let end = this.paging?.page * this.paging.pageSize;
-				this.dataListStaff = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
-				this.updateDataList();
-			  }
-			this.paging.total = res?.length || 0;
+			if (res?.data?.length > 0) {
+				this.dataListAll = res?.data;
+				if (this.dataListAll?.length > 0) {
+					let start = (this.paging?.page - 1) * this.paging.pageSize;
+					let end = this.paging?.page * this.paging.pageSize;
+					this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
+				}
+				this.paging.total = res?.length || 0;
+			}
 		})
-	}
-
-	// Update dataList based on paging
-	updateDataList() {
-		if (this.dataListAll?.length > 0) {
-			let start = (this.paging.page - 1) * this.paging.pageSize;
-			let end = this.paging.page * this.paging.pageSize;
-			this.dataListStaff = this.dataListAll.slice(start, end);
-		}
-	}
-	toggleSelectAll() {
-		// const allSelected = this.brands.every(brand => brand.selected);
-		// this.brands.forEach(brand => brand.selected = !allSelected);
 	}
 
 	createItem() {
@@ -84,19 +72,24 @@ export class AccountAdminPageComponent {
 		this.typeForm = 1;
 	}
 
+	resetForm = false;
 	closeModal() {
-		this.openModal = false;
-		this.typeForm = 0;
+		// this.openModal = false;
+		// this.typeForm = 0;
+		this.resetForm = true;
+		this.modalTitle = "";
 
 	}
 
 	search() {
+		// this.pageChanged(1);
+		// this.getDataList({ ...this.paging, page: 1, ...this.formSearch.value })
 		this.getDataList({ ...this.paging, page: 1, ...this.formSearch.value })
 	}
 
 	resetSearchForm() {
 		this.formSearch.reset();
-		this.search();
+		this.getDataList({ ...this.paging, pageSize: 10000 })
 	}
 
 	saveItem(data: any) {
@@ -133,7 +126,7 @@ export class AccountAdminPageComponent {
 
 	selected: any;
 	viewItem(id: number) {
-		const data = this.dataListStaff.find((c: any) => c.accountId === id);
+		const data = this.dataList.find((c: any) => c.accountId === id);
 		this.selected = { ...data };
 		this.modalTitle = 'View Account';
 		this.openModal = true;
@@ -141,7 +134,7 @@ export class AccountAdminPageComponent {
 	}
 
 	editItem(id: number) {
-		const data = this.dataListStaff.find((c: any) => c.accountId === id);
+		const data = this.dataList.find((c: any) => c.accountId === id);
 		this.selected = { ...data };
 		this.modalTitle = 'Edit Account';
 		this.openModal = true;
@@ -176,47 +169,36 @@ export class AccountAdminPageComponent {
 
 	// }
 
-	updateBan(id: any, isBan: boolean) {
-		this.alertService.fireConfirm(
-			`${isBan ? 'Ban' : 'UnBan'} Account`,
-			`Are you sure you want to ${isBan ? 'Ban' : 'UnBan'} this Account?`,
-			'warning',
-			'Cancel',
-			'Yes',
-		)
-			.then((result) => {
-				if (result.isConfirmed) {
-					this.loading = true;
-					this.staffService.DeleteData(id, isBan).subscribe((res: any) => {
-						this.loading = false;
-						if (res?.message?.includes('successfully')) {
-							this.alertService.fireSmall('success', res?.message);
-							this.getDataList({ page: 1, pageSize: 10 })
-						} else if (res?.errors) {
-							this.alertService.showListError(res?.errors);
-						} else {
-							this.alertService.fireSmall('error', res?.message || "Delete Account failed!");
-						}
-					})
-				}
-			})
-	}
-
-
-	formSearch = new FormGroup({
+	formSearch: any = new FormGroup({
 		id: new FormControl(null),
 		name: new FormControl(null)
 	});
-
-	// pageChanged(e: any) {
-	// 	this.paging.page = e;
-	// 	let start = (this.paging.page - 1) * this.paging.pageSize;
-	// 	let end = this.paging.page * this.paging.pageSize;
-	// 	this.dataListStaff = this.dataListAll?.slice(start, end);
-	// }
-	
 	pageChanged(e: any) {
 		this.paging.page = e;
-		this.getDataList({ ...this.paging, ...this.formSearch.value })
+		// this.getDataList({ ...this.paging, ...this.formSearch.value })
+		if (this.dataListAll?.length > 0) {
+			let start = (this.paging?.page - 1) * this.paging.pageSize;
+			let end = this.paging?.page * this.paging.pageSize;
+			console.log(start, end);
+			if (this.formSearch.value?.name) {
+				let totalSearch = this.dataListAll?.filter((item: any) => item?.name?.includes(this.formSearch.value?.name?.trim()));
+				this.paging.total = totalSearch?.length || 0;
+				this.dataList = totalSearch?.filter((item: any, index: number) => index >= start && index < end && item?.name?.includes(this.formSearch.value?.name?.trim()))
+			} else {
+				this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
+			}
+		}
+	}
+
+	prevPage() {
+		if (this.currentPage > 1) {
+			this.currentPage--;
+		}
+	}
+
+	nextPage() {
+		if (this.currentPage < this.totalPages) {
+			this.currentPage++;
+		}
 	}
 }
