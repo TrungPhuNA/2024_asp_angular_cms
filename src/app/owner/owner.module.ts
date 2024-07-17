@@ -60,10 +60,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { ownerGuardGuard } from './owner-guard.guard';
 
 const route: Routes = [
 	{
 		path: '',
+		canActivate: [ownerGuardGuard],
+
 		component: OwnerComponent,
 		children: [
 			{

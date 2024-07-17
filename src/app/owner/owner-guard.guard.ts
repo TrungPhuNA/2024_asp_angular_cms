@@ -1,11 +1,9 @@
 import { CanActivateFn } from '@angular/router';
-
 const getItem = (key: any) => {
 	let data = localStorage.getItem(key);
 	return data ? JSON.parse(data) : null;
 }
-
-export const adminGuardGuard: CanActivateFn = (route, state) => {
+export const ownerGuardGuard: CanActivateFn = (route, state) => {
 	let dataType: string = getItem('userType') || '';
 	let access_token = getItem('access_token');
 	if(!(dataType?.toLowerCase() == 'admin' && access_token)) {

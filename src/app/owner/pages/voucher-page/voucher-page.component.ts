@@ -96,7 +96,8 @@ export class VoucherPageComponent {
 
 	resetSearchForm() {
 		this.formSearch.reset();
-		this.search();
+		this.getDataList({ ...this.paging, pageSize:10000 })
+		// this.search();
 	}
 
 	saveItem(data: any) {
