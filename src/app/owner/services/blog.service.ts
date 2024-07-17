@@ -12,7 +12,7 @@ export class BlogService {
 
 
     getLists(params: any) {
-        return this.baseApiService.getMethod('Advertisement/GetAllAdvertisements', params);
+        return this.baseApiService.getMethod('Advertisement/GetAllAdvertisementsByOwner', params);
     }
 
     show(id: any) {

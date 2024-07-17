@@ -51,11 +51,13 @@ import { NgxSummernoteModule } from 'ngx-summernote';
 import { CateparentPageComponent } from './pages/cateparent-page/cateparent-page.component';
 import { LoginAdminPageComponent } from './pages/login-page/login-admin-page.component';
 import { CateParentFormComponent } from './components/cate-parent-form/cate-parent-form.component';
+import { adminGuardGuard } from './admin-guard.guard';
 
 
 const route: Routes = [
 	{
 		path: '',
+		canActivate: [adminGuardGuard],
 		component: AdminComponent,
 		children: [
 			{
@@ -120,7 +122,12 @@ const route: Routes = [
 				title: 'Manage CateParent'
 			},
 		]
-	}
+	},
+	{
+		path: 'auth/login',
+		component: LoginAdminPageComponent,
+		title: 'Login'
+	},
 ]
 @NgModule({
 	declarations: [
@@ -166,7 +173,7 @@ const route: Routes = [
 
 		CateparentPageComponent,
 		LoginAdminPageComponent,
-		CateParentFormComponent
+		CateParentFormComponent,
 	],
 	imports: [
 		FormsModule,

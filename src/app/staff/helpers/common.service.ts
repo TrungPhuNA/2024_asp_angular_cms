@@ -9,8 +9,8 @@ export class CommonService {
 
 	constructor() { }
 
-	showStatusErrorV2(formGroup: any, name: string) {
-		return formGroup?.get(`${name}`)?.invalid && (formGroup?.get(`${name}`)?.dirty || formGroup?.get(`${name}`)?.touched);
+	showStatusErrorV2(formGroup: any, name: string, submitted = false) {
+		return formGroup?.get(`${name}`)?.invalid && (formGroup?.get(`${name}`)?.dirty || formGroup?.get(`${name}`)?.touched || submitted);
 	}
 
 	buildItemParam(key: string, value: string | number | string[] | number[] | any, params: HttpParams): HttpParams {

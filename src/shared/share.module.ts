@@ -13,6 +13,8 @@ import { RouterModule } from '@angular/router';
 import { ChatComponent } from '../app/user/components/chat/chat.component';
 import { SidebarAdminComponent } from './components/sidebar-admin/sidebar-admin.component';
 import { HeaderAdminComponent } from './components/header-admin/header-admin.component';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
 	declarations: [
@@ -28,7 +30,9 @@ import { HeaderAdminComponent } from './components/header-admin/header-admin.com
 		SidebarAdminComponent
 	],
 	imports: [
-		CommonModule, RouterModule, FormsModule
+		CommonModule, RouterModule, FormsModule,
+		MatMenuModule,
+		MatChipsModule,
 	],
 	exports: [
 		BoxWrapperComponent,

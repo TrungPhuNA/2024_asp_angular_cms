@@ -69,7 +69,7 @@ export class AlertService {
 		values.forEach((value) => {
 			html += '<li>' + JSON.stringify(value) + '</li>';
 		});
-		this.fireConfirmYes('Thông tin không hợp lệ', `<ul class="err-msg-list">${html}</ul>`, 'Bổ sung')
+		this.fireConfirmYes('Form is invalid', `<ul class="err-msg-list">${html}</ul>`, 'Update')
 	}
 
 }

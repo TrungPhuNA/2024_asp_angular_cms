@@ -52,6 +52,8 @@ import { VoucherComponent } from './components/voucher/voucher.component';
 import { NgxSummernoteModule } from 'ngx-summernote';
 import { CateParentStaffComponent } from './pages/cate-parent-staff/cate-parent-staff.component';
 import { StaffCateParentFormComponent } from './components/staff-cate-parent-form/staff-cate-parent-form.component';
+import { StaffLoginComponent } from './pages/staff-login/staff-login.component';
+import { StaffRegisterComponent } from './pages/staff-register/staff-register.component';
 
 const route: Routes = [
 	{
@@ -68,7 +70,7 @@ const route: Routes = [
 				component: DashboardAdminPageComponent,
 				title: 'Dashboard'
 			},
-			
+
 			{
 				path: 'product',
 				component: ProductAdminPageComponent,
@@ -99,11 +101,21 @@ const route: Routes = [
 				component: CateParentStaffComponent,
 				title: 'Manage cateparent'
 			},
-			
-			
-			
+
+
+
 		]
-	}
+	},
+	{
+		path: 'auth/register',
+		component: StaffRegisterComponent,
+		title: 'Register'
+	},
+	{
+		path: 'auth/login',
+		component: StaffLoginComponent,
+		title: 'Login'
+	},
 ]
 
 @NgModule({
@@ -149,8 +161,10 @@ const route: Routes = [
 		ServiceAdminPageComponent,
 		VoucherPageComponent,
 		VoucherComponent,
-  CateParentStaffComponent,
-  StaffCateParentFormComponent,
+		CateParentStaffComponent,
+		StaffCateParentFormComponent,
+		StaffLoginComponent,
+		StaffRegisterComponent,
 	],
 	imports: [
 		FormsModule,

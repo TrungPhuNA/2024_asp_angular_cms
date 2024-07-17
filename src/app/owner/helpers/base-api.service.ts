@@ -9,25 +9,34 @@ import { CommonService } from './common.service';
 })
 export class BaseApiService {
 
+
 	headers = new HttpHeaders({
 		'Content-Type': 'application/json, *',
+		"Authentication": "Bearer " + this.getItem('access_token')
 	});
 
 	headersForm = new HttpHeaders({
-		'Accept': 'application/json, multipart/form-data, *'
+		'Accept': 'application/json, multipart/form-data, *',
+		"Authentication": "Bearer " + this.getItem('access_token')
+
 	});
 	constructor(
 		private http: HttpClient,
 		private commonService: CommonService
 	) { }
 
+	getItem(key: any) {
+		let data = localStorage.getItem('access_token');
+		return data ? JSON.parse(data) : null
+	}
+
 
 	getMethod(url: string, params: any, typeHeader?: any) {
 		let filters = this.commonService.buildParams(params);
 		return this.http.get(`${URL_API}` + url, { params: filters, headers: this.headers })
-			.pipe(delay(500),catchError((e: any) => {
+			.pipe(delay(500), catchError((e: any) => {
 				console.log(e);
-				return of({})
+				return of(e)
 			}
 			));
 	}
@@ -41,7 +50,6 @@ export class BaseApiService {
 			.pipe(
 				delay(500),
 				catchError((e: any) => {
-
 					return of(e?.error)
 				}
 				));
@@ -52,7 +60,8 @@ export class BaseApiService {
 		return this.http.put(`${URL_API}` + url, data, {
 			headers: typeHeader ? this.headers : this.headersForm
 		})
-			.pipe(delay(500),catchError((e: any) => {
+			.pipe(delay(500), catchError((e: any) => {
+				console.log(e);
 				return of(e?.error)
 			}
 			));
@@ -61,7 +70,8 @@ export class BaseApiService {
 		return this.http.patch(`${URL_API}` + url, data, {
 			headers: typeHeader ? this.headers : this.headersForm
 		})
-			.pipe(delay(500),catchError((e: any) => {
+			.pipe(delay(500), catchError((e: any) => {
+				console.log(e);
 				return of(e?.error)
 			}
 			));
@@ -69,7 +79,8 @@ export class BaseApiService {
 
 	deleteMethod(url: string) {
 		return this.http.delete(`${URL_API}` + url)
-			.pipe(delay(500),catchError((e: any) => {
+			.pipe(delay(500), catchError((e: any) => {
+
 				return of(e?.error)
 			}
 			));
@@ -77,7 +88,7 @@ export class BaseApiService {
 
 	setFormData(data: any) {
 		let formData = new FormData();
-		if(data) {
+		if (data) {
 			Object.entries(data)?.forEach((item: any) => {
 				formData.append(item[0], item[1]);
 			})

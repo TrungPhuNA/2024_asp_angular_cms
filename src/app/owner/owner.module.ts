@@ -54,6 +54,12 @@ import { VoucherComponent } from './components/voucher/voucher.component';
 import { NgxSummernoteModule } from 'ngx-summernote';
 import { OwnerCategoryParentComponent } from './pages/category-parent/category-parent.component';
 import { OwnerCateParentFormComponent } from './components/owner-cate-parent-form/owner-cate-parent-form.component';
+import { OwnerLoginComponent } from './pages/owner-login/owner-login.component';
+import { OwnerRegisterComponent } from './pages/owner-register/owner-register.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 
 const route: Routes = [
 	{
@@ -106,8 +112,20 @@ const route: Routes = [
 				component: OwnerCategoryParentComponent,
 				title: 'Manage cateparent'
 			},
-		]
-	}
+
+		],
+
+	},
+	{
+		path: 'auth/register',
+		component: OwnerRegisterComponent,
+		title: 'Register'
+	},
+	{
+		path: 'auth/login',
+		component: OwnerLoginComponent,
+		title: 'Login'
+	},
 ]
 @NgModule({
 	declarations: [
@@ -156,6 +174,8 @@ const route: Routes = [
 		VoucherComponent,
 		OwnerCategoryParentComponent,
 		OwnerCateParentFormComponent,
+		OwnerLoginComponent,
+		OwnerRegisterComponent,
 	],
 	imports: [
 		FormsModule,
@@ -167,7 +187,11 @@ const route: Routes = [
 		ReactiveFormsModule,
 		SharedDataModule,
 		RouterModule.forChild(route),
-		NgxSummernoteModule
+		NgxSummernoteModule,
+		MatInputModule,
+		MatButtonModule,
+		MatFormFieldModule,
+		MatIconModule,
 	]
 })
 export class OwnerModule { }

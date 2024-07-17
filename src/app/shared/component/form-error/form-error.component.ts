@@ -7,6 +7,7 @@ import { Component, Input } from '@angular/core';
 })
 export class FormErrorComponent {
 	@Input() control: any;
+	@Input() submitted: any;
 	@Input() validation: string = '';
 	@Input() message: string = '';
 }

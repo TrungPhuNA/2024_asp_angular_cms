@@ -10,7 +10,7 @@ export class ProductService {
 	) { }
 
 	getLists(params: any) {
-		return this.baseApiService.getMethod('Product', params);
+		return this.baseApiService.getMethod('Product/home', params);
 	}
 
 	show(id: any) {
