@@ -11,10 +11,10 @@
 		</div>
 		<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 			<div class="input-group">
-				<input type="email" formControlName="email" placeholder="Email*" required>
+				<input type="email" formControlName="Email" placeholder="Email*" required>
 			</div>
 			<div class="input-group password-group">
-				<input [type]="passwordFieldType" formControlName="password" placeholder="Password*" required>
+				<input [type]="passwordFieldType" formControlName="Password" placeholder="Password*" required>
 				<div class="input-icon" (click)="togglePasswordVisibility()">
 					<ng-container *ngIf="!showPassword">
 						<svg class="bi bi-eye" xmlns="http://www.w3.org/2000/svg" width="20" height="20"

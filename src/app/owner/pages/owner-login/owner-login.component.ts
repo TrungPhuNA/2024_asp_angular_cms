@@ -104,14 +104,36 @@ export class OwnerLoginComponent {
 		this.loading = true;
 		this.authService.login(this.form.value).subscribe((res: any) => {
 			this.loading = false;
+			console.log(res);
 			if (res?.token) {
 				this.alertService.fireSmall('success', "Login successfully");
 				localStorage.setItem("access_token", res?.token);
 				localStorage.setItem("userType", res?.userType);
-				this.authService.getUserInfo().subscribe((resInfo: any) => {
-					console.log(resInfo);
-					this.router.navigate(['/owner'])
-				})
+				let data = this.authService.decodeToken(res?.token);
+				if (!data) {
+					this.alertService.fireSmall('success', "Login failed!");
+					return;
+				}
+				let user: any = {};
+				Object.entries(data).forEach((item: any) => {
+					console.log(item);
+					if(item[0] == `http://schemas.microsoft.com/ws/2008/06/identity/claims/role`) {
+						user.userType = item[1] || null
+					}
+					if(item[0] == `http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress`) {
+						user.email = item[1] || null;
+						user.name = item[1] || null;
+					}
+					if(item[0] == `http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier`) {
+						user.id = item[1] || null
+					}
+				});
+				localStorage.setItem('user', JSON.stringify(user));
+				this.router.navigate(['/owner']);
+				// this.authService.getUserInfo(res?.token).subscribe((resInfo: any) => {
+				// 	console.log(resInfo);
+				// 	
+				// })
 			} else if (res?.errors?.length > 0) {
 				this.alertService.showListError(res?.errors)
 			} else {

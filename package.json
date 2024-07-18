@@ -35,6 +35,7 @@
     "express": "^4.18.2",
     "flag-icons": "^7.2.2",
     "jquery": "^3.7.1",
+    "jwt-decode": "^4.0.0",
     "moment": "^2.30.1",
     "ngx-loading": "^17.0.0",
     "ngx-summernote": "^1.0.0",

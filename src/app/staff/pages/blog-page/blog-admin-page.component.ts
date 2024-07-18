@@ -61,12 +61,7 @@ export class BlogAdminPageComponent {
 				console.info("===========[getDataListBrand] ===========[res] : ", res);
 				this.dataListAll = res?.data;
 				this.updateDataList();
-				if (this.dataListAll?.length > 0) {
-					let start = (this.paging?.page - 1) * this.paging.pageSize;
-					let end = this.paging?.page * this.paging.pageSize;
-					this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
-					this.updateDataList();
-				}
+				
 				this.paging.total = res?.data?.length || 0;
 			}
 		})
@@ -74,9 +69,9 @@ export class BlogAdminPageComponent {
 	// Update dataList based on paging
 	updateDataList() {
 		if (this.dataListAll?.length > 0) {
-			let start = (this.paging.page - 1) * this.paging.pageSize;
-			let end = this.paging.page * this.paging.pageSize;
-			this.dataList = this.dataListAll.slice(start, end);
+			let start = (this.paging?.page - 1) * this.paging.pageSize;
+			let end = this.paging?.page * this.paging.pageSize;
+			this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
 		}
 	}
 	services = []

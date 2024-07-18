@@ -3,19 +3,24 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { BaseApiService } from '../helpers/base-api.service';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class AuthenService {
 
-	private apiUrl = '/api/Authentication';
+	private apiUrl = 'Authentication';
 
 	constructor(private http: HttpClient, private baseApiService: BaseApiService) { }
 
 	loginAdmin(data: any): Observable<any> {
 		const formData = this.baseApiService.setFormData({ ...data, 'Role': 'Admin' })
-		return this.baseApiService.postMethod(`${this.apiUrl}/login-user`, formData)
+		return this.baseApiService.postMethod(`${this.apiUrl}/login-admin`, formData)
+	}
+
+	decodeToken(token: any) {
+		return  jwtDecode(token);
 	}
 
 

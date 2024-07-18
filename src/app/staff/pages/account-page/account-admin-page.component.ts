@@ -11,93 +11,7 @@ import { INIT_PAGING } from '../../helpers/constant';
 	styleUrl: './account-admin-page.component.scss'
 })
 export class AccountAdminPageComponent {
-	dataList: any = [
-		{
-			"accountId": 1,
-			"email": "nguoidung1@example.com",
-			"password": "password1                                                   ",
-			"fullname": "Ngu?i Dùng M?t",
-			"image": "nguoidung1.jpg",
-			"phone": "0123456789",
-			"dob": "1990-01-01T00:00:00",
-			"gender": "Nam",
-			"address": "123 Ðu?ng Chính",
-			"role": "user",
-			"isBan": false,
-			"comments": [],
-			"notifications": [],
-			"orders": [],
-			"rooms": []
-		},
-		{
-			"accountId": 2,
-			"email": "nguoidung2@example.com",
-			"password": "password2                                                   ",
-			"fullname": "Ngu?i Dùng Hai",
-			"image": "nguoidung2.jpg",
-			"phone": "0987654321",
-			"dob": "1992-02-02T00:00:00",
-			"gender": "N?",
-			"address": "456 Ðu?ng Ph?",
-			"role": "user",
-			"isBan": false,
-			"comments": [],
-			"notifications": [],
-			"orders": [],
-			"rooms": []
-		},
-		{
-			"accountId": 3,
-			"email": "quantri@example.com",
-			"password": "password3                                                   ",
-			"fullname": "Qu?n Tr? Viên",
-			"image": "quantri.jpg",
-			"phone": "0123456780",
-			"dob": "1985-03-03T00:00:00",
-			"gender": "Nam",
-			"address": "789 Ðu?ng Thông",
-			"role": "admin",
-			"isBan": false,
-			"comments": [],
-			"notifications": [],
-			"orders": [],
-			"rooms": []
-		},
-		{
-			"accountId": 4,
-			"email": "chu@example.com",
-			"password": "password4                                                   ",
-			"fullname": "Ch? S? H?u",
-			"image": "chu.jpg",
-			"phone": "1122334455",
-			"dob": "1980-04-04T00:00:00",
-			"gender": "N?",
-			"address": "101 Ðu?ng Phong",
-			"role": "owner",
-			"isBan": false,
-			"comments": [],
-			"notifications": [],
-			"orders": [],
-			"rooms": []
-		},
-		{
-			"accountId": 5,
-			"email": "nhanvien@example.com",
-			"password": "password5                                                   ",
-			"fullname": "Nhân Viên",
-			"image": "nhanvien.jpg",
-			"phone": "2233445566",
-			"dob": "1988-05-05T00:00:00",
-			"gender": "Nam",
-			"address": "202 Ðu?ng S?i",
-			"role": "staff",
-			"isBan": false,
-			"comments": [],
-			"notifications": [],
-			"orders": [],
-			"rooms": []
-		}
-	];
+	dataList: any = [];
 	selectedBrand: any = null;
 	modalTitle: string = '';
 
@@ -125,22 +39,42 @@ export class AccountAdminPageComponent {
 		},
 		{
 			label: 'Account',
-			link: '/admin/account'
+			link: '/owner/account'
 		}
 	];
 
 	ngOnInit(): void {
 		this.getDataList({ ...this.paging })
 	}
-
+	dataListAll = []
 	getDataList(params: any) {
 		this.loading = true;
 		this.accountService.getLists(params).subscribe((res: any) => {
 			this.loading = false;
-			console.info("===========[getDataListBrand] ===========[res] : ", res);
-			this.dataList = res;
-			this.paging.total = res?.length || 0;
+			this.dataListAll = res?.data;
+			this.updateDataList();
+			// if (this.dataListAll?.length > 0) {
+			// 	let start = (this.paging?.page - 1) * this.paging.pageSize;
+			// 	let end = this.paging?.page * this.paging.pageSize;
+			// 	this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
+			// 	this.updateDataList();
+			// }
+			this.paging.total = res?.data?.length || 0;
 		})
+	}
+
+	updateDataList() {
+		if (this.dataListAll?.length > 0) {
+			let start = (this.paging?.page - 1) * this.paging.pageSize;
+			let end = this.paging?.page * this.paging.pageSize;
+			if(this.formSearch.value?.name) {
+				let totalSearch = this.dataListAll?.filter((item: any) => item?.name?.includes(this.formSearch.value?.name?.trim()));
+				this.paging.total = totalSearch?.length || 0;
+				this.dataList = totalSearch?.filter((item: any, index: number) => index >= start && index < end && item?.name?.includes(this.formSearch.value?.name?.trim()) )
+			} else {
+				this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end )
+			}
+		}
 	}
 
 	toggleSelectAll() {
@@ -161,7 +95,8 @@ export class AccountAdminPageComponent {
 	}
 
 	search() {
-		this.getDataList({ ...this.paging, page: 1, ...this.formSearch.value })
+		this.paging.page = 1;
+		this.updateDataList();
 	}
 
 	resetSearchForm() {
@@ -273,13 +208,13 @@ export class AccountAdminPageComponent {
 	}
 
 
-	formSearch = new FormGroup({
+	formSearch: any = new FormGroup({
 		id: new FormControl(null),
 		name: new FormControl(null)
 	});
 
 	pageChanged(e: any) {
 		this.paging.page = e;
-		this.getDataList({ ...this.paging, ...this.formSearch.value })
+		this.updateDataList();
 	}
 }

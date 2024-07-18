@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 // import { TranslateService } from '@ngx-translate/core';
@@ -19,9 +19,21 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 export class HeaderAdminComponent {
 	@Output() sidebarToggle = new EventEmitter<void>();
-
+	user: any;
+	constructor(private activeRoute: ActivatedRoute) {
+		this.activeRoute.queryParams.subscribe((res: any) => {
+			let userLocal = localStorage.getItem('user');
+			this.user = userLocal ? JSON.parse(userLocal) : null
+		})
+	}
 	toggleSidebar() {
 		this.sidebarToggle.emit();
+	}
+
+	ngOnInit(): void {
+		//Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+		//Add 'implements OnInit' to the class.
+		
 	}
 
 	store: any;

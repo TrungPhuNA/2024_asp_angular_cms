@@ -159,7 +159,6 @@ export class CateParentStaffComponent {
 		if (this.dataListAll?.length > 0) {
 			let start = (this.paging?.page - 1) * this.paging.pageSize;
 			let end = this.paging?.page * this.paging.pageSize;
-			console.log(start, end);
 			if(this.formSearch.value?.name) {
 				let totalSearch = this.dataListAll?.filter((item: any) => item?.name?.includes(this.formSearch.value?.name?.trim()));
 				this.paging.total = totalSearch?.length || 0;

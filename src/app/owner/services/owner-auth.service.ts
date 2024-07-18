@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BaseApiService } from '../helpers/base-api.service';
 import { CommonService } from '../helpers/common.service';
+import { HttpHeaders } from '@angular/common/http';
+import { jwtDecode } from "jwt-decode";
 
 @Injectable({
 	providedIn: 'root'
@@ -26,7 +28,15 @@ export class OwnerAuthService {
 		return this.baseApiService.postMethod('Authentication/login-shop', data);
 	}
 
-	getUserInfo() {
-		return this.baseApiService.getMethod(`Authentication/Account`, {});
+	getUserInfo(token: any) {
+		let header = new HttpHeaders({
+			"Authentication": "Bearer " + token
+		});
+		
+		return this.baseApiService.getMethod(`Authentication/Account`,{}, header);
+	}
+
+	decodeToken(token: any) {
+		return  jwtDecode(token);
 	}
 }

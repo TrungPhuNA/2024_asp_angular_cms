@@ -178,10 +178,10 @@ export class CategoryAdminPageComponent {
 		this.showUpdateCategoryModal = true;
 	}
 
-	deleteCategory(id: number) {
+	deleteCategory(category: any) {
 		this.alertService.fireConfirm(
 			'Delete Category',
-			'Are you sure you want to delete this category?',
+			`Are you sure you want to delete ${category.name}?`,
 			'warning',
 			'Cancel',
 			'Delete',
@@ -189,7 +189,7 @@ export class CategoryAdminPageComponent {
 			.then((result) => {
 				if (result.isConfirmed) {
 					this.loading = true;
-					this.categoryService.deleteData(id).subscribe((res: any) => {
+					this.categoryService.deleteData(category.id).subscribe((res: any) => {
 						this.loading = false;
 						if (res?.message?.includes('successfully')) {
 							this.alertService.fireSmall('success', res?.message);

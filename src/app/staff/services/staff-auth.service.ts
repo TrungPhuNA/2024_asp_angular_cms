@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BaseApiService } from '../helpers/base-api.service';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,9 @@ export class StaffAuthService {
 		private baseApiService: BaseApiService,
 	) { }
 
-
+	decodeToken(token: any) {
+		return jwtDecode(token);
+	}
 
 	register(data: any) {
 		return this.baseApiService.postMethod('Authentication/register-owner', data, true);

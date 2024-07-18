@@ -27,13 +27,13 @@ export class BaseApiService {
 
 	getItem(key: any) {
 		let data = localStorage.getItem('access_token');
-		return data ? JSON.parse(data) : null
+		return data 
 	}
 
 
-	getMethod(url: string, params: any, typeHeader?: any) {
+	getMethod(url: string, params: any, headers?: any) {
 		let filters = this.commonService.buildParams(params);
-		return this.http.get(`${URL_API}` + url, { params: filters, headers: this.headers })
+		return this.http.get(`${URL_API}` + url, { params: filters, headers: headers || this.headers})
 			.pipe(delay(500), catchError((e: any) => {
 				console.log(e);
 				return of(e)

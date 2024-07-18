@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AuthenService } from '../../services/authen.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AlertService } from '../../helpers/alert.service';
 
 @Component({
 	selector: 'app-login-admin-page',
@@ -20,11 +21,12 @@ export class LoginAdminPageComponent {
 	constructor(
 		private fb: FormBuilder,
 		private authenService: AuthenService,
+		private alertService: AlertService,
 		private router: Router
 	) {
 		this.loginForm = this.fb.group({
-			email: ['', [Validators.required, Validators.email]],
-			password: ['', [Validators.required]]
+			Email: ['', [Validators.required, Validators.email]],
+			Password: ['', [Validators.required]]
 		});
 	}
 	togglePasswordVisibility() {
@@ -47,9 +49,31 @@ export class LoginAdminPageComponent {
 					console.log('Login successful', response);
 					if (response && response.token) {
 						localStorage.setItem('access_token', response.token);
-						localStorage.setItem('user', JSON.stringify(response.user));
-						localStorage.setItem('userType', response.user?.role || 'User');
-						this.router.navigate(['/homepage']);
+						if (response?.user) {
+							localStorage.setItem('user', JSON.stringify(response.user));
+							localStorage.setItem('userType', response.user?.role || 'User');
+						}
+						let data = this.authenService.decodeToken(response?.token);
+						if (!data) {
+							this.alertService.fireSmall('success', "Login failed!");
+							return;
+						}
+						let user: any = {};
+						Object.entries(data).forEach((item: any) => {
+							console.log(item);
+							if (item[0] == `http://schemas.microsoft.com/ws/2008/06/identity/claims/role`) {
+								user.userType = item[1] || null
+							}
+							if (item[0] == `http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress`) {
+								user.email = item[1] || null;
+								user.name = item[1] || null;
+							}
+							if (item[0] == `http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier`) {
+								user.id = item[1] || null
+							}
+						});
+						localStorage.setItem('user', JSON.stringify(user));
+						this.router.navigate(['/admin']);
 					} else {
 						this.loginError = 'Login failed: No token received';
 					}
