@@ -146,7 +146,7 @@ export class StaffRegisterComponent {
 			
 			if(res?.text?.includes('successful')) {
 				this.alertService.fireSmall("success", res?.text);
-				this.router.navigate(['/owner/auth/login'])
+				this.router.navigate(['/staff/auth/login'])
 			} else if(res?.errors?.length > 0) {
 				this.alertService.showListError(res?.errors);
 			} else {
