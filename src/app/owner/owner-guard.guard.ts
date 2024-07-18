@@ -1,7 +1,7 @@
 import { CanActivateFn } from '@angular/router';
 const getItem = (key: any) => {
 	let data = localStorage.getItem(key);
-	return data ? JSON.parse(data) : null;
+	return data ;
 }
 export const ownerGuardGuard: CanActivateFn = (route, state) => {
 	let dataType: string = getItem('userType') || '';

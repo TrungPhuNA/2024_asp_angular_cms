@@ -106,8 +106,8 @@ export class OwnerLoginComponent {
 			this.loading = false;
 			if (res?.token) {
 				this.alertService.fireSmall('success', "Login successfully");
-				localStorage.setItem("access_token", JSON.stringify(res?.token));
-				localStorage.setItem("userType", JSON.stringify(res?.userType));
+				localStorage.setItem("access_token", res?.token);
+				localStorage.setItem("userType", res?.userType);
 				this.authService.getUserInfo().subscribe((resInfo: any) => {
 					console.log(resInfo);
 					this.router.navigate(['/owner'])
