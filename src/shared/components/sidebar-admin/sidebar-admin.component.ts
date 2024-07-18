@@ -71,7 +71,7 @@ export class SidebarAdminComponent implements OnChanges {
 	];
 
 	constructor() {
-
+		
 	}
 
 	ngOnChanges(): void {
