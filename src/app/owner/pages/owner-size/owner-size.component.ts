@@ -48,7 +48,7 @@ export class OwnerSizeComponent {
 	dataListAll: any;
 	getDataListParent(params: any) {
 		this.loading = true;
-		this.productService.getListSize({...params, page_size:10000}).subscribe((res: any) => {
+		this.productService.getListSize({...params, pageSize:10000}).subscribe((res: any) => {
 			this.loading = false;
 			this.dataListAll = res?.data || [];
 			if (this.dataListAll?.length > 0) {
@@ -92,7 +92,7 @@ export class OwnerSizeComponent {
 				} else if (res?.errors) {
 					this.alertService.showListError(res?.errors);
 				} else {
-					this.alertService.fireSmall('error', res?.message || "Add CateParent failed!");
+					this.alertService.fireSmall('error', res?.message || "Add Product size failed!");
 				}
 			})
 		} else {
@@ -107,7 +107,7 @@ export class OwnerSizeComponent {
 				} else if (res?.errors) {
 					this.alertService.showListError(res?.errors);
 				} else {
-					this.alertService.fireSmall('error', res?.message || "Updated CateParent failed!");
+					this.alertService.fireSmall('error', res?.message || "Updated Product size failed!");
 				}
 			})
 		}
@@ -130,7 +130,7 @@ export class OwnerSizeComponent {
 	}
 	deleteItem(id: number) {
 		this.alertService.fireConfirm(
-			'Delete CateParent',
+			'Delete Product size',
 			'Are you sure you want to delete this Size?',
 			'warning',
 			'Cancel',
@@ -139,7 +139,7 @@ export class OwnerSizeComponent {
 			.then((result) => {
 				if (result.isConfirmed) {
 					this.loading = true;
-					this.cateparentService.deleteData(id).subscribe((res: any) => {
+					this.productService.deleteDataSize(id).subscribe((res: any) => {
 						this.loading = false;
 						if (res?.message?.includes('successfully')) {
 							this.alertService.fireSmall('success', res?.message);
@@ -147,7 +147,7 @@ export class OwnerSizeComponent {
 						} else if (res?.errors) {
 							this.alertService.showListError(res?.errors);
 						} else {
-							this.alertService.fireSmall('error', res?.message || "CateParent deleted failed!");
+							this.alertService.fireSmall('error', res?.message || "Product size deleted failed!");
 						}
 					})
 				}

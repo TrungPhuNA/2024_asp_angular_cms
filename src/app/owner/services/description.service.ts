@@ -20,15 +20,15 @@ export class DescriptionService {
     }
 
     createOrUpdateData(data: any, id?: any) {
-		const formData = this.baseApiService.setFormData(data);
+		let formData = this.baseApiService.setFormData(data);
         if(id) {
-			formData.append('AdId', id)
-            return this.baseApiService.putMethod(`Description/UpdateDescription`, formData);
+			formData.append('DescriptionId', id)
+            return this.baseApiService.putMethod(`Description/UpdateDesctiption`, formData);
         }
-        return this.baseApiService.postMethod('Description/CreateDescription', formData);
+        return this.baseApiService.postMethod('Description/CreateDesctiption', formData);
     }
 
     deleteData(id: any) {
-        return this.baseApiService.deleteMethod(`Description/DeleteDescription/${id}`);
+        return this.baseApiService.patchMethod(`Description/DeleteDescription/${id}`, {});
     }
 }
