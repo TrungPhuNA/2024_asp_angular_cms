@@ -120,6 +120,18 @@ const route: Routes = [
 				title: 'Manage cateparent'
 			},
 
+			{
+				path: 'description',
+				component: OwnerDescriptionComponent,
+				title: 'Manage cateparent'
+			},
+
+			{
+				path: 'size',
+				component: OwnerSizeComponent,
+				title: 'Manage cateparent'
+			},
+
 		],
 
 	},
@@ -183,10 +195,10 @@ const route: Routes = [
 		OwnerCateParentFormComponent,
 		OwnerLoginComponent,
 		OwnerRegisterComponent,
-  OwnerSizeComponent,
-  OwnerDescriptionComponent,
-  OwnerDescriptionFormComponent,
-  OwnerSizeFormComponent,
+		OwnerSizeComponent,
+		OwnerDescriptionComponent,
+		OwnerDescriptionFormComponent,
+		OwnerSizeFormComponent,
 	],
 	imports: [
 		FormsModule,
