@@ -12,12 +12,12 @@ export class BaseApiService {
 
 	headers = new HttpHeaders({
 		'Content-Type': 'application/json, *',
-		"Authentication": "Bearer " + this.getItem('access_token')
+		"Authentication": "Bearer " + this.getItem('token')
 	});
 
 	headersForm = new HttpHeaders({
 		'Accept': 'application/json, multipart/form-data, *',
-		"Authentication": "Bearer " + this.getItem('access_token')
+		"Authentication": "Bearer " + this.getItem('token')
 
 	});
 	constructor(
@@ -26,7 +26,7 @@ export class BaseApiService {
 	) { }
 
 	getItem(key: any) {
-		let data = localStorage.getItem('access_token');
+		let data = localStorage.getItem('token');
 		return data 
 	}
 

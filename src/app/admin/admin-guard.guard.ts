@@ -7,8 +7,8 @@ const getItem = (key: any) => {
 
 export const adminGuardGuard: CanActivateFn = (route, state) => {
 	let dataType: string = getItem('userType') || '';
-	let access_token = getItem('access_token');
-	if(!( access_token)) {
+	let token = getItem('token');
+	if(!( token)) {
 		window.location.href = '/admin/auth/login'
 	}
 	return true

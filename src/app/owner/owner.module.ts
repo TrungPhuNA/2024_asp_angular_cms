@@ -61,6 +61,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { ownerGuardGuard } from './owner-guard.guard';
+import { OwnerSizeComponent } from './pages/owner-size/owner-size.component';
+import { OwnerDescriptionComponent } from './pages/owner-description/owner-description.component';
+import { OwnerDescriptionFormComponent } from './components/owner-description-form/owner-description-form.component';
+import { OwnerSizeFormComponent } from './components/owner-size-form/owner-size-form.component';
 
 const route: Routes = [
 	{
@@ -179,6 +183,10 @@ const route: Routes = [
 		OwnerCateParentFormComponent,
 		OwnerLoginComponent,
 		OwnerRegisterComponent,
+  OwnerSizeComponent,
+  OwnerDescriptionComponent,
+  OwnerDescriptionFormComponent,
+  OwnerSizeFormComponent,
 	],
 	imports: [
 		FormsModule,

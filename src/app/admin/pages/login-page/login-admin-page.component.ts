@@ -48,7 +48,7 @@ export class LoginAdminPageComponent {
 				response => {
 					console.log('Login successful', response);
 					if (response && response.token) {
-						localStorage.setItem('access_token', response.token);
+						localStorage.setItem('token', response.token);
 						if (response?.user) {
 							localStorage.setItem('user', JSON.stringify(response.user));
 							localStorage.setItem('userType', response.user?.role || 'User');

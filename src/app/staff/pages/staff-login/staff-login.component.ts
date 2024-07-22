@@ -106,7 +106,7 @@ export class StaffLoginComponent {
 			this.loading = false;
 			if (res?.token) {
 				this.alertService.fireSmall('success', "Login successfully");
-				localStorage.setItem("access_token", res?.token);
+				localStorage.setItem("token", res?.token);
 				localStorage.setItem("userType", res?.userType);
 				let data = this.authService.decodeToken(res?.token);
 				if (!data) {

@@ -54,6 +54,10 @@ import { CateParentStaffComponent } from './pages/cate-parent-staff/cate-parent-
 import { StaffCateParentFormComponent } from './components/staff-cate-parent-form/staff-cate-parent-form.component';
 import { StaffLoginComponent } from './pages/staff-login/staff-login.component';
 import { StaffRegisterComponent } from './pages/staff-register/staff-register.component';
+import { StaffSizeFormComponent } from './components/staff-size-form/staff-size-form.component';
+import { StaffDescriptionFormComponent } from './components/staff-description-form/staff-description-form.component';
+import { StaffDescriptionComponent } from './pages/staff-description/staff-description.component';
+import { StaffSizeComponent } from './pages/staff-size/staff-size.component';
 
 const route: Routes = [
 	{
@@ -165,6 +169,10 @@ const route: Routes = [
 		StaffCateParentFormComponent,
 		StaffLoginComponent,
 		StaffRegisterComponent,
+  StaffSizeFormComponent,
+  StaffDescriptionFormComponent,
+  StaffDescriptionComponent,
+  StaffSizeComponent,
 	],
 	imports: [
 		FormsModule,

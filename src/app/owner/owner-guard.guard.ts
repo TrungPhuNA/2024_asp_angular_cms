@@ -5,8 +5,8 @@ const getItem = (key: any) => {
 }
 export const ownerGuardGuard: CanActivateFn = (route, state) => {
 	let dataType: string = getItem('userType') || '';
-	let access_token = getItem('access_token');
-	// if(!(dataType?.toLowerCase() == 'owner' && access_token)) {
+	let token = getItem('token');
+	// if(!(dataType?.toLowerCase() == 'owner' && token)) {
 	// 	window.location.href = '/owner/auth/login'
 	// }
 	return true
