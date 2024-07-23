@@ -16,7 +16,8 @@ export class PaginationComponent {
 	@Input() title: string = 'Total';
 	@Input() endTitle: string = '';
 
-	@Output() changePaged = new EventEmitter();
+	// @Output() changePaged = new EventEmitter();
+	@Output() changePaged = new EventEmitter<number>();
 
 	defaultClass = {
 		pageSize: 15,
@@ -24,7 +25,8 @@ export class PaginationComponent {
 	}
 
 	ngOnChanges(changes: SimpleChanges): void {
-		console.log(this.paging);
+		console.log('Phân trang đã thay đổi:', this.paging);
+
 	}
 
 	changed(e: any) {

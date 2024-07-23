@@ -1,20 +1,21 @@
 <div class="login-wrapper">
 	<div class="login-container">
-		<h2>Enter your account to join us.</h2>
-		<div class="login-owner">
-			Log in with the store owner channel
+		<h2>Log in to your admin account</h2>
+		<div class="login-owner" (click)="navigateToOwnerLogin()">
+			Log in to the owner and staff accounts
 			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right"
 				viewBox="0 0 16 16">
 				<path fill-rule="evenodd"
 					d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8" />
 			</svg>
 		</div>
+
 		<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 			<div class="input-group">
-				<input type="email" formControlName="Email" placeholder="Email*" required>
+				<input type="email" formControlName="Email" placeholder="Enter your email address." required>
 			</div>
 			<div class="input-group password-group">
-				<input [type]="passwordFieldType" formControlName="Password" placeholder="Password*" required>
+				<input [type]="passwordFieldType" formControlName="Password" placeholder="Enter a password of 8 - 24 characters." required>
 				<div class="input-icon" (click)="togglePasswordVisibility()">
 					<ng-container *ngIf="!showPassword">
 						<svg class="bi bi-eye" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
@@ -38,9 +39,8 @@
 					</ng-container>
 				</div>
 			</div>
-
 			<div class="mt-4">
-				<button type="submit" class="btn btn-primary w-100">Continue</button>
+				<button type="submit" class="btn btn-primary w-100">Login</button>
 			</div>
 		</form>
 	</div>

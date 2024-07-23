@@ -1,4 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { CommonService } from '../../../helpers/common.service';
+import { AlertService } from '../../../helpers/alert.service';
 
 @Component({
 	selector: 'app-detail-category',
@@ -14,15 +17,37 @@ export class DetailCategoryComponent {
 
 	parent: any
 
+	form = new FormGroup({
+		Name: new FormControl(null, Validators.required),
+		Image: new FormControl(null, Validators.required),
+		Parent: new FormControl(null)
+	  });
+	  
+	constructor(
+		public commonService: CommonService,
+		private alertService: AlertService
+	) { }
 	ngOnChanges(): void {
-		//Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-		//Add '${implements OnChanges}' to the class.
-		if(this.category?.cateParent) {
-			this.parent = this.category?.cateParent?.name
+		if (!this.isVisible) {
+		  this.form.reset();
 		}
-	}
+		console.log('Category:', this.category);
+		console.log('Category Parent:', this.category?.parent);
+		console.log('Form Value:', this.form.value);
+		console.log('Category Parents:', this.categoryParents);
+		if (this.category) {
+		  this.form.patchValue({
+			Name: this.category?.name,
+			Image: this.category?.image,
+			 Parent: this.category?.cateParent?.name || ''
+		  });
+		  this.form.disable();
+		}
+		
+	  }
 
-	closeModal() {
+	  closeModal() {
+		this.form.reset();
 		this.close.emit();
-	}
+	  }
 }

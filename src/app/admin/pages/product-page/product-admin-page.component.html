@@ -3,7 +3,7 @@
 		<app-breadcrum [items]="breadCrumb"></app-breadcrum>
 		<div class="d-md-flex justify-content-between">
 			<h2 class="my-2">View All Products</h2>
-			<button class="btn btn-success my-2" (click)="createItem()">Create New Product</button>
+			<!-- <button class="btn btn-success my-2" (click)="createItem()">Create New Product</button> -->
 		</div>
 		<div class="">
 			<form [formGroup]="formSearch" (ngSubmit)="pageChanged(1)">
@@ -53,6 +53,7 @@
 									class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary">
 									<i class="fa {{item.isBan ? 'fa-lock text-danger' : 'fa-unlock text-success'}}"></i> 
 								</button> -->
+								
 							<td class="text-center align-middle">
 								<button mat-icon-button
 									class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary"

@@ -10,6 +10,9 @@ export class ServiceService {
 	) { }
 
 	getLists(params: any) {
+        if(params?.keyword) {
+			return this.baseApiService.getMethod('Service/GetAllServiceForUser', params);
+		}
         return this.baseApiService.getMethod('Service/GetAllServiceForUser', params);
     }
 

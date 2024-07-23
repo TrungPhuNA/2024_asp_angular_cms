@@ -20,6 +20,7 @@ export class OwnerLoginComponent {
 	submitted = false;
 	showPassword = false;
 	showConfirmPassword = false;
+	passwordFieldType: string = 'password';
 
 	loading = false;
 	constructor(
@@ -33,13 +34,10 @@ export class OwnerLoginComponent {
 
 	type = 'REGISTER'
 
-
-
 	isFieldInvalid(field: string): boolean {
 		const control = this.form.get(field);
 		return control ? control.invalid && (control.dirty || control.touched || this.submitted) : false;
 	}
-
 	resetFields(fields: string[]): void {
 		fields.forEach(field => {
 			this.form.get(field)?.reset();
@@ -89,12 +87,14 @@ export class OwnerLoginComponent {
 
 	togglePasswordVisibility(): void {
 		this.showPassword = !this.showPassword;
+		this.passwordFieldType = this.showPassword ? 'text' : 'password';
 	}
 	toggleConfirmPasswordVisibility(): void {
 		this.showConfirmPassword = !this.showConfirmPassword;
 	}
 
 	onSubmit(): void {
+		localStorage.clear();
 		this.submitted = true;
 		if (this.form.invalid) {
 			console.log('Form Values:', this.form.value);
@@ -117,14 +117,14 @@ export class OwnerLoginComponent {
 				let user: any = {};
 				Object.entries(data).forEach((item: any) => {
 					console.log(item);
-					if(item[0] == `http://schemas.microsoft.com/ws/2008/06/identity/claims/role`) {
+					if (item[0] == `http://schemas.microsoft.com/ws/2008/06/identity/claims/role`) {
 						user.userType = item[1] || null
 					}
-					if(item[0] == `http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress`) {
+					if (item[0] == `http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress`) {
 						user.email = item[1] || null;
 						user.name = item[1] || null;
 					}
-					if(item[0] == `http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier`) {
+					if (item[0] == `http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier`) {
 						user.id = item[1] || null
 					}
 				});

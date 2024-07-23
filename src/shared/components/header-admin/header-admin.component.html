@@ -27,6 +27,9 @@
 				</button>
 			</button>
 			<mat-menu #menu="matMenu">
+				<a mat-menu-item class="view-button" (click)="openProfile()">
+					<i class="fa fa-user"></i> Profile
+				</a>
 				<a mat-menu-item class="view-button" (click)="logout()">
 					<i class="fa fa-door-open"></i> Logout
 				</a>

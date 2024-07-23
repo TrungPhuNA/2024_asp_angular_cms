@@ -189,7 +189,8 @@ export class CategoryAdminPageComponent {
 			.then((result) => {
 				if (result.isConfirmed) {
 					this.loading = true;
-					this.categoryService.deleteData(category.id).subscribe((res: any) => {
+					console.log('Deleting category with ID:', category.categoryId);
+					this.categoryService.deleteData(category.categoryId).subscribe((res: any) => {
 						this.loading = false;
 						if (res?.message?.includes('successfully')) {
 							this.alertService.fireSmall('success', res?.message);

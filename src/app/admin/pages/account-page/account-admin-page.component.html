@@ -84,14 +84,14 @@
 											(click)="updateBan(item.accountId, false)">
 											<i class="fa fa-unlock text-success"></i> Unban
 										</button>
-										<button mat-menu-item class="icon-button delete-button">
+										<!-- <button mat-menu-item class="icon-button delete-button">
 											<i class="fa fa-unlock"></i> Change password
 										</button>
 
 										<button mat-menu-item class="icon-button edit-button"
 											(click)="editItem(item.accountId)">
 											<i class="fa fa-pencil"></i> Edit
-										</button>
+										</button> -->
 
 									</mat-menu>
 								</td>
@@ -159,10 +159,10 @@
 											class="fa {{item.isBan ? 'fa-lock text-danger' : 'fa-unlock text-success'}}"></i>
 									</button>
 									<mat-menu #menu="matMenu">
-										<button mat-menu-item class="icon-button edit-button"
+										<!-- <button mat-menu-item class="icon-button edit-button"
 											(click)="editItem(item.ownerId)">
 											<i class="fa fa-pencil"></i> Edit
-										</button>
+										</button> -->
 										<button *ngIf="!item.isBan" mat-menu-item class="icon-button delete-button"
 											(click)="updateBan(item.ownerId, true)">
 											<i class="fa fa-lock text-danger"></i> Ban

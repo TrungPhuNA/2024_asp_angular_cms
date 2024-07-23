@@ -31,9 +31,9 @@
 				<thead>
 					<tr>
 						<th class="text-center align-middle" style="width: 5%;">STT</th>
+						<th class="text-center align-middle" style="min-width: 80px;">Image</th>
 						<th class="text-center align-middle">Name</th>
 						<th class="text-center align-middle">Parent Name</th>
-						<th class="text-center align-middle" style="min-width: 80px;">Image</th>
 						<th class="text-center align-middle" style="width: 10%;">Actions</th>
 					</tr>
 				</thead>
@@ -41,14 +41,15 @@
 					<ng-container *ngIf="categories?.length > 0">
 						<tr *ngFor="let category of categories; let i = index">
 							<td class="text-center align-middle">{{ (paging.page - 1) * paging.pageSize + i + 1 }}</td>
-							<td class="text-center align-middle">{{ category.name }}</td>
-							<td class="text-center align-middle">{{ category?.cateParent?.name }}</td>
 							<td class="text-center align-middle">
 								<div class="image-container">
 									<img [src]="category.image" alt="{{ category.name }}" class="thumbnail" width="80"
 										height="80" />
 								</div>
 							</td>
+							<td class="text-center align-middle">{{ category.name }}</td>
+							<td class="text-center align-middle">{{ category?.cateParent?.name }}</td>
+							
 							<td class="text-center align-middle">
 								<button mat-icon-button [matMenuTriggerFor]="menu"
 									class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary">

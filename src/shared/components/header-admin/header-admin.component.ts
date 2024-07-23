@@ -127,6 +127,11 @@ export class HeaderAdminComponent {
 	// removeMessage(value: number) {
 	//   this.messages = this.messages.filter((d) => d.id !== value);
 	// }
+	openProfile() {
+		// Logic để mở trang Profile của người dùng
+		// Ví dụ: điều hướng đến trang profile
+		// this.router.navigate(['/profile']);
+	}
 	logout() {
 		localStorage.clear();
 		window.location.reload();

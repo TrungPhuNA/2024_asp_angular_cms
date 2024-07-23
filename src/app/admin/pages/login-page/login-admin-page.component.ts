@@ -40,6 +40,9 @@ export class LoginAdminPageComponent {
 	navigateToRegister() {
 		this.router.navigate(['/register-user']);
 	}
+	navigateToOwnerLogin() {
+		this.router.navigate(['/owner/auth/login']);
+	}
 	onSubmit() {
 		this.submitted = true;
 		this.loginError = null;
@@ -51,14 +54,16 @@ export class LoginAdminPageComponent {
 						localStorage.setItem('token', response.token);
 						if (response?.user) {
 							localStorage.setItem('user', JSON.stringify(response.user));
-							localStorage.setItem('userType', response.user?.role || 'User');
+							localStorage.setItem('userType', response.user.role || 'User');
 						}
 						let data = this.authenService.decodeToken(response?.token);
 						if (!data) {
 							this.alertService.fireSmall('success', "Login failed!");
 							return;
 						}
+						let userType: string | null = null;
 						let user: any = {};
+
 						Object.entries(data).forEach((item: any) => {
 							console.log(item);
 							if (item[0] == `http://schemas.microsoft.com/ws/2008/06/identity/claims/role`) {
@@ -72,7 +77,9 @@ export class LoginAdminPageComponent {
 								user.id = item[1] || null
 							}
 						});
-						localStorage.setItem('user', JSON.stringify(user));
+						 // Lưu thông tin người dùng và userType vào localStorage
+						 localStorage.setItem('user', JSON.stringify(user));
+						 localStorage.setItem('userType', userType || 'Admin'); // Lưu userType
 						this.router.navigate(['/admin']);
 					} else {
 						this.loginError = 'Login failed: No token received';

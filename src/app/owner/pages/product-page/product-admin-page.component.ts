@@ -44,7 +44,7 @@ export class ProductAdminPageComponent {
 
 	breadCrumb: any = [
 		{
-			label: 'Admin',
+			label: 'Owner',
 			link: '/'
 		},
 		{
@@ -229,6 +229,9 @@ export class ProductAdminPageComponent {
 					this.loading = true;
 					this.productService.updateBan(id, isBan).subscribe((res: any) => {
 						this.loading = false;
+						console.log(res?.message);
+						// Product is banned successfully.
+						// Product has been unbanned successfully.
 						if (res?.message == `Product ${isBan ? 'banned' : 'unbanned'} successfully.`) {
 							this.alertService.fireSmall('success', res?.message);
 							this.getDataList({ page: 1, pageSize: 10 })
@@ -240,6 +243,51 @@ export class ProductAdminPageComponent {
 					})
 				}
 			})
+	}
+	toggleBan(id: any, isBan: boolean) {
+		const newBanStatus = !isBan;
+
+		// Confirm action with user
+		this.alertService.fireConfirm(
+			`${newBanStatus ? 'Ban' : 'UnBan'} Product`,
+			`Are you sure you want to ${newBanStatus ? 'Ban' : 'UnBan'} this Product?`,
+			'warning',
+			'Cancel',
+			'Yes',
+		).then((result) => {
+			if (result.isConfirmed) {
+				this.loading = true;
+
+				// Call API to update ban status
+				this.productService.updateBan(id, newBanStatus).subscribe((res: any) => {
+					this.loading = false;
+					if (res?.message?.includes('successfully')) {
+						this.alertService.fireSmall('success', res?.message);
+
+						// Update isBan status in dataList
+						this.dataList = this.dataList.map((item: any) => {
+							if (item.productId === id) {
+								item.isBan = newBanStatus; // Update with the new status
+							}
+							return item;
+						});
+
+						// Update isBan status in dataListAll (if necessary)
+						this.dataListAll = this.dataListAll.map((item: any) => {
+							if (item.productId === id) {
+								item.isBan = newBanStatus; // Update with the new status
+							}
+							return item;
+						});
+
+					} else if (res?.errors) {
+						this.alertService.showListError(res?.errors);
+					} else {
+						this.alertService.fireSmall('error', res?.message || `${newBanStatus ? 'Ban' : 'Unban'} Product failed!`);
+					}
+				});
+			}
+		});
 	}
 
 

@@ -39,7 +39,11 @@ export class ServiceAdminPageComponent {
 			link: '/admin/service'
 		}
 	];
-
+	formSearch = new FormGroup({
+		id: new FormControl(null),
+		name: new FormControl(null) // Đặt giá trị mặc định cho `name`
+	});
+	
 	ngOnInit(): void {
 		this.getDataList({ ...this.paging })
 	}
@@ -47,11 +51,11 @@ export class ServiceAdminPageComponent {
 	dataListAll = []
 	getDataList(params: any) {
 		this.loading = true;
+		console.log('Sending params to API:', params); // Thêm dòng này để kiểm tra tham số
 		this.service.getLists(params).subscribe((res: any) => {
-			console.log('params', params);
+			console.log('API response:', res); // Thêm dòng này để kiểm tra phản hồi từ API
 			this.loading = false;
 			if (res?.data?.length > 0) {
-				console.info("===========[getDataListBrand] ===========[res] : ", res);
 				this.dataListAll = res?.data;
 				if (this.dataListAll?.length > 0) {
 					let start = (this.paging?.page - 1) * this.paging.pageSize;
@@ -81,8 +85,10 @@ export class ServiceAdminPageComponent {
 	}
 
 	search() {
-		this.getDataList({ ...this.paging, page: 1, ...this.formSearch.value })
+		const params = { ...this.paging, page: 1, searchQuery: this.formSearch.value.name };
+		this.getDataList(params);
 	}
+	
 
 	resetSearchForm() {
 		this.formSearch.reset();
@@ -168,11 +174,6 @@ export class ServiceAdminPageComponent {
 			})
 
 	}
-
-	formSearch = new FormGroup({
-		id: new FormControl(null),
-		name: new FormControl(null)
-	});
 
 	pageChanged(e: any) {
 		this.paging.page = e;

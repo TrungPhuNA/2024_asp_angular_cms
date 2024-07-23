@@ -37,6 +37,7 @@
 						<th class="text-center align-middle" style="width: 5%;">Quatity Sold</th>
 						<th class="text-center align-middle" style="min-width: 100px;">Category</th>
 						<th class="text-center align-middle" style="min-width: 100px;">Brand</th>
+						<th class="text-center align-middle" >Ban</th>
 						<!-- <th>Category</th> -->
 						<th style="width: 10%;">Actions</th>
 					</tr>
@@ -57,6 +58,13 @@
 							<!-- <td class="text-center align-middle">{{ item?.ownerName }}</td> -->
 							<td>{{ item.brand?.name}}</td> 
 							<td>{{ item.category?.name}}</td>
+							<td class="text-center align-middle">
+								<button mat-icon-button
+									class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary"
+									(click)="toggleBan(item.productId, item.isBan)">
+									<i class="fa {{item.isBan ? 'fa-lock text-danger' : 'fa-unlock text-success'}}"></i>
+								</button>
+							</td>
 							<td>
 								<button mat-icon-button [matMenuTriggerFor]="menu"
 									class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary">

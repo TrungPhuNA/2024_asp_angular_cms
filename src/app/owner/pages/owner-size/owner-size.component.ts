@@ -8,6 +8,8 @@ import { BrandService } from '../../services/brand.service';
 import { OwnerService } from '../../services/owner.service';
 import { DescriptionService } from '../../services/description.service';
 import { CateParentService } from '../../services/cateparent.service';
+import { SizeService } from '../../services/size.service';
+import { AuthenService } from '../../../admin/services/authen.service';
 
 @Component({
 	selector: 'app-owner-size',
@@ -18,16 +20,19 @@ export class OwnerSizeComponent {
 	dataList: any = [];
 	modalTitle: string = '';
 	openModal: boolean = false;
-
+	ownerId: number | null = null;
 	paging: any = { ...INIT_PAGING }
 	loading = false;
-
+	userType: string = '';
 	typeForm = 0;
 
 	constructor(
 		private cateparentService: CateParentService,
 		private productService: ProductService,
-		private alertService: AlertService
+		private alertService: AlertService,
+		private sizeService: SizeService,
+		private authenService: AuthenService,
+		private ownerService: OwnerService,
 	) {
 
 	}
@@ -37,29 +42,59 @@ export class OwnerSizeComponent {
 			link: '/'
 		},
 		{
-			label: 'Product size',
+			label: 'Size',
 			link: '/owner/size'
 		}
 	];
 	ngOnInit(): void {
-		this.getDataListParent(this.paging);
+		const user = this.authenService.getUser();
+		this.ownerId = user?.id ?? null;
+		this.userType = user?.userType ?? '';
+		if (this.userType === 'Owner') {
+			console.log(this.ownerId);
 
+			// this.getDataList({ ...this.paging, pageSize:10000 })
+			this.getDataList({
+				searchQuery: null,
+				page: this.paging,
+				pageSize: 10000,
+				ownerId: this.ownerId
+			}
+			);
+		}
+		this.getOwners()
 	}
 	dataListAll: any;
-	getDataListParent(params: any) {
+	getDataList(params: any) {
 		this.loading = true;
-		this.productService.getListSize({...params, pageSize:10000}).subscribe((res: any) => {
+		this.sizeService.getListSize({
+			searchQuery: this.formSearch.value.name,  // Truy vấn tìm kiếm
+			page: 1,              // Số trang
+			pageSize: 10000,         // Kích thước trang
+			ownerId: this.ownerId // ID người dùng
+		}).subscribe((res: any) => {
 			this.loading = false;
-			this.dataListAll = res?.data || [];
+			if (res?.data?.length > 0) {
+			this.dataListAll = res?.data;
+			console.info("===========[getDataList] ===========[res] : ", this.dataListAll);
 			if (this.dataListAll?.length > 0) {
 				let start = (this.paging?.page - 1) * this.paging.pageSize;
 				let end = this.paging?.page * this.paging.pageSize;
 				this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
 			}
 			this.paging.total = res?.data?.length || 0;
+		}
 		})
 	}
-
+	owners = []
+	getOwners() {
+		this.ownerService.getLists({ page: 1, pageSize: 100, ownerId: this.ownerId }).subscribe((res: any) => {
+			console.info("===========[Brands] ===========[res] : ", res);
+			if (res?.data) {
+				this.owners = res?.data;
+			}
+		})
+	}
 	createItem() {
 		this.modalTitle = 'Create Size';
 		this.openModal = true;
@@ -71,43 +106,45 @@ export class OwnerSizeComponent {
 
 	}
 	search() {
-		this.pageChanged(1);
-		// this.getDataListParent({ ...this.paging, page: 1, ...this.formSearch.value })
+		if (this.userType === 'Owner') {
+			console.log('chay',this.formSearch.value.name);
+			this.getDataList({ ...this.paging, page: 1, ...this.formSearch.value });
+		}
 	}
 	resetSearchForm() {
 		this.formSearch.reset();
-		this.getDataListParent({ ...this.paging, page: 1, ...this.formSearch.value })
+		this.getDataList({ ...this.paging, pageSize: 10000 })
 	}
 	saveItem(data: any) {
 		if (this.typeForm == 1) {
 			this.loading = true;
 			let form = data.form;
 			delete form.cateParentId
-			this.productService.createOrUpdateData(data?.form).subscribe((res: any) => {
+			this.sizeService.createOrUpdateData(data?.form).subscribe((res: any) => {
 				this.loading = false;
 				if (res?.data || res?.message?.includes('successfully')) {
 					this.alertService.fireSmall('success', res?.message);
 					this.closeModal();
-					this.getDataListParent({ page: 1, pageSize: 1000 });
+					this.getDataList({ page: 1, pageSize: 1000 });
 				} else if (res?.errors) {
 					this.alertService.showListError(res?.errors);
 				} else {
-					this.alertService.fireSmall('error', res?.message || "Add Product size failed!");
+					this.alertService.fireSmall('error', res?.message || "Add Size failed!");
 				}
 			})
 		} else {
 			this.loading = true;
 			let dataForm = data?.form;
-			this.cateparentService.createOrUpdateData(dataForm, data.id).subscribe((res: any) => {
+			this.sizeService.createOrUpdateData(dataForm, data.id).subscribe((res: any) => {
 				this.loading = false;
 				if (res?.data|| res?.message?.includes('successfully')) {
 					this.alertService.fireSmall('success', res?.message);
 					this.closeModal();
-					this.getDataListParent({ page: 1, pageSize: 10 })
+					this.getDataList({ page: 1, pageSize: 10 })
 				} else if (res?.errors) {
 					this.alertService.showListError(res?.errors);
 				} else {
-					this.alertService.fireSmall('error', res?.message || "Updated Product size failed!");
+					this.alertService.fireSmall('error', res?.message || "Updated Size failed!");
 				}
 			})
 		}
@@ -139,15 +176,15 @@ export class OwnerSizeComponent {
 			.then((result) => {
 				if (result.isConfirmed) {
 					this.loading = true;
-					this.productService.deleteDataSize(id).subscribe((res: any) => {
+					this.sizeService.deleteDataSize(id).subscribe((res: any) => {
 						this.loading = false;
 						if (res?.message?.includes('successfully')) {
 							this.alertService.fireSmall('success', res?.message);
-							this.getDataListParent({ page: 1, pageSize: 10 })
+							this.getDataList({ page: 1, pageSize: 10 })
 						} else if (res?.errors) {
 							this.alertService.showListError(res?.errors);
 						} else {
-							this.alertService.fireSmall('error', res?.message || "Product size deleted failed!");
+							this.alertService.fireSmall('error', res?.message || "Size deleted failed!");
 						}
 					})
 				}
@@ -164,13 +201,7 @@ export class OwnerSizeComponent {
 		if (this.dataListAll?.length > 0) {
 			let start = (this.paging?.page - 1) * this.paging.pageSize;
 			let end = this.paging?.page * this.paging.pageSize;
-			if(this.formSearch.value?.name) {
-				let totalSearch = this.dataListAll?.filter((item: any) => item?.sizeName?.includes(this.formSearch.value?.name?.trim()));
-				this.paging.total = totalSearch?.length || 0;
-				this.dataList = totalSearch?.filter((item: any, index: number) => index >= start && index < end && item?.sizeName?.includes(this.formSearch.value?.name?.trim()) )
-			} else {
-				this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end )
-			}
+			this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
 		}
 	}
 }

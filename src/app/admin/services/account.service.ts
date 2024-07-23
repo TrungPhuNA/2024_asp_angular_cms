@@ -34,11 +34,11 @@ export class AccountService {
 	}
 
 	updateBan(id: any, status: any) {
-		let url = `Account/${id}/`;
+		let url = `Account/`;
 		if(!status) {
-			url += 'unban'
+			url += `unban/${id}/`
 		} else {
-			url += 'ban'
+			url += `ban/${id}/`
 		}
 		return this.baseApiService.putMethod(url, {}, true);
 

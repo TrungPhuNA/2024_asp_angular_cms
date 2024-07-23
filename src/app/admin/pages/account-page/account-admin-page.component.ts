@@ -66,26 +66,28 @@ export class AccountAdminPageComponent {
 		console.log('Executing getDataList() with parameters:', params);
 		this.loading = true;
 		if (this.tabType == 'user') {
-			this.accountService.getLists({ ...params, pageSize: 100000 }).subscribe((res: any) => {
+			this.accountService.getLists({ ...params, pageSize: 10 }).subscribe((res: any) => {
 				this.loading = false;
 				console.log('User', res);
 				this.dataListAll = res;
-				if (this.dataListAll?.length > 0) {
-					let start = (this.paging?.page - 1) * this.paging.pageSize;
-					let end = this.paging?.page * this.paging.pageSize;
-					this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
-				}
+				// if (this.dataListAll?.length > 0) {
+				// 	let start = (this.paging?.page - 1) * this.paging.pageSize;
+				// 	let end = this.paging?.page * this.paging.pageSize;
+				// 	this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
+				// }
+				this.dataList = this.dataListAll
 				this.paging.total = res?.data?.length || 0;
 			});
 		} else {
-			this.ownerService.getLists({ ...params, pageSize: 100000 }).subscribe((res: any) => {
+			this.ownerService.getLists({ ...params, pageSize: 10 }).subscribe((res: any) => {
 				this.loading = false;
 				console.log('Owner', res);
 				this.dataListAll = res?.data;
 				if (this.dataListAll?.length > 0) {
 					let start = (this.paging?.page - 1) * this.paging.pageSize;
 					let end = this.paging?.page * this.paging.pageSize;
-					this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end && !item.isBan)
+					// this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end && !item.isBan)
+					this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
 				}
 				this.paging.total = res?.data?.length || 0;
 			})
@@ -281,6 +283,12 @@ export class AccountAdminPageComponent {
 
 	pageChanged(e: any) {
 		this.paging.page = e;
-		this.getDataList({ ...this.paging, ...this.formSearch.value })
+		// this.getDataList({ ...this.paging, ...this.formSearch.value })
+		if (this.dataListAll?.length > 0) {
+			let start = (this.paging?.page - 1) * this.paging.pageSize;
+			let end = this.paging?.page * this.paging.pageSize;
+			this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
+		}
 	}
+	
 }

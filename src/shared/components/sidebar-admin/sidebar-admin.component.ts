@@ -40,12 +40,12 @@ export class SidebarAdminComponent implements OnChanges {
 		},
 		{
 			route: "/size",
-			role:['OWNER', 'STAFF'],
+			role:['OWNER'],
 			name: "Size"
 		},
 		{
 			route: "/description",
-			role:['OWNER', 'STAFF'],
+			role:['OWNER'],
 			name: "Description"
 		},
 		{
@@ -77,6 +77,11 @@ export class SidebarAdminComponent implements OnChanges {
 			route: "/voucher",
 			role:['OWNER','STAFF'],
 			name: "Vouchers"
+		},
+		{
+			route: "/chat",
+			role:['OWNER','STAFF'],
+			name: "Chat"
 		}
 	];
 
