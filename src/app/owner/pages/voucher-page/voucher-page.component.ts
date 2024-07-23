@@ -4,27 +4,30 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { INIT_PAGING } from '../../helpers/constant';
 import { VoucherService } from '../../services/voucher.service';
 import { OwnerService } from '../../services/owner.service';
+import { AuthenService } from '../../../admin/services/authen.service';
 
 @Component({
-  selector: 'app-voucher-page',
-  templateUrl: './voucher-page.component.html',
-  styleUrl: './voucher-page.component.scss'
+	selector: 'app-voucher-page',
+	templateUrl: './voucher-page.component.html',
+	styleUrl: './voucher-page.component.scss'
 })
 export class VoucherPageComponent {
 
-	dataList: any =[];
+	dataList: any = [];
 	modalTitle: string = '';
 	openModal: boolean = false;
-
+	ownerId: number | null = null;
 	paging: any = { ...INIT_PAGING }
 	loading = false;
+	userType: string = '';
 
 	typeForm = 0;
 
 	constructor(
 		private service: VoucherService,
 		private alertService: AlertService,
-		private ownerService: OwnerService
+		private ownerService: OwnerService,
+		private authenService: AuthenService,
 	) {
 
 	}
@@ -41,18 +44,53 @@ export class VoucherPageComponent {
 	];
 
 	ngOnInit(): void {
-		this.getDataList({ ...this.paging, pageSize:10000 })
+		const user = this.authenService.getUser();
+		this.ownerId = user?.id ?? null;
+		this.userType = user?.userType ?? '';
+		if (this.userType === 'Owner') {
+			console.log(this.ownerId);
+
+			// this.getDataList({ ...this.paging, pageSize:10000 })
+			this.getDataList({
+				searchQuery: null,
+				page: this.paging,
+				pageSize: 10000,
+				ownerId: this.ownerId
+			}
+			);
+		}
+		// this.service.getLists({ 
+		// 	searchQuery: null,  // Truy vấn tìm kiếm
+		// 	page: 1,              // Số trang
+		// 	pageSize: 10,         // Kích thước trang
+		// 	ownerId: this.ownerId // ID người dùng
+		// }).subscribe(
+		// 	(res: any) => {
+		// 		// Xử lý phản hồi từ API
+		// 		console.log('Data received:', res);
+		// 	},
+		// 	(error) => {
+		// 		console.error('Error fetching data:', error);
+		// 	}
+		// );
+
 		this.getOwners()
 	}
 
 	dataListAll = []
 	getDataList(params: any) {
 		this.loading = true;
-		this.service.getLists(params).subscribe((res: any) => {
+		this.service.getLists({ 
+			searchQuery: this.formSearch.value.name,  // Truy vấn tìm kiếm
+			page: 1,              // Số trang
+			pageSize: 10000,         // Kích thước trang
+			ownerId: this.ownerId // ID người dùng
+		}).subscribe((res: any) => {
 			this.loading = false;
 			if (res?.data?.length > 0) {
-				console.info("===========[getDataListBrand] ===========[res] : ", res);
+				// console.info("===========[getDataListBrand] ===========[res] : ", res);
 				this.dataListAll = res?.data;
+				console.info("===========[getDataList] ===========[res] : ", this.dataListAll);
 				if (this.dataListAll?.length > 0) {
 					let start = (this.paging?.page - 1) * this.paging.pageSize;
 					let end = this.paging?.page * this.paging.pageSize;
@@ -65,9 +103,9 @@ export class VoucherPageComponent {
 
 	owners = []
 	getOwners() {
-		this.ownerService.getLists({ page: 1, pageSize: 100 }).subscribe((res: any) => {
+		this.ownerService.getLists({ page: 1, pageSize: 100, ownerId: this.ownerId }).subscribe((res: any) => {
 			console.info("===========[Brands] ===========[res] : ", res);
-			if(res?.data) {
+			if (res?.data) {
 				this.owners = res?.data;
 			}
 		})
@@ -91,12 +129,15 @@ export class VoucherPageComponent {
 	}
 
 	search() {
-		this.getDataList({ ...this.paging, page: 1, ...this.formSearch.value })
+		if (this.userType === 'Owner') {
+			console.log('chay',this.formSearch.value.name);
+			this.getDataList({ ...this.paging, page: 1, ...this.formSearch.value });
+		}
 	}
 
 	resetSearchForm() {
 		this.formSearch.reset();
-		this.getDataList({ ...this.paging, pageSize:10000 })
+		this.getDataList({ ...this.paging, pageSize: 10000 })
 		// this.search();
 	}
 

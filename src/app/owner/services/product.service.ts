@@ -9,8 +9,8 @@ export class ProductService {
 		private baseApiService: BaseApiService
 	) { }
 
-	getLists(params: any) {
-		return this.baseApiService.getMethod('Product/home', params);
+	getLists(ownerId: any) {
+		return this.baseApiService.getMethod(`Product/dashboard-owner/${ownerId}`,{});
 	}
 
 	show(id: any) {

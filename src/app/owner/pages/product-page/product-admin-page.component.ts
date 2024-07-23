@@ -7,6 +7,7 @@ import { CategoryService } from '../../services/category.service';
 import { BrandService } from '../../services/brand.service';
 import { OwnerService } from '../../services/owner.service';
 import { DescriptionService } from '../../services/description.service';
+import { AuthenService } from '../../../admin/services/authen.service';
 
 @Component({
 	selector: 'app-product-admin-page',
@@ -18,6 +19,8 @@ export class ProductAdminPageComponent {
 	dataListAll: any = [];
 	selectedBrand: any = null;
 	modalTitle: string = '';
+	ownerId: number | null = null;
+	userType: string = '';
 
 	createModal: boolean = false;
 	showModal: boolean = false;
@@ -33,7 +36,8 @@ export class ProductAdminPageComponent {
 		private brandService: BrandService,
 		private ownerService: OwnerService,
 		private categoryService: CategoryService,
-		private descriptionService: DescriptionService
+		private descriptionService: DescriptionService,
+		private authenService: AuthenService,
 	) {
 
 	}
@@ -50,19 +54,32 @@ export class ProductAdminPageComponent {
 	];
 
 	ngOnInit(): void {
+		const user = this.authenService.getUser();
+		this.ownerId = user?.id ?? null;
+		this.userType = user?.userType ?? '';
+		// this.ownerId = this.getUserIdFromLocalStorage(); // Lấy ID người dùng từ local storage		
+		// this.userType = this.authenService.getUser();
+		if (this.userType === 'Owner') {
 		this.getDataList({ ...this.paging, pageSize: 10000 });
 		this.getDataRelation();
+		}
+		console.log('User ID:', this.ownerId);
+		console.log('User Type:', this.userType);
 	}
-
+	getUserIdFromLocalStorage(): number | null {
+		const user = this.authenService.getUser();
+		return user?.id ?? null; // Giả sử user có trường id
+	}
 	getDataList(params: any) {
 		this.loading = true;
-		this.productService.getLists(params).subscribe((res: any) => {
+		this.productService.getLists(this.ownerId).subscribe((res: any) => {
 			this.loading = false;
 			this.dataListAll = res;
+			console.log('data', this.dataListAll);
 			if (this.dataListAll?.length > 0) {
 				let start = (this.paging?.page - 1) * this.paging.pageSize;
 				let end = this.paging?.page * this.paging.pageSize;
-				this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
+				this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end);
 			}
 			this.paging.total = res?.length || 0;
 		})
@@ -82,7 +99,6 @@ export class ProductAdminPageComponent {
 		this.descriptionService.getLists({ page: 1, pageSize: 100 }).subscribe((res: any) => {
 			if (res?.data) {
 				this.descriptions = res?.data;
-
 			}
 		});
 		this.ownerService.getLists({ page: 1, pageSize: 100 }).subscribe((res: any) => {
@@ -110,7 +126,9 @@ export class ProductAdminPageComponent {
 	}
 
 	search() {
+		if (this.userType === 'Owner') {
 		this.getDataList({ ...this.paging, page: 1, ...this.formSearch.value })
+		}
 	}
 
 	resetSearchForm() {
@@ -124,7 +142,7 @@ export class ProductAdminPageComponent {
 			this.loading = true;
 			this.productService.createOrUpdateData(data?.form).subscribe((res: any) => {
 				this.loading = false;
-				if (res?.message.includes('successfully') ) {
+				if (res?.message.includes('successfully')) {
 					this.alertService.fireSmall('success', res?.message);
 					this.closeModal();
 					this.getDataList({ page: 1, pageSize: 10 })
@@ -138,7 +156,7 @@ export class ProductAdminPageComponent {
 			this.loading = true;
 			this.productService.createOrUpdateData(data?.form, data.id).subscribe((res: any) => {
 				this.loading = false;
-				if (res?.message.includes('successfully') ) {
+				if (res?.message.includes('successfully')) {
 					this.alertService.fireSmall('success', res?.message);
 					this.closeModal();
 					this.getDataList({ page: 1, pageSize: 10 })
@@ -177,15 +195,20 @@ export class ProductAdminPageComponent {
 			.then((result) => {
 				if (result.isConfirmed) {
 					this.loading = true;
+					console.log('ID delete',id);
 					this.productService.deleteData(id).subscribe((res: any) => {
 						this.loading = false;
-						if (res?.message == 'product deleted successfully.') {
+						console.log('test',res?.message);
+						if (res?.message == 'Product is deleted successfully') {
 							this.alertService.fireSmall('success', res?.message);
 							this.getDataList({ page: 1, pageSize: 10 })
+							console.log('1',res?.message);
 						} else if (res?.errors) {
 							this.alertService.showListError(res?.errors);
+							console.log('2');
 						} else {
 							this.alertService.fireSmall('error', res?.message || "Delete Product failed!");
+							console.log('3');
 						}
 					})
 				}
@@ -230,13 +253,13 @@ export class ProductAdminPageComponent {
 		if (this.dataListAll?.length > 0) {
 			let start = (this.paging?.page - 1) * this.paging.pageSize;
 			let end = this.paging?.page * this.paging.pageSize;
-			console.log('product---->',start, end, this.formSearch.value?.name);
-			if(this.formSearch.value?.name) {
+			console.log('product---->', start, end, this.formSearch.value?.name);
+			if (this.formSearch.value?.name) {
 				let totalSearch = this.dataListAll?.filter((item: any) => item?.name?.includes(this.formSearch.value?.name?.trim()));
 				this.paging.total = totalSearch?.length || 0;
-				this.dataList = totalSearch?.filter((item: any, index: number) => index >= start && index < end && item?.name?.includes(this.formSearch.value?.name?.trim()) )
+				this.dataList = totalSearch?.filter((item: any, index: number) => index >= start && index < end && item?.name?.includes(this.formSearch.value?.name?.trim()))
 			} else {
-				this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end )
+				this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
 			}
 		}
 		// this.getDataList({ ...this.paging, ...this.formSearch.value })

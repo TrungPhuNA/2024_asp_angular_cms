@@ -114,11 +114,11 @@ const route: Routes = [
 				component: WarehousePageComponent,
 				title: 'Manage warehouse'
 			},
-			{
-				path: 'cateparent',
-				component: OwnerCategoryParentComponent,
-				title: 'Manage cateparent'
-			},
+			// {
+			// 	path: 'cateparent',
+			// 	component: OwnerCategoryParentComponent,
+			// 	title: 'Manage cateparent'
+			// },
 
 			{
 				path: 'description',

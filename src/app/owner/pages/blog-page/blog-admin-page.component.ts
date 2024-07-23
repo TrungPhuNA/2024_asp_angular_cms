@@ -5,6 +5,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { INIT_PAGING } from '../../helpers/constant';
 import { OwnerService } from '../../services/owner.service';
 import { ServiceService } from '../../services/service.service';
+import { AuthenService } from '../../../admin/services/authen.service';
 
 @Component({
 	selector: 'app-blog-admin-page',
@@ -15,7 +16,7 @@ export class BlogAdminPageComponent {
 	dataList: any = [];
 	selectedBrand: any = null;
 	modalTitle: string = '';
-
+	ownerId: number | null = null;
 	createModal: boolean = false;
 	showModal: boolean = false;
 	openModal: boolean = false;
@@ -31,6 +32,7 @@ export class BlogAdminPageComponent {
 		private alertService: AlertService,
 		private serviceService: ServiceService,
 		private ownerService: OwnerService,
+		private authenService: AuthenService,
 	) {
 
 	}
@@ -47,11 +49,15 @@ export class BlogAdminPageComponent {
 	];
 
 	ngOnInit(): void {
+		this.ownerId = this.getUserIdFromLocalStorage(); // Lấy ID người dùng từ local storage		
 		this.getDataList({ ...this.paging });
 		this.getServices();
 		this.getOwners();
 	}
-
+	getUserIdFromLocalStorage(): number | null {
+		const user = this.authenService.getUser();
+		return user?.id ?? null; // Giả sử user có trường id
+	}
 	dataListAll = [];
 	getDataList(params: any) {
 		this.loading = true;

@@ -11,8 +11,10 @@ export class VoucherService {
 	) { }
 
 	getLists(params: any) {
-        return this.baseApiService.getMethod('Voucher/GetAllVouchers', params);
+        const { searchQuery, page, pageSize, ownerId } = params;
+        return this.baseApiService.getMethod('Voucher/GetAllVouchers', { searchQuery, page, pageSize, ownerId });
     }
+    
 
     show(id: any) {
         return this.baseApiService.getMethod(`Voucher/GetServiceById/${id}`, {});
