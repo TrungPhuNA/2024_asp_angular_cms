@@ -60,6 +60,7 @@ export class OwnerDescriptionFormComponent {
 				this.form.disable();
 			}
 		}
+		console.log('data',this.data);
 	}
 	submit() {
 

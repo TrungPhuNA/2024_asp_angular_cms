@@ -12,7 +12,9 @@ export class ProductService {
 	getLists(ownerId: any) {
 		return this.baseApiService.getMethod(`Product/dashboard-owner/${ownerId}`,{});
 	}
-
+	searchData(data:any, id: any){
+		return this.baseApiService.getMethod(`Product/owner/searchs/${id}`,{});
+	}
 	show(id: any) {
 		return this.baseApiService.getMethod(`Product/${id}`, {});
 	}

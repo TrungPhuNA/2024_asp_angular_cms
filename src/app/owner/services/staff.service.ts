@@ -9,9 +9,9 @@ export class StaffService {
 	constructor(
 		private baseApiService: BaseApiService
 	) { }
-
 	getLists(params: any) {
-		return this.baseApiService.getMethod('Staff/GetAllStaffs', params);
+		const { searchQuery, page, pageSize, ownerId } = params;
+		return this.baseApiService.getMethod('Staff/GetAllStaffs', { searchQuery, page, pageSize, ownerId });
 	}
 
 	show(id: any) {
@@ -25,12 +25,7 @@ export class StaffService {
 		return this.baseApiService.postMethod('Staff/CreateStaff', params, true);
 	}
 
-	DeleteData(id: any, status: any) {
-		let url = `Staff/${id}/`;
-		if (!status) {
-			url += `DeleteStaff/${id}`
-		}
-		return this.baseApiService.patchMethod(url, {}, true);
-
+	deleteData(id: any) {
+		return this.baseApiService.deleteMethod(`Staff/DeleteStaff/${id}`);
 	}
 }

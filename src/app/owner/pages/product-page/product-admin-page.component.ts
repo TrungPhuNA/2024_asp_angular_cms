@@ -60,8 +60,8 @@ export class ProductAdminPageComponent {
 		// this.ownerId = this.getUserIdFromLocalStorage(); // Lấy ID người dùng từ local storage		
 		// this.userType = this.authenService.getUser();
 		if (this.userType === 'Owner') {
-		this.getDataList({ ...this.paging, pageSize: 10000 });
-		this.getDataRelation();
+			this.getDataList({ ...this.paging, pageSize: 10000 });
+			this.getDataRelation();
 		}
 		console.log('User ID:', this.ownerId);
 		console.log('User Type:', this.userType);
@@ -80,6 +80,11 @@ export class ProductAdminPageComponent {
 				let start = (this.paging?.page - 1) * this.paging.pageSize;
 				let end = this.paging?.page * this.paging.pageSize;
 				this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end);
+				// Log giá trị name và ban
+				// this.dataList.forEach((item: any) => {
+				// 	console.log('Product Name:', item.name);
+				// 	console.log('Is Banned:', item.isban);
+				// });
 			}
 			this.paging.total = res?.length || 0;
 		})
@@ -127,7 +132,8 @@ export class ProductAdminPageComponent {
 
 	search() {
 		if (this.userType === 'Owner') {
-		this.getDataList({ ...this.paging, page: 1, ...this.formSearch.value })
+			this.getDataList({ ...this.paging, page: 1, ...this.formSearch.value })
+			// this.getDataList({ ...this.paging, pageSize: 10000, ...this.formSearch.value })
 		}
 	}
 
@@ -195,14 +201,14 @@ export class ProductAdminPageComponent {
 			.then((result) => {
 				if (result.isConfirmed) {
 					this.loading = true;
-					console.log('ID delete',id);
+					console.log('ID delete', id);
 					this.productService.deleteData(id).subscribe((res: any) => {
 						this.loading = false;
-						console.log('test',res?.message);
+						console.log('test', res?.message);
 						if (res?.message == 'Product is deleted successfully') {
 							this.alertService.fireSmall('success', res?.message);
 							this.getDataList({ page: 1, pageSize: 10 })
-							console.log('1',res?.message);
+							console.log('1', res?.message);
 						} else if (res?.errors) {
 							this.alertService.showListError(res?.errors);
 							console.log('2');
@@ -223,31 +229,27 @@ export class ProductAdminPageComponent {
 			'warning',
 			'Cancel',
 			'Yes',
-		)
-			.then((result) => {
-				if (result.isConfirmed) {
-					this.loading = true;
-					this.productService.updateBan(id, isBan).subscribe((res: any) => {
-						this.loading = false;
-						console.log(res?.message);
-						// Product is banned successfully.
-						// Product has been unbanned successfully.
-						if (res?.message == `Product ${isBan ? 'banned' : 'unbanned'} successfully.`) {
-							this.alertService.fireSmall('success', res?.message);
-							this.getDataList({ page: 1, pageSize: 10 })
-						} else if (res?.errors) {
-							this.alertService.showListError(res?.errors);
-						} else {
-							this.alertService.fireSmall('error', res?.message || `${isBan ? 'banned' : 'unbanned'}  Product failed!`);
-						}
-					})
-				}
-			})
+		).then((result) => {
+			if (result.isConfirmed) {
+				this.loading = true;
+				this.productService.updateBan(id, isBan).subscribe((res: any) => {
+					this.loading = false;
+					if (res?.message == `Product ${isBan ? 'is banned' : 'has been unbanned'} successfully.`) {
+						this.alertService.fireSmall('success', res?.message);
+						this.getDataList({ page: 1, pageSize: 10 })
+					} else if (res?.errors) {	
+						this.alertService.showListError(res?.errors);
+					} else {
+						this.alertService.fireSmall('error', res?.message || `${isBan ? 'banned' : 'unbanned'}  Product failed!`);
+					}
+				})
+			}
+		});
 	}
+
 	toggleBan(id: any, isBan: boolean) {
 		const newBanStatus = !isBan;
 
-		// Confirm action with user
 		this.alertService.fireConfirm(
 			`${newBanStatus ? 'Ban' : 'UnBan'} Product`,
 			`Are you sure you want to ${newBanStatus ? 'Ban' : 'UnBan'} this Product?`,
@@ -257,25 +259,21 @@ export class ProductAdminPageComponent {
 		).then((result) => {
 			if (result.isConfirmed) {
 				this.loading = true;
-
-				// Call API to update ban status
 				this.productService.updateBan(id, newBanStatus).subscribe((res: any) => {
 					this.loading = false;
 					if (res?.message?.includes('successfully')) {
 						this.alertService.fireSmall('success', res?.message);
 
-						// Update isBan status in dataList
 						this.dataList = this.dataList.map((item: any) => {
 							if (item.productId === id) {
-								item.isBan = newBanStatus; // Update with the new status
+								item.isBan = newBanStatus; // Cập nhật trạng thái mới
 							}
 							return item;
 						});
 
-						// Update isBan status in dataListAll (if necessary)
 						this.dataListAll = this.dataListAll.map((item: any) => {
 							if (item.productId === id) {
-								item.isBan = newBanStatus; // Update with the new status
+								item.isBan = newBanStatus; // Cập nhật trạng thái mới
 							}
 							return item;
 						});
@@ -291,6 +289,7 @@ export class ProductAdminPageComponent {
 	}
 
 
+
 	formSearch: any = new FormGroup({
 		id: new FormControl(null),
 		name: new FormControl(null)
@@ -302,12 +301,21 @@ export class ProductAdminPageComponent {
 			let start = (this.paging?.page - 1) * this.paging.pageSize;
 			let end = this.paging?.page * this.paging.pageSize;
 			console.log('product---->', start, end, this.formSearch.value?.name);
-			if (this.formSearch.value?.name) {
-				let totalSearch = this.dataListAll?.filter((item: any) => item?.name?.includes(this.formSearch.value?.name?.trim()));
+			// Chuyển đổi từ khóa tìm kiếm về chữ thường
+			const searchTerm = this.formSearch.value?.name?.trim().toLowerCase();
+
+			if (searchTerm) {
+				// Tìm kiếm không phân biệt chữ hoa chữ thường
+				let totalSearch = this.dataListAll?.filter((item: any) =>
+					item?.name?.toLowerCase().includes(searchTerm)
+				);
 				this.paging.total = totalSearch?.length || 0;
-				this.dataList = totalSearch?.filter((item: any, index: number) => index >= start && index < end && item?.name?.includes(this.formSearch.value?.name?.trim()))
+				this.dataList = totalSearch?.filter((item: any, index: number) =>
+					index >= start && index < end
+				);
 			} else {
-				this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
+				// Gọi lại phương thức resetSearchForm khi từ khóa tìm kiếm trống
+				this.resetSearchForm();
 			}
 		}
 		// this.getDataList({ ...this.paging, ...this.formSearch.value })

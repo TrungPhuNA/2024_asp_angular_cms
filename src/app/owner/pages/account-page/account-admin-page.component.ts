@@ -3,6 +3,8 @@ import { AlertService } from "../../helpers/alert.service";
 import { FormControl, FormGroup } from '@angular/forms';
 import { INIT_PAGING } from '../../helpers/constant';
 import { StaffService } from '../../services/staff.service';
+import { OwnerService } from '../../services/owner.service';
+import { AuthenService } from '../../../admin/services/authen.service';
 
 @Component({
 	selector: 'app-account-admin-page',
@@ -13,11 +15,11 @@ export class AccountAdminPageComponent {
 	dataList: any = [];
 	selectedBrand: any = null;
 	modalTitle: string = '';
-
+	ownerId: number | null = null;
 	createModal: boolean = false;
 	showModal: boolean = false;
 	openModal: boolean = false;
-
+	userType: string = '';
 	currentPage: number = 1;
 	totalPages: number = 5;
 	pageName: string = 'accounts';
@@ -30,6 +32,8 @@ export class AccountAdminPageComponent {
 	constructor(
 		private staffService: StaffService,
 		private alertService: AlertService,
+		private ownerService: OwnerService,
+		private authenService: AuthenService,
 	) {
 
 	}
@@ -46,13 +50,31 @@ export class AccountAdminPageComponent {
 	];
 
 	ngOnInit(): void {
-		this.getDataList({ ...this.paging, pageSize: 10000 });
+		const user = this.authenService.getUser();
+		this.ownerId = user?.id ?? null;
+		this.userType = user?.userType ?? '';
+		if (this.userType === 'Owner') {
+			console.log(this.ownerId);
+			this.getDataList({
+				searchQuery: null,
+				page: this.paging,
+				pageSize: 10000,
+				ownerId: this.ownerId
+			}
+			);
+		}
 	}
 	// dataListAll: any;
 	dataListAll = [];
 	getDataList(params: any) {
 		this.loading = true;
-		this.staffService.getLists(params).subscribe((res: any) => {
+		this.staffService.getLists({ 
+			searchQuery: this.formSearch.value.name,  // Truy vấn tìm kiếm
+			page: 1,              // Số trang
+			pageSize: 10000,         // Kích thước trang
+			ownerId: this.ownerId // ID người dùng
+			
+		}).subscribe((res: any) => {
 			this.loading = false;
 			if (res?.data?.length > 0) {
 				this.dataListAll = res?.data;
@@ -142,32 +164,32 @@ export class AccountAdminPageComponent {
 
 	}
 
-	// deleteItem(id: number) {
-	// 	this.alertService.fireConfirm(
-	// 		'Delete Account',
-	// 		'Are you sure you want to delete this Account?',
-	// 		'warning',
-	// 		'Cancel',
-	// 		'Delete',
-	// 	)
-	// 		.then((result) => {
-	// 			if (result.isConfirmed) {
-	// 				this.loading = true;
-	// 				this.staffService.deleteData(id).subscribe((res: any) => {
-	// 					this.loading = false;
-	// 					if (res?.message?.includes('successfully')) {
-	// 						this.alertService.fireSmall('success', res?.message);
-	// 						this.getDataList({ page: 1, pageSize: 10 })
-	// 					} else if (res?.errors) {
-	// 						this.alertService.showListError(res?.errors);
-	// 					} else {
-	// 						this.alertService.fireSmall('error', res?.message || "Delete Account failed!");
-	// 					}
-	// 				})
-	// 			}
-	// 		})
+	deleteItem(id: number) {
+		this.alertService.fireConfirm(
+			'Delete Account',
+			'Are you sure you want to delete this Account?',
+			'warning',
+			'Cancel',
+			'Delete',
+		)
+			.then((result) => {
+				if (result.isConfirmed) {
+					this.loading = true;
+					this.staffService.deleteData(id).subscribe((res: any) => {
+						this.loading = false;
+						if (res?.message?.includes('successfully')) {
+							this.alertService.fireSmall('success', res?.message);
+							this.getDataList({ page: 1, pageSize: 10 })
+						} else if (res?.errors) {
+							this.alertService.showListError(res?.errors);
+						} else {
+							this.alertService.fireSmall('error', res?.message || "Delete Account failed!");
+						}
+					})
+				}
+			})
 
-	// }
+	}
 
 	formSearch: any = new FormGroup({
 		id: new FormControl(null),

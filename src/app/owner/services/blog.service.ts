@@ -12,7 +12,8 @@ export class BlogService {
 
 
     getLists(params: any) {
-        return this.baseApiService.getMethod('Advertisement/GetAllAdvertisementsByOwner', params);
+        const { searchQuery, page, pageSize, ownerId } = params;
+        return this.baseApiService.getMethod('Advertisement/GetAdvertisementsByOwner',{ searchQuery, page, pageSize, ownerId });
     }
 
     show(id: any) {

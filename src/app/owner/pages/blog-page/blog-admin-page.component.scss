@@ -203,3 +203,13 @@ color: #6c5ce7;
   color: #fff;
   background-color: #dc3545; /* Red background */
 }
+.table td.content-cell {
+  max-width: 300px; /* Giới hạn chiều rộng tối đa của cột Content */
+  overflow: hidden; /* Ẩn nội dung vượt quá chiều rộng cột */
+  text-overflow: ellipsis; /* Thêm dấu ba chấm (...) khi nội dung quá dài */
+  white-space: nowrap; /* Ngăn nội dung xuống dòng */
+}
+
+.table td.content-cell p {
+  margin: 0; /* Đảm bảo không có margin thừa */
+}

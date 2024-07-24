@@ -47,25 +47,26 @@ export class BlogAdminPageComponent {
 	];
 
 	ngOnInit(): void {
-		this.getDataList({ ...this.paging });
-		this.getServices();
-		this.getOwners();
+		this.getDataList({ ...this.paging,pageSize: 1000  });
+		// this.getServices();
+		// this.getOwners();
 	}
 
 	dataListAll = [];
 	getDataList(params: any) {
 		this.loading = true;
+		console.log('data',params);
 		this.blogService.getLists(params).subscribe((res: any) => {
 			this.loading = false;
 			if (res?.data) {
 				console.info("===========[getDataListBrand] ===========[res] : ", res);
 				this.dataListAll = res?.data;
-				this.updateDataList();
+				// this.updateDataList();
 				if (this.dataListAll?.length > 0) {
 					let start = (this.paging?.page - 1) * this.paging.pageSize;
 					let end = this.paging?.page * this.paging.pageSize;
 					this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
-					this.updateDataList();
+					// this.updateDataList();
 				}
 				this.paging.total = res?.data?.length || 0;
 			}
@@ -116,12 +117,24 @@ export class BlogAdminPageComponent {
 	}
 
 	search() {
-		this.getDataList({ ...this.paging, page: 1, ...this.formSearch.value })
+		 // Lấy dữ liệu từ formSearch
+		 const searchParams = this.formSearch.value;
+		 console.log('Search Params:', searchParams); // Kiểm tra dữ liệu tìm kiếm
+		 if (!searchParams.searchQuery || searchParams.searchQuery === null) {
+			this.resetSearchForm(); // Đặt lại tìm kiếm
+			return; // Dừng lại không thực hiện tìm kiếm
+		}
+		 this.getDataList({
+			...this.paging,
+			searchQuery: searchParams.searchQuery, // Đảm bảo giá trị tìm kiếm được đưa vào params
+			page: 1 // Đặt lại trang về 1 khi tìm kiếm
+		});
 	}
 
 	resetSearchForm() {
 		this.formSearch.reset();
-		this.search();
+		// this.search();
+		this.getDataList({ ...this.paging,pageSize: 1000  });
 	}
 
 	saveItem(data: any) {
@@ -209,9 +222,10 @@ export class BlogAdminPageComponent {
 
 	formSearch = new FormGroup({
 		id: new FormControl(null),
-		searchQuery: new FormControl(null)
-	});
-
+		name: new FormControl(null),
+		searchQuery: new FormControl(null) // Explicitly set it as a string
+	  });
+	
 	pageChanged(e: any) {
 		this.paging.page = e;
 		// this.getDataList({ ...this.paging, ...this.formSearch.value })

@@ -20,7 +20,7 @@ export class BlogAdminPageComponent {
 	createModal: boolean = false;
 	showModal: boolean = false;
 	openModal: boolean = false;
-
+	userType: string = '';
 	pageName: string = 'accounts';
 	paging: any = { ...INIT_PAGING }
 	loading = false;
@@ -47,44 +47,58 @@ export class BlogAdminPageComponent {
 			link: '/owner/blog'
 		}
 	];
-
+	formSearch = new FormGroup({
+		id: new FormControl(null),
+		name: new FormControl(null)
+	});
 	ngOnInit(): void {
-		this.ownerId = this.getUserIdFromLocalStorage(); // Lấy ID người dùng từ local storage		
-		this.getDataList({ ...this.paging });
-		this.getServices();
-		this.getOwners();
-	}
-	getUserIdFromLocalStorage(): number | null {
 		const user = this.authenService.getUser();
-		return user?.id ?? null; // Giả sử user có trường id
+		this.ownerId = user?.id ?? null;
+		this.userType = user?.userType ?? '';
+		if (this.userType === 'Owner') {
+			console.log(this.ownerId);
+			this.getDataList({
+				searchQuery: null,
+				page: this.paging,
+				pageSize: 10000,
+				ownerId: this.ownerId
+			}
+			);
+		}
 	}
+
 	dataListAll = [];
 	getDataList(params: any) {
 		this.loading = true;
-		this.blogService.getLists(params).subscribe((res: any) => {
+		console.log('data', params);
+		this.blogService.getLists({
+			searchQuery: this.formSearch.value.name,  // Truy vấn tìm kiếm
+			page: 1,              // Số trang
+			pageSize: 10000,         // Kích thước trang
+			ownerId: this.ownerId // ID người dùng
+		}).subscribe((res: any) => {
 			this.loading = false;
-			if (res?.data) {
+			if (res?.data?.length > 0) {
 				console.info("===========[getDataListBrand] ===========[res] : ", res);
 				this.dataListAll = res?.data;
-				this.updateDataList();
 				if (this.dataListAll?.length > 0) {
 					let start = (this.paging?.page - 1) * this.paging.pageSize;
 					let end = this.paging?.page * this.paging.pageSize;
-					this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
-					this.updateDataList();
+					this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end);
 				}
 				this.paging.total = res?.data?.length || 0;
 			}
+
 		})
 	}
 	// Update dataList based on paging
-	updateDataList() {
-		if (this.dataListAll?.length > 0) {
-			let start = (this.paging.page - 1) * this.paging.pageSize;
-			let end = this.paging.page * this.paging.pageSize;
-			this.dataList = this.dataListAll.slice(start, end);
-		}
-	}
+	// updateDataList() {
+	// 	if (this.dataListAll?.length > 0) {
+	// 		let start = (this.paging.page - 1) * this.paging.pageSize;
+	// 		let end = this.paging.page * this.paging.pageSize;
+	// 		this.dataList = this.dataListAll.slice(start, end);
+	// 	}
+	// }
 	services = []
 	getServices() {
 		this.serviceService.getLists({ page: 1, pageSize: 100 }).subscribe((res: any) => {
@@ -212,10 +226,7 @@ export class BlogAdminPageComponent {
 
 
 
-	formSearch = new FormGroup({
-		id: new FormControl(null),
-		searchQuery: new FormControl(null)
-	});
+
 
 	pageChanged(e: any) {
 		this.paging.page = e;

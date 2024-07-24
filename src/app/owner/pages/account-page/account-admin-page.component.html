@@ -36,6 +36,7 @@
                         <th class="text-center align-middle">Full Name</th>
                         <th class="text-center align-middle">Email</th>
                         <th class="text-center align-middle">Phone</th>
+                        <th class="text-center align-middle">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -51,6 +52,26 @@
                             <td class="text-center align-middle">{{ item.fullname }}</td>
                             <td class="text-center align-middle">{{ item.email }}</td>
                             <td class="text-center align-middle">{{ item.phone }}</td>
+                            <td class="text-center align-middle">
+								<button mat-icon-button [matMenuTriggerFor]="menu"
+									class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary">
+									<i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+								</button>
+								<mat-menu #menu="matMenu">
+									<!-- <button mat-menu-item class="icon-button view-button"
+										(click)="viewItem(item.staffId)">
+										<i class="fa fa-eye"></i> View
+									</button> -->
+									<button mat-menu-item class="icon-button edit-button"
+										(click)="editItem(item.staffId)">
+										<i class="fa fa-pencil"></i> Edit
+									</button>
+									<button mat-menu-item class="icon-button delete-button"
+										(click)="deleteItem(item.staffId)">
+										<i class="fa fa-trash"></i> Delete
+									</button>
+								</mat-menu>
+							</td>
                         </tr>
                     </ng-container>
                     <ng-container *ngIf="dataList?.length <= 0">

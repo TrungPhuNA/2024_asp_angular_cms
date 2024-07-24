@@ -49,8 +49,6 @@ export class VoucherPageComponent {
 		this.userType = user?.userType ?? '';
 		if (this.userType === 'Owner') {
 			console.log(this.ownerId);
-
-			// this.getDataList({ ...this.paging, pageSize:10000 })
 			this.getDataList({
 				searchQuery: null,
 				page: this.paging,
