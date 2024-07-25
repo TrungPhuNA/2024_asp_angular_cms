@@ -12,7 +12,7 @@ export class CategoryService {
 
 
 	getListCategory(params: any) {
-		if(params?.keyword) {
+		if (params?.keyword) {
 			return this.baseApiService.getMethod('Category/search', params);
 		}
 		return this.baseApiService.getMethod('Category', params);
@@ -28,7 +28,7 @@ export class CategoryService {
 
 	createOrUpdateData(params: any, id?: any) {
 		const formData = this.baseApiService.setFormData(params)
-		if(id) {
+		if (id) {
 			return this.baseApiService.putMethod(`Category/${id}`, formData);
 		}
 		return this.baseApiService.postMethod('Category', formData);
@@ -37,6 +37,4 @@ export class CategoryService {
 	deleteData(id: any) {
 		return this.baseApiService.deleteMethod(`Category/${id}`);
 	}
-
-
 }

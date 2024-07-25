@@ -35,25 +35,17 @@
                     </div>
                     <!-- Image upload -->
                     <div class="form-group mb-3">
-                        <label for="uploadImage">Upload Image</label>
-                        <div class="avatar">
-                            <div *ngIf="image" class="avatar-circle">
-                                <img [src]="image" alt="Category Image" class="avatar-img">
-                            </div>
-                            <div *ngIf="!image" class="avatar-circle">No Image</div>
-                        </div>
                         <input type="file" #fileInput (change)="onFileSelected($event)" hidden>
-                        <button class="upload-button" (click)="fileInput.click()">Upload Image</button>
-                        <button *ngIf="selectedFile" class="save-button" (click)="uploadImage('category-images')">Save Image</button>
-                        <p>Maximum file size 1 MB<br />Format: .JPEG, .PNG</p>
+                        <button type="button" class="upload-button" (click)="fileInput.click()">Upload Image</button>
+                        <button *ngIf="selectedFile" type="button" class="save-button" (click)="uploadImage('categories')">Save Image</button>
                     </div>
                     <!-- Category Parent selection -->
                     <div class="form-group required mb-3">
                         <label for="cateParentId" class="form-label">Category Parent</label>
                         <ng-select [items]="categoryParents" bindLabel="name" bindValue="cateParentId"
                             placeholder="Choose value" formControlName="CateParentId"></ng-select>
-                        <app-form-error [control]="form.controls['CateParentId']" [message]="'Category parent is required!'"
-                            [validation]="'required'"></app-form-error>
+                        <app-form-error [control]="form.controls['CateParentId']"
+                            [message]="'Category parent is required!'" [validation]="'required'"></app-form-error>
                     </div>
                     <!-- Save and Cancel buttons -->
                     <div class="d-flex justify-content-center my-3">

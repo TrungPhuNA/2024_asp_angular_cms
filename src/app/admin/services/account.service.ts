@@ -43,7 +43,5 @@ export class AccountService {
 		return this.baseApiService.putMethod(url, {}, true);
 
 	}
-
-
 	
 }

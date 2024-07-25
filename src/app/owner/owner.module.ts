@@ -65,6 +65,7 @@ import { OwnerSizeComponent } from './pages/owner-size/owner-size.component';
 import { OwnerDescriptionComponent } from './pages/owner-description/owner-description.component';
 import { OwnerDescriptionFormComponent } from './components/owner-description-form/owner-description-form.component';
 import { OwnerSizeFormComponent } from './components/owner-size-form/owner-size-form.component';
+import { ProfileOwnerPageComponent } from './pages/profile-owner-page/profile-owner-page/profile-owner-page.component';
 
 const route: Routes = [
 	{
@@ -114,11 +115,11 @@ const route: Routes = [
 				component: WarehousePageComponent,
 				title: 'Manage warehouse'
 			},
-			// {
-			// 	path: 'cateparent',
-			// 	component: OwnerCategoryParentComponent,
-			// 	title: 'Manage cateparent'
-			// },
+			{
+				path: 'profile',
+				component: ProfileOwnerPageComponent,
+				title: 'Manage Profile'
+			},
 
 			{
 				path: 'description',
@@ -199,6 +200,7 @@ const route: Routes = [
 		OwnerDescriptionComponent,
 		OwnerDescriptionFormComponent,
 		OwnerSizeFormComponent,
+		ProfileOwnerPageComponent,
 	],
 	imports: [
 		FormsModule,

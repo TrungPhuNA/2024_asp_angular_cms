@@ -14,7 +14,7 @@
             </div>
             <!-- Right column - Input Name and Image URL -->
             <div class="col-md-6">
-                <form [formGroup]="form" (ngSubmit)="saveBrand()">
+                <form [formGroup]="form" (ngSubmit)="saveData()">
                     <!-- Name input -->
                     <div class="form-group required mb-3">
                         <label for="name" class="form-label">Name</label>
@@ -31,6 +31,13 @@
                                formControlName="Image" name="image">
                         <app-form-error [control]="form.controls['Image']" [message]="'Brand image is required!'" [validation]="'required'"></app-form-error>
                     </div>
+                    <!-- Image upload -->
+					<div class="form-group mb-3">
+						<input type="file" #fileInput (change)="onFileSelected($event)" hidden>
+						<button type="button" class="upload-button" (click)="fileInput.click()">Upload Image</button>
+						<button *ngIf="selectedFile" type="button" class="save-button"
+							(click)="uploadImage('brand')">Save Image</button>
+					</div>
                     <!-- Save and Cancel buttons -->
                     <div class="d-flex justify-content-center my-3">
                         <button type="button" (click)="closeModal()" class="btn btn-secondary">Cancel</button>
