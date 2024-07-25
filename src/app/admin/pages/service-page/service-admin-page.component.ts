@@ -85,7 +85,9 @@ export class ServiceAdminPageComponent {
 	}
 
 	search() {
+		
 		const params = { ...this.paging, page: 1, searchQuery: this.formSearch.value.name };
+		console.log('data',params);
 		this.getDataList(params);
 	}
 	

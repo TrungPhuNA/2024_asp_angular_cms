@@ -20,6 +20,7 @@ import { VerifyEmailUserComponent } from './user/pages/verify-email-user/verify-
 import { VerifyCodeUserComponent } from './user/pages/verify-code-user/verify-code-user.component';
 import { RegisterUserComponent } from './user/pages/register-user/register-user.component';
 import { CartPageComponent } from './user/pages/cart-page/cart-page.component';
+import { ProfileOwnerPageComponent } from './owner/pages/profile-owner-page/profile-owner-page.component';
 
 const routes: Routes = [
   { path: '', redirectTo: "/homepage", pathMatch: "full" },
@@ -40,6 +41,7 @@ const routes: Routes = [
   { path: "products", component: ProductPageComponent, title: "Products" },
   { path: "product-detail/:id", component: ProductDetailComponent, title: "Product Detail" },
   { path: "services", component: ServicePageComponent, title: "Services" },
+  // { path: "profile-owner", component: ProfileOwnerPageComponent, title: "Hồ sơ" },
 
   {
 	path: 'admin',
@@ -59,7 +61,7 @@ const routes: Routes = [
 		import('./staff/staff.module').then((m) => m.StaffModule),
 
   },
-
+  
 
   { path: "403", component: ForbiddenComponent, title: "403 - Bị từ chối truy cập" },
   { path: "401", component: UnauthorizedComponent, title: "401 - Không có quyền truy cập" },

@@ -1,9 +1,9 @@
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, OnChanges } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { CommonService } from '../../../helpers/common.service';
-import { AlertService } from '../../../helpers/alert.service';
-import { cloudinaryConfig } from '../../../../../../cloudinary.config';
+import { CommonService } from '../../helpers/common.service';
+import { AlertService } from '../../helpers/alert.service';
+import { cloudinaryConfig } from '../../../../../cloudinary.config';
 import moment from 'moment';
 
 
@@ -44,6 +44,16 @@ export class ProfileOwnerPageComponent implements OnChanges {
 
   }
 
+  breadCrumb: any = [
+		{
+			label: 'Owner',
+			link: '/'
+		},
+		{
+			label: 'Profile',
+			link: '/owner/profile'
+		}
+	];
   ngOnChanges(): void {
     this.form.reset();
     if (!this.isVisible) {

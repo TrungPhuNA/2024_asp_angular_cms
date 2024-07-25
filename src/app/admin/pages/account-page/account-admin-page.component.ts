@@ -5,6 +5,7 @@ import { AccountService } from '../../services/account.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { INIT_PAGING } from '../../helpers/constant';
 import { OwnerService } from '../../services/owner.service';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
 	selector: 'app-account-admin-page',
@@ -37,7 +38,10 @@ export class AccountAdminPageComponent {
 	loading = false;
 
 	typeForm = 0;
-
+	formSearch = new FormGroup({
+		id: new FormControl(null),
+		keyword: new FormControl(null)
+	});
 	constructor(
 		private accountService: AccountService,
 		private alertService: AlertService,
@@ -79,6 +83,7 @@ export class AccountAdminPageComponent {
 				this.paging.total = res?.data?.length || 0;
 			});
 		} else {
+			console.log('data', params);
 			this.ownerService.getLists({ ...params, pageSize: 10 }).subscribe((res: any) => {
 				this.loading = false;
 				console.log('Owner', res);
@@ -98,10 +103,10 @@ export class AccountAdminPageComponent {
 	changeTab(type: any) {
 		this.tabType = type;
 		this.getDataList({ page: 1 })
-		
+
 	}
-	
-	
+
+
 	toggleSelectAll() {
 		// const allSelected = this.brands.every(brand => brand.selected);
 		// this.brands.forEach(brand => brand.selected = !allSelected);
@@ -123,9 +128,17 @@ export class AccountAdminPageComponent {
 		console.log('Executing search() function...');
 		console.log('Form search value:', this.formSearch.value);
 		// Thực hiện các thao tác khác như gọi getDataList()
-		this.getDataList({ ...this.paging, page: 1, ...this.formSearch.value })
+		if (this.tabType == 'user') {
+			this.getDataList({ ...this.paging, page: 1, ...this.formSearch.value })
+		} else {
+			const searchQuery = this.formSearch.value.keyword || '';
+			const params = new HttpParams()
+				.set('searchQuery', searchQuery)
+			this.getDataList({ searchQuery: searchQuery, ...this.paging, page: 1 });
+		}
+
 	}
-	
+
 
 	resetSearchForm() {
 		this.formSearch.reset();
@@ -148,7 +161,7 @@ export class AccountAdminPageComponent {
 				}
 			});
 		} else {
-			
+
 			this.ownerService.createOrUpdateData(data?.form, data?.id).subscribe((res: any) => {
 				this.loading = false;
 				if (res?.data) {
@@ -276,10 +289,7 @@ export class AccountAdminPageComponent {
 	}
 
 
-	formSearch = new FormGroup({
-		id: new FormControl(null),
-		keyword: new FormControl(null)
-	});
+
 
 	pageChanged(e: any) {
 		this.paging.page = e;
@@ -290,5 +300,5 @@ export class AccountAdminPageComponent {
 			this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
 		}
 	}
-	
+
 }

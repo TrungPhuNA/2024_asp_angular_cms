@@ -88,13 +88,14 @@ export class UpdateBrandComponent {
 		  return;
 		}
 	
-		if (!this.image) {
-		  this.alertService.fireSmall('error', "Please select and upload an image before saving.");
-		  return;
-		}
+		// if (!this.image) {
+		//   this.alertService.fireSmall('error', "Please select and upload an image before saving.");
+		//   return;
+		// }
 	
 		this.save.emit({
-		  form: this.form.value,
+			form: this.form.value,
+			id: this.brand.brandId
 		});
 	  }
 	  closeModal() {

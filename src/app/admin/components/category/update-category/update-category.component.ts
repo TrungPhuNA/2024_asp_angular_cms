@@ -89,10 +89,10 @@ export class UpdateCategoryComponent {
       return;
     }
 
-    if (!this.image) {
-      this.alertService.fireSmall('error', "Please select and upload an image before saving.");
-      return;
-    }
+    // if (!this.image) {
+    //   this.alertService.fireSmall('error', "Please select and upload an image before saving.");
+    //   return;
+    // }
 
     this.save.emit({
       form: this.form.value,

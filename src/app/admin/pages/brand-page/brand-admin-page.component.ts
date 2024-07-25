@@ -98,38 +98,49 @@ export class BrandAdminPageComponent {
 	}
 
 	saveItem(data: any) {
+		// Log the ID and form data to the console before saving
+		console.log('ID:', data?.id);
+		console.log('Form Data:', data?.form);
+
 		if (this.modalTitle === 'Create Brand') {
-			// category.id = this.categories.length + 1;
-			// this.categories.push(category);
 			this.loading = true;
 			this.brandService.createOrUpdateData(data?.form).subscribe((res: any) => {
 				this.loading = false;
 				if (res?.message?.includes('successfully')) {
 					this.alertService.fireSmall('success', res?.message);
 					this.closeModal();
-					this.getDataList({ page: 1, pageSize: 10 })
+					this.getDataList({ page: 1, pageSize: 10 });
 				} else if (res?.errors) {
 					this.alertService.showListError(res?.errors);
 				} else {
 					this.alertService.fireSmall('error', res?.message || "Add Brand failed!");
 				}
-			})
+			});
 		} else {
-			this.loading = true;
-			this.brandService.createOrUpdateData(data?.form, data.id).subscribe((res: any) => {
-				this.loading = false;
-				if (res?.message?.includes('successfully')) {
-					this.alertService.fireSmall('success', res?.message);
-					this.closeModal();
-					this.getDataList({ page: 1, pageSize: 10 })
-				} else if (res?.errors) {
-					this.alertService.showListError(res?.errors);
-				} else {
-					this.alertService.fireSmall('error', res?.message || "Updated Brand failed!");
-				}
-			})
+			// Check if data.form and data.id are defined before making the API call
+			if (data?.form && data?.id) {
+				console.log('ID:', data.id);
+				console.log('Form Data:', data.form);
+
+				this.loading = true;
+				this.brandService.createOrUpdateData(data?.form, data.id).subscribe((res: any) => {
+					this.loading = false;
+					if (res?.message?.includes('successfully')) {
+						this.alertService.fireSmall('success', res?.message);
+						this.closeModal();
+						this.getDataList({ page: 1, pageSize: 10 });
+					} else if (res?.errors) {
+						this.alertService.showListError(res?.errors);
+					} else {
+						this.alertService.fireSmall('error', res?.message || "Updated Brand failed!");
+					}
+				});
+			} else {
+				this.alertService.fireSmall('error', "Invalid data provided.");
+			}
 		}
 	}
+
 
 	selected: any;
 	viewItem(id: number) {
@@ -141,6 +152,8 @@ export class BrandAdminPageComponent {
 
 	editItem(id: number) {
 		const category = this.dataList.find((c: any) => c.brandId === id);
+		console.log('Editing Brand ID:', id);
+		console.log('Brand Data:', category);
 		this.selected = { ...category };
 		this.modalTitle = 'Edit Brand';
 		this.showUpdateBrandModal = true;
@@ -185,13 +198,13 @@ export class BrandAdminPageComponent {
 		if (this.dataListAll?.length > 0) {
 			let start = (this.paging?.page - 1) * this.paging.pageSize;
 			let end = this.paging?.page * this.paging.pageSize;
-			console.log('brand---->',start, end, this.formSearch.value?.name);
-			if(this.formSearch.value?.name) {
+			console.log('brand---->', start, end, this.formSearch.value?.name);
+			if (this.formSearch.value?.name) {
 				let totalSearch = this.dataListAll?.filter((item: any) => item?.name?.includes(this.formSearch.value?.name?.trim()));
 				this.paging.total = totalSearch?.length || 0;
-				this.dataList = totalSearch?.filter((item: any, index: number) => index >= start && index < end && item?.name?.includes(this.formSearch.value?.name?.trim()) )
+				this.dataList = totalSearch?.filter((item: any, index: number) => index >= start && index < end && item?.name?.includes(this.formSearch.value?.name?.trim()))
 			} else {
-				this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end )
+				this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
 			}
 		}
 	}

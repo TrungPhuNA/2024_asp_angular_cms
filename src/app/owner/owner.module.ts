@@ -65,7 +65,8 @@ import { OwnerSizeComponent } from './pages/owner-size/owner-size.component';
 import { OwnerDescriptionComponent } from './pages/owner-description/owner-description.component';
 import { OwnerDescriptionFormComponent } from './components/owner-description-form/owner-description-form.component';
 import { OwnerSizeFormComponent } from './components/owner-size-form/owner-size-form.component';
-import { ProfileOwnerPageComponent } from './pages/profile-owner-page/profile-owner-page/profile-owner-page.component';
+import { ProfileOwnerPageComponent } from './pages/profile-owner-page/profile-owner-page.component';
+import { ChangepasswordOwnerComponent } from './pages/changepassword-owner/changepassword-owner.component';
 
 const route: Routes = [
 	{
@@ -120,7 +121,11 @@ const route: Routes = [
 				component: ProfileOwnerPageComponent,
 				title: 'Manage Profile'
 			},
-
+			{
+				path: 'change-password',
+				component: ChangepasswordOwnerComponent,
+				title: 'Manage Change Password'
+			},
 			{
 				path: 'description',
 				component: OwnerDescriptionComponent,
@@ -201,6 +206,7 @@ const route: Routes = [
 		OwnerDescriptionFormComponent,
 		OwnerSizeFormComponent,
 		ProfileOwnerPageComponent,
+  ChangepasswordOwnerComponent,
 	],
 	imports: [
 		FormsModule,

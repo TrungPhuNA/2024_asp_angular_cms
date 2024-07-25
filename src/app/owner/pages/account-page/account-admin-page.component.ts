@@ -82,6 +82,8 @@ export class AccountAdminPageComponent {
 					let start = (this.paging?.page - 1) * this.paging.pageSize;
 					let end = this.paging?.page * this.paging.pageSize;
 					this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
+					console.log('start:',start)
+					console.log('end:',end)
 				}
 				this.paging.total = res?.length || 0;
 			}
@@ -201,7 +203,7 @@ export class AccountAdminPageComponent {
 		if (this.dataListAll?.length > 0) {
 			let start = (this.paging?.page - 1) * this.paging.pageSize;
 			let end = this.paging?.page * this.paging.pageSize;
-			console.log(start, end);
+			console.log('phân trang 123',start, end);
 			if (this.formSearch.value?.name) {
 				let totalSearch = this.dataListAll?.filter((item: any) => item?.name?.includes(this.formSearch.value?.name?.trim()));
 				this.paging.total = totalSearch?.length || 0;

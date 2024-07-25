@@ -85,8 +85,11 @@ export class BlogAdminPageComponent {
 					let start = (this.paging?.page - 1) * this.paging.pageSize;
 					let end = this.paging?.page * this.paging.pageSize;
 					this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end);
+					console.log('start:',start)
+					console.log('end:',end)
 				}
 				this.paging.total = res?.data?.length || 0;
+				
 			}
 
 		})

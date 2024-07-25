@@ -16,7 +16,7 @@
 				<app-form-error [control]="form.controls['Name']" [message]="'Name is required!'"
 					[validation]="'required'"></app-form-error>
 			</div>
-			<div class="form-group required mb-3">
+			<!-- <div class="form-group required mb-3">
 				<label for="iamge" class="form-label">Image</label>
 				<input type="text" id="iamge" class="form-control" placeholder="Enter value"
 					[ngClass]="{'is-invalid': commonService.showStatusErrorV2(form, 'Image')}"
@@ -24,7 +24,7 @@
 					(focusout)="commonService.onTrimFocusOutForm(form, 'Image', $event)" />
 				<app-form-error [control]="form.controls['Image']" [message]="'Image is required!'"
 					[validation]="'required'"></app-form-error>
-			</div>
+			</div> -->
 
 			<div class="d-flex justify-content-center my-3">
 				<button type="button" (click)="closeModal()" class="btn btn-secondary">{{typeForm == 2 ? 'Close' : 'Cancel'}}</button>

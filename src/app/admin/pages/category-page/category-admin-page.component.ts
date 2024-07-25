@@ -131,6 +131,8 @@ export class CategoryAdminPageComponent {
 	}
 
 	saveCategory(data: any) {
+		console.log('ID:', data?.id);
+		console.log('Form Data:', data?.form);
 		if (this.modalTitle === 'Create Category') {
 			// category.id = this.categories.length + 1;
 			// this.categories.push(category);
