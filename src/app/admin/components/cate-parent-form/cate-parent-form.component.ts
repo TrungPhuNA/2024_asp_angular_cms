@@ -43,6 +43,8 @@ export class CateParentFormComponent {
 		//Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
 		//Add '${implements OnChanges}' to the class.
 		this.form.reset();
+		this.form.invalid == false;
+		console.log('form trước',this.form.invalid);
 		console.log(this.isVisible);
 		if (!this.isVisible) {
 			this.form.reset();
@@ -52,7 +54,7 @@ export class CateParentFormComponent {
 		if (this.data && this.typeForm != 1) {
 			this.form.patchValue({
 				Name: this.data?.name,
-				Image: this.data?.image
+				// Image: this.data?.image
 			});
 			
 			if(this.typeForm == 2) {
@@ -61,8 +63,8 @@ export class CateParentFormComponent {
 		}
 	}
 	submit() {
-
-		if (this.form.invalid) {
+		console.log('form',this.form.invalid);
+		if (!this.form.invalid) {
 
 			this.alertService.fireSmall('error', "Form is invalid");
 			return;

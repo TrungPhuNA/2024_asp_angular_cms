@@ -65,7 +65,7 @@ export class LoginAdminPageComponent {
 						let user: any = {};
 
 						Object.entries(data).forEach((item: any) => {
-							console.log(item);
+							console.log('12312312312312312312312',item);
 							if (item[0] == `http://schemas.microsoft.com/ws/2008/06/identity/claims/role`) {
 								user.userType = item[1] || null
 							}

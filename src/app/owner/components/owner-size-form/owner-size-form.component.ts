@@ -16,17 +16,6 @@ export class OwnerSizeFormComponent {
 	@Output() save = new EventEmitter<any>();
 	@Output() close = new EventEmitter<void>();
 
-	isBans = [
-		{
-			id: true,
-			name: "Delete"
-		},
-		{
-			id: false,
-			name: "Active"
-		}
-	]
-
 	form = new FormGroup({
 		Name : new FormControl(null, Validators.required),
 		Image: new FormControl(null, Validators.required),

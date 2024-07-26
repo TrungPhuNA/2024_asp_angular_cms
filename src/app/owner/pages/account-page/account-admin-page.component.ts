@@ -13,6 +13,7 @@ import { AuthenService } from '../../../admin/services/authen.service';
 })
 export class AccountAdminPageComponent {
 	dataList: any = [];
+	selectedAccount: any = [];
 	selectedBrand: any = null;
 	modalTitle: string = '';
 	ownerId: number | null = null;
@@ -68,10 +69,11 @@ export class AccountAdminPageComponent {
 	dataListAll = [];
 	getDataList(params: any) {
 		this.loading = true;
+		console.log('data',params);
 		this.staffService.getLists({ 
 			searchQuery: this.formSearch.value.name,  // Truy vấn tìm kiếm
 			page: 1,              // Số trang
-			pageSize: 10000,         // Kích thước trang
+			pageSize: 100,         // Kích thước trang
 			ownerId: this.ownerId // ID người dùng
 			
 		}).subscribe((res: any) => {
@@ -85,7 +87,7 @@ export class AccountAdminPageComponent {
 					console.log('start:',start)
 					console.log('end:',end)
 				}
-				this.paging.total = res?.length || 0;
+				this.paging.total = res?.data.length || 0;
 			}
 		})
 	}
@@ -98,10 +100,8 @@ export class AccountAdminPageComponent {
 
 	resetForm = false;
 	closeModal() {
-		// this.openModal = false;
-		// this.typeForm = 0;
-		this.resetForm = true;
-		this.modalTitle = "";
+		this.openModal = false;
+		this.typeForm = 0;
 
 	}
 
@@ -150,7 +150,8 @@ export class AccountAdminPageComponent {
 
 	selected: any;
 	viewItem(id: number) {
-		const data = this.dataList.find((c: any) => c.accountId === id);
+		const data = this.dataList.find((c: any) => c.staffId === id);
+		console.log('data',data);
 		this.selected = { ...data };
 		this.modalTitle = 'View Account';
 		this.openModal = true;
@@ -158,13 +159,20 @@ export class AccountAdminPageComponent {
 	}
 
 	editItem(id: number) {
-		const data = this.dataList.find((c: any) => c.accountId === id);
+		const data = this.dataList.find((c: any) => c.staffId === id);
+		console.log('Selected data for edit:', data); // Log data found for edit
+
+	if (!data) {
+		console.error('No data found for ID:', id); // Log error if no data is found
+		return;
+	}
 		this.selected = { ...data };
 		this.modalTitle = 'Edit Account';
 		this.openModal = true;
 		this.typeForm = 3;
 
 	}
+	
 
 	deleteItem(id: number) {
 		this.alertService.fireConfirm(

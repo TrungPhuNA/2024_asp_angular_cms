@@ -70,7 +70,7 @@ export class AccountAdminPageComponent {
 		console.log('Executing getDataList() with parameters:', params);
 		this.loading = true;
 		if (this.tabType == 'user') {
-			this.accountService.getLists({ ...params, pageSize: 10 }).subscribe((res: any) => {
+			this.accountService.getLists({ ...params, pageSize: 100 }).subscribe((res: any) => {
 				this.loading = false;
 				console.log('User', res);
 				this.dataListAll = res;
@@ -80,11 +80,11 @@ export class AccountAdminPageComponent {
 				// 	this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
 				// }
 				this.dataList = this.dataListAll
-				this.paging.total = res?.data?.length || 0;
+				this.paging.total = res?.length || 0;
 			});
 		} else {
 			console.log('data', params);
-			this.ownerService.getLists({ ...params, pageSize: 10 }).subscribe((res: any) => {
+			this.ownerService.getLists({ ...params, pageSize: 100 }).subscribe((res: any) => {
 				this.loading = false;
 				console.log('Owner', res);
 				this.dataListAll = res?.data;

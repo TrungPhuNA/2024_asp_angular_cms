@@ -41,21 +41,21 @@ export class OwnerDescriptionFormComponent {
 	}
 
 	ngOnChanges(): void {
-		//Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-		//Add '${implements OnChanges}' to the class.
+		console.log('data',this.data);
 		this.form.reset();
 		if (!this.isVisible) {
 			this.form.reset();
 			this.form.enable();
 		}
-		
+		console.log('typeform',this.typeForm);
 		if (this.data && this.typeForm != 1) {
 			this.form.patchValue({
 				Title: this.data?.title,
 				Content: this.data?.content,
 				ImageLinks: this.data?.imageLinks
 			});
-			
+			console.log('typeform',this.data);
+			console.log('typeform',this.typeForm);
 			if(this.typeForm == 2) {
 				this.form.disable();
 			}
@@ -63,8 +63,8 @@ export class OwnerDescriptionFormComponent {
 		console.log('data',this.data);
 	}
 	submit() {
-
-		if (this.form.invalid) {
+console.log('form',this.form.invalid);
+		if (!this.form.invalid) {
 
 			this.alertService.fireSmall('error', "Form is invalid");
 			return;

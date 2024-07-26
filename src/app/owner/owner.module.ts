@@ -28,7 +28,7 @@ import { DeleteBrandComponent } from './components/brand/delete-brand/delete-bra
 
 import { OrderAdminPageComponent } from './pages/order-page/order-admin-page.component';
 import { AddNewOrderComponent } from './components/order/add-new-order/add-new-order.component';
-import { DetailOrderComponent } from './components/order/detail-order/detail-order.component';
+// import { DetailOrderComponent } from './components/order/detail-order/detail-order.component';
 import { UpdateOrderComponent } from './components/order/update-order/update-order.component';
 import { DeleteOrderComponent } from './components/order/delete-order/delete-order.component';
 import { Route, RouterModule, Routes } from '@angular/router';
@@ -41,6 +41,8 @@ import { DetailAccountComponent } from './components/account/detail-account/deta
 import { NgSelectModule } from '@ng-select/ng-select';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatChipsModule } from '@angular/material/chips';
+
+
 
 import { DashboardAdminPageComponent } from './pages/dashboard-page/dashboard-admin-page.component';
 import { ServiceAdminPageComponent } from './pages/service-page/service-admin-page.component';
@@ -67,6 +69,7 @@ import { OwnerDescriptionFormComponent } from './components/owner-description-fo
 import { OwnerSizeFormComponent } from './components/owner-size-form/owner-size-form.component';
 import { ProfileOwnerPageComponent } from './pages/profile-owner-page/profile-owner-page.component';
 import { ChangepasswordOwnerComponent } from './pages/changepassword-owner/changepassword-owner.component';
+import { DetailOrderComponent } from './components/order/detail-order/detail-order.component';
 
 const route: Routes = [
 	{
@@ -206,7 +209,7 @@ const route: Routes = [
 		OwnerDescriptionFormComponent,
 		OwnerSizeFormComponent,
 		ProfileOwnerPageComponent,
-  ChangepasswordOwnerComponent,
+		ChangepasswordOwnerComponent,
 	],
 	imports: [
 		FormsModule,

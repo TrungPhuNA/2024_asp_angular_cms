@@ -36,7 +36,7 @@
 						<th class="text-center align-middle" style="min-width: 300px;">Price</th>
 						<th class="text-center align-middle" style="min-width: 300px;">Shop</th>
 						<th class="text-center align-middle" style="min-width: 300px;">Ban</th>
-						<th style="width: 10%;">Không Xài</th>
+						<!-- <th style="width: 10%;">Không Xài</th> -->
 					</tr>
 				</thead>
 				<tbody>
@@ -62,13 +62,13 @@
 								</button>
 							</td>
 
-							<td class="text-center align-middle">
+							<!-- <td class="text-center align-middle">
 								<button mat-icon-button [matMenuTriggerFor]="menu"
 									class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary">
 									<i class="fa fa-ellipsis-v" aria-hidden="true"></i>
 								</button>
 								<mat-menu #menu="matMenu">
-									<button mat-menu-item class=" view-button" (click)="viewItem(item.productId)">
+									 <button mat-menu-item class=" view-button" (click)="viewItem(item.productId)">
 										<i class="fa fa-eye"></i> View
 									</button>
 									<button mat-menu-item class=" edit-button" (click)="editItem(item.productId)">
@@ -76,18 +76,18 @@
 									</button>
 									<button mat-menu-item class=" delete-button" (click)="deleteItem(item.productId)">
 										<i class="fa fa-trash"></i> Delete
-									</button>
-									<!-- <button mat-menu-item class="icon-button delete-button text-danger"
+									</button> 
+									 <button mat-menu-item class="icon-button delete-button text-danger"
 										(click)="updateBan(item.productId, true)">
 										<i class="fa fa-lock text-danger"></i> Ban
 									</button>
 									<button  mat-menu-item class="icon-button delete-button text-success"
 										(click)="updateBan(item.productId, false)">
 										<i class="fa fa-unlock text-success"></i> Unban
-									</button> -->
+									</button> 
 
 								</mat-menu>
-							</td>
+							</td> -->
 						</tr>
 					</ng-container>
 					<ng-container *ngIf="dataList?.length <= 0">

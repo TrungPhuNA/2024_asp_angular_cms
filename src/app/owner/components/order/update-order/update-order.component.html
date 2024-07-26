@@ -1,21 +1,22 @@
 <div *ngIf="isVisible" class="modal">
   <div class="modal-content">
-    <span class="close-button" (click)="closeModal()">&times;</span>
-    <h2>{{ modalTitle }}</h2>
-    <form>
+    <div class="modal-header">
+      <h5 class="modal-title">{{ modalTitle }}</h5>
+      <button type="button" class="close" (click)="handleClose()">
+        <span>&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <!-- Add form fields to display/edit order details here -->
       <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" id="name" [(ngModel)]="order.name" name="name">
+        <label for="orderName">Order Name 123po12p3jp12jop</label>
+        <input type="text" class="form-control" id="orderName" [(ngModel)]="order.name">
       </div>
-      <div class="form-group">
-        <label for="image">Image URL</label>
-        <input type="text" id="image" [(ngModel)]="order.image" name="image">
-      </div>
-      <div class="form-group">
-        <label for="content">Content</label>
-        <textarea id="content" [(ngModel)]="order.content" name="content"></textarea>
-      </div>
-      <button type="button" (click)="saveOrder()">Save</button>
-    </form>
+      <!-- Add other fields as necessary -->
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="handleClose()">Close</button>
+      <button type="button" class="btn btn-primary" (click)="handleSave()">Save changes</button>
+    </div>
   </div>
 </div>

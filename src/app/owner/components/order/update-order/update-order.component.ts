@@ -6,17 +6,17 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./update-order.component.scss']
 })
 export class UpdateOrderComponent {
-  @Input() order: any = {};
+  @Input() order: any;
   @Input() modalTitle: string = '';
   @Input() isVisible: boolean = false;
-  @Output() save = new EventEmitter<any>();
   @Output() close = new EventEmitter<void>();
+  @Output() save = new EventEmitter<any>();
 
-  saveOrder() {
-    this.save.emit(this.order);
+  handleClose() {
+    this.close.emit();
   }
 
-  closeModal() {
-    this.close.emit();
+  handleSave() {
+    this.save.emit(this.order);
   }
 }

@@ -116,7 +116,7 @@ export class OwnerLoginComponent {
 				}
 				let user: any = {};
 				Object.entries(data).forEach((item: any) => {
-					console.log(item);
+					console.log('data',item);
 					if (item[0] == `http://schemas.microsoft.com/ws/2008/06/identity/claims/role`) {
 						user.userType = item[1] || null
 					}

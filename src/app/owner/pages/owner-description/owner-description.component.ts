@@ -45,6 +45,7 @@ export class OwnerDescriptionComponent {
 	}
 	dataListAll: any;
 	getDataListParent(params: any) {
+		console.log('data áđâss',this.typeForm);
 		this.loading = true;
 		this.descriptionService.getLists({...params, pageSize:10000}).subscribe((res: any) => {
 			this.loading = false;
@@ -77,10 +78,13 @@ export class OwnerDescriptionComponent {
 		this.getDataListParent({ ...this.paging, page: 1, ...this.formSearch.value })
 	}
 	saveItem(data: any) {
+		console.log('data áđâss',this.typeForm);
+		console.log('Data received in saveItem:', data);
 		if (this.typeForm == 1) {
 			this.loading = true;
 			let form = data.form;
-			delete form.cateParentId
+			console.log('data áđâss',data);
+			console.log('data áđâss',form);
 			this.descriptionService.createOrUpdateData(data?.form).subscribe((res: any) => {
 				this.loading = false;
 				if (res?.data || res?.message?.includes('successfully')) {
@@ -90,7 +94,7 @@ export class OwnerDescriptionComponent {
 				} else if (res?.errors) {
 					this.alertService.showListError(res?.errors);
 				} else {
-					this.alertService.fireSmall('error', res?.message || "Add Product description  failed!");
+					this.alertService.fireSmall('error', res?.message || "Add Description failed!");
 				}
 			})
 		} else {
@@ -105,23 +109,28 @@ export class OwnerDescriptionComponent {
 				} else if (res?.errors) {
 					this.alertService.showListError(res?.errors);
 				} else {
-					this.alertService.fireSmall('error', res?.message || "Updated Product description  failed!");
+					this.alertService.fireSmall('error', res?.message || "Updated Description failed!");
 				}
 			})
 		}
 	}
 	selected: any;
 	viewItem(id: number) {
-		const data = this.dataList.find((c: any) => c.sizeId === id);
+		
+		const data = this.dataList.find((c: any) => c.descriptionId === id);
+		console.log('data view',data);
 		this.selected = { ...data };
-		this.modalTitle = 'View Description ';
+		this.modalTitle = 'View Description';
 		this.openModal = true;
 		this.typeForm = 2;
 	}
 	editItem(id: number) {
-		const data = this.dataList.find((c: any) => c.sizeId === id);
+		
+		const data = this.dataList.find((c: any) => c.descriptionId === id);
+		console.log('data edit',data);
 		this.selected = { ...data };
-		this.modalTitle = 'Edit Description ';
+		console.log('data selected',this.selected);
+		this.modalTitle = 'Edit Description';
 		this.openModal = true;
 		this.typeForm = 3;
 

@@ -60,9 +60,10 @@ export class ServiceAdminComponent {
 				this.form.disable();
 			}
 		}
+		console.log('form troc',this.form.invalid);
 	}
 	submit() {
-
+		console.log('form',this.form.invalid);
 		if (this.form.invalid) {
 
 			this.alertService.fireSmall('error', "Form is invalid");
