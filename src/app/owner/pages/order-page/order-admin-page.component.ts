@@ -67,16 +67,50 @@ export class OrderAdminPageComponent implements OnInit {
 		this.ownerId = user?.id ?? null;
 		this.userType = user?.userType ?? '';
 		if (this.userType === 'Owner') {
-			this.getDataListAll({ ...this.paging, pageSize: 10000 });
+			this.getDataListAll({ ...this.paging});
 
-			this.getDataListPending({ ...this.paging, pageSize: 10000 });
-			this.getDataListProcessing({ ...this.paging, pageSize: 10000 });
-			this.getDataListCompleted({ ...this.paging, pageSize: 10000 });
-			this.getDataListRejected({ ...this.paging, pageSize: 10000 });
+			// this.getDataListPending({ ...this.paging, pageSize: 10000 });
+			// this.getDataListProcessing({ ...this.paging, pageSize: 10000 });
+			// this.getDataListCompleted({ ...this.paging, pageSize: 10000 });
+			// this.getDataListRejected({ ...this.paging, pageSize: 10000 });
 			// this.getDataListCancelled({ ...this.paging, pageSize: 10000 });
 		}
 		console.log('User ID:', this.ownerId);
 		console.log('User Type:', this.userType);
+	}
+	changeTab(type: string) {
+		this.tabType = type;
+		this.paging.page = 1
+		switch (this.tabType) {
+			case 'all':
+				this.getDataListAll({ page: 1 });
+				this.dataList = [];
+				break;
+			case 'pending':
+				this.getDataListPending({ page: 1 });
+				this.dataList = [];
+				break;
+			case 'processing':
+				this.getDataListProcessing({ page: 1 });
+				this.dataList = [];
+				break;
+			case 'completed':
+				this.getDataListCompleted({ page: 1 });
+				this.dataList = [];
+				break;
+			case 'rejected':
+				this.getDataListRejected({ page: 1 });
+				this.dataList = [];
+				break;
+			case 'cancelled':
+				this.getDataListCancelled({ page: 1 });
+				this.dataList = [];
+				break;
+			default:
+				console.error('Unknown tab type:', this.tabType);
+				break;
+		}
+		
 	}
 
 	// getDataListAll(params: any) {
@@ -102,45 +136,64 @@ export class OrderAdminPageComponent implements OnInit {
 	// 		console.log('product---->', start, end, this.formSearch.value?.name);
 	// 	}
 	// }
-
+	TabAll() {
+		const currentPaging = this.getPageSizeForCurrentTab();
+		console.log('Current Paging:', currentPaging); // Debug log
+		this.dataList = this.dataListAll.slice(
+			(currentPaging.page - 1) * currentPaging.pageSize,
+			currentPaging.page * currentPaging.pageSize
+		);
+		console.log('Data List:', this.dataList); // Debug log
+	}
+	pageChanged(e: any) {
+		this.paging.page = e;
+		this.TabAll();
+		console.log('Current Page:', this.paging.page); // Debug log
+	}
 	getDataListAll(params: any) {
 		this.loading = true;
 		this.orderService.getLists(this.ownerId).subscribe((res: any) => {
 			this.loading = false;
 			this.dataListAll = res;
-			this.paging.total = res.length; // Cập nhật tổng số bản ghi
+			this.paging.total = this.dataListAll.length; // Cập nhật tổng số bản ghi
+			console.log('Data:', this.dataListAll);
 			this.TabAll(); // Cập nhật danh sách cho tab hiện tại
 		});
 	}
-
 	getDataListPending(params: any) {
 		this.loading = true;
 		this.orderService.getLists(this.ownerId).subscribe((res: any) => {
 			this.loading = false;
-			this.dataListPending = res;
-			this.dataListPending = res.filter((item: any) => item.statusId === 1);
-			this.pagingPending.total = res.length; // Cập nhật tổng số bản ghi
+			this.dataListAll = res;
+			this.dataListPending = this.dataListAll.filter((item: any) => item.statusId == 1);
 			this.TabPending(); // Cập nhật danh sách cho tab hiện tại
+			console.log('Data Pending:', this.dataListPending);
+			this.paging.total = this.dataListPending.length; // Cập nhật tổng số bản ghi
+			console.log('paging', this.paging.total)
 		});
 	}
 	getDataListProcessing(params: any) {
 		this.loading = true;
 		this.orderService.getLists(this.ownerId).subscribe((res: any) => {
 			this.loading = false;
-			this.dataListProcessing = res;
-			this.dataListProcessing = res.filter((item: any) => item.statusId === 2);
-			this.pagingProcessing.total = res.length; // Cập nhật tổng số bản ghi
-			this.TabRejected(); // Cập nhật danh sách cho tab hiện tại
+			this.dataListAll = res;
+			this.dataListProcessing = this.dataListAll.filter((item: any) => item.statusId == 2);
+			this.TabProcessing(); // Cập nhật danh sách cho tab hiện tại
+			console.log('Data Get Processing 1:', this.dataListProcessing);
+			this.paging.total = this.dataListProcessing.length; // Cập nhật tổng số bản ghi
+			console.log('total paging Processing', this.paging.total)
 		});
 	}
 	getDataListCompleted(params: any) {
 		this.loading = true;
 		this.orderService.getLists(this.ownerId).subscribe((res: any) => {
 			this.loading = false;
-			this.dataListCompleted = res;
-			this.dataListCompleted = res.filter((item: any) => item.statusId === 3);
-			this.pagingCompleted.total = res.length; // Cập nhật tổng số bản ghi
+			this.dataListAll = res;
+			this.dataListCompleted = this.dataListAll.filter((item: any) => item.statusId == 3);
 			this.TabCompleted(); // Cập nhật danh sách cho tab hiện tại
+			console.log('Data:', this.dataListCompleted);
+			this.paging.total = this.dataListCompleted.length; // Cập nhật tổng số bản ghi
+			console.log('paging Processing', this.paging.total)
 		});
 	}
 
@@ -148,118 +201,84 @@ export class OrderAdminPageComponent implements OnInit {
 		this.loading = true;
 		this.orderService.getLists(this.ownerId).subscribe((res: any) => {
 			this.loading = false;
-			this.dataListRejected = res;
-			this.dataListRejected = res.filter((item: any) => item.statusId === 4);
-			this.pagingRejected.total = res.length; // Cập nhật tổng số bản ghi
+			this.dataListAll = res;
+			this.dataListRejected = this.dataListAll.filter((item: any) => item.statusId == 4);
 			this.TabRejected(); // Cập nhật danh sách cho tab hiện tại
+			console.log('Data Rejected:', this.dataListRejected);
+			this.paging.total = this.dataListRejected.length; // Cập nhật tổng số bản ghi
+			console.log('paging Rejected', this.paging.total)
+			
 		});
 	}
 	getDataListCancelled(params: any) {
 		this.loading = true;
 		this.orderService.getLists(this.ownerId).subscribe((res: any) => {
 			this.loading = false;
-			this.dataListCancelled = res;
-			this.dataListCancelled = res.filter((item: any) => item.statusId === 5);
-			this.pagingCancelled.total = res.length; // Cập nhật tổng số bản ghi
+			this.dataListAll = res;
+			this.dataListCancelled = this.dataListAll.filter((item: any) => item.statusId == 5);
 			this.TabCancelled(); // Cập nhật danh sách cho tab hiện tại
+			console.log('Data Cancelled', this.dataListCancelled);
+			this.pagingCancelled.total = this.dataListCancelled.length; // Cập nhật tổng số bản ghi
+			
 		});
-	}
-	TabAll() {
-		const currentPaging = this.getPageSizeForCurrentTab();
-		console.log('Current Paging:', currentPaging); // Debug log
-		switch (this.tabType) {
-			case 'all':
-				this.dataList = this.dataListAll.slice(
-					(currentPaging.page - 1) * currentPaging.pageSize,
-					currentPaging.page * currentPaging.pageSize
-				);
-				break;
-			// Các case khác
-		}
-		console.log('Data List:', this.dataList); // Debug log
 	}
 
 	TabPending() {
 		const currentPaging = this.getPageSizeForCurrentTab();
 		console.log('Current Paging (Pending):', currentPaging); // Debug log
-		switch (this.tabType) {
-			case 'pending':
-				this.dataListPending = this.dataListPending.slice(
-					(currentPaging.page - 1) * currentPaging.pageSize,
-					currentPaging.page * currentPaging.pageSize
-				);
-				break;
-			// Các case khác
-		}
-		console.log('Data List (Pending):', this.dataList); // Debug log
+		this.dataList = this.dataListPending.slice(
+			(currentPaging.page - 1) * currentPaging.pageSize,
+			currentPaging.page * currentPaging.pageSize
+		);
+		console.log('start',(currentPaging.page - 1) * currentPaging.pageSize)
+		console.log('end',currentPaging.page * currentPaging.pageSize)
+		console.log('Data List (Pending):', this.dataListPending); // Debug log
 	}
 	TabProcessing() {
 		const currentPaging = this.getPageSizeForCurrentTab();
-		console.log('Current Paging (Processing):', currentPaging); // Debug log
-		switch (this.tabType) {
-			case 'processing':
-				this.dataListProcessing = this.dataListProcessing.slice(
-					(currentPaging.page - 1) * currentPaging.pageSize,
-					currentPaging.page * currentPaging.pageSize
-				);
-				break;
-			// Các case khác
-		}
-		console.log('Data List (Processing):', this.dataList); // Debug log
+		console.log('Current Paging (Pending):', currentPaging); // Debug log
+		this.dataList = this.dataListProcessing.slice(
+			(currentPaging.page - 1) * currentPaging.pageSize,
+			currentPaging.page * currentPaging.pageSize
+		);
+		console.log('start',(currentPaging.page - 1) * currentPaging.pageSize)
+		console.log('end',currentPaging.page * currentPaging.pageSize)
+		// console.log('start: ',startIndex,'enđInex',endIndex);
+		// this.dataList = this.dataListProcessing.slice(startIndex, endIndex);
+		console.log('Data Tab (Processing):', this.dataList); // Debug log
 	}
 
 
 	TabCompleted() {
 		const currentPaging = this.getPageSizeForCurrentTab();
 		console.log('Current Paging (Completed):', currentPaging); // Debug log
-		switch (this.tabType) {
-			case 'completed':
-				this.dataListCompleted = this.dataListCompleted.slice(
-					(currentPaging.page - 1) * currentPaging.pageSize,
-					currentPaging.page * currentPaging.pageSize
-				);
-				break;
-			// Các case khác
-		}
-		console.log('Data List (Completed):', this.dataList); // Debug log
+		this.dataListCompleted = this.dataListCompleted.slice(
+			(currentPaging.page - 1) * currentPaging.pageSize,
+			currentPaging.page * currentPaging.pageSize
+		);
+		console.log('Data List (Completed):', this.dataListCompleted); // Debug log
 	}
 
 	TabRejected() {
 		const currentPaging = this.getPageSizeForCurrentTab();
 		console.log('Current Paging (Rejected):', currentPaging); // Debug log
-		switch (this.tabType) {
-			case 'rejected':
-				this.dataListRejected = this.dataListRejected.slice(
-					(currentPaging.page - 1) * currentPaging.pageSize,
-					currentPaging.page * currentPaging.pageSize
-				);
-				break;
-			// Các case khác
-		}
-		console.log('Data List (Rejected):', this.dataList); // Debug log
+		this.dataListRejected = this.dataListRejected.slice(
+			(currentPaging.page - 1) * currentPaging.pageSize,
+			currentPaging.page * currentPaging.pageSize
+		);
+		console.log('Data List (Rejected):', this.dataListRejected); // Debug log
 	}
 	TabCancelled() {
 		const currentPaging = this.getPageSizeForCurrentTab();
 		console.log('Current Paging (Rejected):', currentPaging); // Debug log
-		switch (this.tabType) {
-			case 'rejected':
-				this.dataListCancelled = this.dataListCancelled.slice(
-					(currentPaging.page - 1) * currentPaging.pageSize,
-					currentPaging.page * currentPaging.pageSize
-				);
-				break;
-			// Các case khác
-		}
-		console.log('Data List (Rejected):', this.dataList); // Debug log
+		this.dataListCancelled = this.dataListCancelled.slice(
+			(currentPaging.page - 1) * currentPaging.pageSize,
+			currentPaging.page * currentPaging.pageSize
+		);
+		console.log('Data List (Rejected):', this.dataListCancelled); // Debug log
 	}
 
 
-
-	pageChanged(e: any) {
-		this.paging.page = e;
-		this.TabAll();
-		console.log('Current Page:', this.paging.page); // Debug log
-	}
 
 	pageChangedPending(e: any) {
 		this.pagingPending.page = e;
@@ -525,18 +544,11 @@ export class OrderAdminPageComponent implements OnInit {
 				console.error('Error updating order status', error);
 			}
 		);
+		this.formSearch.reset();
 	}
 
 
-	changeTab(type: string) {
-		this.tabType = type;
-		this.updateDataListForCurrentTab();
-	}
 
-	// pageChanged(e: any) {
-	// 	this.getPageSizeForCurrentTab().page = e.page;
-	// 	this.updateDataListForCurrentTab();
-	// }
 
 	getPageSizeForCurrentTab() {
 		switch (this.tabType) {
@@ -564,12 +576,13 @@ export class OrderAdminPageComponent implements OnInit {
 		this.openModal = false;
 	}
 
-	// search() {
-	// 	const searchParams = {
-	// 		...this.formSearch.value,
-	// 		page: 1,
-	// 		pageSize: this.getPageSizeForCurrentTab().pageSize
-	// 	};
+	search() {
+		const searchParams = {
+			...this.formSearch.value,
+			page: 1
+		};
+		this.getDataListAll(searchParams);
+	}
 
 	// 	// Gọi hàm lấy dữ liệu phù hợp với tab hiện tại
 	// 	switch (this.tabType) {
@@ -618,3 +631,4 @@ export class OrderAdminPageComponent implements OnInit {
 		statusId: new FormControl(null)
 	});
 }
+

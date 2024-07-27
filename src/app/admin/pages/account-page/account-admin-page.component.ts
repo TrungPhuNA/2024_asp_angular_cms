@@ -293,6 +293,7 @@ export class AccountAdminPageComponent {
 
 	pageChanged(e: any) {
 		this.paging.page = e;
+		console.log('data paging page',this.paging.page);
 		// this.getDataList({ ...this.paging, ...this.formSearch.value })
 		if (this.dataListAll?.length > 0) {
 			let start = (this.paging?.page - 1) * this.paging.pageSize;

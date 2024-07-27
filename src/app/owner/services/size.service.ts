@@ -15,12 +15,15 @@ export class SizeService {
   show(id: any) {
     return this.baseApiService.getMethod(`Size/GetSizeById/${id}`, {});
 }
-  createOrUpdateData(formData: any, id?: any) {
+UpdateData(formData: any, id?: any) {
        
     if(id) {
         return this.baseApiService.putMethod(`Size/UpdateSize`, formData, true);
     }
-    return this.baseApiService.postMethod('Size/CreateSize', formData, true);
+    
+}
+create(formData: any){
+  return this.baseApiService.postMethod('Size/CreateSize', formData, true);
 }
   deleteDataSize(id: any) {
 		return this.baseApiService.patchMethod(`Size/DeleteSize/${id}`, {});

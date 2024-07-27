@@ -143,10 +143,10 @@
 						</tr>
 					</thead>
 					<tbody>
-						<ng-container *ngIf="dataListPending?.length > 0">
-							<tr *ngFor="let item of dataListPending; index as i">
-								<td class="text-center align-middle">{{ (pagingPending.page - 1) *
-									pagingPending.pageSize + i + 1 }}
+						<ng-container *ngIf="dataList?.length > 0">
+							<tr *ngFor="let item of dataList; index as i">
+								<td class="text-center align-middle">{{ (paging.page - 1) *
+									paging.pageSize + i + 1 }}
 								</td>
 								<td class="text-center align-middle">{{ item.codeOrder }}</td>
 								<td class="text-center align-middle">{{ item.fullName }}</td>
@@ -199,7 +199,7 @@
 					</tbody>
 				</table>
 			</div>
-			<app-pagination [paging]="pagingPending" (changePaged)="pageChangedPending($event)"></app-pagination>
+			<app-pagination [paging]="paging" (changePaged)="pageChanged($event)"></app-pagination>
 		</div>
 		<app-detail-order [order]="selected" [modalTitle]="modalTitle" [isVisible]="openModal" (close)="closeModal()">
 		</app-detail-order>
@@ -223,10 +223,10 @@
 						</tr>
 					</thead>
 					<tbody>
-						<ng-container *ngIf="dataListProcessing?.length > 0">
-							<tr *ngFor="let item of dataListProcessing; index as i">
-								<td class="text-center align-middle">{{ (pagingProcessing.page - 1) *
-									pagingProcessing.pageSize + i + 1 }}
+						<ng-container *ngIf="dataList?.length > 0">
+							<tr *ngFor="let item of dataList; index as i">
+								<td class="text-center align-middle">{{ (paging.page - 1) *
+									paging.pageSize + i + 1 }}
 								</td>
 								<td class="text-center align-middle">{{ item.codeOrder }}</td>
 								<td class="text-center align-middle">{{ item.fullName }}</td>
@@ -292,7 +292,7 @@
 					</tbody>
 				</table>
 			</div>
-			<app-pagination [paging]="pagingProcessing" (changePaged)="pageChangedProcessing($event)"></app-pagination>
+			<app-pagination [paging]="paging" (changePaged)="pageChanged($event)"></app-pagination>
 		</div>
 		<app-detail-order [order]="selected" [modalTitle]="modalTitle" [isVisible]="openModal" (close)="closeModal()">
 		</app-detail-order>
@@ -318,8 +318,8 @@
 					<tbody>
 						<ng-container *ngIf="dataListCompleted?.length > 0">
 							<tr *ngFor="let item of dataListCompleted; index as i">
-								<td class="text-center align-middle">{{ (pagingCompleted.page - 1) *
-									pagingCompleted.pageSize + i + 1 }}
+								<td class="text-center align-middle">{{ (paging.page - 1) *
+									paging.pageSize + i + 1 }}
 								</td>
 								<td class="text-center align-middle">{{ item.codeOrder }}</td>
 								<td class="text-center align-middle">{{ item.fullName }}</td>
@@ -384,7 +384,7 @@
 					</tbody>
 				</table>
 			</div>
-			<app-pagination [paging]="pagingCompleted" (changePaged)="pageChangedCompleted($event)"></app-pagination>
+			<app-pagination [paging]="paging" (changePaged)="pageChanged($event)"></app-pagination>
 		</div>
 	</ng-container>
 	<ng-container *ngIf="tabType == 'rejected'">
@@ -408,8 +408,8 @@
 					<tbody>
 						<ng-container *ngIf="dataListRejected?.length > 0">
 							<tr *ngFor="let item of dataListRejected; index as i">
-								<td class="text-center align-middle">{{ (pagingRejected.page - 1) *
-									pagingRejected.pageSize + i + 1 }}
+								<td class="text-center align-middle">{{ (paging.page - 1) *
+									paging.pageSize + i + 1 }}
 								</td>
 								<td class="text-center align-middle">{{ item.codeOrder }}</td>
 								<td class="text-center align-middle">{{ item.fullName }}</td>
@@ -474,7 +474,7 @@
 					</tbody>
 				</table>
 			</div>
-			<app-pagination [paging]="pagingRejected" (changePaged)="pageChangedRejected($event)"></app-pagination>
+			<app-pagination [paging]="paging" (changePaged)="pageChanged($event)"></app-pagination>
 		</div>
 	</ng-container>
 	<ng-container *ngIf="tabType == 'cancelled'">

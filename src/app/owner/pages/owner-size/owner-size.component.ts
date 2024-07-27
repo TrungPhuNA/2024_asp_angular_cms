@@ -119,8 +119,7 @@ export class OwnerSizeComponent {
 		if (this.typeForm == 1) {
 			this.loading = true;
 			let form = data.form;
-			delete form.cateParentId
-			this.sizeService.createOrUpdateData(data?.form).subscribe((res: any) => {
+			this.sizeService.create(data?.form).subscribe((res: any) => {
 				this.loading = false;
 				if (res?.data || res?.message?.includes('successfully')) {
 					this.alertService.fireSmall('success', res?.message);
@@ -133,25 +132,26 @@ export class OwnerSizeComponent {
 				}
 			})
 		} else {
-			this.loading = true;
-			let dataForm = data?.form;
-			this.sizeService.createOrUpdateData(dataForm, data.id).subscribe((res: any) => {
-				this.loading = false;
-				if (res?.data|| res?.message?.includes('successfully')) {
-					this.alertService.fireSmall('success', res?.message);
-					this.closeModal();
-					this.getDataList({ page: 1, pageSize: 10 })
-				} else if (res?.errors) {
-					this.alertService.showListError(res?.errors);
-				} else {
-					this.alertService.fireSmall('error', res?.message || "Updated Size failed!");
-				}
-			})
+			// this.loading = true;
+			// let dataForm = data?.form;
+			// this.sizeService.UpdateData(data?.form, this.ownerId).subscribe((res: any) => {
+			// 	this.loading = false;
+			// 	if (res?.data|| res?.message?.includes('successfully')) {
+			// 		this.alertService.fireSmall('success', res?.message);
+			// 		this.closeModal();
+			// 		this.getDataList({ page: 1, pageSize: 10 })
+			// 	} else if (res?.errors) {
+			// 		this.alertService.showListError(res?.errors);
+			// 	} else {
+			// 		this.alertService.fireSmall('error', res?.message || "Updated Size failed!");
+			// 	}
+			// })
 		}
 	}
 	selected: any;
 	viewItem(id: number) {
 		const data = this.dataList.find((c: any) => c.sizeId === id);
+		console.log('view',data);
 		this.selected = { ...data };
 		this.modalTitle = 'View Size';
 		this.openModal = true;
@@ -159,6 +159,7 @@ export class OwnerSizeComponent {
 	}
 	editItem(id: number) {
 		const data = this.dataList.find((c: any) => c.sizeId === id);
+		console.log('edit',data);
 		this.selected = { ...data };
 		this.modalTitle = 'Edit Size';
 		this.openModal = true;

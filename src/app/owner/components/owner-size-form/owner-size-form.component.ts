@@ -17,8 +17,7 @@ export class OwnerSizeFormComponent {
 	@Output() close = new EventEmitter<void>();
 
 	form = new FormGroup({
-		Name : new FormControl(null, Validators.required),
-		Image: new FormControl(null, Validators.required),
+		name : new FormControl(null, Validators.required),
 	});
 
 	constructor(
@@ -29,9 +28,8 @@ export class OwnerSizeFormComponent {
 	}
 
 	ngOnChanges(): void {
-		//Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-		//Add '${implements OnChanges}' to the class.
 		this.form.reset();
+		console.log('form',this.form.invalid);
 		console.log(this.isVisible);
 		if (!this.isVisible) {
 			this.form.reset();
@@ -40,8 +38,7 @@ export class OwnerSizeFormComponent {
 		
 		if (this.data && this.typeForm != 1) {
 			this.form.patchValue({
-				Name: this.data?.name,
-				Image: this.data?.image
+				name: this.data?.name,
 			});
 			
 			if(this.typeForm == 2) {
@@ -50,7 +47,7 @@ export class OwnerSizeFormComponent {
 		}
 	}
 	submit() {
-
+		console.log('form',this.form.invalid);
 		if (this.form.invalid) {
 
 			this.alertService.fireSmall('error', "Form is invalid");
