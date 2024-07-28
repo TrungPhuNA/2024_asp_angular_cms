@@ -3,6 +3,8 @@ import { CommonService } from '../../../helpers/common.service';
 import { AlertService } from '../../../helpers/alert.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgxSummernoteDirective } from 'ngx-summernote';
+import { ProductService } from '../../../services/product.service';
+import { formatDate } from '@angular/common';
 
 @Component({
 	selector: 'app-update-product',
@@ -21,7 +23,13 @@ export class UpdateProductComponent {
 	@Input() brands: any;
 	@Input() owners: any;
 	@Input() descriptions: any;
-
+	showReviews: boolean = false;
+	formattedDescription: string = '';
+	comments: any[] = [];
+	selectedSize: any;
+	quantity: number = 1;
+	maxQuantity: number = 0;
+	productSizes: any[] = [];
 	@ViewChild(NgxSummernoteDirective) summernote: any;
 	public config: any = {
 	  placeholder: 'Nội dung',
@@ -52,7 +60,8 @@ export class UpdateProductComponent {
 
 	constructor(
 		public commonService: CommonService,
-		private alertService: AlertService
+		private alertService: AlertService,
+		private commentService: ProductService
 	) {
 
 	}
@@ -77,8 +86,53 @@ export class UpdateProductComponent {
 				OwnerId: this.product?.ownerId,
 				CategoryId: this.product?.categoryId,
 			});
+			this.formattedDescription = this.product.description.content.replace(/\n/g, '<br>');
 		}
 	}
+	loadComments(productId: number): void {
+		this.commentService.getComments(productId).subscribe(
+		  (data) => {
+			this.comments = data.map((comment: any) => {
+			  return {
+				...comment,
+				formattedTimestamp: formatDate(comment.timestamp, 'medium', 'en-US'),
+				formattedReplyTimestamp: comment.replyTimestamp ? formatDate(comment.replyTimestamp, 'medium', 'en-US') : null
+			  };
+			});
+		  },
+		  (error) => {
+			console.error('There was an error fetching comments!', error);
+		  }
+		);
+	  }
+
+	  loadProductSizes(productId: number): void {
+		this.commentService.getProductSizesByProductId(productId).subscribe(
+		  (data) => {
+			this.productSizes = data.data.sort((a: any, b: any) => parseFloat(a.sizeName) - parseFloat(b.sizeName));
+		  },
+		  (error) => {
+			console.error('There was an error fetching product sizes!', error);
+		  }
+		);
+	  }
+
+	  decreaseQuantity() {
+		if (this.quantity > 1) {
+		  this.quantity--;
+		}
+	  }
+
+	  increaseQuantity() {
+		if (this.quantity < this.maxQuantity) {
+		  this.quantity++;
+		}
+	  }
+
+	  
+	toggleReviews() {
+		this.showReviews = !this.showReviews;
+	  }
 	submit() {
 		if (this.form.invalid) {
 			this.alertService.fireSmall('error', "Form Product is invalid");
@@ -89,7 +143,26 @@ export class UpdateProductComponent {
 			id: this.product.productId
 		});
 	}
-
+	getStars(ratePoint: number): any[] {
+		const totalStars = 5;
+		const fullStars = Math.floor(ratePoint);
+		const partialStar = ratePoint % 1;
+		const emptyStars = totalStars - fullStars - (partialStar > 0 ? 1 : 0);
+	
+		return [
+		  ...Array(fullStars).fill('full'),
+		  ...(partialStar > 0 ? [{ type: 'partial', width: partialStar * 100 + '%' }] : []),
+		  ...Array(emptyStars).fill('empty')
+		];
+	  }
+	  selectSize(size: any) {
+		if (size.quantity === 0) {
+		  return;
+		}
+		this.selectedSize = size;
+		this.maxQuantity = size.quantity;
+		this.quantity = 1;
+	  }
 	closeModal() {
 		this.form.reset();
 

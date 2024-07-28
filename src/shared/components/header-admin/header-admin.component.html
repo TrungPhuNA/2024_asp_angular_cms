@@ -4,8 +4,8 @@
 		<img src="https://i.pinimg.com/originals/fd/04/c6/fd04c6ff185e1c09843afab339d216b7.jpg" alt="Logo">
 	</div>
 	<!-- <div class="search">
-    <input type="text" placeholder="Search...">
-  </div> -->
+		<input type="text" placeholder="Search...">
+	</div> -->
 	<div class="r-header">
 		<!-- <div class="chat">
 			<button class="icon-button">
@@ -20,17 +20,16 @@
 		<div class="user">
 			<button mat-icon-button [matMenuTriggerFor]="menu"
 				class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary">
-				<button class="user-button" >
-					<img src="profileImage" alt="User">
-					<span>{{user?.name || user?.email}}</span>
+				<button class="user-button">
+					<img [src]="profileImage" alt="User">
+					<span>{{fullname}}</span>
 				</button>
 			</button>
 			<mat-menu #menu="matMenu">
-				
-				<a mat-menu-item class="view-button" (click)="openProfile()">
+				<a mat-menu-item class="view-button" *ngIf="userType !== 'Admin'" (click)="openProfile()">
 					<i class="fa fa-user"></i> Profile
 				</a>
-				<a mat-menu-item class="view-button" (click)="changePassword()">
+				<a mat-menu-item class="view-button" *ngIf="userType !== 'Admin'" (click)="changePassword()">
 					<i class="fa fa-key"></i> Change Password
 				</a>
 				<a mat-menu-item class="view-button" (click)="logout()">

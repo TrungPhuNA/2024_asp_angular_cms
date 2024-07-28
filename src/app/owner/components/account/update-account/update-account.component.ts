@@ -103,7 +103,7 @@ export class UpdateAccountComponent {
 	  }
 	submit() {
 		if (this.form.invalid) {
-			console.log(this.form);
+			console.log('data staff chinh sửa',this.image);
 			this.alertService.fireSmall('error', "Form Product is invalid");
 			return;
 		}

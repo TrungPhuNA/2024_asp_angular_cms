@@ -6,5 +6,14 @@ import { Component } from '@angular/core';
   styleUrl: './dashboard-admin-page.component.scss'
 })
 export class DashboardAdminPageComponent {
-
+  breadCrumb: any = [
+		{
+			label: 'Admin',
+			link: '/'
+		},
+		{
+			label: 'Dashboard',
+			link: '/admin/dashboard'
+		}
+	];
 }

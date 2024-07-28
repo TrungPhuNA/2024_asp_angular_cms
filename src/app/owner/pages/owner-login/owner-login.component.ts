@@ -105,10 +105,13 @@ export class OwnerLoginComponent {
 		this.authService.login(this.form.value).subscribe((res: any) => {
 			this.loading = false;
 			console.log(res);
+			
 			if (res?.token) {
+				
 				this.alertService.fireSmall('success', "Login successfully");
 				localStorage.setItem("token", res?.token);
 				localStorage.setItem("userType", res?.userType);
+				
 				let data = this.authService.decodeToken(res?.token);
 				if (!data) {
 					this.alertService.fireSmall('success', "Login failed!");

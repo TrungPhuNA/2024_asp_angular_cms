@@ -13,10 +13,51 @@
                         <label class="form-label">Preview Image:</label><br>
                         <img [src]="form.controls['image'].value" alt="Profile Image" class="img-fluid mx-auto d-block">
                     </div>
+                    <div class="form-group mb-3">
+                        <input type="file" #fileInput (change)="onFileSelected($event)" hidden>
+                        <button type="button" class="upload-button" (click)="fileInput.click()">Upload Image</button>
+                        <button *ngIf="selectedFile" type="button" class="save-button"
+                            (click)="uploadImage('profile-staff')">Save Image</button>
+                    </div>
                 </div>
-
-                <!-- Nhập Full Name cho Account -->
                 <div class="col-md-6">
+
+                    <div class="form-group required mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" id="fullname" class="form-control"
+                            [ngClass]="{'is-invalid': commonService.showStatusErrorV2(form, 'fullname')}"
+                            formControlName="fullname" name="fullname"
+                            (focusout)="commonService.onTrimFocusOutForm(form, 'fullname', $event)">
+                        <app-form-error [control]="form.controls['fullname']" [message]="'Full Name is required!'"
+                            [validation]="'required'"></app-form-error>
+                    </div>
+                    <div class="form-group required mb-3">
+                        <label for="name" class="form-label">Email</label>
+                        <input type="text" id="email" class="form-control"
+                            [ngClass]="{'is-invalid': commonService.showStatusErrorV2(form, 'email')}"
+                            formControlName="email" name="email"
+                            (focusout)="commonService.onTrimFocusOutForm(form, 'email', $event)">
+                        <app-form-error [control]="form.controls['email']" [message]="'Email is required!'"
+                            [validation]="'required'"></app-form-error>
+                    </div>
+                    <div class="form-group required mb-3">
+                        <label for="name" class="form-label">Phone Number</label>
+                        <input type="text" id="phone" class="form-control" placeholder="Enter value"
+                            [ngClass]="{'is-invalid': commonService.showStatusErrorV2(form, 'phone')}"
+                            formControlName="phone" name="phone">
+                        <app-form-error [control]="form.controls['phone']" [message]="'Phone is required!'"
+                            [validation]="'required'"></app-form-error>
+                    </div>
+
+
+                </div>
+                <div class="d-flex justify-content-center my-3">
+                    <button type="button" (click)="closeModal()" class="btn btn-secondary">Close</button>
+                    <button type="submit" class="btn btn-success mx-2">Save</button>
+                </div>
+            </div>
+
+            <!-- <div class="col-md-6">
                     <div class="form-group required mb-3">
                         <label for="fullname" class="form-label">Full Name</label>
                         <input type="text" id="fullname" class="form-control"
@@ -28,7 +69,6 @@
                                         [validation]="'required'"></app-form-error>
                     </div>
 
-                    <!-- Nhập Email cho Account -->
                     <div class="form-group required mb-3">
                         <label for="email" class="form-label">Email</label>
                         <input type="text" id="email" class="form-control"
@@ -40,7 +80,6 @@
                                         [validation]="'required'"></app-form-error>
                     </div>
 
-                    <!-- Nhập mật khẩu cho Account -->
                     <div class="form-group required mb-3">
                         <label for="password" class="form-label">Password</label>
                         <input type="password" id="password" class="form-control"
@@ -52,7 +91,6 @@
                                         [validation]="'required'"></app-form-error>
                     </div>
 
-                    <!-- Nhập số điện thoại cho Account -->
                     <div class="form-group required mb-3">
                         <label for="phone" class="form-label">Phone</label>
                         <input type="text" id="phone" class="form-control" placeholder="Enter value"
@@ -62,22 +100,9 @@
                                         [message]="'Phone is required!'"
                                         [validation]="'required'"></app-form-error>
                     </div>
-                </div>
-            </div>
-
-            <!-- Tải lên ảnh -->
-            <div class="form-group mb-3">
-                <input type="file" #fileInput (change)="onFileSelected($event)" hidden>
-                <button type="button" class="upload-button" (click)="fileInput.click()">Upload Image</button>
-                <button *ngIf="selectedFile" type="button" class="save-button"
-                    (click)="uploadImage('profile-staff')">Save Image</button>
-            </div>
-
+                </div> -->
             <!-- Nút Save và Cancel -->
-            <div class="d-flex justify-content-center my-3">
-                <button type="button" (click)="closeModal()" class="btn btn-secondary">Close</button>
-                <button type="submit" class="btn btn-success mx-2">Save</button>
-            </div>
+
         </form>
     </div>
 </div>

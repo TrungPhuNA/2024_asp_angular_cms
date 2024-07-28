@@ -117,6 +117,8 @@ export class AccountAdminPageComponent {
 	}
 
 	saveItem(data: any) {
+		console.log('data',data?.form)
+		console.log('modalTitle',this.modalTitle)
 		if (this.modalTitle === 'Create Account') {
 			this.loading = true;
 			this.staffService.createOrUpdateData(data?.form).subscribe((res: any) => {
@@ -133,7 +135,9 @@ export class AccountAdminPageComponent {
 			})
 		} else {
 			this.loading = true;
-			this.staffService.createOrUpdateData(data?.form, data.id).subscribe((res: any) => {
+			console.log('id',data.form.staffId);
+			console.log('id',data.form.image);
+			this.staffService.createOrUpdateData(data?.form, data.form.staffId).subscribe((res: any) => {
 				this.loading = false;
 				if (res?.message?.includes('successfully')) {
 					this.alertService.fireSmall('success', res?.message);
@@ -145,6 +149,7 @@ export class AccountAdminPageComponent {
 					this.alertService.fireSmall('error', res?.message || "Updated Account failed!");
 				}
 			})
+		
 		}
 	}
 

@@ -27,7 +27,7 @@ export class CateparentPageComponent {
 	}
 	breadCrumb: any = [
 		{
-			label: 'Owner',
+			label: 'Admin',
 			link: '/'
 		},
 		{

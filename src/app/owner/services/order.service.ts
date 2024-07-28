@@ -21,6 +21,9 @@ export class OrderService {
     status(id: number, statusId: number) {
         return this.baseApiService.putMethod(`Order/confirm/${id}/${statusId}`, {});
     }
+    detail(id: any){
+        return this.baseApiService.getMethod(`OrderDetail/${id}`, {});
+    }
     createOrUpdateData(formData: any, id?: any) {
 
         if (id) {

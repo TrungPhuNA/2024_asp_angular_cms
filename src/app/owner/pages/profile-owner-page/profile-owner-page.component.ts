@@ -1,28 +1,45 @@
-import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, OnChanges } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { CommonService } from '../../helpers/common.service';
 import { AlertService } from '../../helpers/alert.service';
 import { cloudinaryConfig } from '../../../../../cloudinary.config';
 import moment from 'moment';
-
+import { AuthenService } from '../../../admin/services/authen.service';
+import { OwnerService } from '../../services/owner.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile-owner-page',
   templateUrl: './profile-owner-page.component.html',
-  styleUrl: './profile-owner-page.component.scss'
+  styleUrls: ['./profile-owner-page.component.scss']
 })
-export class ProfileOwnerPageComponent implements OnChanges {
+export class ProfileOwnerPageComponent implements OnInit {
+  userInfo: any = {
+    fullname: '',
+    email: '',
+    phone: '',
+    gender: '',
+    dob: '',
+    address: '',
+    image: ''
+  };
+
   @Input() data: any;
   @Input() typeForm: any;
   @Input() modalTitle: string = '';
   @Output() save = new EventEmitter<any>();
   @Output() close = new EventEmitter<void>();
   @Input() isVisible: boolean = false;
-
+  showPassword: boolean = false;
+  passwordFieldType: string = 'password';
+  submitted = false;
+  loginError: string | null = null;
+  loginForm: FormGroup;
   @ViewChild('fileInput') fileInput!: ElementRef;
   selectedFile: File | null = null;
-  image: string | null = null;  // Updated property name
+  image: string | null = null;
+  ownerId: number | null = null;
 
   form = new FormGroup({
     email: new FormControl(null, [Validators.required, Validators.email]),
@@ -32,7 +49,7 @@ export class ProfileOwnerPageComponent implements OnChanges {
     phone: new FormControl(null, Validators.required),
     address: new FormControl(null),
     gender: new FormControl(null, Validators.required),
-    dob: new FormControl(null as string | null), // Cập nhật ở đây
+    dob: new FormControl(null as string | null),
     isBan: new FormControl(null),
   });
 
@@ -40,52 +57,63 @@ export class ProfileOwnerPageComponent implements OnChanges {
     public commonService: CommonService,
     private alertService: AlertService,
     private http: HttpClient,
+    private authenService: AuthenService,
+    private fb: FormBuilder,
+    private ownerService: OwnerService,
+    private router: Router
   ) {
-
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]]
+    });
   }
 
   breadCrumb: any = [
-		{
-			label: 'Owner',
-			link: '/'
-		},
-		{
-			label: 'Profile',
-			link: '/owner/profile'
-		}
-	];
-  ngOnChanges(): void {
-    this.form.reset();
-    if (!this.isVisible) {
-      this.form.reset();
-      this.form.enable();
+    {
+      label: 'Owner',
+      link: '/'
+    },
+    {
+      label: 'Profile',
+      link: '/owner/profile'
     }
-    if (this.data && this.typeForm != 1) {
-      this.form.patchValue({
-        email: this.data?.email,
-        fullname: this.data?.fullname,
-        image: this.data?.image,
-        gender: this.data?.gender,
-        dob: this.data?.dob ? moment(this.data.dob).format('YYYY-MM-DD') : null, // Cập nhật ở đây
-        phone: this.data?.phone,
-        address: this.data?.address,
-        isBan: this.data?.isBan,
+  ];
+
+  dataList: any = [];
+
+  ngOnInit(): void {
+    const user = this.authenService.getUser();
+    console.log('data user', user);
+    this.ownerId = user?.id ?? null;
+    if (this.ownerId !== null) {
+      this.ownerService.show(this.ownerId).subscribe((res: any) => {
+        this.dataList = res;
+        console.log('dataList', this.dataList);
+        if (this.dataList) {
+          this.userInfo = {
+            fullname: this.dataList.fullname,
+            email: this.dataList.email,
+            phone: this.dataList.phone,
+            gender: this.dataList.gender ? this.dataList.gender.toLowerCase() : '',
+            dob: this.formatDate(this.dataList.dob),
+            address: this.dataList.address,
+            image: this.dataList.image
+          };
+          this.image = this.dataList.image;
+          console.log('userInfo', this.userInfo);
+        }
       });
-      if (this.typeForm == 2) {
-        this.form.disable();
-      }
-      this.form.get('password')?.clearValidators();
-      this.form.get('password')?.updateValueAndValidity();
-    }
-    if (this.typeForm == 1) {
-      this.form.get('password')?.setValidators(Validators.required);
-      this.form.get('password')?.updateValueAndValidity();
-    } else {
-      this.form.get('password')?.clearValidators();
-      this.form.get('password')?.updateValueAndValidity();
     }
   }
-  
+
+  formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = ('0' + (date.getMonth() + 1)).slice(-2);
+    const day = ('0' + date.getDate()).slice(-2);
+    return `${year}-${month}-${day}`;
+  }
+
   onFileSelected(event: any): void {
     const file = event.target.files[0];
     if (file) {
@@ -118,22 +146,29 @@ export class ProfileOwnerPageComponent implements OnChanges {
       });
   }
 
-  submit() {
-    if (this.form.invalid) {
-      console.log(this.form);
-      this.alertService.fireSmall('error', "Form account is invalid");
-      return;
-    }
-    let dataBody = this.form.value;
-    if (this.data?.accountId) {
-      delete dataBody.password;
-    }
-    this.save.emit({
-      form: this.form.value,
-      id: this.data?.accountId
-    });
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+    this.passwordFieldType = this.showPassword ? 'text' : 'password';
   }
-  
+
+  saveUser(): void {
+    if (this.ownerId !== null) {
+      this.ownerService.createOrUpdateData(this.ownerId, this.dataList).subscribe(
+        response => {
+          console.log('User information updated:', response);
+          alert('User information updated successfully!');
+        },
+        error => {
+          console.error('Error updating user info:', error);
+          alert('Failed to update user information. Please try again.');
+        }
+      );
+    } else {
+      console.error('Account ID is null, cannot update user information');
+      alert('Account ID is missing. Please try again.');
+    }
+  }
+
   closeModal() {
     this.form.reset();
     this.close.emit();

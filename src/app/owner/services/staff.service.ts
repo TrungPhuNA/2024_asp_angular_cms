@@ -15,12 +15,12 @@ export class StaffService {
 	}
 
 	show(id: any) {
-		return this.baseApiService.getMethod(`Staff/GetOwnerById/${id}`, {});
+		return this.baseApiService.getMethod(`Staff/GetStaffById/${id}`, {});
 	}
 
 	createOrUpdateData(params: any, id?: any) {
 		if (id) {
-			return this.baseApiService.putMethod(`Staff/UpdateStaff`, params, true);
+			return this.baseApiService.putMethod(`Staff/UpdateProfileStaff`, params, true);
 		}
 		return this.baseApiService.postMethod('Staff/CreateStaff', params, true);
 	}

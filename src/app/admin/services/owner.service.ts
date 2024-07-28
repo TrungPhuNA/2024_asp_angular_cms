@@ -18,6 +18,7 @@ export class OwnerService {
 	}
 
 	show(id: any) {
+		console.log('owner',id);
 		return this.baseApiService.getMethod(`Owner/GetOwnerById/${id}`, {});
 	}
 

@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CommonService } from '../../../helpers/common.service';
 import { AlertService } from '../../../helpers/alert.service';
+import { OrderService } from '../../../services/order.service';
 
 @Component({
   selector: 'app-detail-order',
@@ -15,7 +16,9 @@ export class DetailOrderComponent {
   @Output() close = new EventEmitter<void>();
   @Output() save = new EventEmitter<any>();
 
+  orderDetails: any[];
   form = new FormGroup({
+    orderId: new FormControl(null, Validators.required),
     codeOrder: new FormControl(null, Validators.required),
     fullName: new FormControl(null, Validators.required),
     address: new FormControl(null, Validators.required),
@@ -24,11 +27,13 @@ export class DetailOrderComponent {
     shippedDate: new FormControl(null),
     quantity: new FormControl(null, Validators.required),
     totalPrice: new FormControl(null, Validators.required),
+    statusId: new FormControl(null, Validators.required),
     statusName: new FormControl(null, Validators.required),
   });
   constructor(
 		public commonService: CommonService,
-		private alertService: AlertService
+		private alertService: AlertService,
+    private orderDetailService: OrderService
 	) {
 
 	}
@@ -44,17 +49,39 @@ export class DetailOrderComponent {
         shippedDate: this.order?.shippedDate,
         quantity: this.order?.quantity,
         totalPrice: this.order?.totalPrice,
+        statusId: this.order?.statusId,
         statusName: this.order?.statusName,
       });
       this.form.disable(); // Disable form if view mode
     }
   }
-  handleClose() {
-    this.form.reset();
-    this.close.emit();
+  fetchOrderDetails() {
+    this.orderDetailService.detail(this.order.orderId).subscribe(
+      data => {
+        this.order = data;
+        this.orderDetails = data.orderItems;
+        this.orderDetails.forEach(item => {
+          // this.productUserRate[item.productId] = item.userRate;
+        });
+        // this.showReviewSection = this.orderDetails.some(item => item.userRate === 0);
+      },
+      error => {
+        console.error('Error fetching order details:', error);
+        // this.errorMessage = 'Could not fetch order details. Please try again later.';
+      }
+    );
   }
+  formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    return `${date.getHours()}:${date.getMinutes()} ${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+  }
+  getMerchandiseSubtotal(): number {
+    if (!this.orderDetails) return 0;
+    return this.orderDetails.reduce((total, item) => total + (item.quantity * item.price), 0);
+  }
+ 
 
-  handleSave() {
-    this.save.emit(this.order);
+  closeModal() {
+    this.close.emit();
   }
 }

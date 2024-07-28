@@ -1,9 +1,45 @@
 <div class="card w-100">
-    <div class="card-body w-100">
-		<app-breadcrum [items]="breadCrumb"></app-breadcrum>
-		<div class="d-md-flex justify-content-between">
-			<h2 class="my-2">My Account</h2>
-            <p>Quản lý thông tin hồ sơ để bảo mật tài khoản</p>
-		</div>
-	</div>
+   <div class="card-body w-100">
+      <app-breadcrum [items]="breadCrumb"></app-breadcrum>
+      <div class="d-md-flex justify-content-between"></div>
+      <h2 class="my-2">My Account</h2>
+      <p>Quản lý thông tin hồ sơ để bảo mật tài khoản</p>
+
+      <div class="profile-container">
+         <div class="profile-info">
+            <div class="form-group">
+               <label for="name">Name</label>
+               <input type="text" id="name" [(ngModel)]="dataList.data.fullname" />
+            </div>
+            <div class="form-group">
+               <label for="email">Email</label>
+               <input type="text" id="email" [(ngModel)]="dataList.data.email" readonly />
+            </div>
+            <div class="form-group">
+               <label for="phone">Phone Number</label>
+               <input type="text" id="phone" [(ngModel)]="dataList.data.phone" readonly />
+            </div>
+            <div class="form-group">
+               <label for="address">Address</label>
+               <input type="text" id="address" [(ngModel)]="dataList.data.address" readonly />
+            </div>
+            <!-- <div class="form-group">
+               <label for="dob">Day of birth</label>
+               <input type="date" id="dob" [(ngModel)]="dataList.data.dob" />
+            </div> -->
+            <button class="save-button" (click)="saveUser()">Save</button>
+         </div>
+         <div class="profile-picture">
+            <div class="avatar">
+               <div *ngIf="dataList.data.image" class="avatar-circle">
+                  <img [src]="dataList.data.image" alt="User Image" class="avatar-img" />
+               </div>
+            </div>
+            <input type="file" #fileInput (change)="onFileSelected($event)" hidden />
+            <button type="button" class="upload-button" (click)="fileInput.click()">Upload Avatar</button>
+            <button *ngIf="selectedFile" type="button" class="save-button" (click)="uploadImage('profile-owner')">Save Image</button>
+            <p>Dụng lượng file tối đa 1 MB<br />Định dạng: .JPEG, .PNG</p>
+         </div>
+      </div>
+   </div>
 </div>
