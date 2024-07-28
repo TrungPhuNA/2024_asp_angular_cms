@@ -1,20 +1,17 @@
-import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, OnChanges } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
 import { CommonService } from '../../helpers/common.service';
 import { AlertService } from '../../helpers/alert.service';
+import { StaffAuthService } from '../../services/staff-auth.service';
+import { HttpClient } from '@angular/common/http';
 import { cloudinaryConfig } from '../../../../../cloudinary.config';
-import moment from 'moment';
-import { OwnerService } from '../../services/owner.service';
-
 
 @Component({
-	selector: 'app-profile-owner-page',
-	templateUrl: './profile-owner-page.component.html',
-	styleUrl: './profile-owner-page.component.scss'
+  selector: 'app-staff-profile',
+  templateUrl: './staff-profile.component.html',
+  styleUrl: './staff-profile.component.scss'
 })
-export class ProfileOwnerPageComponent {
-
+export class StaffProfileComponent {
 	@ViewChild('fileInput') fileInput!: ElementRef;
 	selectedFile: File | null = null;
 	image: string | null = null;  // Updated property name
@@ -28,7 +25,7 @@ export class ProfileOwnerPageComponent {
 		image: new FormControl(null as string | null, Validators.required),
 		phone: new FormControl(null, Validators.required),
 		address: new FormControl(null),
-		ownerId: new FormControl(null),
+		staffId: new FormControl(null),
 		// dob: new FormControl(null as string | null), // Cập nhật ở đây
 		// isBan: new FormControl(null),
 	});
@@ -36,7 +33,7 @@ export class ProfileOwnerPageComponent {
 	constructor(
 		public commonService: CommonService,
 		private alertService: AlertService,
-		private ownerService: OwnerService,
+		private ownerService: StaffAuthService,
 		private http: HttpClient,
 	) {
 
@@ -50,12 +47,12 @@ export class ProfileOwnerPageComponent {
 
 	breadCrumb: any = [
 		{
-			label: 'Owner',
+			label: 'Staff',
 			link: '/'
 		},
 		{
 			label: 'Profile',
-			link: '/owner/profile'
+			link: '/staff/profile'
 		}
 	];
 
@@ -71,7 +68,7 @@ export class ProfileOwnerPageComponent {
 			window.location.href = '/owner/auth/login'
 		}
 		this.loading = true;
-		this.ownerService.show(JSON.parse(user)?.id).subscribe(res => {
+		this.ownerService.getUserInfo(JSON.parse(user)?.id).subscribe((res: any) => {
 			this.loading = false;
 			if (res?.message?.includes('successfully') && res?.data) {
 				this.form.patchValue({
@@ -80,11 +77,11 @@ export class ProfileOwnerPageComponent {
 					image: res?.data?.image,
 					phone: res?.data?.phone,
 					address: res?.data?.address,
-					ownerId: res?.data?.ownerId,
+					staffId: res?.data?.staffId,
 				});
 				this.detail = res?.data
 				this.formPassword.patchValue({
-					ownerId: res?.data?.ownerId,
+					staffId: res?.data?.staffId,
 				})
 				this.image = res?.data?.image
 			}
@@ -139,10 +136,10 @@ export class ProfileOwnerPageComponent {
 			return;
 		}
 		this.loading = true;
-		this.ownerService.updateOwnerProfile(this.form.value).subscribe(res => {
+		this.ownerService.updateProfile(this.form.value).subscribe((res: any) => {
 			this.loading = false;
 			if (res?.message?.includes('successfully')) {
-				this.ownerService.updateOwnerImage(this.form.value).subscribe(resApi => {
+				this.ownerService.updateImage(this.form.value).subscribe(resApi => {
 					console.log(resApi);
 				})
 				this.alertService.fireSmall('success', res?.message || "Update profile successfully")
@@ -154,7 +151,7 @@ export class ProfileOwnerPageComponent {
 	}
 
 	formPassword: any = new FormGroup({
-		ownerId: new FormControl(null),
+		staffId: new FormControl(null),
 		oldPassword: new FormControl(null, Validators.required),
 		newPasswod: new FormControl(null, Validators.required),
 		confirmPassword: new FormControl(null, Validators.required),
@@ -177,13 +174,13 @@ export class ProfileOwnerPageComponent {
 		}
 		this.loading = true;
 
-		this.ownerService.changePassword(data).subscribe(res => {
+		this.ownerService.changePassword(data).subscribe((res: any) => {
 			this.loading = false;
 			if (res?.message?.includes('successfully')) {
 				this.alertService.fireSmall('success', 'Change password successfully!');
 				this.formPassword.reset();
 				this.formPassword.patchValue({
-					ownerId: this.detail?.ownerId
+					staffId: this.detail?.staffId
 				})
 			} else if (res?.errors) {
 				this.alertService.showListError(res?.errors)

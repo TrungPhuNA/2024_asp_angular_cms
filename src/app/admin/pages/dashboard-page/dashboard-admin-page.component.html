@@ -1,1 +1,34 @@
-<p>dashboard-admin-page works!</p>
+<div class="card w-100 border-0">
+	<div class="card-body w-100">
+		<app-breadcrum [items]="breadCrumb"></app-breadcrum>
+		<div class="d-md-flex justify-content-between">
+			<h2 class="my-2">View Dashboard</h2>
+		</div>
+	</div>
+	<div class="card-body">
+		<div class="row">
+			<div class="col-sm-3">
+				<div class="box p-3 mb-2 bg-primary text-white">
+					<h6>Thành viên hiện tại: <b id="totalUser">123</b></h6>
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="box p-3 mb-2 bg-danger text-white">
+					<h6>Số phòng: <b id="totalProduct">123</b></h6>
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="box p-3 mb-2 bg-info text-white">
+					<h6>Đã booking: <b id="totalOrder">123123</b>
+					</h6>
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="box p-3 mb-2 bg-secondary text-white">
+					<h6>Thành viên mới: <b id="totalUserNew">3123123</b></h6>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<app-loading [loading]="loading"></app-loading>

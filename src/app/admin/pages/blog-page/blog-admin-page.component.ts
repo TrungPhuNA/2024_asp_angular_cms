@@ -118,17 +118,23 @@ export class BlogAdminPageComponent {
 
 	search() {
 		 // Lấy dữ liệu từ formSearch
-		 const searchParams = this.formSearch.value;
-		 console.log('Search Params:', searchParams); // Kiểm tra dữ liệu tìm kiếm
-		 if (!searchParams.searchQuery || searchParams.searchQuery === null) {
-			this.resetSearchForm(); // Đặt lại tìm kiếm
-			return; // Dừng lại không thực hiện tìm kiếm
-		}
-		 this.getDataList({
-			...this.paging,
-			searchQuery: searchParams.searchQuery, // Đảm bảo giá trị tìm kiếm được đưa vào params
-			page: 1 // Đặt lại trang về 1 khi tìm kiếm
-		});
+		//  const searchParams = this.formSearch.value;
+		//  console.log('Search Params:', searchParams); // Kiểm tra dữ liệu tìm kiếm
+		//  if (!searchParams.searchQuery || searchParams.searchQuery === null) {
+		// 	this.resetSearchForm(); // Đặt lại tìm kiếm
+		// 	return; // Dừng lại không thực hiện tìm kiếm
+		// }
+		//  this.getDataList({
+		// 	...this.paging,
+		// 	searchQuery: searchParams.searchQuery, // Đảm bảo giá trị tìm kiếm được đưa vào params
+		// 	page: 1 // Đặt lại trang về 1 khi tìm kiếm
+		// }); 
+		// Call api lỗi 500 nên tự search bên adm, quỳ lạy ông thầy nào dạy code này, thế mà cũng pass đc, này mà ở FU hòa lạc là vỡ mồm
+
+		this.pageChanged(1);
+
+
+
 	}
 
 	resetSearchForm() {
@@ -220,7 +226,7 @@ export class BlogAdminPageComponent {
 
 
 
-	formSearch = new FormGroup({
+	formSearch: any = new FormGroup({
 		id: new FormControl(null),
 		name: new FormControl(null),
 		searchQuery: new FormControl(null) // Explicitly set it as a string
@@ -229,10 +235,18 @@ export class BlogAdminPageComponent {
 	pageChanged(e: any) {
 		this.paging.page = e;
 		// this.getDataList({ ...this.paging, ...this.formSearch.value })
+		
 		if (this.dataListAll?.length > 0) {
 			let start = (this.paging?.page - 1) * this.paging.pageSize;
 			let end = this.paging?.page * this.paging.pageSize;
-			this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
+			if (this.formSearch.value?.name) {
+				let totalSearch = this.dataListAll?.filter((item: any) => item?.title?.includes(this.formSearch.value?.name?.trim()));
+				this.paging.total = totalSearch?.length || 0;
+				this.dataList = totalSearch?.filter((item: any, index: number) => index >= start && index < end && item?.title?.includes(this.formSearch.value?.name?.trim()))
+			} else {
+				this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
+			}
+			// this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
 		}
 	}
 	

@@ -28,7 +28,21 @@ export class StaffAuthService {
 		return this.baseApiService.postMethod('Authentication/login-shop', data);
 	}
 
-	getUserInfo() {
-		return this.baseApiService.getMethod(`Authentication/Account`, {});
+	getUserInfo(id: any) {
+		return this.baseApiService.getMethod(`Staff/GetStaffById/${id}`, {});
+	}
+
+	updateProfile(data: any) {
+		return this.baseApiService.getMethod(`Staff/UpdateProfileStaff`, data, true);
+	}
+
+	updateImage(data: any) {
+		const params = this.baseApiService.setFormData(data);
+		return this.baseApiService.getMethod(`Staff/UpdateProfileStaff`, params);
+
+	}
+
+	changePassword(data: any) {
+		return this.baseApiService.getMethod(`Staff/ChangePasswordStaff`, data);
 	}
 }

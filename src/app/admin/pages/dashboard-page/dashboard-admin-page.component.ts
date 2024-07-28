@@ -7,4 +7,19 @@ import { Component } from '@angular/core';
 })
 export class DashboardAdminPageComponent {
 
+	loading = false;
+	breadCrumb: any = [
+		{
+			label: 'Admin',
+			link: '/'
+		},
+		{
+			label: 'Dashboard',
+			link: '/admin/dashboard'
+		}
+	];
+
+	constructor() {
+
+	}
 }

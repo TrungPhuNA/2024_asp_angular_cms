@@ -129,7 +129,7 @@ export class OwnerLoginComponent {
 					}
 				});
 				localStorage.setItem('user', JSON.stringify(user));
-				this.router.navigate(['/owner']);
+				window.location.href = '/owner'
 				// this.authService.getUserInfo(res?.token).subscribe((resInfo: any) => {
 				// 	console.log(resInfo);
 				// 	
@@ -137,7 +137,7 @@ export class OwnerLoginComponent {
 			} else if (res?.errors?.length > 0) {
 				this.alertService.showListError(res?.errors)
 			} else {
-				this.alertService.fireSmall('error', res?.text);
+				this.alertService.fireSmall('error', res?.text || 'Login failed: Email or password invalid!');
 			}
 		});
 	}

@@ -58,11 +58,15 @@ import { StaffSizeFormComponent } from './components/staff-size-form/staff-size-
 import { StaffDescriptionFormComponent } from './components/staff-description-form/staff-description-form.component';
 import { StaffDescriptionComponent } from './pages/staff-description/staff-description.component';
 import { StaffSizeComponent } from './pages/staff-size/staff-size.component';
+import { staffGuard } from './staff.guard';
+import { StaffProfileComponent } from './pages/staff-profile/staff-profile.component';
 
 const route: Routes = [
 	{
 		path: '',
 		component: StaffComponent,
+		canActivate: [staffGuard],
+
 		children: [
 			{
 				path: '',
@@ -105,7 +109,11 @@ const route: Routes = [
 				component: CateParentStaffComponent,
 				title: 'Manage cateparent'
 			},
-
+			{
+				path: 'profile',
+				component: StaffProfileComponent,
+				title: 'Manage cateparent'
+			},
 
 
 		]
@@ -173,6 +181,7 @@ const route: Routes = [
   StaffDescriptionFormComponent,
   StaffDescriptionComponent,
   StaffSizeComponent,
+  StaffProfileComponent,
 	],
 	imports: [
 		FormsModule,

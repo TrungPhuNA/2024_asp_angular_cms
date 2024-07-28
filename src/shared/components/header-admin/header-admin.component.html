@@ -21,7 +21,7 @@
 			<button mat-icon-button [matMenuTriggerFor]="menu"
 				class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary">
 				<button class="user-button" >
-					<img src="profileImage" alt="User">
+					<img src="{{profileImage}}" alt="User">
 					<span>{{user?.name || user?.email}}</span>
 				</button>
 			</button>
@@ -30,9 +30,9 @@
 				<a mat-menu-item class="view-button" (click)="openProfile()">
 					<i class="fa fa-user"></i> Profile
 				</a>
-				<a mat-menu-item class="view-button" (click)="changePassword()">
+				<!-- <a mat-menu-item class="view-button" (click)="changePassword()">
 					<i class="fa fa-key"></i> Change Password
-				</a>
+				</a> -->
 				<a mat-menu-item class="view-button" (click)="logout()">
 					<i class="fa fa-door-open"></i> Logout
 				</a>

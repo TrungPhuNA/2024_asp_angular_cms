@@ -47,7 +47,7 @@ export class BlogAdminPageComponent {
 			link: '/owner/blog'
 		}
 	];
-	formSearch = new FormGroup({
+	formSearch: any = new FormGroup({
 		id: new FormControl(null),
 		name: new FormControl(null)
 	});
@@ -138,7 +138,8 @@ export class BlogAdminPageComponent {
 	}
 
 	search() {
-		this.getDataList({ ...this.paging, page: 1, ...this.formSearch.value })
+		this.pageChanged(1);
+		// this.getDataList({ ...this.paging, page: 1, ...this.formSearch.value })
 	}
 
 	resetSearchForm() {
@@ -237,7 +238,14 @@ export class BlogAdminPageComponent {
 		if (this.dataListAll?.length > 0) {
 			let start = (this.paging?.page - 1) * this.paging.pageSize;
 			let end = this.paging?.page * this.paging.pageSize;
-			this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
+			if (this.formSearch.value?.name) {
+				let totalSearch = this.dataListAll?.filter((item: any) => item?.title?.toLowerCase()?.includes(this.formSearch.value?.name?.toLowerCase().trim()));
+				this.paging.total = totalSearch?.length || 0;
+				this.dataList = totalSearch?.filter((item: any, index: number) => index >= start && index < end && item?.title?.toLowerCase()?.includes(this.formSearch.value?.name?.toLowerCase().trim()))
+			} else {
+				this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
+			}
+			// this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
 		}
 	}
 }

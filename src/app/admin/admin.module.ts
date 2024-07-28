@@ -174,6 +174,7 @@ const route: Routes = [
 		CateparentPageComponent,
 		LoginAdminPageComponent,
 		CateParentFormComponent,
+		DashboardAdminPageComponent
 	],
 	imports: [
 		FormsModule,

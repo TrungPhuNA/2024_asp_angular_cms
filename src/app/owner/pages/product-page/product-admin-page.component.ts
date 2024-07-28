@@ -63,8 +63,6 @@ export class ProductAdminPageComponent {
 			this.getDataList({ ...this.paging, pageSize: 10000 });
 			this.getDataRelation();
 		}
-		console.log('User ID:', this.ownerId);
-		console.log('User Type:', this.userType);
 	}
 	getUserIdFromLocalStorage(): number | null {
 		const user = this.authenService.getUser();
@@ -132,7 +130,8 @@ export class ProductAdminPageComponent {
 
 	search() {
 		if (this.userType === 'Owner') {
-			this.getDataList({ ...this.paging, page: 1, ...this.formSearch.value })
+			this.pageChanged(1)
+			// this.getDataList({ ...this.paging, page: 1, ...this.formSearch.value })
 			// this.getDataList({ ...this.paging, pageSize: 10000, ...this.formSearch.value })
 		}
 	}

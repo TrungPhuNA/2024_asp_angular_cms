@@ -172,9 +172,9 @@ export class OwnerDescriptionComponent {
 			let start = (this.paging?.page - 1) * this.paging.pageSize;
 			let end = this.paging?.page * this.paging.pageSize;
 			if(this.formSearch.value?.name) {
-				let totalSearch = this.dataListAll?.filter((item: any) => item?.title?.includes(this.formSearch.value?.name?.trim()));
+				let totalSearch = this.dataListAll?.filter((item: any) => item?.title?.toLowerCase().includes(this.formSearch.value?.name?.toLowerCase().trim()));
 				this.paging.total = totalSearch?.length || 0;
-				this.dataList = totalSearch?.filter((item: any, index: number) => index >= start && index < end && item?.title?.includes(this.formSearch.value?.name?.trim()) )
+				this.dataList = totalSearch?.filter((item: any, index: number) => index >= start && index < end && item?.title?.toLowerCase().includes(this.formSearch.value?.name?.toLowerCase().trim()) )
 			} else {
 				this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end )
 			}

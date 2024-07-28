@@ -106,9 +106,9 @@ export class AccountAdminPageComponent {
 	}
 
 	search() {
-		// this.pageChanged(1);
+		this.pageChanged(1);
 		// this.getDataList({ ...this.paging, page: 1, ...this.formSearch.value })
-		this.getDataList({ ...this.paging, page: 1, ...this.formSearch.value })
+		// this.getDataList({ ...this.paging, page: 1, ...this.formSearch.value })
 	}
 
 	resetSearchForm() {
@@ -213,9 +213,9 @@ export class AccountAdminPageComponent {
 			let end = this.paging?.page * this.paging.pageSize;
 			console.log('phân trang 123',start, end);
 			if (this.formSearch.value?.name) {
-				let totalSearch = this.dataListAll?.filter((item: any) => item?.name?.includes(this.formSearch.value?.name?.trim()));
+				let totalSearch = this.dataListAll?.filter((item: any) => item?.fullname?.includes(this.formSearch.value?.name?.trim()));
 				this.paging.total = totalSearch?.length || 0;
-				this.dataList = totalSearch?.filter((item: any, index: number) => index >= start && index < end && item?.name?.includes(this.formSearch.value?.name?.trim()))
+				this.dataList = totalSearch?.filter((item: any, index: number) => index >= start && index < end && item?.fullname?.includes(this.formSearch.value?.name?.trim()))
 			} else {
 				this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
 			}

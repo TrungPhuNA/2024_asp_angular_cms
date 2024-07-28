@@ -46,16 +46,13 @@ export class LoginAdminPageComponent {
 	onSubmit() {
 		this.submitted = true;
 		this.loginError = null;
+		console.log(this.loginForm.value);
 		if (this.loginForm.valid) {
 			this.authenService.loginAdmin(this.loginForm.value).subscribe(
 				response => {
-					console.log('Login successful', response);
 					if (response && response.token) {
+						localStorage.setItem('userType', response.userType || 'User');
 						localStorage.setItem('token', response.token);
-						if (response?.user) {
-							localStorage.setItem('user', JSON.stringify(response.user));
-							localStorage.setItem('userType', response.user.role || 'User');
-						}
 						let data = this.authenService.decodeToken(response?.token);
 						if (!data) {
 							this.alertService.fireSmall('success', "Login failed!");
@@ -82,6 +79,7 @@ export class LoginAdminPageComponent {
 						 localStorage.setItem('userType', userType || 'Admin'); // Lưu userType
 						this.router.navigate(['/admin']);
 					} else {
+						this.alertService.fireSmall('error', response?.messsage || 'Login failed: No token received')
 						this.loginError = 'Login failed: No token received';
 					}
 				},
