@@ -58,14 +58,14 @@ import { StaffSizeFormComponent } from './components/staff-size-form/staff-size-
 import { StaffDescriptionFormComponent } from './components/staff-description-form/staff-description-form.component';
 import { StaffDescriptionComponent } from './pages/staff-description/staff-description.component';
 import { StaffSizeComponent } from './pages/staff-size/staff-size.component';
-import { staffGuard } from './staff.guard';
 import { StaffProfileComponent } from './pages/staff-profile/staff-profile.component';
+import { staffGuardGuard } from './staff-guard.guard';
 
 const route: Routes = [
 	{
 		path: '',
+		canActivate: [staffGuardGuard],
 		component: StaffComponent,
-		canActivate: [staffGuard],
 
 		children: [
 			{

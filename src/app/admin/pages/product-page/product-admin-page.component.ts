@@ -270,6 +270,7 @@ export class ProductAdminPageComponent {
 						this.dataList = this.dataList.map((item: any) => {
 							if (item.productId === id) {
 								item.isBan = newBanStatus; // Update with the new status
+								this.getDataList({ page: 1, pageSize: 10 })
 							}
 							return item;
 						});
@@ -278,6 +279,7 @@ export class ProductAdminPageComponent {
 						this.dataListAll = this.dataListAll.map((item: any) => {
 							if (item.productId === id) {
 								item.isBan = newBanStatus; // Update with the new status
+								this.getDataList({ page: 1, pageSize: 10 })
 							}
 							return item;
 						});

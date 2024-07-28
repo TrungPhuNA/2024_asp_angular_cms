@@ -47,7 +47,7 @@
 							<td class="text-center align-middle">{{ (paging.page - 1) * paging.pageSize + i + 1}}</td>
 							<td class="text-center align-middle">
 								<div class="image-container">
-									<img [src]="item.image" alt="{{ item.name }}" class="thumbnail" width="80"
+									<img [src]="dataList.images[0]?.linkImage" alt="{{ item.name }}" class="thumbnail" width="80"
 										height="80" />
 								</div>
 							</td>

@@ -41,7 +41,10 @@ export class ProductService {
 		return this.baseApiService.putMethod(url, {}, true);
 
 	}
-
+	getComments(productId: any) {
+		return this.baseApiService.getMethod(`Comment`, { productId });
+	  }
+	
 	getListSize(params: any) {
 		return this.baseApiService.getMethod('ProductSize/GetAllProductSizes', params);
 	}
@@ -59,7 +62,9 @@ export class ProductService {
 	showDescription(id: any) {
 		return this.baseApiService.getMethod(`Product/${id}`, {});
 	}
-
+	getProductSizesByProductId(productId: any){
+		return this.baseApiService.getMethod(`ProductSize/GetProductSizeByProductId`, { productId });
+	}
 	createOrUpdateDataDescription(data: any, id?: any) {
 		const formData = this.baseApiService.setFormData(data);
 		if (id) {

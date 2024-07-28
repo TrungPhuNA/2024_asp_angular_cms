@@ -78,11 +78,13 @@ export class ProductAdminPageComponent {
 				let start = (this.paging?.page - 1) * this.paging.pageSize;
 				let end = this.paging?.page * this.paging.pageSize;
 				this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end);
-				// Log giá trị name và ban
-				// this.dataList.forEach((item: any) => {
-				// 	console.log('Product Name:', item.name);
-				// 	console.log('Is Banned:', item.isban);
-				// });
+
+				this.dataList.forEach((item: any) => {
+					console.log('Product Name:', item.name);
+					item.images.forEach((image: any) => {
+						console.log('Image:', image.linkImage);
+					});
+				});
 			}
 			this.paging.total = res?.length || 0;
 		})
