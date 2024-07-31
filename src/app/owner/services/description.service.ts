@@ -20,14 +20,33 @@ export class DescriptionService {
     }
 
     createOrUpdateData(data: any, id?: any) {
-		let formData = this.baseApiService.setFormData(data);
-        if(id) {
-			formData.append('DescriptionId', id)
-            return this.baseApiService.putMethod(`Description/UpdateDesctiption`, formData);
+        // Tạo FormData
+        let formData = new FormData();
+        
+        // Thêm dữ liệu vào FormData
+        formData.append('descriptionId', data.DescriptionId ?? id);
+        formData.append('title', data.Title);
+        formData.append('content', data.Content);
+        formData.append('images', data.Image); // Có thể cần thay đổi tùy thuộc vào kiểu dữ liệu
+    
+        // Kiểm tra giá trị của Isdelete trước khi gọi toString()
+        const isDeleteValue = data.Isdelete !== undefined ? data.Isdelete.toString() : 'false'; // Hoặc giá trị mặc định khác nếu cần
+        formData.append('isdelete', isDeleteValue);
+    
+        // Kiểm tra nội dung của FormData
+        formData.forEach((value, key) => {
+            console.log(`FormData key: ${key}, value: ${value}`);
+        });
+    
+        // Kiểm tra URL và phương thức yêu cầu
+        if (id) {
+            return this.baseApiService.putMethod(`Description/UpdateDescription/${id}`, formData); // Cập nhật URL nếu cần
         }
-        return this.baseApiService.postMethod('Description/CreateDesctiption', formData);
+    
+        console.log('Creating new entry');
+        return this.baseApiService.postMethod('Description/CreateDescription', formData);
     }
-
+    
     deleteData(id: any) {
         return this.baseApiService.patchMethod(`Description/DeleteDescription/${id}`, {});
     }

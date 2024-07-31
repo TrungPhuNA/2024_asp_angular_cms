@@ -11,8 +11,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CloudinaryModule } from '@cloudinary/ng';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { HttpClientModule } from '@angular/common/http';
-import { StaffModule } from './staff/staff.module';
 import { OwnerModule } from './owner/owner.module';
+import { StaffModule } from './staff/staff.module';
 // import { tokenInterceptor } from './interceptor/token.interceptor';
 
 @NgModule({

@@ -1,23 +1,18 @@
 <div class="form-register">
     <div class="register-user-container">
-        <h1>Login Owner</h1>
-        <div class="login-owner">Log in with the store owner channel 
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8" />
-            </svg>
-        </div>
+        <h1>Login Owner & Staff</h1>
         
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
             <div class="form-field form-group">
-                <label for="email">Email*</label>
+                <label for="email">Email<span class=" text-red-600">*</span></label>
                 <input matInput formControlName="Email" id="email" name="email" type="email" placeholder="Enter your email address." [ngClass]="{'is-invalid': commonService.showStatusErrorV2(form, 'Email', submitted)}" />
                 <app-form-error [control]="form.controls['Email']" [message]="'Email is required!'" [submitted]="submitted" [validation]="'required'"></app-form-error>
                 <app-form-error [control]="form.controls['Email']" [message]="'Please enter a valid email!'" [submitted]="submitted" [validation]="'email'"></app-form-error>
             </div>
             <div class="form-field" [ngClass]="getPasswordClass()">
-                <label for="password">Password*</label>
+                <label for="password">Password<span class=" text-red-600">*</span></label>
                 <div class="password-container">
-                    <input matInput formControlName="Password" id="password" name="password" [type]="showPassword ? 'text' : 'password'" placeholder="Enter a password of 8 - 24 characters." class="password-input" style="padding-right: 55px;" [ngClass]="{'is-invalid': commonService.showStatusErrorV2(form, 'Password', submitted)}" />
+                    <input matInput formControlName="Password" id="password" name="password" [type]="showPassword ? 'text' : 'password'" placeholder="Enter a password of 8 - 24 characters."  style="padding-right: 55px;" [ngClass]="{'is-invalid': commonService.showStatusErrorV2(form, 'Password', submitted)}" />
                     <svg (click)="togglePasswordVisibility()" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi password-icon" [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'" viewBox="0 0 16 16">
                         <path *ngIf="!showPassword" d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z" />
                         <path *ngIf="!showPassword" d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0" />
@@ -28,6 +23,17 @@
                 </div>
                 <app-form-error [control]="form.controls['Password']" [message]="'Password is required!'" [validation]="'required'" [submitted]="submitted"></app-form-error>
             </div>
+          
+
+            <div class="flex items-center mb-4">
+                <label>Role<span class="text-red-600">*</span></label>
+                <input type="radio" formControlName="Role" value="Owner" class="form-check-input" id="role-owner" />
+                <label for="role-owner" class="form-check-label">Owner</label>
+                <input type="radio" formControlName="Role" value="Staff" class="form-check-input" id="role-staff" />
+                <label for="role-staff" class="form-check-label">Staff</label>
+            </div>
+            
+            
             <div class="my-2">
                 <button class="btn btn-primary w-100" type="submit">Login</button>
             </div>

@@ -12,8 +12,8 @@ import { HttpClient } from '@angular/common/http';
 })
 export class UpdateBlogComponent {
 	@Input() data: any;
-	@Input() owners: any;
-	@Input() services: any;
+	// @Input() owners: any;
+	// @Input() services: any;
 	@Input() typeForm: any;
 	@Input() modalTitle: string = '';
 	@Input() isVisible: boolean = false;
@@ -41,7 +41,7 @@ export class UpdateBlogComponent {
 		Title: new FormControl(null, Validators.required),
 		Content: new FormControl(null, Validators.required),
 		Image: new FormControl(null as string | null, Validators.required),
-		ServiceId: new FormControl(null, Validators.required),
+		Service: new FormControl(null, Validators.required),
 		StatusPostId: new FormControl(1, Validators.required),
 		OwnerId: new FormControl(null, Validators.required)
 	});
@@ -64,16 +64,17 @@ export class UpdateBlogComponent {
 			this.form.reset();
 			this.form.enable();
 		}
-
+		console.log('data', this.data);
 		if (this.data && this.typeForm != 1) {
 			this.form.patchValue({
 				Title: this.data?.title,
 				Content: this.data?.content,
 				Image: this.data?.image,
-				ServiceId: this.data?.serviceId,
+				Service: this.data?.serviceName,
 				StatusPostId: this.data?.statusPostId || 1,
-				OwnerId: this.data?.ownerId
+				OwnerId: this.data?.ownerName
 			});
+
 
 			if (this.typeForm == 2) {
 				this.form.disable();
@@ -85,34 +86,34 @@ export class UpdateBlogComponent {
 	onFileSelected(event: any): void {
 		const file = event.target.files[0];
 		if (file) {
-		  this.selectedFile = file;
-		  const reader = new FileReader();
-		  reader.onload = (e: any) => {
-			this.image = e.target.result;
-		  };
-		  reader.readAsDataURL(file);
+			this.selectedFile = file;
+			const reader = new FileReader();
+			reader.onload = (e: any) => {
+				this.image = e.target.result;
+			};
+			reader.readAsDataURL(file);
 		} else {
-		  this.selectedFile = null;
-		  this.image = null;
+			this.selectedFile = null;
+			this.image = null;
 		}
-	  }
-	
-	  uploadImage(folderName: string): void {
+	}
+
+	uploadImage(folderName: string): void {
 		if (!this.selectedFile) return;
 		const formData = new FormData();
 		formData.append('file', this.selectedFile);
 		formData.append('upload_preset', cloudinaryConfig.upload_preset);
 		formData.append('folder', folderName);
-	
+
 		this.http.post(`https://api.cloudinary.com/v1_1/${cloudinaryConfig.cloud_name}/image/upload`, formData)
-		  .subscribe((response: any) => {
-			this.image = response.secure_url;
-			this.form.patchValue({ Image: this.image as string | null });
-			this.selectedFile = null;
-		  }, error => {
-			this.alertService.fireSmall('error', 'Failed to upload image. Please try again.');
-		  });
-	  }
+			.subscribe((response: any) => {
+				this.image = response.secure_url;
+				this.form.patchValue({ Image: this.image as string | null });
+				this.selectedFile = null;
+			}, error => {
+				this.alertService.fireSmall('error', 'Failed to upload image. Please try again.');
+			});
+	}
 	submit() {
 		if (this.form.invalid) {
 			this.alertService.fireSmall('error', "Form is invalid");

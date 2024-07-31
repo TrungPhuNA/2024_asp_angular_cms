@@ -61,7 +61,6 @@ export class OwnerSizeFormComponent {
 
 	closeModal() {
 		this.form.reset();
-
 		this.close.emit();
 	}
 }

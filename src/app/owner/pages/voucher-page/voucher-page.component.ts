@@ -156,6 +156,7 @@ export class VoucherPageComponent {
 		} else {
 			this.loading = true;
 			let dataForm = data?.form;
+			console.log('data form',dataForm);
 			delete (dataForm.password);
 			this.service.createOrUpdateData(dataForm, data.id).subscribe((res: any) => {
 				this.loading = false;

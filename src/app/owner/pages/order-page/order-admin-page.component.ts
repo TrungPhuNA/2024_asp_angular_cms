@@ -67,7 +67,7 @@ export class OrderAdminPageComponent implements OnInit {
 		this.ownerId = user?.id ?? null;
 		this.userType = user?.userType ?? '';
 		if (this.userType === 'Owner') {
-			this.getDataListAll({ ...this.paging});
+			this.getDataListAll({ ...this.paging });
 
 			// this.getDataListPending({ ...this.paging, pageSize: 10000 });
 			// this.getDataListProcessing({ ...this.paging, pageSize: 10000 });
@@ -110,7 +110,7 @@ export class OrderAdminPageComponent implements OnInit {
 				console.error('Unknown tab type:', this.tabType);
 				break;
 		}
-		
+
 	}
 
 	// getDataListAll(params: any) {
@@ -152,7 +152,13 @@ export class OrderAdminPageComponent implements OnInit {
 	}
 	getDataListAll(params: any) {
 		this.loading = true;
-		this.orderService.getLists(this.ownerId).subscribe((res: any) => {
+		// codeOrder: this.formSearch.value;
+		const searchParams = this.formSearch.value.id ?
+			{ ...params, codeOrder: this.formSearch.value.id } :
+			{ ...params, ownerId: this.ownerId };
+		console.log('du lieu', searchParams);
+
+		this.orderService.getLists(searchParams).subscribe((res: any) => {
 			this.loading = false;
 			this.dataListAll = res;
 			this.paging.total = this.dataListAll.length; // Cập nhật tổng số bản ghi
@@ -207,7 +213,7 @@ export class OrderAdminPageComponent implements OnInit {
 			console.log('Data Rejected:', this.dataListRejected);
 			this.paging.total = this.dataListRejected.length; // Cập nhật tổng số bản ghi
 			console.log('paging Rejected', this.paging.total)
-			
+
 		});
 	}
 	getDataListCancelled(params: any) {
@@ -219,7 +225,7 @@ export class OrderAdminPageComponent implements OnInit {
 			this.TabCancelled(); // Cập nhật danh sách cho tab hiện tại
 			console.log('Data Cancelled', this.dataListCancelled);
 			this.pagingCancelled.total = this.dataListCancelled.length; // Cập nhật tổng số bản ghi
-			
+
 		});
 	}
 
@@ -230,8 +236,8 @@ export class OrderAdminPageComponent implements OnInit {
 			(currentPaging.page - 1) * currentPaging.pageSize,
 			currentPaging.page * currentPaging.pageSize
 		);
-		console.log('start',(currentPaging.page - 1) * currentPaging.pageSize)
-		console.log('end',currentPaging.page * currentPaging.pageSize)
+		console.log('start', (currentPaging.page - 1) * currentPaging.pageSize)
+		console.log('end', currentPaging.page * currentPaging.pageSize)
 		console.log('Data List (Pending):', this.dataListPending); // Debug log
 	}
 	TabProcessing() {
@@ -241,8 +247,8 @@ export class OrderAdminPageComponent implements OnInit {
 			(currentPaging.page - 1) * currentPaging.pageSize,
 			currentPaging.page * currentPaging.pageSize
 		);
-		console.log('start',(currentPaging.page - 1) * currentPaging.pageSize)
-		console.log('end',currentPaging.page * currentPaging.pageSize)
+		console.log('start', (currentPaging.page - 1) * currentPaging.pageSize)
+		console.log('end', currentPaging.page * currentPaging.pageSize)
 		// console.log('start: ',startIndex,'enđInex',endIndex);
 		// this.dataList = this.dataListProcessing.slice(startIndex, endIndex);
 		console.log('Data Tab (Processing):', this.dataList); // Debug log
@@ -351,200 +357,37 @@ export class OrderAdminPageComponent implements OnInit {
 		}
 		console.log('Data List:', this.dataList); // Debug log
 	}
+	updateOrderStatus(orderId: number, statusId: number) {
+		// Xác định trạng thái cập nhật
+		const statusText = statusId === 1 ? 'Pending' :
+			statusId === 2 ? 'Processing' :
+				statusId === 3 ? 'Completed' :
+					statusId === 4 ? 'Rejected' :
+						statusId === 5 ? 'Cancelled' : 'Unknown';
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	// // Hàm lấy dữ liệu cho các đơn hàng chờ xử lý
-	// getDataListPending(params: any) {
-	// 	this.loading = true;
-	// 	this.orderService.getLists(this.ownerId).subscribe((res: any) => {
-	// 		this.loading = false;
-	// 		this.dataListPending = res.filter((item: any) => item.statusId === 1);
-	// 		if (this.dataListPending?.length > 0) {
-	// 			let start = (this.paging?.page - 1) * this.paging.pageSize;
-	// 			let end = this.paging?.page * this.paging.pageSize;
-	// 			this.dataListPending = this.dataListPending?.filter((item: any, index: number) => index >= start && index < end)
-	// 		}
-	// 		this.pagingPending.total = this.dataListPending.length || 0;
-	// 		this.updateDataListForCurrentTab();
-	// 	});
-	// }
-
-	// // Hàm lấy dữ liệu cho các đơn hàng đang xử lý
-	// getDataListProcessing(params: any) {
-	// 	this.loading = true;
-	// 	this.orderService.getLists(this.ownerId).subscribe((res: any) => {
-	// 		this.loading = false;
-	// 		this.dataListProcessing = res.filter((item: any) => item.statusId === 2);
-	// 		if (this.dataListProcessing?.length > 0) {
-	// 			let start = (this.paging?.page - 1) * this.paging.pageSize;
-	// 			let end = this.paging?.page * this.paging.pageSize;
-	// 			this.dataListProcessing = this.dataListProcessing?.filter((item: any, index: number) => index >= start && index < end)
-	// 		}
-	// 		this.pagingProcessing.total = this.dataListProcessing.length || 0;
-	// 		this.updateDataListForCurrentTab();
-	// 	});
-	// }
-	// // Hàm lấy dữ liệu cho các đơn hàng đã hoàn thành
-	// getDataListCompleted(params: any) {
-	// 	this.loading = true;
-	// 	this.orderService.getLists(this.ownerId).subscribe((res: any) => {
-	// 		this.loading = false;
-	// 		// Lọc dữ liệu theo trạng thái "Đã hoàn thành"
-	// 		const filteredData = res.filter((item: any) => item.statusId === 3);
-
-	// 		// Phân trang dữ liệu
-	// 		const start = (this.pagingCompleted.page - 1) * this.pagingCompleted.pageSize;
-	// 		const end = this.pagingCompleted.page * this.pagingCompleted.pageSize;
-	// 		this.dataListCompleted = filteredData.slice(start, end);
-	// 		this.pagingCompleted.total = filteredData.length;
-
-	// 		// Cập nhật dữ liệu cho tab hiện tại nếu cần
-	// 		this.updateDataListForCurrentTab();
-	// 	});
-	// }
-
-	// // Hàm lấy dữ liệu cho các đơn hàng đã bị từ chối
-	// getDataListRejected(params: any) {
-	// 	this.loading = true;
-	// 	this.orderService.getLists(this.ownerId).subscribe((res: any) => {
-	// 		this.loading = false;
-	// 		// Lọc dữ liệu theo trạng thái "Đã bị từ chối"
-	// 		const filteredData = res.filter((item: any) => item.statusId === 4);
-
-	// 		// Phân trang dữ liệu
-	// 		const start = (this.pagingRejected.page - 1) * this.pagingRejected.pageSize;
-	// 		const end = this.pagingRejected.page * this.pagingRejected.pageSize;
-	// 		this.dataListRejected = filteredData.slice(start, end);
-	// 		this.pagingRejected.total = filteredData.length;
-
-	// 		// Cập nhật dữ liệu cho tab hiện tại nếu cần
-	// 		this.updateDataListForCurrentTab();
-	// 	});
-	// }
-
-
-	// // Hàm lấy dữ liệu cho các đơn hàng đã bị hủy
-	// getDataListCancelled(params: any) {
-	// 	this.loading = true;
-	// 	this.orderService.getLists(this.ownerId).subscribe((res: any) => {
-	// 		this.loading = false;
-	// 		// Lọc dữ liệu theo trạng thái "Đã bị hủy"
-	// 		const filteredData = res.filter((item: any) => item.statusId === 5);
-
-	// 		// Phân trang dữ liệu
-	// 		const start = (this.pagingCancelled.page - 1) * this.pagingCancelled.pageSize;
-	// 		const end = this.pagingCancelled.page * this.pagingCancelled.pageSize;
-	// 		this.dataListCancelled = filteredData.slice(start, end);
-	// 		this.pagingCancelled.total = filteredData.length;
-
-	// 		// Cập nhật dữ liệu cho tab hiện tại nếu cần
-	// 		this.updateDataListForCurrentTab();
-	// 	});
-	// }
-
-
-	// getDataList(params: any) {
-	// 	this.loading = true;
-	// 	this.orderService.getLists(this.ownerId).subscribe((res: any) => {
-	// 		this.loading = false;
-	// 		console.log('data', params);
-	// 		console.info("===========[getDataList] ===========[res] : ", res);
-
-	// 		// Lưu dữ liệu theo trạng thái
-	// 		this.dataListAll = res;
-	// 		this.dataListPending = res.filter((item: any) => item.statusId === 1);
-	// 		this.dataListProcessing = res.filter((item: any) => item.statusId === 2);
-	// 		this.dataListCompleted = res.filter((item: any) => item.statusId === 3);
-	// 		this.dataListRejected = res.filter((item: any) => item.statusId === 4);
-	// 		this.dataListCancelled = res.filter((item: any) => item.statusId === 5);
-
-	// 		this.updateDataListForCurrentTab();
-	// 		console.log('Pending Orders:', this.dataListPending, this.dataListPending?.length);
-	// 		console.log('Processing Orders:', this.dataListProcessing, this.dataListProcessing?.length);
-	// 		console.log('Page:', (this.pagingProcessing.page), ':', this.pagingProcessing.pageSize);
-	// 		console.log('Completed Orders:', this.dataListCompleted, this.dataListCompleted?.length);
-	// 		console.log('Rejected Orders:', this.dataListRejected, this.dataListRejected?.length);
-	// 		console.log('Cancelled Orders:', this.dataListCancelled, this.dataListCancelled?.length);
-	// 		this.paging.total = this.dataListAll.length || 0;
-	// 		this.pagingPending.total = this.dataListPending.length || 0;
-	// 		this.pagingProcessing.total = this.dataListProcessing.length || 0;
-	// 		this.pagingCompleted.total = this.dataListCompleted.length || 0;
-	// 		this.pagingRejected.total = this.dataListRejected.length || 0;
-	// 		this.pagingCancelled.total = this.dataListCancelled.length || 0;
-	// 	});
-	// }
-
-	// updateDataListForCurrentTab() {
-	// 	const currentPaging = this.getPageSizeForCurrentTab();
-	// 	switch (this.tabType) {
-	// 		case 'all':
-	// 			this.dataList = this.dataListAll.slice(
-	// 				(currentPaging.page - 1) * currentPaging.pageSize,
-	// 				currentPaging.page * currentPaging.pageSize
-	// 			);
-	// 			break;
-	// 		case 'pending':
-	// 			this.dataList = this.dataListPending.slice(
-	// 				(currentPaging.page - 1) * currentPaging.pageSize,
-	// 				currentPaging.page * currentPaging.pageSize
-	// 			);
-	// 			break;
-	// 		case 'processing':
-	// 			this.dataList = this.dataListProcessing.slice(
-	// 				(currentPaging.page - 1) * currentPaging.pageSize,
-	// 				currentPaging.page * currentPaging.pageSize
-	// 			);
-	// 			break;
-	// 		case 'completed':
-	// 			this.dataList = this.dataListCompleted.slice(
-	// 				(currentPaging.page - 1) * currentPaging.pageSize,
-	// 				currentPaging.page * currentPaging.pageSize
-	// 			);
-	// 			break;
-	// 		case 'rejected':
-	// 			this.dataList = this.dataListRejected.slice(
-	// 				(currentPaging.page - 1) * currentPaging.pageSize,
-	// 				currentPaging.page * currentPaging.pageSize
-	// 			);
-	// 			break;
-	// 		case 'cancelled':
-	// 			this.dataList = this.dataListCancelled.slice(
-	// 				(currentPaging.page - 1) * currentPaging.pageSize,
-	// 				currentPaging.page * currentPaging.pageSize
-	// 			);
-	// 			break;
-	// 		default:
-	// 			this.dataList = [];
-	// 	}
-	// }
-
-
-	updateOrderStatus(orderId: number, id: number) {
-		this.orderService.status(orderId, id).subscribe(
-			response => {
-				console.log('Order status updated successfully');
-				// Sau khi cập nhật trạng thái thành công, làm mới dữ liệu của tab hiện tại
-				this.updateDataListForCurrentTab();
-			},
-			error => {
-				console.error('Error updating order status', error);
+		this.alertService.fireConfirm(
+			`Update Order Status`,
+			`Are you sure you want to update the status to ${statusText}?`,
+			'warning',
+			'Cancel',
+			'Yes'
+		).then((result) => {
+			if (result.isConfirmed) {
+				this.loading = true;
+				this.orderService.status(orderId, statusId).subscribe((res: any) => {
+					this.loading = false;
+					if (res?.message === 'Confirm order successful!') {
+						// Thông báo thành công với trạng thái cụ thể
+						this.alertService.fireSmall('success', `Update Status ${statusText}.`);
+						this.updateDataListForCurrentTab(); // Làm mới dữ liệu của tab hiện tại
+					} else if (res?.errors) {
+						this.alertService.showListError(res?.errors);
+					} else {
+						this.alertService.fireSmall('error', res?.message || `Failed to update order status!`);
+					}
+				});
 			}
-		);
-		this.formSearch.reset();
+		});
 	}
 
 
@@ -577,11 +420,8 @@ export class OrderAdminPageComponent implements OnInit {
 	}
 
 	search() {
-		const searchParams = {
-			...this.formSearch.value,
-			page: 1
-		};
-		this.getDataListAll(searchParams);
+		console.log('codeOrder',this.formSearch.value,);
+		this.getDataListAll(this.formSearch.value);
 	}
 
 	// 	// Gọi hàm lấy dữ liệu phù hợp với tab hiện tại
@@ -613,7 +453,7 @@ export class OrderAdminPageComponent implements OnInit {
 	resetSearchForm() {
 		this.formSearch.reset();
 		// Tìm kiếm với tham số mặc định (có thể cần điều chỉnh)
-		// this.search();
+		this.search();
 	}
 
 

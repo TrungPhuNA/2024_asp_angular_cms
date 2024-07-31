@@ -6,74 +6,93 @@
 		</div>
 		<form [formGroup]="form" (ngSubmit)="submit()">
 			<div class="row">
-				<div class="form-group col-md-6  required mb-3">
-					<label for="name" class="form-label">Name</label>
-					<input type="text" id="name" class="form-control"
-						[ngClass]="{'is-invalid': commonService.showStatusErrorV2(form, 'Name')}" formControlName="Name"
-						name="name" (focusout)="commonService.onTrimFocusOutForm(form, 'Name', $event)" />
+				<div class="col-md-6">
+					 <!-- Preview Image -->
+					 <div class="image-preview-container">
+						<label class="form-label">Preview Image:</label>
+                        <div *ngIf="form.controls['Image'].value" class="image-preview">
+                            
+                            <img [src]="form.controls['Image'].value" alt="Product Image" class="img-fluid">
+                        </div>
+                    </div>
+                    <!-- Image Input -->
+                    <div class="form-group required mb-3">
+                        <label for="Image" class="form-label">Image URL</label>
+                        <input type="text" id="Image" class="form-control"
+                            [ngClass]="{'is-invalid': commonService.showStatusErrorV2(form, 'Image')}"
+                            formControlName="Image" name="Image">
+                        <app-form-error [control]="form.controls['Image']" [message]="'Product Image is required!'"
+                            [validation]="'required'"></app-form-error>
+                    </div>
+                    <div class="form-group mb-3">
+                        <input type="file" #fileInput (change)="onFileSelected($event)" hidden>
+                        <button type="button" class="upload-button" (click)="fileInput.click()">Upload Image</button>
+                        <button *ngIf="selectedFile" type="button" class="save-button"
+                            (click)="uploadImage('products')">Save Image</button>
+                    </div>
+                </div>
+				<div class="col-md-6">
+					<div class="form-group required mb-3">
+						<label for="name" class="form-label">Name</label>
+						<input type="text" id="name" class="form-control"
+							[ngClass]="{'is-invalid': commonService.showStatusErrorV2(form, 'Name')}"
+							formControlName="Name" name="name"
+							(focusout)="commonService.onTrimFocusOutForm(form, 'Name', $event)" />
 
-					<app-form-error [control]="form.controls['Name']" [message]="'Product Name is required!'"
-						[validation]="'required'"></app-form-error>
-				</div>
+						<app-form-error [control]="form.controls['Name']" [message]="'Product Name is required!'"
+							[validation]="'required'"></app-form-error>
+					</div>
 
-				<div class="form-group col-md-6  required mb-3">
-					<label for="Price" class="form-label">Price</label>
-					<input type="number" id="Price" class="form-control"
-						[ngClass]="{'is-invalid': commonService.showStatusErrorV2(form, 'Price')}"
-						formControlName="Price" name="price"
-						(focusout)="commonService.onTrimFocusOutForm(form, 'Price', $event)" />
+					<div class="form-group required mb-3">
+						<label for="Price" class="form-label">Price</label>
+						<input type="number" id="Price" class="form-control"
+							[ngClass]="{'is-invalid': commonService.showStatusErrorV2(form, 'Price')}"
+							formControlName="Price" name="price"
+							(focusout)="commonService.onTrimFocusOutForm(form, 'Price', $event)" />
 
-					<app-form-error [control]="form.controls['Price']" [message]="'Price is required!'"
-						[validation]="'required'"></app-form-error>
-				</div>
-				<div class="form-group col-md-6  required mb-3">
-					<label for="image" class="form-label ">Image URL</label>
-					<input type="text" id="image" class="form-control"
-						[ngClass]="{'is-invalid': commonService.showStatusErrorV2(form, 'ImageLinks')}"
-						formControlName="ImageLinks" name="image">
-					<app-form-error [control]="form.controls['ImageLinks']" [message]="'Product image is required!'"
-						[validation]="'required'"></app-form-error>
-				</div>
-				<div class="form-group col-md-6  required mb-3">
-					<label for="DescriptionId" class="form-label ">Description</label>
-					<ng-select [items]="descriptions" bindLabel="title" bindValue="descriptionId"
-						formControlName="DescriptionId"></ng-select>
+						<app-form-error [control]="form.controls['Price']" [message]="'Price is required!'"
+							[validation]="'required'"></app-form-error>
+					</div>
 
-					<app-form-error [control]="form.controls['DescriptionId']" [message]="'Description is required!'"
-						[validation]="'required'"></app-form-error>
-				</div>
-				<div class="form-group col-md-6  required mb-3">
-					<label for="image" class="form-label ">CategoryID</label>
-					<ng-select [items]="categories" bindLabel="name" bindValue="categoryId"
-						formControlName="CategoryId"></ng-select>
-					<app-form-error [control]="form.controls['CategoryId']" [message]="'Category id is required!'"
-						[validation]="'required'"></app-form-error>
-				</div>
-				<div class="form-group col-md-6  required mb-3">
-					<label for="BrandId" class="form-label ">Brand</label>
-					<ng-select [items]="brands" bindLabel="name" bindValue="brandId"
-						formControlName="BrandId"></ng-select>
-					<app-form-error [control]="form.controls['BrandId']" [message]="'Brand id is required!'"
-						[validation]="'required'"></app-form-error>
-				</div>
-				<div class="form-group col-md-6  required mb-3">
+					<div class="form-group required mb-3">
+						<label for="DescriptionId" class="form-label ">Description</label>
+						<ng-select [items]="descriptions" bindLabel="title" bindValue="descriptionId"
+							formControlName="DescriptionId"></ng-select>
+
+						<app-form-error [control]="form.controls['DescriptionId']"
+							[message]="'Description is required!'" [validation]="'required'"></app-form-error>
+					</div>
+					<div class="form-group required mb-3">
+						<label for="image" class="form-label ">CategoryID</label>
+						<ng-select [items]="categories" bindLabel="name" bindValue="categoryId"
+							formControlName="CategoryId"></ng-select>
+						<app-form-error [control]="form.controls['CategoryId']" [message]="'Category id is required!'"
+							[validation]="'required'"></app-form-error>
+					</div>
+					<div class="form-group required mb-3">
+						<label for="BrandId" class="form-label ">Brand</label>
+						<ng-select [items]="brands" bindLabel="name" bindValue="brandId"
+							formControlName="BrandId"></ng-select>
+						<app-form-error [control]="form.controls['BrandId']" [message]="'Brand id is required!'"
+							[validation]="'required'"></app-form-error>
+					</div>
+					<!-- <div class="form-group col-md-6  required mb-3">
 					<label for="ownerId" class="form-label ">Owner</label>
 					<ng-select [items]="owners" bindLabel="fullname" bindValue="ownerId"
 						formControlName="OwnerId"></ng-select>
 					<app-form-error [control]="form.controls['OwnerId']" [message]="'Owner id is required!'"
 						[validation]="'required'"></app-form-error>
-				</div>
+				</div> -->
 
+
+				</div>
 				<div class="form-group col-12  required mb-3">
 					<label for="ShortDescription" class="form-label">Short description</label>
-					<div 
-					formControlName="ShortDescription"
-						[ngxSummernote]="config"></div>
-
+					<div formControlName="ShortDescription" [ngxSummernote]="config"></div>
 					<app-form-error [control]="form.controls['ShortDescription']"
 						[message]="'ShortDescription is required!'" [validation]="'required'"></app-form-error>
 				</div>
-				<div class="product-page">
+				<!-- <div class="product-page">
 					<div class="product-images">
 						<div class="product-images">
 							<div class="main-image">
@@ -111,6 +130,17 @@
 					</div>
 					<div class="product-details">
 						<h1>{{product.name}}</h1>
+						<div class="form-group col-md-6  required mb-3">
+							<label for="name" class="form-label">Name</label>
+							<input type="text" id="name" class="form-control"
+								[ngClass]="{'is-invalid': commonService.showStatusErrorV2(form, 'Name')}" formControlName="Name"
+								name="name" (focusout)="commonService.onTrimFocusOutForm(form, 'Name', $event)" />
+		
+							<app-form-error [control]="form.controls['Name']" [message]="'Product Name is required!'"
+								[validation]="'required'"></app-form-error>
+						</div>
+						
+						
 						<div class="rating">
 							<ng-container *ngFor="let star of getStars(product.ratePoint)">
 								<span *ngIf="star === 'full'" class="star full">★</span>
@@ -153,10 +183,26 @@
 								</div>
 							</div>
 						</div>
-						<!-- <div class="action-buttons">
+						<div class="quantity-selection">
+							<div class="quantity-label">Brand</div>
+							<div class="qjk232">
+								<div class="qtt" *ngIf="selectedSize">
+									<p>Available Quantity: {{ selectedSize.quantity }}</p>
+								</div>
+							</div>
+						</div>
+						<div class="quantity-selection">
+							<div class="quantity-label">Category</div>
+							<div class="qjk232">
+								<div class="qtt" *ngIf="selectedSize">
+									<p>Available Quantity: {{ selectedSize.quantity }}</p>
+								</div>
+							</div>
+						</div>
+						<div class="action-buttons">
 								<button class="add-to-cart" (click)="addToCart()">Add to cart</button>
 								<button class="find-in-store" (click)="findInStore()">Buy Now</button>
-							 </div> -->
+							 </div>
 
 						<div class="description">
 							<h2>Description</h2>
@@ -165,7 +211,7 @@
 					</div>
 					
 
-				</div>
+				</div> -->
 				<div class="d-flex justify-content-center my-3">
 					<button type="button" (click)="closeModal()" class="btn btn-secondary">Cancel</button>
 					<button type="submit" class="btn btn-success mx-2">Save</button>

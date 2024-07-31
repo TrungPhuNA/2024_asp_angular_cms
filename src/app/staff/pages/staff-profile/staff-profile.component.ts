@@ -7,9 +7,9 @@ import { HttpClient } from '@angular/common/http';
 import { cloudinaryConfig } from '../../../../../cloudinary.config';
 
 @Component({
-  selector: 'app-staff-profile',
-  templateUrl: './staff-profile.component.html',
-  styleUrl: './staff-profile.component.scss'
+	selector: 'app-staff-profile',
+	templateUrl: './staff-profile.component.html',
+	styleUrl: './staff-profile.component.scss'
 })
 export class StaffProfileComponent {
 	@ViewChild('fileInput') fileInput!: ElementRef;
@@ -20,7 +20,7 @@ export class StaffProfileComponent {
 
 
 	form = new FormGroup({
-		email: new FormControl(null, [Validators.required, Validators.email]),
+		email: new FormControl(null, Validators.required),
 		fullname: new FormControl(null, Validators.required),
 		image: new FormControl(null as string | null, Validators.required),
 		phone: new FormControl(null, Validators.required),
@@ -65,7 +65,7 @@ export class StaffProfileComponent {
 	getProfile() {
 		let user: any = localStorage.getItem('user')
 		if (!user) {
-			window.location.href = '/owner/auth/login'
+			window.location.href = '/staff/auth/login'
 		}
 		this.loading = true;
 		this.ownerService.getUserInfo(JSON.parse(user)?.id).subscribe((res: any) => {
@@ -81,8 +81,12 @@ export class StaffProfileComponent {
 				});
 				this.detail = res?.data
 				this.formPassword.patchValue({
-					staffId: res?.data?.staffId,
+					staffId: res?.data.staffId,
 				})
+				console.log('id staff',this.form.value)
+				console.log('id staff',this.form.value)
+				console.log('id staff',this.formPassword.value)
+				console.log('id staff',res.data.staffId)
 				this.image = res?.data?.image
 			}
 		})
@@ -122,7 +126,9 @@ export class StaffProfileComponent {
 				this.image = response.secure_url;
 				this.form.patchValue({ image: this.image as string | null });
 				this.selectedFile = null;
-
+				this.ownerService.updateImage(this.form.value).subscribe(resApi => {
+					console.log(resApi);
+				})
 			}, error => {
 				this.loading = false;
 
@@ -139,9 +145,7 @@ export class StaffProfileComponent {
 		this.ownerService.updateProfile(this.form.value).subscribe((res: any) => {
 			this.loading = false;
 			if (res?.message?.includes('successfully')) {
-				this.ownerService.updateImage(this.form.value).subscribe(resApi => {
-					console.log(resApi);
-				})
+
 				this.alertService.fireSmall('success', res?.message || "Update profile successfully")
 			} else {
 				this.alertService.fireSmall('error', res?.message || "Update profile failed")
@@ -151,9 +155,9 @@ export class StaffProfileComponent {
 	}
 
 	formPassword: any = new FormGroup({
-		staffId: new FormControl(null),
+		staffId: new FormControl(null, Validators.required),
 		oldPassword: new FormControl(null, Validators.required),
-		newPasswod: new FormControl(null, Validators.required),
+		newPassword: new FormControl(null, Validators.required),
 		confirmPassword: new FormControl(null, Validators.required),
 	});
 	messageError: any = null;
@@ -163,17 +167,22 @@ export class StaffProfileComponent {
 	}
 
 	submitPassword() {
+		console.log('check',this.formPassword.invalid)
 		if (this.formPassword.invalid) {
 			this.alertService.fireSmall('error', 'Form password invalid!');
-			return;
+			// return;
 		}
 		let data = this.formPassword.value;
-		if(data?.newPasswod?.trim() != data?.confirmPassword?.trim()) {
-			this.messageError = 'Password does not match.';
-			return;
-		}
+		console.log('Form Data:', this.formPassword.value);
+		console.log('old:', this.formPassword.value.oldPassword);
+		console.log('old:', this.formPassword.value.newPasswod);
+		// if (data?.newPasswod?.trim() != data?.confirmPassword?.trim()) {
+		// 	this.messageError = 'Password does not match.';
+		// 	return;
+		// }
 		this.loading = true;
-
+		console.log('Form Data:', this.formPassword.value);
+		console.log('iđ pass',this.detail.staffId)
 		this.ownerService.changePassword(data).subscribe((res: any) => {
 			this.loading = false;
 			if (res?.message?.includes('successfully')) {
@@ -182,6 +191,7 @@ export class StaffProfileComponent {
 				this.formPassword.patchValue({
 					staffId: this.detail?.staffId
 				})
+				
 			} else if (res?.errors) {
 				this.alertService.showListError(res?.errors)
 			} else {

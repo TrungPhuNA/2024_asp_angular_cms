@@ -70,6 +70,9 @@ import { OwnerSizeFormComponent } from './components/owner-size-form/owner-size-
 import { ProfileOwnerPageComponent } from './pages/profile-owner-page/profile-owner-page.component';
 import { ChangepasswordOwnerComponent } from './pages/changepassword-owner/changepassword-owner.component';
 import { DetailOrderComponent } from './components/order/detail-order/detail-order.component';
+import { GuestconsultationPageComponent } from './pages/guestconsultation-page/guestconsultation-page.component';
+import { AddNewConsultationComponent } from './components/guestconsultation/add-new-consultation/add-new-consultation.component';
+import { UpdateConsultationComponent } from './components/guestconsultation/update-consultation/update-consultation.component';
 
 const route: Routes = [
 	{
@@ -139,6 +142,11 @@ const route: Routes = [
 				path: 'size',
 				component: OwnerSizeComponent,
 				title: 'Manage cateparent'
+			},
+			{
+				path: 'guestconsultation',
+				component: GuestconsultationPageComponent,
+				title: 'Manage Guest Consultation'
 			},
 
 		],
@@ -210,6 +218,9 @@ const route: Routes = [
 		OwnerSizeFormComponent,
 		ProfileOwnerPageComponent,
 		ChangepasswordOwnerComponent,
+		GuestconsultationPageComponent,
+		AddNewConsultationComponent,
+		UpdateConsultationComponent
 	],
 	imports: [
 		FormsModule,
@@ -228,4 +239,6 @@ const route: Routes = [
 		MatIconModule,
 	]
 })
-export class OwnerModule { }
+export class OwnerModule {
+
+}

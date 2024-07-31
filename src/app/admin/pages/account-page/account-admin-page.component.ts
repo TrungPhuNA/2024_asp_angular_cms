@@ -74,11 +74,11 @@ export class AccountAdminPageComponent {
 				this.loading = false;
 				console.log('User', res);
 				this.dataListAll = res;
-				// if (this.dataListAll?.length > 0) {
-				// 	let start = (this.paging?.page - 1) * this.paging.pageSize;
-				// 	let end = this.paging?.page * this.paging.pageSize;
-				// 	this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
-				// }
+				if (this.dataListAll?.length > 0) {
+					let start = (this.paging?.page - 1) * this.paging.pageSize;
+					let end = this.paging?.page * this.paging.pageSize;
+					this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
+				}
 				this.dataList = this.dataListAll
 				this.paging.total = res?.length || 0;
 			});

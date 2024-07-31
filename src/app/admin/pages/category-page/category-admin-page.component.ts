@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild} from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CategoryService } from '../../services/category.service';
 import { AlertService } from '../../helpers/alert.service';
 import { INIT_PAGING } from '../../helpers/constant';
@@ -61,17 +61,17 @@ export class CategoryAdminPageComponent {
 	getDataList(params: any) {
 		// console.log('Executing getDataList() with parameters:', params);
 		this.loading = true;
-		this.categoryService.getListCategory({...params, pageSize: 100000}).subscribe((res: any) => {
+		this.categoryService.getListCategory({ ...params, pageSize: 100000 }).subscribe((res: any) => {
 			this.loading = false;
 			console.log('Response from getListCategory:', res);
 			this.dataListAll = res;
-			if(this.dataListAll?.length > 0) {
+			if (this.dataListAll?.length > 0) {
 				let start = (this.paging?.page - 1) * this.paging.pageSize;
 				let end = this.paging?.page * this.paging.pageSize;
 				this.categories = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
 			}
-            this.paging.total = res?.length || 0;
-            // this.paging.page = params?.page || 1
+			this.paging.total = res?.length || 0;
+			// this.paging.page = params?.page || 1
 		})
 	}
 	getDataListParent(params: any) {
@@ -97,16 +97,28 @@ export class CategoryAdminPageComponent {
 		if (this.dataListAll?.length > 0) {
 			let start = (this.paging?.page - 1) * this.paging.pageSize;
 			let end = this.paging?.page * this.paging.pageSize;
-			console.log('brand---->',start, end, this.formSearch.value?.name);
-			if(this.formSearch.value?.name) {
-				let totalSearch = this.dataListAll?.filter((item: any) => item?.name?.includes(this.formSearch.value?.name?.trim()));
+			console.log('brand---->', start, end, this.formSearch.value?.name);
+
+			// Chuyển giá trị tìm kiếm thành chữ thường
+			const searchName = this.formSearch.value?.name?.trim().toLowerCase();
+
+			if (searchName) {
+				// Chuyển item name thành chữ thường và so sánh
+				let totalSearch = this.dataListAll?.filter((item: any) =>
+					item?.name?.toLowerCase().includes(searchName)
+				);
 				this.paging.total = totalSearch?.length || 0;
-				this.categories = totalSearch?.filter((item: any, index: number) => index >= start && index < end && item?.name?.includes(this.formSearch.value?.name?.trim()) )
+				this.categories = totalSearch?.filter((item: any, index: number) =>
+					index >= start && index < end
+				);
 			} else {
-				this.categories = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end )
+				this.categories = this.dataListAll?.filter((item: any, index: number) =>
+					index >= start && index < end
+				);
 			}
 		}
 	}
+
 
 	toggleSelectAll() {
 		const allSelected = this.categories.every((category: any) => category.selected);
@@ -140,9 +152,9 @@ export class CategoryAdminPageComponent {
 			this.categoryService.createOrUpdateData(data?.form).subscribe((res: any) => {
 				this.loading = false;
 				if (res?.message.includes('successfully')) {
-					this.alertService.fireSmall('success', res?.message|| 'Create successfully');
+					this.alertService.fireSmall('success', res?.message || 'Create successfully');
 					this.closeModal();
-					this.getDataList({page: 1, pageSize: 10})
+					this.getDataList({ page: 1, pageSize: 10 })
 				} else if (res?.errors) {
 					this.alertService.showListError(res?.errors);
 				} else {
@@ -156,7 +168,7 @@ export class CategoryAdminPageComponent {
 				if (res?.message.includes('successfully')) {
 					this.alertService.fireSmall('success', res?.message || 'Update successfully');
 					this.closeModal();
-					this.getDataList({page: 1, pageSize: 10})
+					this.getDataList({ page: 1, pageSize: 10 })
 				} else if (res?.errors) {
 					this.alertService.showListError(res?.errors);
 				} else {
@@ -196,7 +208,7 @@ export class CategoryAdminPageComponent {
 						this.loading = false;
 						if (res?.message?.includes('successfully')) {
 							this.alertService.fireSmall('success', res?.message);
-							this.getDataList({page: 1, pageSize: 10})
+							this.getDataList({ page: 1, pageSize: 10 })
 						} else if (res?.errors) {
 							this.alertService.showListError(res?.errors);
 						} else {

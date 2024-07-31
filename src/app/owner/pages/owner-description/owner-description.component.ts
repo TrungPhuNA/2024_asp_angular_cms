@@ -45,7 +45,7 @@ export class OwnerDescriptionComponent {
 	}
 	dataListAll: any;
 	getDataListParent(params: any) {
-		console.log('data áđâss',this.typeForm);
+		console.log('data áđâs kiểm tra trướcs',this.typeForm);
 		this.loading = true;
 		this.descriptionService.getLists({...params, pageSize:10000}).subscribe((res: any) => {
 			this.loading = false;
@@ -54,6 +54,7 @@ export class OwnerDescriptionComponent {
 				let start = (this.paging?.page - 1) * this.paging.pageSize;
 				let end = this.paging?.page * this.paging.pageSize;
 				this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
+				console.log('xem dữ liệu khi trả về của API',this.dataList[0]);
 			}
 			this.paging.total = res?.data?.length || 0;
 		})
@@ -78,14 +79,33 @@ export class OwnerDescriptionComponent {
 		this.getDataListParent({ ...this.paging, page: 1, ...this.formSearch.value })
 	}
 	saveItem(data: any) {
-		console.log('data áđâss',this.typeForm);
+		console.log('TypeForm:', this.typeForm);
 		console.log('Data received in saveItem:', data);
-		if (this.typeForm == 1) {
+	
+		// Xác thực dữ liệu trước khi gửi cho API
+		let form = data.form;
+		console.log('Form data before validation:', form);
+		if (!form) {
+			this.alertService.fireSmall('error', 'Dữ liệu không hợp lệ!');
+			this.loading = false;
+			return;
+		}
+	
+		// // Kiểm tra các trường dữ liệu cần thiết
+		// const requiredFields = ['content', 'descriptionId', 'imageLinks', 'isdelete', 'title'];
+		// for (const field of requiredFields) {
+		// 	if (!form[field]) {
+		// 		console.log(`Missing field: ${field}`);
+		// 		this.alertService.fireSmall('error', `Trường ${field} không được để trống!`);
+		// 		this.loading = false;
+		// 		return;
+		// 	}
+		// }
+	
+		if (this.typeForm === 1) {
+			// Đối với tạo mới
 			this.loading = true;
-			let form = data.form;
-			console.log('data áđâss',data);
-			console.log('data áđâss',form);
-			this.descriptionService.createOrUpdateData(data?.form).subscribe((res: any) => {
+			this.descriptionService.createOrUpdateData(form).subscribe((res: any) => {
 				this.loading = false;
 				if (res?.data || res?.message?.includes('successfully')) {
 					this.alertService.fireSmall('success', res?.message);
@@ -96,24 +116,26 @@ export class OwnerDescriptionComponent {
 				} else {
 					this.alertService.fireSmall('error', res?.message || "Add Description failed!");
 				}
-			})
-		} else {
+			});
+		} else if (this.typeForm === 2 || this.typeForm === 3) {
+			// Đối với chỉnh sửa và xem
 			this.loading = true;
-			let dataForm = data?.form;
-			this.descriptionService.createOrUpdateData(dataForm, data.id).subscribe((res: any) => {
+			this.descriptionService.createOrUpdateData(form, data.id).subscribe((res: any) => {
 				this.loading = false;
-				if (res?.data|| res?.message?.includes('successfully')) {
+				console.log('API response:', res);
+				if (res?.data || res?.message?.includes('successfully')) {
 					this.alertService.fireSmall('success', res?.message);
 					this.closeModal();
-					this.getDataListParent({ page: 1, pageSize: 10 })
+					this.getDataListParent({ page: 1, pageSize: 10 });
 				} else if (res?.errors) {
 					this.alertService.showListError(res?.errors);
 				} else {
 					this.alertService.fireSmall('error', res?.message || "Updated Description failed!");
 				}
-			})
+			});
 		}
 	}
+	
 	selected: any;
 	viewItem(id: number) {
 		

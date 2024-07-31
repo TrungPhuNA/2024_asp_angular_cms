@@ -31,13 +31,16 @@ import { AddNewOrderComponent } from './components/order/add-new-order/add-new-o
 import { DetailOrderComponent } from './components/order/detail-order/detail-order.component';
 import { UpdateOrderComponent } from './components/order/update-order/update-order.component';
 import { DeleteOrderComponent } from './components/order/delete-order/delete-order.component';
+
 import { Route, RouterModule, Routes } from '@angular/router';
 import { SharedModule } from '../../shared/share.module';
 import { SharedDataModule } from '../shared/shared.module';
+
 import { AccountAdminPageComponent } from './pages/account-page/account-admin-page.component';
 import { AddNewAccountComponent } from './components/account/add-new-account/add-new-account.component';
 import { UpdateAccountComponent } from './components/account/update-account/update-account.component';
 import { DetailAccountComponent } from './components/account/detail-account/detail-account.component';
+
 import { NgSelectModule } from '@ng-select/ng-select';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatChipsModule } from '@angular/material/chips';
@@ -49,7 +52,9 @@ import { FormOwnerComponent } from './components/owner/form-owner/form-owner.com
 import { ServiceAdminComponent } from './components/service-admin/service-admin.component';
 import { VoucherPageComponent } from './pages/voucher-page/voucher-page.component';
 import { VoucherComponent } from './components/voucher/voucher.component';
+
 import { NgxSummernoteModule } from 'ngx-summernote';
+
 import { CateParentStaffComponent } from './pages/cate-parent-staff/cate-parent-staff.component';
 import { StaffCateParentFormComponent } from './components/staff-cate-parent-form/staff-cate-parent-form.component';
 import { StaffLoginComponent } from './pages/staff-login/staff-login.component';
@@ -60,6 +65,7 @@ import { StaffDescriptionComponent } from './pages/staff-description/staff-descr
 import { StaffSizeComponent } from './pages/staff-size/staff-size.component';
 import { StaffProfileComponent } from './pages/staff-profile/staff-profile.component';
 import { staffGuardGuard } from './staff-guard.guard';
+import { GuestconsultationPageComponent } from '../owner/pages/guestconsultation-page/guestconsultation-page.component';
 
 const route: Routes = [
 	{
@@ -107,12 +113,17 @@ const route: Routes = [
 			{
 				path: 'cateparent',
 				component: CateParentStaffComponent,
-				title: 'Manage cateparent'
+				title: 'Manage CateParent'
 			},
 			{
 				path: 'profile',
 				component: StaffProfileComponent,
-				title: 'Manage cateparent'
+				title: 'Manage Profile'
+			},
+			{
+				path: 'guestconsultation',
+				component: GuestconsultationPageComponent,
+				title: 'Manage Gest Consultation'
 			},
 
 
@@ -177,11 +188,11 @@ const route: Routes = [
 		StaffCateParentFormComponent,
 		StaffLoginComponent,
 		StaffRegisterComponent,
-  StaffSizeFormComponent,
-  StaffDescriptionFormComponent,
-  StaffDescriptionComponent,
-  StaffSizeComponent,
-  StaffProfileComponent,
+		StaffSizeFormComponent,
+		StaffDescriptionFormComponent,
+		StaffDescriptionComponent,
+		StaffSizeComponent,
+		StaffProfileComponent,
 	],
 	imports: [
 		FormsModule,

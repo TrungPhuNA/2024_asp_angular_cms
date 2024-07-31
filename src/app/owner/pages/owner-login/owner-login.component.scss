@@ -121,4 +121,55 @@ button.btn:hover {
 
 .font-weight-bold {
 	font-weight: bold;
+}.form-check-input {
+    height: 1.5rem; /* Tăng kích thước chiều cao */
+    width: 1.5rem; /* Tăng kích thước chiều rộng */
+    border-radius: 0.25rem;
+    --tw-border-opacity: 1;
+    border-color: rgb(209 213 219 / var(--tw-border-opacity));
+    --tw-bg-opacity: 1;
+    background-color: rgb(243 244 246 / var(--tw-bg-opacity));
+    --tw-text-opacity: 1;
+    color: rgb(37 99 235 / var(--tw-text-opacity));
+    position: relative;
+    display: inline-block;
 }
+
+.form-check-input:checked {
+    background-image: linear-gradient(to right, green, green); /* Đổi màu gradient khi chọn */
+    border-color: transparent; /* Đổi màu viền khi chọn */
+}
+
+.form-check-input:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0.5rem;
+    height: 0.5rem;
+    border: solid white;
+    border-width: 0 0.2rem 0.2rem 0;
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.form-check-input:focus {
+    --tw-ring-opacity: 1;
+    --tw-ring-color: rgb(59 130 246 / var(--tw-ring-opacity));
+}
+
+.form-check-label {
+    margin-inline-start: 0.5rem;
+    margin-right: 1rem; /* Thêm khoảng cách giữa các nhãn */
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+    --tw-text-opacity: 1;
+    color: rgb(17 24 39 / var(--tw-text-opacity));
+}
+
+.flex {
+    display: flex;
+    gap: 1rem; /* Điều chỉnh khoảng cách theo ý muốn */
+}
+
+

@@ -24,6 +24,13 @@ export class StaffService {
 		}
 		return this.baseApiService.postMethod('Staff/CreateStaff', params, true);
 	}
+	updateAvatar(image: File, staffId: number) {
+		const formData = new FormData();
+		formData.append('StaffId', staffId.toString());
+		formData.append('Image', image);
+	
+		return this.baseApiService.putMethod('Staff/UpdateAvatarStaff', formData, true);
+	  }
 
 	deleteData(id: any) {
 		return this.baseApiService.deleteMethod(`Staff/DeleteStaff/${id}`);

@@ -22,12 +22,12 @@ export class WarehousePageComponent {
 	createModal: boolean = false;
 	showModal: boolean = false;
 	updateModal: boolean = false;
-	typeForm: string = '';  // Thay đổi kiểu dữ liệu nếu cần
 	openModal: boolean = false; // Mặc định là false hoặc giá trị mặc định khác
 
 	pageName: string = 'warehouse';
 	paging: any = { ...INIT_PAGING }
 	loading = false;
+	typeForm = 0;
 
 	constructor(
 		private alertService: AlertService,
@@ -73,25 +73,20 @@ export class WarehousePageComponent {
 				let start = (this.paging?.page - 1) * this.paging.pageSize;
 				let end = this.paging?.page * this.paging.pageSize;
 				this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end);
-				// Log giá trị name và ban
-				// this.dataList.forEach((item: any) => {
-				// 	console.log('Product Name:', item.name);
-				// 	console.log('Is Banned:', item.isban);
-				// });
+				console.log('dataList', this.dataList);
 			}
 			this.paging.total = res?.length || 0;
 		})
 	}
 	createItem() {
 		this.modalTitle = 'Create Warehouse';
-		this.createModal = true;
+		this.openModal = true;
+		this.typeForm = 1;
 	}
 
 	closeModal() {
-		this.createModal = false;
-		this.showModal = false;
-		this.updateModal = false;
-
+		this.openModal = false;
+		this.typeForm = 0;
 	}
 
 	search() {
@@ -141,17 +136,20 @@ export class WarehousePageComponent {
 
 	selected: any;
 	viewItem(id: number) {
-		const data = this.dataList.find((c: any) => c.productId === id);
-		this.selected = { ...data };
-		this.modalTitle = 'View Warehouse';
-		this.showModal = true;
+		const data = this.dataList.find((c: any) => { console.log('warehouseId', c.warehouseId); c.warehouseId === id });
+		console.log('view', data);
+		this.selected = data;
+		this.modalTitle = 'View Warehouse Details';
+		this.typeForm = 2;
+		this.openModal = true;
 	}
 
 	editItem(id: number) {
-		const data = this.dataList.find((c: any) => c.productId === id);
+		const data = this.dataList.find((c: any) =>{ console.log('warehouseId', c.warehouseId); c.warehouseId === id });
+		console.log('edit', data);
 		this.selected = { ...data };
 		this.modalTitle = 'Edit Warehouse';
-		this.updateModal = true;
+		this.openModal = true;
 	}
 
 	deleteItem(id: number) {
@@ -217,4 +215,5 @@ export class WarehousePageComponent {
 		}
 		// this.getDataList({ ...this.paging, ...this.formSearch.value })
 	}
+
 }

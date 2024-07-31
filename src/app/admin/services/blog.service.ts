@@ -31,4 +31,12 @@ export class BlogService {
     deleteData(id: any) {
         return this.baseApiService.deleteMethod(`Advertisement/${id}`);
     }
+    updateStatus(adId: number, statusPostId: number) {
+        // Tạo URL với các tham số query string
+        const url = `Advertisement/UpdateStatusAdvertisementById?adId=${adId}&StatusPostId=${statusPostId}`;
+        console.log('URL update status', url);
+        
+        // Gửi yêu cầu PUT với URL
+        return this.baseApiService.putMethod(url, true);
+    }
 }

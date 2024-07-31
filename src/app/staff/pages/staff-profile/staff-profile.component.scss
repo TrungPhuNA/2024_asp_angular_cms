@@ -1,0 +1,13 @@
+.img-fluid {
+	border: 1px solid #3f3e3ea1;
+	width: 200px;
+	border-radius: 10px;
+	height: 200px;
+	margin: auto;
+	object-fit: cover;
+
+	img {
+		object-fit: cover;
+		border-radius: 10px;
+	}
+}

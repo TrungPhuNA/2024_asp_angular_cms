@@ -144,6 +144,14 @@ export class HeaderAdminComponent {
 
 	logout() {
 		localStorage.clear();
-		window.location.reload();
+		if (this.userType === 'Admin') {
+			this.router.navigate(['/admin/auth/login']);
+		} else if (this.userType === 'Owner' || this.userType ==='Staff') {
+			this.router.navigate(['/owner/auth/login']);
+		} else {
+			// Điều hướng đến trang đăng nhập mặc định nếu không xác định được userType
+			this.router.navigate(['/auth/login']);
+		}
 	}
+	
 }

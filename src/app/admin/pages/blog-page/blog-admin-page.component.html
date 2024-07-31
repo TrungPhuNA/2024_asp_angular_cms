@@ -34,9 +34,10 @@
 						<th class="text-center align-middle" style="min-width: 80px;">Image</th>
 						<th class="text-center align-middle">Title</th>
 						<th class="text-center align-middle">Content</th>
-						<th class="text-center align-middle">Status</th>
 						<th class="text-center align-middle">Service</th>
 						<th class="text-center align-middle">Owner</th>
+						<th class="text-center align-middle">Status</th>
+						<th class="text-center align-middle">Change</th>
 						<th class="text-center align-middle" style="min-width: 10%;">Actions</th>
 					</tr>
 				</thead>
@@ -64,17 +65,29 @@
 									{{item.statusPost?.name || item.statusPostId}}
 								</span>
 							</td> -->
-							<td class="text-center align-middle">
-								<span class="badge badge-waiting" *ngIf="item.statusPostId === 1">Waiting</span>
-								<span class="badge badge-accept" *ngIf="item.statusPostId === 2">Accept</span>
-								<span class="badge badge-deny" *ngIf="item.statusPostId === 3">Deny</span>
-								<!-- <span class="badge badge-waiting"
-									*ngIf="!item.statusPostId || (item.statusPostId !== 'accept' && item.statusPostId !== 'deny')">Waiting</span> -->
-							</td>
+							
 
 
 							<td class="text-center align-middle">{{ item?.serviceName || item.serviceId }}</td>
 							<td class="text-center align-middle">{{ item?.ownerName || item.ownerId}}</td>
+							<td class="text-center align-middle">
+								<span class="btn btn-warning me-2" *ngIf="item.statusPostId === 1">Waiting</span>
+								<span class="btn btn-success me-2" *ngIf="item.statusPostId === 2">Accept</span>
+								<span class="btn btn-danger me-2" *ngIf="item.statusPostId === 3">Deny</span>
+								<!-- <span class="badge badge-waiting"
+									*ngIf="!item.statusPostId || (item.statusPostId !== 'accept' && item.statusPostId !== 'deny')">Waiting</span> -->
+							</td>
+							<td class="text-center align-middle">
+								<div class="button-group" *ngIf="item.statusPostId === 1">
+								  <button class="btn btn-success me-2" (click)="updateBlogStatus(item.adId, 2)">
+									Accept
+								  </button>
+								  <button class="btn btn-danger me-2" (click)="updateBlogStatus(item.adId, 3)">
+									Deny
+								  </button>
+								</div>
+							  </td>
+							  
 							<td class="text-center align-middle">
 
 								<button mat-icon-button [matMenuTriggerFor]="menu"
@@ -83,20 +96,19 @@
 								</button>
 								<mat-menu #menu="matMenu">
 									<button mat-menu-item class="icon-button view-button" (click)="viewItem(item.adId)">
-										<i class="fa fa-eye"></i> View
+									  <i class="fa fa-eye"></i> View
 									</button>
-									<button mat-menu-item class="icon-button edit-button" (click)="editItem(item.adId)">
-										<i class="fa fa-pencil"></i> Edit
-									</button>
-									<!-- <button *ngIf="!item.isBan" mat-menu-item class="icon-button delete-button"
-										(click)="updateBan(item.ownerId, true)">
-										<i class="fa fa-lock text-danger"></i> Ban
-									</button>
-									<button *ngIf="item.isBan" mat-menu-item class="icon-button delete-button"
-										(click)="updateBan(item.ownerId, false)">
-										<i class="fa fa-unlock text-success"></i> Unban
+									<!-- <button mat-menu-item class="icon-button edit-button" (click)="editItem(item.id)">
+									  <i class="fa fa-pencil"></i> Edit
 									</button> -->
-								</mat-menu>
+									<!-- <button *ngIf="item.statusPostId === 1" mat-menu-item class="icon-button delete-button" (click)="updateBlogStatus(item.id, 2)">
+									  <i class="fa fa-check text-success"></i> Approve
+									</button>
+									<button *ngIf="item.statusPostId === 1" mat-menu-item class="icon-button delete-button" (click)="updateBlogStatus(item.id, 3)">
+									  <i class="fa fa-times text-danger"></i> Reject
+									</button> -->
+								  </mat-menu>
+								  
 							</td>
 						</tr>
 					</ng-container>
@@ -115,5 +127,5 @@
 <app-loading [loading]="loading"></app-loading>
 
 <app-update-blog [data]="selected" [modalTitle]="modalTitle" [typeForm]="typeForm" [isVisible]="openModal"
-	[services]="services" [owners]="owners" (save)="saveItem($event)" (close)="closeModal()">
+	(save)="saveItem($event)" (close)="closeModal()">
 </app-update-blog>

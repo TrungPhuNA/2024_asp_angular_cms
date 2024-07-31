@@ -22,6 +22,23 @@
 	// chỉnh sửa
 }
 
+.image-preview-container {
+    margin-bottom: 15px; /* Thay đổi khoảng cách giữa các phần tử nếu cần */
+}
+
+.image-preview {
+    border: 1px solid #ddd;
+    padding: 10px;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+.image-preview img {
+    max-width: 50%;
+    height: auto;
+    display: inline-block;
+}
+
 .close-button {
 	color: #aaa;
 	float: right;
@@ -29,6 +46,23 @@
 	font-weight: bold;
 }
 
+.upload-button {
+	background-color: #7caeee;
+	color: white;
+	padding: 5px 10px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+  }
+  .save-button {
+	background-color: #7caeee;
+	color: white;
+	padding: 5px 10px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	margin-left: 5px;
+  }
 .close-button:hover,
 .close-button:focus {
 	color: black;
@@ -53,6 +87,19 @@
 	border-radius: 4px;
 }
 
+/* Điều chỉnh chiều rộng và chiều cao của phần mô tả ngắn */
+.form-group .ngx-summernote {
+	width: 100%; /* Đảm bảo chiều ngang chiếm toàn bộ không gian của form-group */
+	height: auto; /* Chiều cao tự động để phù hợp với nội dung */
+	max-height: 100px; /* Thiết lập chiều cao tối đa để thu nhỏ kích thước */
+	overflow-y: auto; /* Thêm thanh cuộn dọc nếu nội dung vượt quá chiều cao tối đa */
+  }
+  
+  /* Tùy chỉnh chiều cao của các phần tử bên trong Summernote nếu cần */
+  .ngx-summernote .note-editor {
+	min-height: 150px; /* Thiết lập chiều cao tối thiểu cho phần chỉnh sửa */
+  }
+  
 ::ng-deep .ng-select.ng-invalid.ng-touched,
 .ng-select.is-invalid {
 	.ng-select-container {

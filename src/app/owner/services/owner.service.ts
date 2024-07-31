@@ -30,17 +30,25 @@ export class OwnerService {
 	}
 
 	updateOwnerImage(data: any) {
-		// Viết api đần vậy, sao ko 1 api update all trừ password, méo thể hiểu nổi tư duy
 		const params = this.baseApiService.setFormData(data);
 		return this.baseApiService.putMethod(`Owner/UpdateAvatarOwner`, params);
 	}
 
 	changePassword(data: any) {
-		// Viết api đần vậy, sao ko 1 api update all trừ password, méo thể hiểu nổi tư duy
-		// Lúc thì form data, lúc thì json, méo thể hiểu nổi
-		const params = this.baseApiService.setFormData(data);
-		return this.baseApiService.putMethod(`Owner/ChangePasswordOwner`, data, true);
+		const { ownerId, oldPassword, newPassword, confirmPassword } = data;
+
+		// Tạo URL với các tham số query string
+		const url = `Owner/ChangePasswordOwner?ownerId=${ownerId}&oldPassword=${oldPassword}&newPassword=${newPassword}&confirmPassword=${confirmPassword}`;
+
+		console.log('data password', data);
+		console.log('URL password', url);
+
+		// Gửi yêu cầu PUT với URL và không cần FormData
+		return this.baseApiService.putMethod(url, true);
 	}
+
+
+
 
 	updateBan(id: any, status: any) {
 		let url = `Owner/${id}/`;

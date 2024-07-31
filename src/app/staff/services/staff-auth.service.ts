@@ -33,16 +33,26 @@ export class StaffAuthService {
 	}
 
 	updateProfile(data: any) {
-		return this.baseApiService.getMethod(`Staff/UpdateProfileStaff`, data, true);
+		return this.baseApiService.putMethod(`Staff/UpdateProfileStaff`, data, true);
 	}
 
 	updateImage(data: any) {
 		const params = this.baseApiService.setFormData(data);
-		return this.baseApiService.getMethod(`Staff/UpdateProfileStaff`, params);
+		return this.baseApiService.putMethod(`Staff/UpdateAvatarStaff`, params);
 
 	}
 
 	changePassword(data: any) {
-		return this.baseApiService.getMethod(`Staff/ChangePasswordStaff`, data);
+		const { staffId, oldPassword, newPassword, confirmPassword } = data;
+
+		// Tạo URL với các tham số query string
+		const url = `Staff/ChangePasswordStaff?staffId=${staffId}&oldPassword=${oldPassword}&newPassword=${newPassword}&confirmPassword=${confirmPassword}`;
+				  // Staff/ChangePasswordStaff?staffId=2&oldPassword=password123&newPassword=password1&confirmPassword=password1
+
+		console.log('data password', data);
+		console.log('URL password', url);
+
+		// Gửi yêu cầu PUT với URL và không cần FormData
+		return this.baseApiService.putMethod(url, true);
 	}
 }

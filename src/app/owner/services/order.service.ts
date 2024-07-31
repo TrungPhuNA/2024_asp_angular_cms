@@ -12,7 +12,14 @@ export class OrderService {
 
 
     getLists(params: any) {
-        return this.baseApiService.getMethod(`Order/owner/${params}`, {});
+
+         if (params.codeOrder) {
+            // Search by codeOrder
+            return this.baseApiService.getMethod(`Order/search?codeOrder=${params.codeOrder}`, {});
+        } else {
+            // Fetch list with other parameters
+            return this.baseApiService.getMethod(`Order/owner/${params.ownerId}`, {});
+        }
     }
 
     show(id: any) {

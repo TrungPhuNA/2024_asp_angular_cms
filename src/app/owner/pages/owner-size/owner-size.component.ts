@@ -117,9 +117,11 @@ export class OwnerSizeComponent {
 	}
 	saveItem(data: any) {
 		if (this.typeForm == 1) {
+			const form = { ...data.form, ownerId: this.ownerId };
 			this.loading = true;
-			let form = data.form;
-			this.sizeService.create(data?.form).subscribe((res: any) => {
+			console.log('form data',form)
+			console.log('form data 2',data.form)
+			this.sizeService.create(form).subscribe((res: any) => {
 				this.loading = false;
 				if (res?.data || res?.message?.includes('successfully')) {
 					this.alertService.fireSmall('success', res?.message);
@@ -132,20 +134,22 @@ export class OwnerSizeComponent {
 				}
 			})
 		} else {
-			// this.loading = true;
-			// let dataForm = data?.form;
-			// this.sizeService.UpdateData(data?.form, this.ownerId).subscribe((res: any) => {
-			// 	this.loading = false;
-			// 	if (res?.data|| res?.message?.includes('successfully')) {
-			// 		this.alertService.fireSmall('success', res?.message);
-			// 		this.closeModal();
-			// 		this.getDataList({ page: 1, pageSize: 10 })
-			// 	} else if (res?.errors) {
-			// 		this.alertService.showListError(res?.errors);
-			// 	} else {
-			// 		this.alertService.fireSmall('error', res?.message || "Updated Size failed!");
-			// 	}
-			// })
+			this.loading = true;
+			const form = { ...this.selected, ...data.form }; 
+			let dataForm = data?.form;
+			console.log('form data 2',form)
+			this.sizeService.UpdateData(form).subscribe((res: any) => {
+				this.loading = false;
+				if (res?.data|| res?.message?.includes('successfully')) {
+					this.alertService.fireSmall('success', res?.message);
+					this.closeModal();
+					this.getDataList({ page: 1, pageSize: 10 })
+				} else if (res?.errors) {
+					this.alertService.showListError(res?.errors);
+				} else {
+					this.alertService.fireSmall('error', res?.message || "Updated Size failed!");
+				}
+			})
 		}
 	}
 	selected: any;

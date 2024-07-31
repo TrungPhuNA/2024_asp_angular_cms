@@ -100,7 +100,6 @@ export class UpdateBrandComponent {
 	  }
 	  closeModal() {
 		this.form.reset();
-		this.image = null; // Đặt lại hình ảnh khi đóng modal
 		this.close.emit();
 	  }
 }

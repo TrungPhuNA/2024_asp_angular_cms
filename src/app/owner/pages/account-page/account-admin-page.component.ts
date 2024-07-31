@@ -140,15 +140,20 @@ export class AccountAdminPageComponent {
 			this.staffService.createOrUpdateData(data?.form, data.form.staffId).subscribe((res: any) => {
 				this.loading = false;
 				if (res?.message?.includes('successfully')) {
+				  this.staffService.updateAvatar(data.form.image, data.form.staffId).subscribe(() => {
 					this.alertService.fireSmall('success', res?.message);
 					this.closeModal();
-					this.getDataList({ page: 1, pageSize: 10 })
+					this.getDataList({ page: 1, pageSize: 10 });
+				  }, error => {
+					this.alertService.fireSmall('error', 'Failed to update avatar');
+				  });
 				} else if (res?.errors) {
-					this.alertService.showListError(res?.errors);
+				  this.alertService.showListError(res?.errors);
 				} else {
-					this.alertService.fireSmall('error', res?.message || "Updated Account failed!");
+				  this.alertService.fireSmall('error', res?.message || "Updated Account failed!");
 				}
-			})
+			  });
+			  
 		
 		}
 	}

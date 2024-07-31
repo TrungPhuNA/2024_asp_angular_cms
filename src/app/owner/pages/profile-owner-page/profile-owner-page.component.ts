@@ -24,14 +24,17 @@ export class ProfileOwnerPageComponent {
 
 	form = new FormGroup({
 		email: new FormControl(null, [Validators.required, Validators.email]),
+		// email: new FormControl({ value: '', disabled: true }, [Validators.required, Validators.email]), // Set email as disabled
 		fullname: new FormControl(null, Validators.required),
 		image: new FormControl(null as string | null, Validators.required),
 		phone: new FormControl(null, Validators.required),
 		address: new FormControl(null),
 		ownerId: new FormControl(null),
+
 		// dob: new FormControl(null as string | null), // Cập nhật ở đây
 		// isBan: new FormControl(null),
 	});
+
 
 	constructor(
 		public commonService: CommonService,
@@ -125,6 +128,9 @@ export class ProfileOwnerPageComponent {
 				this.image = response.secure_url;
 				this.form.patchValue({ image: this.image as string | null });
 				this.selectedFile = null;
+				this.ownerService.updateOwnerImage(this.form.value).subscribe(resApi => {
+					console.log(resApi);
+				})
 
 			}, error => {
 				this.loading = false;
@@ -155,9 +161,9 @@ export class ProfileOwnerPageComponent {
 
 	formPassword: any = new FormGroup({
 		ownerId: new FormControl(null),
-		oldPassword: new FormControl(null, Validators.required),
-		newPasswod: new FormControl(null, Validators.required),
-		confirmPassword: new FormControl(null, Validators.required),
+		oldPassword: new FormControl(null),
+		newPassword: new FormControl(null),
+		confirmPassword: new FormControl(null),
 	});
 	messageError: any = null;
 
@@ -171,12 +177,12 @@ export class ProfileOwnerPageComponent {
 			return;
 		}
 		let data = this.formPassword.value;
-		if(data?.newPasswod?.trim() != data?.confirmPassword?.trim()) {
-			this.messageError = 'Password does not match.';
-			return;
-		}
+		// if(data?.newPasswod?.trim() != data?.confirmPassword?.trim()) {
+		// 	this.messageError = 'Password does not match.';
+		// 	return;
+		// }
 		this.loading = true;
-
+		console.log('new', this.formPassword.value.newPasswod)
 		this.ownerService.changePassword(data).subscribe(res => {
 			this.loading = false;
 			if (res?.message?.includes('successfully')) {

@@ -57,7 +57,7 @@
 						<input type="text" id="email" class="form-control"
 							[ngClass]="{'is-invalid': commonService.showStatusErrorV2(form, 'email')}"
 							formControlName="email" name="email"
-							(focusout)="commonService.onTrimFocusOutForm(form, 'email', $event)">
+							(focusout)="commonService.onTrimFocusOutForm(form, 'email', $event)" readonly>
 						<app-form-error [control]="form.controls['email']" [message]="'Email is required!'"
 							[validation]="'required'"></app-form-error>
 					</div>
@@ -73,14 +73,14 @@
 						<app-form-error [control]="form.controls['phone']" [message]="'Phone is required!'"
 							[validation]="'required'"></app-form-error>
 					</div>
-					<div class="form-group required mb-3">
+					<!-- <div class="form-group required mb-3">
 						<label for="address" class="form-label">Address</label>
 						<input type="text" id="address" class="form-control" placeholder="Enter value"
 							[ngClass]="{'is-invalid': commonService.showStatusErrorV2(form, 'address')}"
 							formControlName="address" name="address">
 						<app-form-error [control]="form.controls['address']" [message]="'address is required!'"
 							[validation]="'required'"></app-form-error>
-					</div>
+					</div> -->
 				</div>
 			</div>
 
@@ -104,12 +104,12 @@
 							[message]="'Old Password is required!'" [validation]="'required'"></app-form-error>
 					</div>
 					<div class="form-group required mb-3">
-						<label for="newPasswod" class="form-label">New password</label>
-						<input type="password" id="newPasswod" class="form-control"
-							[ngClass]="{'is-invalid': commonService.showStatusErrorV2(formPassword ,'newPasswod')}"
-							formControlName="newPasswod" name="newPasswod" (change)="changeValue($event)"
-							(focusout)="commonService.onTrimFocusOutForm(formPassword ,'newPasswod', $event)">
-						<app-form-error [control]="formPassword.controls['newPasswod']"
+						<label for="newPassword" class="form-label">New password</label>
+						<input type="password" id="newPassword" class="form-control"
+							[ngClass]="{'is-invalid': commonService.showStatusErrorV2(formPassword ,'newPassword')}"
+							formControlName="newPassword" name="newPassword" (change)="changeValue($event)"
+							(focusout)="commonService.onTrimFocusOutForm(formPassword ,'newPassword', $event)">
+						<app-form-error [control]="formPassword.controls['newPassword']"
 							[message]="'New Password is required!'" [validation]="'required'"></app-form-error>
 					</div>
 					<div class="form-group required mb-3">

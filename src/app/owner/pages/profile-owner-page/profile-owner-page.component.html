@@ -57,9 +57,9 @@
 						<input type="text" id="email" class="form-control"
 							[ngClass]="{'is-invalid': commonService.showStatusErrorV2(form, 'email')}"
 							formControlName="email" name="email"
-							(focusout)="commonService.onTrimFocusOutForm(form, 'email', $event)">
-						<app-form-error [control]="form.controls['email']" [message]="'Email is required!'"
-							[validation]="'required'"></app-form-error>
+							(focusout)="commonService.onTrimFocusOutForm(form, 'email', $event)" readonly>
+						<!-- <app-form-error [control]="form.controls['email']" [message]="'Email is required!'"
+							[validation]="'required'"></app-form-error> -->
 					</div>
 
 
@@ -104,12 +104,12 @@
 							[message]="'Old Password is required!'" [validation]="'required'"></app-form-error>
 					</div>
 					<div class="form-group required mb-3">
-						<label for="newPasswod" class="form-label">New password</label>
-						<input type="password" id="newPasswod" class="form-control"
-							[ngClass]="{'is-invalid': commonService.showStatusErrorV2(formPassword ,'newPasswod')}"
-							formControlName="newPasswod" name="newPasswod" (change)="changeValue($event)"
-							(focusout)="commonService.onTrimFocusOutForm(formPassword ,'newPasswod', $event)">
-						<app-form-error [control]="formPassword.controls['newPasswod']"
+						<label for="newPassword" class="form-label">New password</label>
+						<input type="password" id="newPassword" class="form-control"
+							[ngClass]="{'is-invalid': commonService.showStatusErrorV2(formPassword ,'newPassword')}"
+							formControlName="newPassword" name="newPassword" (change)="changeValue($event)"
+							(focusout)="commonService.onTrimFocusOutForm(formPassword ,'newPassword', $event)">
+						<app-form-error [control]="formPassword.controls['newPassword']"
 							[message]="'New Password is required!'" [validation]="'required'"></app-form-error>
 					</div>
 					<div class="form-group required mb-3">

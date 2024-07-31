@@ -15,11 +15,9 @@ export class SizeService {
   show(id: any) {
     return this.baseApiService.getMethod(`Size/GetSizeById/${id}`, {});
 }
-UpdateData(formData: any, id?: any) {
+UpdateData(params: any) {
        
-    if(id) {
-        return this.baseApiService.putMethod(`Size/UpdateSize`, formData, true);
-    }
+        return this.baseApiService.putMethod(`Size/UpdateSize`, params, true);
     
 }
 create(formData: any){

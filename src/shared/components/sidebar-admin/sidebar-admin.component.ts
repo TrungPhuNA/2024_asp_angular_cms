@@ -82,6 +82,11 @@ export class SidebarAdminComponent implements OnChanges {
 			route: "/chat",
 			role:['OWNER','STAFF'],
 			name: "Chat"
+		},
+		{
+			route: "/guestconsultation",
+			role:['OWNER','STAFF'],
+			name: "Guest Consultation"
 		}
 	];
 

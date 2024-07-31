@@ -47,7 +47,7 @@ export class BlogAdminPageComponent {
 	];
 
 	ngOnInit(): void {
-		this.getDataList({ ...this.paging,pageSize: 1000  });
+		this.getDataList({ ...this.paging, pageSize: 1000 });
 		// this.getServices();
 		// this.getOwners();
 	}
@@ -55,7 +55,7 @@ export class BlogAdminPageComponent {
 	dataListAll = [];
 	getDataList(params: any) {
 		this.loading = true;
-		console.log('data',params);
+		console.log('data', params);
 		this.blogService.getLists(params).subscribe((res: any) => {
 			this.loading = false;
 			if (res?.data) {
@@ -68,6 +68,7 @@ export class BlogAdminPageComponent {
 					this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
 					// this.updateDataList();
 				}
+				console.log('du lieu chinh',this.dataList)
 				this.paging.total = res?.data?.length || 0;
 			}
 		})
@@ -117,7 +118,7 @@ export class BlogAdminPageComponent {
 	}
 
 	search() {
-		 // Lấy dữ liệu từ formSearch
+		// Lấy dữ liệu từ formSearch
 		//  const searchParams = this.formSearch.value;
 		//  console.log('Search Params:', searchParams); // Kiểm tra dữ liệu tìm kiếm
 		//  if (!searchParams.searchQuery || searchParams.searchQuery === null) {
@@ -140,7 +141,7 @@ export class BlogAdminPageComponent {
 	resetSearchForm() {
 		this.formSearch.reset();
 		// this.search();
-		this.getDataList({ ...this.paging,pageSize: 1000  });
+		this.getDataList({ ...this.paging, pageSize: 1000 });
 	}
 
 	saveItem(data: any) {
@@ -180,8 +181,9 @@ export class BlogAdminPageComponent {
 
 	selected: any;
 	viewItem(id: number) {
+		
 		const data = this.dataList.find((c: any) => c.adId === id);
-		console.log(data);
+		console.log('data',data);
 		this.selected = { ...data };
 		this.modalTitle = 'View Blog';
 		this.openModal = true;
@@ -196,6 +198,20 @@ export class BlogAdminPageComponent {
 		this.typeForm = 3;
 
 	}
+	updateBlogStatus(adId: number, statusPostId: number) {
+		console.log('du lieu',adId,',',statusPostId)
+        this.blogService.updateStatus(adId, statusPostId).subscribe((res: any) => {
+            if (res?.data) {
+                this.alertService.fireSmall('success', res?.message);
+                this.getDataList({ page: 1, pageSize: 1000 });
+            } else if (res?.errors) {
+                this.alertService.showListError(res?.errors);
+            } else {
+                this.alertService.fireSmall('error', res?.message || 'Update status failed!');
+            }
+        });
+    }
+	  
 
 	// deleteItem(id: number) {
 	// 	this.alertService.fireConfirm(
@@ -230,25 +246,30 @@ export class BlogAdminPageComponent {
 		id: new FormControl(null),
 		name: new FormControl(null),
 		searchQuery: new FormControl(null) // Explicitly set it as a string
-	  });
-	
+	});
+
 	pageChanged(e: any) {
 		this.paging.page = e;
-		// this.getDataList({ ...this.paging, ...this.formSearch.value })
-		
+	
 		if (this.dataListAll?.length > 0) {
 			let start = (this.paging?.page - 1) * this.paging.pageSize;
 			let end = this.paging?.page * this.paging.pageSize;
-			if (this.formSearch.value?.name) {
-				let totalSearch = this.dataListAll?.filter((item: any) => item?.title?.includes(this.formSearch.value?.name?.trim()));
-				this.paging.total = totalSearch?.length || 0;
-				this.dataList = totalSearch?.filter((item: any, index: number) => index >= start && index < end && item?.title?.includes(this.formSearch.value?.name?.trim()))
+	
+			if (this.formSearch.value?.searchQuery) {
+				let searchQuery = this.formSearch.value.searchQuery.trim().toLowerCase();
+				let totalSearch = this.dataListAll.filter((item: any) =>
+					(item?.title?.toLowerCase().includes(searchQuery) ||
+					 item?.ownerName?.toLowerCase().includes(searchQuery))
+				);
+				this.paging.total = totalSearch.length;
+				this.dataList = totalSearch.slice(start, end);
 			} else {
-				this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
+				this.dataList = this.dataListAll.slice(start, end);
 			}
-			// this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
 		}
 	}
 	
+
+
 }
 

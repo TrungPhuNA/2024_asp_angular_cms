@@ -4,77 +4,64 @@ import { AlertService } from '../../helpers/alert.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-warehouse-form',
-  templateUrl: './warehouse.component.html',
-  styleUrl: './warehouse.component.scss'
+	selector: 'app-warehouse-form',
+	templateUrl: './warehouse.component.html',
+	styleUrl: './warehouse.component.scss'
 })
 export class WarehouseComponent {
 	@Input() data: any;
-	@Input() typeForm: any;
 	@Input() modalTitle: string = '';
+	@Input() typeForm: any;
 	@Input() isVisible: boolean = false;
 	@Output() save = new EventEmitter<any>();
 	@Output() close = new EventEmitter<void>();
 
-	isBans = [
-		{
-			id: true,
-			name: "Delete"
-		},
-		{
-			id: false,
-			name: "Active"
-		}
-	]
-
-	form = new FormGroup({
-		serviceId: new FormControl(null, Validators.required),
-		name: new FormControl(null, Validators.required),
-		isdelete: new FormControl(false, Validators.required),
-	});
-
 	constructor(
 		public commonService: CommonService,
 		private alertService: AlertService
-	) {
+	) { }
 
-	}
-
-	ngOnChanges(): void {
-		//Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-		//Add '${implements OnChanges}' to the class.
+	form = new FormGroup({
+		ProductSize: new FormControl(null, Validators.required),
+		Location: new FormControl(null, Validators.required),
+	});
+	ngOnInit(): void {
+		console.log('data',this.data);
 		this.form.reset();
 		if (!this.isVisible) {
 			this.form.reset();
 			this.form.enable();
 		}
-		
+		console.log('typeform',this.typeForm);
 		if (this.data && this.typeForm != 1) {
 			this.form.patchValue({
-				serviceId: this.data?.serviceId,
-				name: this.data?.name,
-				isdelete: this.data?.isdelete
+				ProductSize: this.data?.productSizeId,
+				Location: this.data?.location,
 			});
 			
 			if(this.typeForm == 2) {
 				this.form.disable();
 			}
 		}
+		console.log('data',this.form);
 	}
+
+	
+
 	submit() {
-		if (this.form.invalid) {
+		console.log('form', this.form.invalid);
+		if (!this.form.invalid) {
+
 			this.alertService.fireSmall('error', "Form is invalid");
 			return;
 		}
 		this.save.emit({
 			form: this.form.value,
-			id: this.data?.serviceId
+			id: this.data?.warehouseId
 		});
 	}
-
 	closeModal() {
 		this.form.reset();
-
 		this.close.emit();
 	}
 }

@@ -101,17 +101,18 @@ export class OwnerLoginComponent {
 			this.alertService.fireSmall('error', 'Form is invalid!');
 			return;
 		}
+		console.log('role', this.form.value.Role);
 		this.loading = true;
 		this.authService.login(this.form.value).subscribe((res: any) => {
 			this.loading = false;
 			console.log(res);
-			
+
 			if (res?.token) {
-				
+
 				this.alertService.fireSmall('success', "Login successfully");
 				localStorage.setItem("token", res?.token);
 				localStorage.setItem("userType", res?.userType);
-				
+
 				let data = this.authService.decodeToken(res?.token);
 				if (!data) {
 					this.alertService.fireSmall('success', "Login failed!");
@@ -119,7 +120,7 @@ export class OwnerLoginComponent {
 				}
 				let user: any = {};
 				Object.entries(data).forEach((item: any) => {
-					console.log('data',item);
+					console.log('data', item);
 					if (item[0] == `http://schemas.microsoft.com/ws/2008/06/identity/claims/role`) {
 						user.userType = item[1] || null
 					}
@@ -132,7 +133,9 @@ export class OwnerLoginComponent {
 					}
 				});
 				localStorage.setItem('user', JSON.stringify(user));
-				window.location.href = '/owner'
+				// window.location.href = '/owner'
+				const redirectUrl = user.userType === 'Owner' ? '/owner' : '/staff';
+				this.router.navigate([redirectUrl]);  // Sử dụng Router để chuyển hướng
 				// this.authService.getUserInfo(res?.token).subscribe((resInfo: any) => {
 				// 	console.log(resInfo);
 				// 	

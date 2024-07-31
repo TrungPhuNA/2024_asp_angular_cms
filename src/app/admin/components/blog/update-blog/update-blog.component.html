@@ -13,55 +13,43 @@
 						formControlName="Title" name="Title"
 						(focusout)="commonService.onTrimFocusOutForm(form, 'Title', $event)" />
 
-					<app-form-error [control]="form.controls['Title']" [message]="'Title is required!'"
-						[validation]="'required'"></app-form-error>
+					
 				</div>
 
 				<div class="form-group col-md-6  required mb-3">
-					<label for="ServicePostId" class="form-label ">Service</label>
-					<ng-select [items]="services" bindLabel="name" bindValue="serviceId" placeholder="Choose value"
-						formControlName="ServiceId"></ng-select>
-					<app-form-error [control]="form.controls['ServiceId']" [message]="'Service is required!'"
-						[validation]="'required'"></app-form-error>
+					<label for="Service" class="form-label ">Service</label>
+					<input type="text" id="Service" class="form-control" placeholder="Enter value"
+						[ngClass]="{'is-invalid': commonService.showStatusErrorV2(form, 'Service')}"
+						formControlName="Service" name="Service"
+						(focusout)="commonService.onTrimFocusOutForm(form, 'Service', $event)" />
+					
 				</div>
 				<div class="form-group col-md-6  required mb-3">
 					<label for="OwnerId" class="form-label ">Owners</label>
-					<ng-select [items]="owners" bindLabel="fullname" bindValue="ownerId" placeholder="Choose value"
-						formControlName="OwnerId"></ng-select>
-					<app-form-error [control]="form.controls['OwnerId']" [message]="'Owner is required!'"
-						[validation]="'required'"></app-form-error>
+					<input type="text" id="OwnerId" class="form-control" placeholder="Enter value"
+						[ngClass]="{'is-invalid': commonService.showStatusErrorV2(form, 'OwnerId')}"
+						formControlName="OwnerId" name="OwnerId"
+						(focusout)="commonService.onTrimFocusOutForm(form, 'OwnerId', $event)" />
+					
 				</div>
 				<div class="form-group col-md-6  required mb-3">
-					<label for="ban" class="form-label ">Status</label>
-					<ng-select [items]="statusPost" bindLabel="name" bindValue="id" placeholder="Choose value"
-						formControlName="StatusPostId"></ng-select>
-					<app-form-error [control]="form.controls['StatusPostId']" [message]="'Status is required!'"
-						[validation]="'required'"></app-form-error>
+					<label for="StatusPostId" class="form-label ">Status</label>
+					<input type="text" id="StatusPostId" class="form-control" placeholder="Enter value"
+						[ngClass]="{'is-invalid': commonService.showStatusErrorV2(form, 'StatusPostId')}"
+						formControlName="StatusPostId" name="StatusPostId"
+						(focusout)="commonService.onTrimFocusOutForm(form, 'StatusPostId', $event)" />
+					
 				</div>
 				<div class="form-group col-12  required mb-3">
 					<label for="Image" class="form-label ">Image URL</label>
 					<input type="text" id="Image" class="form-control" placeholder="Enter value"
 						[ngClass]="{'is-invalid': commonService.showStatusErrorV2(form, 'Image')}"
 						formControlName="Image" name="Image">
-					<app-form-error [control]="form.controls['Image']" [message]="'Image is required!'"
-						[validation]="'required'"></app-form-error>
+					
 				</div>
-				<!-- Image upload -->
-				<div class="form-group col-12  required mb-3">
-					<input type="file" #fileInput (change)="onFileSelected($event)" hidden>
-					<button type="button" class="upload-button" (click)="fileInput.click()">Upload Image</button>
-					<button *ngIf="selectedFile" type="button" class="save-button" (click)="uploadImage('categories')">Save Image</button>
-				</div>
-				<div class="form-group col-12  required mb-3">
-					<div *ngIf="form.controls['Image'].value" class="text-center">
-						<label class="form-label">Preview Image:</label><br>
-						<img [src]="form.controls['Image'].value" alt="Blog Image" class="img-fluid mx-auto d-block">
-					</div>
-				</div>
-				
 				<div class="form-group col-12  required mb-3">
 					<label for="Content" class="form-label">Content</label>
-					<textarea type="text" id="Content" class="form-control" placeholder="Enter value" rows="5"
+					<textarea type="text" id="Content" class="form-control" placeholder="Enter value" rows="3"
 						[ngClass]="{'is-invalid': commonService.showStatusErrorV2(form, 'Content')}"
 						formControlName="Content" name="name"
 						(focusout)="commonService.onTrimFocusOutForm(form, 'Content', $event)">
