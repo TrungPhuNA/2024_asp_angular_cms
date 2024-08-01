@@ -194,17 +194,19 @@ export class BrandAdminPageComponent {
 
 	pageChanged(e: any) {
 		this.paging.page = e;
-		// this.getDataList({ ...this.paging, ...this.formSearch.value })
 		if (this.dataListAll?.length > 0) {
 			let start = (this.paging?.page - 1) * this.paging.pageSize;
 			let end = this.paging?.page * this.paging.pageSize;
 			console.log('brand---->', start, end, this.formSearch.value?.name);
-			if (this.formSearch.value?.name) {
-				let totalSearch = this.dataListAll?.filter((item: any) => item?.name?.includes(this.formSearch.value?.name?.trim()));
+
+			const searchName = this.formSearch.value?.name?.trim().toLowerCase(); // Chuyển tìm kiếm thành chữ thường
+
+			if (searchName) {
+				let totalSearch = this.dataListAll?.filter((item: any) => item?.name?.toLowerCase().includes(searchName)); // Chuyển item name thành chữ thường
 				this.paging.total = totalSearch?.length || 0;
-				this.dataList = totalSearch?.filter((item: any, index: number) => index >= start && index < end && item?.name?.includes(this.formSearch.value?.name?.trim()))
+				this.dataList = totalSearch?.filter((item: any, index: number) => index >= start && index < end);
 			} else {
-				this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
+				this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end);
 			}
 		}
 	}

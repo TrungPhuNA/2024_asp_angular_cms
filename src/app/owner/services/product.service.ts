@@ -10,10 +10,10 @@ export class ProductService {
 	) { }
 
 	getLists(ownerId: any) {
-		return this.baseApiService.getMethod(`Product/dashboard-owner/${ownerId}`,{});
+		return this.baseApiService.getMethod(`Product/dashboard-owner/${ownerId}`, {});
 	}
-	searchData(data:any, id: any){
-		return this.baseApiService.getMethod(`Product/owner/searchs/${id}`,{});
+	searchData(data: any, id: any) {
+		return this.baseApiService.getMethod(`Product/owner/searchs/${id}`, {});
 	}
 	show(id: any) {
 		return this.baseApiService.getMethod(`Product/${id}`, {});
@@ -25,6 +25,10 @@ export class ProductService {
 			return this.baseApiService.putMethod(`Product/${id}`, formData);
 		}
 		return this.baseApiService.postMethod('Product', formData);
+	}
+
+	UpdateData(data: any, id: any) {
+		return this.baseApiService.putMethod(`Product/${id}`, data);
 	}
 
 	deleteData(id: any) {
@@ -43,8 +47,8 @@ export class ProductService {
 	}
 	getComments(productId: any) {
 		return this.baseApiService.getMethod(`Comment`, { productId });
-	  }
-	
+	}
+
 	getListSize(params: any) {
 		return this.baseApiService.getMethod('ProductSize/GetAllProductSizes', params);
 	}
@@ -62,9 +66,10 @@ export class ProductService {
 	showDescription(id: any) {
 		return this.baseApiService.getMethod(`Product/${id}`, {});
 	}
-	getProductSizesByProductId(productId: any){
-		return this.baseApiService.getMethod(`ProductSize/GetProductSizeByProductId`, { productId });
+	getProductSizesByProductId(productId: number) {
+		return this.baseApiService.getMethod(`ProductSize/GetProductSizeByProductId?productId=${productId}`,{});
 	}
+										   // ProductSize/GetProductSizeByProductId?productId=20'
 	createOrUpdateDataDescription(data: any, id?: any) {
 		const formData = this.baseApiService.setFormData(data);
 		if (id) {
@@ -78,5 +83,5 @@ export class ProductService {
 
 	}
 
-	
+
 }

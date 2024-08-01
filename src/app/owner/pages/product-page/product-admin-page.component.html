@@ -54,8 +54,8 @@
 							<td class="text-center align-middle">{{ item.name }}</td>
 							<td class="text-center align-middle">{{ item.price }}</td>
 							<td class="text-center align-middle">{{ item.quantitySold }}</td>
-							<td class="text-center align-middle">{{ item.brand?.name}}</td>
 							<td class="text-center align-middle">{{ item.category?.name}}</td>
+							<td class="text-center align-middle">{{ item.brand?.name}}</td>
 							<!-- <td class="text-center align-middle">
 								<button mat-icon-button
 									class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary"
@@ -125,6 +125,6 @@
 </app-detail-product>
 
 <app-update-product [product]="selected" [categories]="categories" [brands]="brands" [owners]="owners"
-	[descriptions]="descriptions" [modalTitle]="modalTitle" [isVisible]="updateModal" (save)="saveItem($event)"
+	[descriptions]="descriptions" [modalTitle]="modalTitle" [isVisible]="updateModal" (save)="saveItem($event)" (updateSuccess)="handleUpdateSuccess()">
 	(close)="closeModal()">
 </app-update-product>

@@ -168,3 +168,14 @@ h1 {
     max-width: 100%;
     max-height: 100%;
 }
+.content-cell {
+    max-width: 400px; /* Giới hạn độ rộng của cột */
+    overflow: hidden; /* Ẩn phần nội dung tràn */
+    text-overflow: ellipsis; /* Thêm dấu chấm lửng nếu văn bản quá dài */
+    white-space: nowrap; /* Không cho phép xuống dòng */
+    vertical-align: top; /* Căn trên cho văn bản trong ô */
+}
+
+.content {
+    margin: 0;
+}

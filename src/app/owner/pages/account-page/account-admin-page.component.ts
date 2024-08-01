@@ -215,19 +215,38 @@ export class AccountAdminPageComponent {
 		id: new FormControl(null),
 		name: new FormControl(null)
 	});
+	// pageChanged(e: any) {
+	// 	this.paging.page = e;
+	// 	// this.getDataList({ ...this.paging, ...this.formSearch.value })
+	// 	if (this.dataListAll?.length > 0) {
+	// 		let start = (this.paging?.page - 1) * this.paging.pageSize;
+	// 		let end = this.paging?.page * this.paging.pageSize;
+	// 		console.log('phân trang 123',start, end);
+	// 		if (this.formSearch.value?.name) {
+	// 			let totalSearch = this.dataListAll?.filter((item: any) => item?.fullname?.includes(this.formSearch.value?.name?.trim()));
+	// 			this.paging.total = totalSearch?.length || 0;
+	// 			this.dataList = totalSearch?.filter((item: any, index: number) => index >= start && index < end && item?.fullname?.includes(this.formSearch.value?.name?.trim()))
+	// 		} else {
+	// 			this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
+	// 		}
+	// 	}
+	// }
+
 	pageChanged(e: any) {
 		this.paging.page = e;
-		// this.getDataList({ ...this.paging, ...this.formSearch.value })
 		if (this.dataListAll?.length > 0) {
 			let start = (this.paging?.page - 1) * this.paging.pageSize;
 			let end = this.paging?.page * this.paging.pageSize;
-			console.log('phân trang 123',start, end);
-			if (this.formSearch.value?.name) {
-				let totalSearch = this.dataListAll?.filter((item: any) => item?.fullname?.includes(this.formSearch.value?.name?.trim()));
+			console.log('brand---->', start, end, this.formSearch.value?.name);
+
+			const searchName = this.formSearch.value?.name?.trim().toLowerCase(); // Chuyển tìm kiếm thành chữ thường
+
+			if (searchName) {
+				let totalSearch = this.dataListAll?.filter((item: any) => item?.fullname?.toLowerCase().includes(searchName)); // Chuyển item name thành chữ thường
 				this.paging.total = totalSearch?.length || 0;
-				this.dataList = totalSearch?.filter((item: any, index: number) => index >= start && index < end && item?.fullname?.includes(this.formSearch.value?.name?.trim()))
+				this.dataList = totalSearch?.filter((item: any, index: number) => index >= start && index < end);
 			} else {
-				this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
+				this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end);
 			}
 		}
 	}

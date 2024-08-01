@@ -43,17 +43,18 @@
 							<td class="text-center align-middle">{{ (paging.page - 1) * paging.pageSize + i + 1 }}</td>
 							<td class="text-center align-middle">
                                 <div class="image-container">
-                                    <img [src]="item.images[0].linkImage" alt="{{ item.name }}" class="thumbnail" width="80"
+                                    <img [src]="item.images[0]" alt="{{ item.name }}" class="thumbnail" width="80"
                                         height="80" />
                                 </div>
                             </td>
 							<td class="text-left align-middle">{{ item.title }}</td>
 							
-							<td class="text-left align-middle">
-								<p class="text-break" style="max-width: 400px;">
+							<td class="text-left align-middle content-cell">
+								<p class="text-break content">
 									{{ item.content }}
 								</p>
 							</td>
+							
 							<td class="text-center align-middle">
 								<button mat-icon-button [matMenuTriggerFor]="menu" class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary">
 									<i class="fa fa-ellipsis-v" aria-hidden="true"></i>

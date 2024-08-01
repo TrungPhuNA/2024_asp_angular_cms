@@ -110,7 +110,7 @@ const route: Routes = [
 			{
 				path: 'account',
 				component: AccountAdminPageComponent,
-				title: 'Manage Account'
+				title: 'Manage Account Staff'
 			},
 			{
 				path: 'voucher',

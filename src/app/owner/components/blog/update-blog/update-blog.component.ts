@@ -52,7 +52,8 @@ export class UpdateBlogComponent {
 		if (!this.isVisible) {
 			this.form.enable();
 		}
-		
+		console.log('services',this.services)
+		console.log('dâta',this.data)
 		if (this.data && this.typeForm != 1) {
 			this.form.patchValue({
 				Title: this.data?.title,

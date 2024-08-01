@@ -3,6 +3,7 @@
         <app-breadcrum [items]="breadCrumb"></app-breadcrum>
         <div class="d-md-flex justify-content-between">
             <h2 class="my-2">View All Accounts</h2>
+            <button class="btn btn-success my-2" (click)="createItem()">Create New Staff</button>
         </div>
         <div class="">
             <form [formGroup]="formSearch" (ngSubmit)="search()">
@@ -53,25 +54,25 @@
                             <td class="text-center align-middle">{{ item.email }}</td>
                             <td class="text-center align-middle">{{ item.phone }}</td>
                             <td class="text-center align-middle">
-								<button mat-icon-button [matMenuTriggerFor]="menu"
-									class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary">
-									<i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-								</button>
-								<mat-menu #menu="matMenu">
-									<!-- <button mat-menu-item class="icon-button view-button"
+                                <button mat-icon-button [matMenuTriggerFor]="menu"
+                                    class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary">
+                                    <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                                </button>
+                                <mat-menu #menu="matMenu">
+                                    <!-- <button mat-menu-item class="icon-button view-button"
 										(click)="viewItem(item.staffId)">
 										<i class="fa fa-eye"></i> View
 									</button> -->
-									<button mat-menu-item class="icon-button edit-button"
-										(click)="editItem(item.staffId)">
-										<i class="fa fa-pencil"></i> Edit
-									</button>
-									<button mat-menu-item class="icon-button delete-button"
-										(click)="deleteItem(item.staffId)">
-										<i class="fa fa-trash"></i> Delete
-									</button>
-								</mat-menu>
-							</td>
+                                    <button mat-menu-item class="icon-button edit-button"
+                                        (click)="editItem(item.staffId)">
+                                        <i class="fa fa-pencil"></i> Edit
+                                    </button>
+                                    <button mat-menu-item class="icon-button delete-button"
+                                        (click)="deleteItem(item.staffId)">
+                                        <i class="fa fa-trash"></i> Delete
+                                    </button>
+                                </mat-menu>
+                            </td>
                         </tr>
                     </ng-container>
                     <ng-container *ngIf="dataList?.length <= 0">
@@ -87,11 +88,6 @@
 </div>
 <app-loading [loading]="loading"></app-loading>
 <!-- Trong template HTML của trang mà bạn muốn hiển thị UpdateAccountComponent -->
-<app-update-account 
-  [account]="selected" 
-  [typeForm]="typeForm" 
-  [modalTitle]="modalTitle" 
-  [isVisible]="openModal"
-  (save)="saveItem($event)"
-  (close)="closeModal()">
+<app-update-account [account]="selected" [typeForm]="typeForm" [modalTitle]="modalTitle" [isVisible]="openModal"
+    (save)="saveItem($event)" (close)="closeModal()">
 </app-update-account>

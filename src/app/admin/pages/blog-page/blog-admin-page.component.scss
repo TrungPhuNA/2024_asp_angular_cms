@@ -202,3 +202,10 @@ color: #6c5ce7;
   color: #fff;
   background-color: #dc3545; /* Red background */
 }
+.content-cell {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 200px; /* Thay đổi chiều rộng tùy ý */
+	display: inline-block;
+}

@@ -9,34 +9,35 @@
 	width: 100%;
 	height: 100%;
 	overflow: auto;
-	background-color: rgb(0, 0, 0);
 	background-color: rgba(0, 0, 0, 0.4);
 }
 
 .modal-content {
 	background-color: #fefefe;
-	margin: 15% auto;
+	margin: 5% auto; /* Reduced margin for a smaller modal */
 	padding: 20px;
 	border: 1px solid #888;
-	width: 50%; 
-	// chỉnh sửa
+	width: 70%; /* Adjust width as needed */
+	// max-width: 900px; /* Set a maximum width to ensure it's not too wide */
 }
 
 .image-preview-container {
-    margin-bottom: 15px; /* Thay đổi khoảng cách giữa các phần tử nếu cần */
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
 }
 
 .image-preview {
-    border: 1px solid #ddd;
-    padding: 10px;
-    background-color: #f9f9f9;
-    text-align: center;
+	border: 1px solid #ddd;
+	padding: 10px;
+	background-color: #f9f9f9;
+	text-align: center;
 }
 
 .image-preview img {
-    max-width: 50%;
-    height: auto;
-    display: inline-block;
+	max-width: 50%;
+	height: auto;
+	display: inline-block;
 }
 
 .close-button {
@@ -44,30 +45,26 @@
 	float: right;
 	font-size: 28px;
 	font-weight: bold;
+	cursor: pointer;
 }
 
-.upload-button {
-	background-color: #7caeee;
-	color: white;
-	padding: 5px 10px;
-	border: none;
-	border-radius: 5px;
-	cursor: pointer;
-  }
-  .save-button {
-	background-color: #7caeee;
-	color: white;
-	padding: 5px 10px;
-	border: none;
-	border-radius: 5px;
-	cursor: pointer;
-	margin-left: 5px;
-  }
 .close-button:hover,
 .close-button:focus {
 	color: black;
 	text-decoration: none;
+}
+
+.upload-button, .save-button {
+	background-color: #7caeee;
+	color: white;
+	padding: 5px 10px;
+	border: none;
+	border-radius: 5px;
 	cursor: pointer;
+}
+
+.upload-button:hover, .save-button:hover {
+	background-color: #6a9bcb; /* Slightly darker shade on hover */
 }
 
 .form-group {
@@ -87,233 +84,212 @@
 	border-radius: 4px;
 }
 
-/* Điều chỉnh chiều rộng và chiều cao của phần mô tả ngắn */
 .form-group .ngx-summernote {
-	width: 100%; /* Đảm bảo chiều ngang chiếm toàn bộ không gian của form-group */
-	height: auto; /* Chiều cao tự động để phù hợp với nội dung */
-	max-height: 100px; /* Thiết lập chiều cao tối đa để thu nhỏ kích thước */
-	overflow-y: auto; /* Thêm thanh cuộn dọc nếu nội dung vượt quá chiều cao tối đa */
-  }
-  
-  /* Tùy chỉnh chiều cao của các phần tử bên trong Summernote nếu cần */
-  .ngx-summernote .note-editor {
-	min-height: 150px; /* Thiết lập chiều cao tối thiểu cho phần chỉnh sửa */
-  }
-  
-::ng-deep .ng-select.ng-invalid.ng-touched,
-.ng-select.is-invalid {
-	.ng-select-container {
-		border-color: red !important;
-	}
+	width: 100%;
+	height: auto;
+	max-height: 100px; /* Adjust height as needed */
+	overflow-y: auto;
 }
+
+.ngx-summernote .note-editor {
+	min-height: 150px; /* Set minimum height for editor */
+}
+
+::ng-deep .ng-select.ng-invalid.ng-touched,
+.ng-select.is-invalid .ng-select-container {
+	border-color: red !important;
+}
+
 .product-page {
 	display: flex;
 	justify-content: space-between;
 	padding: 20px;
- }
- 
- .product-images {
+}
+
+.product-images {
 	width: 55%;
- }
- 
- .main-image img {
+}
+
+.main-image img {
 	width: 100%;
 	height: auto;
- }
- 
- .thumbnail-images {
+}
+
+.thumbnail-images {
 	display: flex;
 	gap: 5px;
 	margin-top: 10px;
- }
- 
- .thumbnail-images img {
+}
+
+.thumbnail-images img {
 	width: 10%;
 	height: auto;
- }
- 
- .product-details {
+}
+
+.product-details {
 	padding-left: 5%;
 	width: 50%;
- }
- 
- .product-details h1 {
+}
+
+.product-details h1 {
 	font-size: 2em;
 	margin-bottom: 10px;
- }
- 
- .rating {
+}
+
+.rating {
 	display: flex;
 	align-items: center;
- }
- 
- .star {
+}
+
+.star {
 	font-size: 1.5em;
-	position: relative;
-	display: inline-block;
 	color: #ccc;
- }
- 
- .star.full {
+}
+
+.star.full {
 	color: #FFD700;
- }
- 
- .star.partial {
+}
+
+.star.partial {
 	position: relative;
 	display: inline-block;
- }
- 
- .star.partial .partial-star {
+}
+
+.star.partial .partial-star {
 	color: #FFD700;
 	overflow: hidden;
 	position: absolute;
 	top: 0;
 	left: 0;
- }
- 
- .star.partial .empty-star {
+}
+
+.star.partial .empty-star {
 	color: #ccc;
- }
- 
- .price {
+}
+
+.price {
 	font-size: 1.5em;
 	color: #333;
 	margin: 10px 0;
- }
- 
- .stock-status {
+}
+
+.stock-status {
 	display: flex;
 	align-items: center;
 	color: green;
- }
- 
- .stock-indicator {
+}
+
+.stock-indicator {
 	font-size: 1.2em;
 	margin-left: 5px;
- }
- 
- .description h2 {
+}
+
+.description h2 {
 	margin-top: 20px;
- }
- 
- .size-selection {
-	margin-top: 20px;
-	display: flex;
-	align-items: center;
- }
- 
- .size-selection {
+}
+
+.size-selection {
 	margin-top: 20px;
 	display: flex;
 	align-items: flex-start;
- 
-	.size-options {
-	   display: flex;
-	   flex-wrap: wrap;
-	   margin-top: 10px;
-	}
- 
-	.size-option {
-	   display: inline-block;
-	   margin-right: 10px;
-	   margin-bottom: 10px;
-	   width: 3rem;
-	   height: 2rem;
-	   border: 1px solid #ccc;
-	   cursor: default;
-	   display: flex;
-	   justify-content: center;
-	   align-items: center;
-	   transition: border 0.3s;
- 
-	   &.selected {
-		  border: 2px solid #000;
-	   }
-	}
- }
- 
- .size-option.selected {
+}
+
+.size-options {
+	display: flex;
+	flex-wrap: wrap;
+	margin-top: 10px;
+}
+
+.size-option {
+	display: inline-block;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	width: 3rem;
+	height: 2rem;
+	border: 1px solid #ccc;
+	cursor: default;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	transition: border 0.3s;
+}
+
+.size-option.selected {
 	border: 2px solid #000;
- }
- 
- .size-option.out-of-stock {
+}
+
+.size-option.out-of-stock {
 	cursor: not-allowed;
- }
- 
- .size-option.out-of-stock .text-strikethrough {
+}
+
+.size-option.out-of-stock .text-strikethrough {
 	text-decoration: line-through;
 	color: #888;
- }
- 
- 
- 
- .color-option {
+}
+
+.color-option {
 	border-radius: 50%;
- }
- 
- .quantity-selection {
+}
+
+.quantity-selection {
 	margin-top: 20px;
 	display: flex;
 	align-items: center;
- 
-	.quantity-label {
-	   margin-right: 10%;
-	   font-size: 16px;
-	}
- 
-	.qjk232 {
-	   display: flex;
-	   justify-content: space-between;
-	   align-items: center;
-	   width: 100%;
- 
-	   .quantity-controls {
-		  display: flex;
-		  align-items: center;
-		  border: 1px solid #cecdcd;
- 
-		  button {
-			 background-color: #000;
-			 color: #fff;
-			 border: none;
-			 padding: 5px 10px;
-			 cursor: pointer;
-			 transition: background-color 0.3s ease;
- 
-			 &:disabled {
-				background-color: #ccc;
-				cursor: not-allowed;
-			 }
-		  }
- 
-		  input[type=number] {
-			 width: 50px;
-			 text-align: center;
-			 margin: 0 10px;
-			 -webkit-appearance: none;
-			 -moz-appearance: textfield;
-		  }
- 
-		  input[type=number]::-webkit-inner-spin-button,
-		  input[type=number]::-webkit-outer-spin-button {
-			 -webkit-appearance: none;
-			 margin: 0;
-		  }
-	   }
- 
-	   .qtt {
-		  margin-left: 10px;
-	   }
-	}
- }
- 
- .action-buttons {
+}
+
+.quantity-label {
+	margin-right: 10%;
+	font-size: 16px;
+}
+
+.qjk232 {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+}
+
+.quantity-controls {
+	display: flex;
+	align-items: center;
+	border: 1px solid #cecdcd;
+}
+
+.quantity-controls button {
+	background-color: #000;
+	color: #fff;
+	border: none;
+	padding: 5px 10px;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+.quantity-controls button:disabled {
+	background-color: #ccc;
+	cursor: not-allowed;
+}
+
+.quantity-controls input[type=number] {
+	width: 50px;
+	text-align: center;
+	margin: 0 10px;
+	-webkit-appearance: none;
+	-moz-appearance: textfield;
+}
+
+.quantity-controls input[type=number]::-webkit-inner-spin-button,
+.quantity-controls input[type=number]::-webkit-outer-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+.action-buttons {
 	margin-top: 20px;
 	display: flex;
 	justify-content: space-between;
- }
- 
- .action-buttons button {
+}
+
+.action-buttons button {
 	background-color: #000;
 	color: #fff;
 	border: none;
@@ -321,134 +297,196 @@
 	cursor: pointer;
 	transition: background-color 0.3s ease;
 	font-size: 125%;
- }
- 
- .action-buttons button:hover {
+}
+
+.action-buttons button:hover {
 	background-color: #333;
- }
- 
- .owner {
+}
+
+.owner {
 	display: flex;
 	align-items: center;
 	padding: 10px;
 	width: 300px;
- }
- 
- .owner-avatar {
+}
+
+.owner-avatar {
 	width: 60px;
 	height: 60px;
 	border-radius: 50%;
 	margin-right: 10px;
- }
- 
- .owner-details {
+}
+
+.owner-details {
 	display: flex;
 	flex-direction: column;
- }
- 
- .owner-name {
+}
+
+.owner-name {
 	font-size: 16px;
 	font-weight: bold;
- }
- 
- .chat-button,
- .shop-button {
+}
+
+.chat-button, .shop-button {
 	padding: 8px 16px;
 	margin: 4px 0;
 	border: none;
 	border-radius: 4px;
 	cursor: pointer;
 	font-size: 14px;
- }
- 
- .chat-button {
-	background-color: #000000;
+}
+
+.chat-button {
+	background-color: #000;
 	color: #fff;
- }
- 
- .shop-button {
+}
+
+.shop-button {
 	background-color: #fff;
 	color: #333;
 	border: 1px solid #ccc;
- }
- 
- .review-summary {
+}
+
+.review-summary {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	padding: 10px 0;
 	font-family: Arial, sans-serif;
- }
- 
- .review-count {
+}
+
+.review-count {
 	font-weight: bold;
 	font-size: 18px;
 	cursor: pointer;
- }
- 
- .review-rating {
+}
+
+.review-rating {
 	display: flex;
 	align-items: center;
- }
- 
- .rating-value {
+}
+
+.rating-value {
 	font-size: 16px;
 	margin-right: 5px;
- }
- 
- .dropdown-icon {
+}
+
+.dropdown-icon {
 	font-size: 16px;
 	cursor: pointer;
- }
- 
- .review {
-	// padding: 10px 0;
- }
- 
- .review-author-date {
+}
+
+.review-author-date {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
- }
- 
- .review-author {
+}
+
+.review-author {
 	font-weight: bold;
 	font-size: 16px;
- }
- 
- .review-date {
+}
+
+.review-date {
 	color: #888;
 	font-size: 14px;
- }
- 
- .review-content {
+}
+
+.review-content {
 	margin-top: 5px;
- }
- 
- .review-footer {
+}
+
+.review-footer {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	margin-top: 10px;
 	font-size: 12px;
- }
- 
- .review-helpful {
+}
+
+.review-helpful {
 	display: flex;
 	align-items: center;
- }
- 
- .thumbs-up,
- .thumbs-down {
+}
+
+.thumbs-up, .thumbs-down {
 	margin: 0 5px;
 	cursor: pointer;
- }
- 
- .review-report a {
+}
+
+.review-report a {
 	color: #007bff;
 	text-decoration: none;
- }
- 
- .review-report a:hover {
+}
+
+.review-report a:hover {
 	text-decoration: underline;
- }
+}
+
+.scroll-table {
+	max-height: 300px; /* Adjust the height as needed */
+	overflow-y: auto;
+	border: 1px solid #ddd;
+	padding: 10px;
+}
+
+.scroll-table ul {
+	padding-left: 0;
+	list-style-type: none;
+	margin: 0;
+}
+
+.scroll-table li {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 5px 0;
+	border-bottom: 1px solid #eee;
+}
+
+.remove-button {
+	background-color: transparent;
+	border: none;
+	color: red;
+	font-size: 1.5rem;
+	cursor: pointer;
+	margin-left: 10px;
+}
+
+.image-container {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); /* Adjust to fit smaller thumbnails */
+	gap: 8px; /* Adjust spacing between thumbnails */
+	padding: 10px;
+	max-width: 400px; /* Set a max-width to shrink the container */
+	margin: 0 auto; /* Center the container horizontally */
+	overflow: hidden; /* Ensure no overflow */
+}
+
+.thumbnail-container {
+	overflow: hidden;
+	border-radius: 8px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.thumbnail {
+	width: 100%;
+	height: 100px; /* Set a fixed height to maintain consistency */
+	object-fit: cover; /* Ensure image covers the container */
+}
+
+
+/* Adjust the form-group for Short Description */
+.form-group.col-12.required.mb-3 {
+	width: 100%; /* Ensure it spans the full width of its container */
+}
+
+.form-group.col-12.required.mb-3 .ngx-summernote {
+	max-height: 150px; /* Adjust the maximum height as needed */
+	overflow-y: auto; /* Add vertical scroll if content overflows */
+}
+
+.form-group.col-12.required.mb-3 .note-editor {
+	height: auto; /* Ensure the editor height adjusts based on content */
+	min-height: 100px; /* Set a minimum height */
+}

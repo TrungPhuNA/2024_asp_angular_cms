@@ -73,22 +73,23 @@ export class ProductAdminPageComponent {
 		this.productService.getLists(this.ownerId).subscribe((res: any) => {
 			this.loading = false;
 			this.dataListAll = res;
-			console.log('data', this.dataListAll);
+	
 			if (this.dataListAll?.length > 0) {
 				let start = (this.paging?.page - 1) * this.paging.pageSize;
 				let end = this.paging?.page * this.paging.pageSize;
+	
+				// Filter images where isdelete is false
 				this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end);
-
+	
 				this.dataList.forEach((item: any) => {
-					console.log('Product Name:', item.name);
-					item.images.forEach((image: any) => {
-						console.log('Image:', image.linkImage);
-					});
+					item.images = item.images.filter((image: any) => !image.isdelete); // Filter images
 				});
 			}
+	
 			this.paging.total = res?.length || 0;
-		})
+		});
 	}
+	
 
 	categories = []
 	owners = [];
@@ -113,10 +114,7 @@ export class ProductAdminPageComponent {
 		});
 	}
 
-	toggleSelectAll() {
-		// const allSelected = this.brands.every(brand => brand.selected);
-		// this.brands.forEach(brand => brand.selected = !allSelected);
-	}
+
 
 	createItem() {
 		this.modalTitle = 'Create Product';
@@ -127,8 +125,11 @@ export class ProductAdminPageComponent {
 		this.createModal = false;
 		this.showModal = false;
 		this.updateModal = false;
-
+		this.selected = null; // Reset dữ liệu được chọn
+		console.log('Modal closed and state reset.');
 	}
+	
+	  
 
 	search() {
 		if (this.userType === 'Owner') {
@@ -137,10 +138,14 @@ export class ProductAdminPageComponent {
 			// this.getDataList({ ...this.paging, pageSize: 10000, ...this.formSearch.value })
 		}
 	}
-
+	handleUpdateSuccess() {
+		// this.resetSearchForm();
+		this.getDataList({ ...this.paging, pageSize: 10000 });
+	  }
+	
 	resetSearchForm() {
 		this.formSearch.reset();
-		this.search();
+		// this.search();
 	}
 
 	saveItem(data: any) {
@@ -161,6 +166,7 @@ export class ProductAdminPageComponent {
 			})
 		} else {
 			this.loading = true;
+			//'data',data.form)
 			this.productService.createOrUpdateData(data?.form, data.id).subscribe((res: any) => {
 				this.loading = false;
 				if (res?.message.includes('successfully')) {
@@ -186,10 +192,13 @@ export class ProductAdminPageComponent {
 
 	editItem(id: number) {
 		const data = this.dataList.find((c: any) => c.productId === id);
-		this.selected = { ...data };
-		this.modalTitle = 'Edit Product';
-		this.updateModal = true;
+		if (data) {
+			this.selected = { ...data };
+			this.modalTitle = 'Edit Product';
+			this.updateModal = true;
+		}
 	}
+	
 
 	deleteItem(id: number) {
 		this.alertService.fireConfirm(
@@ -202,20 +211,20 @@ export class ProductAdminPageComponent {
 			.then((result) => {
 				if (result.isConfirmed) {
 					this.loading = true;
-					console.log('ID delete', id);
+					//  //  //  console.log('ID delete', id);
 					this.productService.deleteData(id).subscribe((res: any) => {
 						this.loading = false;
-						console.log('test', res?.message);
+						//  //  console.log('test', res?.message);
 						if (res?.message == 'Product is deleted successfully') {
 							this.alertService.fireSmall('success', res?.message);
 							this.getDataList({ page: 1, pageSize: 10 })
-							console.log('1', res?.message);
+							//  //  console.log('1', res?.message);
 						} else if (res?.errors) {
 							this.alertService.showListError(res?.errors);
-							console.log('2');
+							//  //  console.log('2');
 						} else {
 							this.alertService.fireSmall('error', res?.message || "Delete Product failed!");
-							console.log('3');
+							//  //  console.log('3');
 						}
 					})
 				}
@@ -298,27 +307,27 @@ export class ProductAdminPageComponent {
 
 	pageChanged(e: any) {
 		this.paging.page = e;
+	
 		if (this.dataListAll?.length > 0) {
-			let start = (this.paging?.page - 1) * this.paging.pageSize;
-			let end = this.paging?.page * this.paging.pageSize;
-			console.log('product---->', start, end, this.formSearch.value?.name);
-			// Chuyển đổi từ khóa tìm kiếm về chữ thường
+			const start = (this.paging.page - 1) * this.paging.pageSize;
+			const end = this.paging.page * this.paging.pageSize;
+	
+			// Kiểm tra từ khóa tìm kiếm
 			const searchTerm = this.formSearch.value?.name?.trim().toLowerCase();
-
+	
 			if (searchTerm) {
-				// Tìm kiếm không phân biệt chữ hoa chữ thường
-				let totalSearch = this.dataListAll?.filter((item: any) =>
+				// Lọc dữ liệu theo từ khóa tìm kiếm
+				const totalSearch = this.dataListAll?.filter((item: any) =>
 					item?.name?.toLowerCase().includes(searchTerm)
 				);
 				this.paging.total = totalSearch?.length || 0;
-				this.dataList = totalSearch?.filter((item: any, index: number) =>
-					index >= start && index < end
-				);
+				this.dataList = totalSearch?.slice(start, end); // Sử dụng slice để lấy dữ liệu theo trang
 			} else {
-				// Gọi lại phương thức resetSearchForm khi từ khóa tìm kiếm trống
-				this.resetSearchForm();
+				// Nếu không có từ khóa tìm kiếm, lấy tất cả dữ liệu
+				this.dataList = this.dataListAll?.slice(start, end);
+				this.paging.total = this.dataListAll?.length || 0;
 			}
 		}
-		// this.getDataList({ ...this.paging, ...this.formSearch.value })
 	}
+	
 }
