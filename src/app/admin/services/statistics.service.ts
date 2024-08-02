@@ -26,4 +26,16 @@ export class StatisticsService {
   productTop5(ownerId: any) {
     return this.baseApiService.getMethod(`Product/top5/${ownerId}`,{});
   }
+  guestconsultation(params: any) {
+    return this.baseApiService.getMethod('GuestConsultation/ViewGuestConsultationStatistics', true);
+  }
+  VoucherStatistics(ownerId: any) {
+    return this.baseApiService.getMethod('Voucher/VoucherStatistics',{ownerId});
+  }
+  WarehouseDetail(warehouseId: any) {
+    return this.baseApiService.getMethod('WarehouseDetail/SumOfKindProdSizeStatistics',{warehouseId});
+  }
+  // PriceVoucherUsedStatistics(ownerId: any) {
+  //   return this.baseApiService.getMethod('Voucher/PriceVoucherUsedStatistics',{ownerId});
+  // }
 }

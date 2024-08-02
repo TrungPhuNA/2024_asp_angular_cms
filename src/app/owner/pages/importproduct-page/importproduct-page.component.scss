@@ -1,0 +1,55 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+  }
+  
+  .search-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  
+  .search-section mat-form-field {
+    flex: 1;
+    margin-right: 8px;
+  }
+  
+  .main-section {
+    display: flex;
+    flex: 1;
+  }
+  
+  .product-list,
+  .order-section {
+    flex: 1;
+    margin: 8px;
+  }
+  
+  .product-list {
+    border: 1px solid #ccc;
+    padding: 8px;
+  }
+  
+  .order-section mat-form-field {
+    width: 100%;
+    margin-bottom: 16px;
+  }
+  
+  .order-details {
+    margin-bottom: 16px;
+  }
+  
+  .actions {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  
+  .total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.2em;
+    margin-bottom: 16px;
+  }
+  

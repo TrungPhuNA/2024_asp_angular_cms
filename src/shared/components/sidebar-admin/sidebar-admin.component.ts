@@ -91,6 +91,11 @@ export class SidebarAdminComponent implements OnChanges {
 			route: "/guestconsultation",
 			role:['OWNER','STAFF'],
 			name: "Guest Consultation"
+		},
+		{
+			route: "/importproduct",
+			role:['OWNER','STAFF'],
+			name: "Import Product"
 		}
 	];
 

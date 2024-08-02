@@ -34,6 +34,11 @@ export class DashboardAdminPageComponent implements OnInit {
     { title: 'Order', description: 'Failed Orders', value: 0, link: '/owner/order', class: 'box p-3 mb-2' },
     { title: 'Order', description: 'Canceled Orders', value: 0, link: '/owner/order', class: 'box p-3 mb-2' },
     { title: 'Order', description: 'Total Revenue', value: 0, link: '/owner/order', class: 'box p-3 mb-2' },
+    { title: 'Consultation', description: 'Total Guest Consultation', value: 0, link: '/owner/guestconsultation', class: 'box p-3 mb-2' },
+    { title: 'Voucher', description: 'Total Quantity Voucher Used', value: 0, link: '/owner/guestconsultation', class: 'box p-3 mb-2' },
+    { title: 'Voucher', description: 'Total Price Voucher Used', value: 0, link: '/owner/guestconsultation', class: 'box p-3 mb-2' },
+    { title: 'Warehouse', description: 'Total Warehouse', value: 0, link: '/owner/guestconsultation', class: 'box p-3 mb-2' },
+    // { title: 'Voucher', description: 'Price Voucher Used Statistics', value: 0, link: '/owner/guestconsultation', class: 'box p-3 mb-2' },
   ];
 
   accountUser: any;
@@ -41,10 +46,14 @@ export class DashboardAdminPageComponent implements OnInit {
   blogStatistics: any;
   productStatistics: any;
   top5Statistics: any;
+  guestStatistics: any;
+  voucherStatistics: any;
+  wưarehouseStatistics: any;
   formSearch: any = new FormGroup({
     id: new FormControl(null),
     name: new FormControl(null)
   });
+
   ownerId: number | null = null;
   userType: string = '';
   paging: any = { ...INIT_PAGING };
@@ -78,6 +87,18 @@ export class DashboardAdminPageComponent implements OnInit {
     }
     this.loading = true;
 
+    this.statisticsService.guestconsultation({}).subscribe(
+      (data: any) => {
+        this.guestStatistics = data;
+        console.log('data guest 12312312312',this.guestStatistics)
+        this.updateDashboardItems(); // Update dashboard items after blog data is received
+      },
+      (error: any) => {
+        console.error('Error fetching Guest statistics', error);
+        this.loading = false;
+      }
+    );
+
     this.statisticsService.blog(this.ownerId).subscribe(
       (data: any) => {
         this.blogStatistics = data;
@@ -110,6 +131,40 @@ export class DashboardAdminPageComponent implements OnInit {
         this.loading = false;
       }
     );
+    this.statisticsService.VoucherStatistics(this.ownerId).subscribe(
+      (data: any) => {
+        this.voucherStatistics = data;
+        console.log('VoucherStatistics',this.voucherStatistics);
+        this.updateDashboardItems(); // Update dashboard items after product data is received
+      },
+      (error: any) => {
+        console.error('Error fetching product statistics', error);
+        this.loading = false;
+      }
+    );
+
+    this.statisticsService.WarehouseDetail(this.ownerId).subscribe(
+      (data: any) => {
+        this.wưarehouseStatistics = data;
+        console.log('wưarehouseStatistics',this.wưarehouseStatistics)
+        this.updateDashboardItems(); // Update dashboard items after product data is received
+      },
+      (error: any) => {
+        console.error('Error fetching product statistics', error);
+        this.loading = false;
+      }
+    );
+    // this.statisticsService.PriceVoucherUsedStatistics(this.ownerId).subscribe(
+    //   (data: any) => {
+    //     this.pricevoucherusedStatistics = data;
+    //     console.log('PriceVoucherUsedStatistics',this.pricevoucherusedStatistics);
+    //     this.updateDashboardItems(); // Update dashboard items after product data is received
+    //   },
+    //   (error: any) => {
+    //     console.error('Error fetching product statistics', error);
+    //     this.loading = false;
+    //   }
+    // );
 
     
     this.statisticsService.productTop5(this.ownerId).subscribe(
@@ -129,6 +184,9 @@ export class DashboardAdminPageComponent implements OnInit {
     );
     console.log('data name',this.top5Statistics.name);
     console.log('data name',this.top5Statistics.image[0].linkImage);
+
+    
+  
   }
 
   getDataList(params: any) {
@@ -158,6 +216,11 @@ export class DashboardAdminPageComponent implements OnInit {
       this.dashboardItems[5].value = this.orderStatistics.failedOrders;
       this.dashboardItems[6].value = this.orderStatistics.canceledOrders;
       this.dashboardItems[7].value = this.orderStatistics.totalRevenue;
+      this.dashboardItems[8].value = this.guestStatistics.message;
+      this.dashboardItems[9].value = this.voucherStatistics.totalQuantityVoucherUsed;
+      this.dashboardItems[10].value = this.voucherStatistics.totalPriceVoucherUsed;
+      this.dashboardItems[11].value = this.wưarehouseStatistics.message;
+      // this.dashboardItems[12].value = this.pricevoucherusedStatistics.message;
 
       this.loading = false; // Set loading to false after updating dashboard
     }

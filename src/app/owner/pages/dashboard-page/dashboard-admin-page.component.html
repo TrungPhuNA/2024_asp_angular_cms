@@ -1,77 +1,48 @@
 <div class="card w-full border-0">
 	<div class="card-body w-full">
 		<app-breadcrum [items]="breadCrumb"></app-breadcrum>
-		<div class="d-md-flex justify-content-between mb-4">
-			<h2 class="text-2xl font-bold">View Dashboard</h2>
+		<div class="header">
+			<h2 class="title">View Dashboard</h2>
 		</div>
 	</div>
 	<div class="card-body">
-		<!-- <div class="p-3 bg-gray-100 rounded-lg shadow-sm max-w-xs flex-1">
-			<div class="flex justify-between items-center mb-2">
-			  <h3 class="text-lg font-bold text-gray-900">Top 5 Product</h3>
-			  <a href="/owner/product" class="text-xs font-medium text-emerald-500 hover:underline">View All</a>
-			</div>
-			<div class="flow-root">
-			  <ul role="list" class="divide-y divide-gray-200">
-				<li class="py-2 sm:py-3 flex items-center space-x-3" *ngFor="let item of top5Statistics">
-				  <div class="flex-shrink-0">
-					<img class="avatar" [src]="item.image" alt="{{item.name}}">
-				  </div>
-				  <div class="flex-1 min-w-0">
-					<p class="text-xs font-medium text-gray-900 truncate">{{item.name}}</p>
-				  </div>
-				</li>
-			  </ul>
-			  
-			</div>
-		  </div>
-		<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-			<div class="dashboard-item" *ngFor="let item of dashboardItems">
-				<div [ngClass]="item.class" class="item-content">
-					<h6 class="text-lg font-semibold mb-2">{{ item.title }}</h6>
-					<p class="text-md mb-2">{{ item.description }}</p>
-					<b class="text-6xl">{{ item.value }}</b>
-					<a [href]="item.link" class="btn btn-link mt-3">See details</a>
+		<div class="container">
+			<!-- Top 5 Section -->
+			<div class="top-5-section shadow-sm">
+				<!-- HTML -->
+				<div class="header">
+					<h2 class="title">Top 5 Product</h2>
+					<a href="/owner/product" class="view-all">View All</a>
+				</div>
+
+				<div class="flow-root">
+					<ul role="list" class="divide-y divide-gray-200">
+						<li class="py-2 sm:py-3 flex items-center space-x-3" *ngFor="let item of top5Statistics">
+							<div class="flex-shrink-0">
+								<img class="avatar" [src]="item.image" alt="{{item.name}}">
+							</div>
+							<div class="flex-1 min-w-0">
+								<p class="text-xs font-medium text-gray-900 truncate">{{item.name}}</p>
+							</div>
+						</li>
+					</ul>
 				</div>
 			</div>
-		</div> -->
 
-		<div class="container flex">
-  <!-- Top 5 Section -->
-  <div class="top-5-section p-3 bg-gray-100 rounded-lg shadow-sm max-w-xs flex-1">
-    <div class="flex justify-between items-center mb-2">
-      <h3 class="text-lg font-bold text-gray-900">Top 5</h3>
-      <a href="/owner/product" class="text-xs font-medium text-emerald-500 hover:underline">View All</a>
-    </div>
-    <div class="flow-root">
-      <ul role="list" class="divide-y divide-gray-200">
-        <li class="py-2 sm:py-3 flex items-center space-x-3" *ngFor="let item of top5Statistics">
-          <div class="flex-shrink-0">
-            <img class="avatar" [src]="item.image" alt="{{item.name}}">
-          </div>
-          <div class="flex-1 min-w-0">
-            <p class="text-xs font-medium text-gray-900 truncate">{{item.name}}</p>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- Dashboard Section -->
-  <div class="dashboard-section flex-1 ml-4">
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-      <div class="dashboard-item" *ngFor="let item of dashboardItems">
-        <div [ngClass]="item.class" class="item-content">
-          <h6 class="text-lg font-semibold mb-2">{{ item.title }}</h6>
-          <p class="text-md mb-2">{{ item.description }}</p>
-          <b class="text-6xl">{{ item.value }}</b>
-          <a [href]="item.link" class="btn btn-link mt-3">Xem chi tiết</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
+			<!-- Dashboard Section -->
+			<div class="dashboard-section">
+				<div class="grid-container">
+					<div class="dashboard-item" *ngFor="let item of dashboardItems">
+						<div [ngClass]="item.class" class="item-content">
+							<h6 class="item-title">{{ item.title }}</h6>
+							<p class="item-description">{{ item.description }}</p>
+							<div class="item-value">{{ item.value }}</div>
+							<a [href]="item.link" class="btn-link">Xem chi tiết</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 <app-loading [loading]="loading"></app-loading>
