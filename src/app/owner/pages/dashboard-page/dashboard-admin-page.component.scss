@@ -145,7 +145,7 @@
 
 .top-5-section ul {
   max-height: calc(5 * 4rem); /* Chiều cao tối đa của 5 mục (kích thước mục * 5) */
-  overflow-y: auto; /* Hiển thị thanh cuộn dọc nếu nội dung vượt quá chiều cao tối đa */
+  // overflow-y: auto; /* Hiển thị thanh cuộn dọc nếu nội dung vượt quá chiều cao tối đa */
 }
 .dashboard-section {
   flex: 2; /* Chiếm nhiều không gian hơn */
