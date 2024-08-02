@@ -1,10 +1,10 @@
 <div class="card w-100">
 	<div class="card-body w-100">
 		<app-breadcrum [items]="breadCrumb"></app-breadcrum>
-		<!-- <div class="d-md-flex justify-content-between">
+		<div class="d-md-flex justify-content-between">
 			<h2 class="my-2">View All Blogs</h2>
-			<button class="btn btn-success my-2" (click)="createItem()">Create New Blog</button>
-		</div> -->
+			<!-- <button class="btn btn-success my-2" (click)="createItem()">Create New Blog</button> -->
+		</div>
 		<div class="">
 			<form [formGroup]="formSearch" (ngSubmit)="search()">
 				<div class="row mb-5 align-items-end">
@@ -74,7 +74,7 @@
 							</td>
 
 
-							<td class="text-center align-middle">{{ item?.serviceName || item.serviceId }}</td>
+							<td class="text-center align-middle">{{ item?.service.name}}</td>
 							<!-- <td class="text-center align-middle">{{ item?.ownerName || item.ownerId}}</td> -->
 							<td class="text-center align-middle">
 
@@ -114,7 +114,6 @@
 	</div>
 </div>
 <app-loading [loading]="loading"></app-loading>
+<app-detail-blog *ngIf="typeForm === 2" [blog]="selected" [modalTitle]="modalTitle" [isVisible]="openModal" (close)="closeModal()"></app-detail-blog>
+<app-update-blog *ngIf="typeForm === 3" [data]="selected" [modalTitle]="modalTitle" [typeForm]="typeForm" [isVisible]="openModal" [services]="services" [owners]="owners" (save)="saveItem($event)" (close)="closeModal()"></app-update-blog>
 
-<app-update-blog [data]="selected" [modalTitle]="modalTitle" [typeForm]="typeForm" [isVisible]="openModal"
-	[services]="services" [owners]="owners" (save)="saveItem($event)" (close)="closeModal()">
-</app-update-blog>

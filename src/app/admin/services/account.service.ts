@@ -43,5 +43,8 @@ export class AccountService {
 		return this.baseApiService.putMethod(url, {}, true);
 
 	}
+	statistics(params: any){
+		return this.baseApiService.getMethod('Account/account-statistics', params);
+	}
 	
 }

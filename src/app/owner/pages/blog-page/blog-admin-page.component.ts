@@ -135,6 +135,7 @@ export class BlogAdminPageComponent {
 	closeModal() {
 		this.openModal = false;
 		this.typeForm = 0;
+		this.selected = null;
 	}
 
 	search() {
@@ -200,37 +201,6 @@ export class BlogAdminPageComponent {
 		this.typeForm = 3;
 
 	}
-
-	// deleteItem(id: number) {
-	// 	this.alertService.fireConfirm(
-	// 		'Delete Owner',
-	// 		'Are you sure you want to delete this Blog?',
-	// 		'warning',
-	// 		'Cancel',
-	// 		'Delete',
-	// 	)
-	// 		.then((result) => {
-	// 			if (result.isConfirmed) {
-	// 				this.loading = true;
-	// 				this.blogService.deleteData(id).subscribe((res: any) => {
-	// 					this.loading = false;
-	// 					if (res?.message == 'Blog deleted successfully.') {
-	// 						this.alertService.fireSmall('success', res?.message);
-	// 						this.getDataList({ page: 1, pageSize: 10 })
-	// 					} else if (res?.errors) {
-	// 						this.alertService.showListError(res?.errors);
-	// 					} else {
-	// 						this.alertService.fireSmall('error', res?.message || "Delete Blog failed!");
-	// 					}
-	// 				})
-	// 			}
-	// 		})
-
-	// }
-
-
-
-
 
 	pageChanged(e: any) {
 		this.paging.page = e;
