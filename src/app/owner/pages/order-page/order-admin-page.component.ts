@@ -65,6 +65,7 @@ export class OrderAdminPageComponent implements OnInit {
 	ngOnInit(): void {
 		const user = this.authenService.getUser();
 		this.userType = user?.userType ?? '';
+		this.ownerId = user?.id ?? null;
 		if (this.userType == 'Staff') (
 			this.staffService.show(user?.id ?? null).subscribe((res: any) => {
 				this.ownerId = res?.data?.ownerId;
@@ -72,14 +73,14 @@ export class OrderAdminPageComponent implements OnInit {
 				console.log('Lấy ID của Staff xong lấy OwnerId')
 				if (this.userType === 'Owner' || this.userType === 'Staff') {
 					console.log('id này số mấy', this.ownerId);
-					this.getDataListAll({ ...this.paging });
+					
 				}
 			})
 		);
 		else (console.log('UserTyle là Owner', this.userType)
 
 		);
-
+		this.getDataListAll({ ...this.paging });
 		// const user = this.authenService.getUser();
 		// this.ownerId = user?.id ?? null;
 		// this.userType = user?.userType ?? '';

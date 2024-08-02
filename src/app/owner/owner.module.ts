@@ -195,7 +195,7 @@ const route: Routes = [
 		DetailBlogComponent,
 		UpdateBlogComponent,
 
-		BrandAdminPageComponent,
+		// BrandAdminPageComponent,
 		AddNewBrandComponent,
 		DetailBrandComponent,
 		UpdateBrandComponent,

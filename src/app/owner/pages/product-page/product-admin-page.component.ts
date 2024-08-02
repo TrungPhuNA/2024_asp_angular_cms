@@ -61,23 +61,27 @@ export class ProductAdminPageComponent {
 		const user = this.authenService.getUser();
 		this.userType = user?.userType ?? '';
 		this.ownerId = user?.id ?? null;
-		if (this.userType == 'Staff') (
+
+		if (this.userType === 'Staff') {
 			this.staffService.show(user?.id ?? null).subscribe((res: any) => {
 				this.ownerId = res?.data?.ownerId;
-				console.log('ID của Onwer', this.ownerId)
-				console.log('Lấy ID của Staff xong lấy OwnerId')
+				console.log('ID của Owner:', this.ownerId);
+				console.log('Lấy ID của Staff xong lấy OwnerId');
+
 				if (this.userType === 'Owner' || this.userType === 'Staff') {
-					console.log('id này số mấy', this.ownerId);
-					
+					console.log('ID này số mấy:', this.ownerId);
+					this.getDataList({ ...this.paging, pageSize: 10000 });
+					this.getDataRelation();
 				}
-			})
-		);
-		else (console.log('UserTyle là Owner', this.userType)
+			});
+		} else {
+			console.log('UserType là Owner:', this.userType);
+			this.getDataList({ ...this.paging, pageSize: 10000 });
+			this.getDataRelation();
+		}
 
-		);
 
-		this.getDataList({ ...this.paging, pageSize: 10000 });
-		this.getDataRelation();
+
 		// 	const user = this.authenService.getUser();
 		// 	this.ownerId = user?.id ?? null;
 		// 	this.userType = user?.userType ?? '';
@@ -147,8 +151,8 @@ export class ProductAdminPageComponent {
 	createItem() {
 		this.modalTitle = 'Create Product';
 		this.createModal = true;
-		
-		
+
+
 	}
 
 	closeModal() {

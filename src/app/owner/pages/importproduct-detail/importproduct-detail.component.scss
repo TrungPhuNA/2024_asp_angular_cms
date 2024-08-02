@@ -25,7 +25,7 @@ html, body {
   border-right: none;
   text-align: center;
   padding: 10px;
-  border-top: -2px;
+  // border-top: -2px;
 }
 
 .table th {
@@ -38,7 +38,7 @@ html, body {
 }
 
 .table td {
-  border-bottom: 1px solid #dee2e6; /* Đường viền giữa các hàng dữ liệu */
+  // border-bottom: 1px solid #dee2e6; /* Đường viền giữa các hàng dữ liệu */
 }
 
 .table thead th {
@@ -46,15 +46,15 @@ html, body {
 }
 /* importproduct-detail.component.scss */
 .disabled-row {
-  background-color: #f8d7da; /* Màu nền cho hàng bị khóa */
-  color: #721c24; /* Màu chữ cho hàng bị khóa */
+  // background-color: #f8d7da; /* Màu nền cho hàng bị khóa */
+  // color: #721c24; /* Màu chữ cho hàng bị khóa */
   pointer-events: none; /* Ngăn không cho click vào hàng bị khóa */
   opacity: 0.5; /* Giảm độ mờ của hàng bị khóa để dễ nhận diện */
 }
 
 .disabled-input {
-  background-color: #f8d7da; /* Màu nền cho các ô nhập liệu bị khóa */
-  color: #721c24; /* Màu chữ cho các ô nhập liệu bị khóa */
+  // background-color: #f8d7da; /* Màu nền cho các ô nhập liệu bị khóa */
+  // color: #721c24; /* Màu chữ cho các ô nhập liệu bị khóa */
   pointer-events: none; /* Ngăn không cho click vào các ô nhập liệu bị khóa */
 }
 

@@ -55,28 +55,35 @@ export class BlogAdminPageComponent {
 	});
 	ngOnInit(): void {
 		const user = this.authenService.getUser();
-		this.userType = user?.userType ?? '';
-		this.ownerId = user?.id ?? null;
-		if (this.userType == 'Staff') (
-			this.staffService.show(user?.id ?? null).subscribe((res: any) => {
-				this.ownerId = res?.data?.ownerId;
-				console.log('ID của Onwer', this.ownerId)
-				console.log('Lấy ID của Staff xong lấy OwnerId')
-				if (this.userType === 'Owner' || this.userType === 'Staff') {
-					console.log('id này số mấy', this.ownerId);
-					
-				}
-			})
-		);
-		else (console.log('UserTyle là Owner', this.userType)
-		);
-		this.getDataList({
-			searchQuery: null,
-			page: this.paging,
-			pageSize: 10000,
-			ownerId: this.ownerId
-		}
-		);
+this.userType = user?.userType ?? '';
+this.ownerId = user?.id ?? null;
+
+if (this.userType === 'Staff') {
+    this.staffService.show(user?.id ?? null).subscribe((res: any) => {
+        this.ownerId = res?.data?.ownerId;
+        console.log('ID của Owner:', this.ownerId);
+        console.log('Lấy ID của Staff xong lấy OwnerId');
+
+        if (this.userType === 'Owner' || this.userType === 'Staff') {
+            console.log('ID này số mấy:', this.ownerId);
+            this.getDataList({
+                searchQuery: null,
+                page: this.paging,
+                pageSize: 10000,
+                ownerId: this.ownerId
+            });
+        }
+    });
+} else {
+    console.log('UserType là:', this.userType);
+    this.getDataList({
+        searchQuery: null,
+        page: this.paging,
+        pageSize: 10000,
+        ownerId: this.ownerId
+    });
+}
+	
 	}
 
 	dataListAll = [];
