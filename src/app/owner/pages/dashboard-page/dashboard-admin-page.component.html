@@ -1,134 +1,77 @@
-<div class="card w-full bg-white shadow-md rounded-lg my-16">
-    <div class="card-body p-6">
-        <div class="d-md-flex justify-between items-center mb-4">
-            <h2 class="text-2xl font-bold text-gray-900">View Dashboard</h2>
-            <span class="text-2xl text-gray-500 bi bi-person-bounding-box"></span>
-        </div>
+<div class="card w-full border-0">
+	<div class="card-body w-full">
+		<app-breadcrum [items]="breadCrumb"></app-breadcrum>
+		<div class="d-md-flex justify-content-between mb-4">
+			<h2 class="text-2xl font-bold">View Dashboard</h2>
+		</div>
+	</div>
+	<div class="card-body">
+		<!-- <div class="p-3 bg-gray-100 rounded-lg shadow-sm max-w-xs flex-1">
+			<div class="flex justify-between items-center mb-2">
+			  <h3 class="text-lg font-bold text-gray-900">Top 5 Product</h3>
+			  <a href="/owner/product" class="text-xs font-medium text-emerald-500 hover:underline">View All</a>
+			</div>
+			<div class="flow-root">
+			  <ul role="list" class="divide-y divide-gray-200">
+				<li class="py-2 sm:py-3 flex items-center space-x-3" *ngFor="let item of top5Statistics">
+				  <div class="flex-shrink-0">
+					<img class="avatar" [src]="item.image" alt="{{item.name}}">
+				  </div>
+				  <div class="flex-1 min-w-0">
+					<p class="text-xs font-medium text-gray-900 truncate">{{item.name}}</p>
+				  </div>
+				</li>
+			  </ul>
+			  
+			</div>
+		  </div>
+		<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+			<div class="dashboard-item" *ngFor="let item of dashboardItems">
+				<div [ngClass]="item.class" class="item-content">
+					<h6 class="text-lg font-semibold mb-2">{{ item.title }}</h6>
+					<p class="text-md mb-2">{{ item.description }}</p>
+					<b class="text-6xl">{{ item.value }}</b>
+					<a [href]="item.link" class="btn btn-link mt-3">See details</a>
+				</div>
+			</div>
+		</div> -->
 
-        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-6">
-            <div class="card flex items-center justify-between gap-4 p-4 bg-gray-100 rounded-lg shadow-sm">
-                <div>
-                    <h4 class="text-3xl font-bold text-gray-900">25</h4>
-                    <p class="text-md text-gray-500">Thành viên</p>
-                </div>
-                <div class="bg-gradient-to-br from-emerald-500 to-green-600 p-2 rounded-lg flex items-center justify-center text-white">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
-                        <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
-                    </svg>
-                </div>
-            </div>
-
-            <!-- Repeat for other cards with different numbers -->
-            <div class="card flex items-center justify-between gap-4 p-4 bg-gray-100 rounded-lg shadow-sm">
-                <div>
-                    <h4 class="text-3xl font-bold text-gray-900">50</h4>
-                    <p class="text-md text-gray-500">Thành viên</p>
-                </div>
-                <div class="bg-gradient-to-br from-emerald-500 to-green-600 p-2 rounded-lg flex items-center justify-center text-white">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
-                        <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
-                    </svg>
-                </div>
-            </div>
-
-            <!-- Repeat for other cards -->
-        </div>
-
-        <section class="grid grid-cols-1 my-6 xl:grid-cols-2 2xl:grid-cols-3 gap-6">
-            <div class="card p-6 bg-gray-100 rounded-lg shadow-sm">
-                <div class="card-title flex justify-between items-center mb-4">
-                    <h3 class="text-xl font-bold text-gray-900">Latest Customers</h3>
-                    <a href="#" class="text-sm font-medium text-emerald-500 hover:underline">View all</a>
-                </div>
-                <div class="flow-root">
-                    <ul role="list" class="divide-y divide-gray-200">
-                        <li class="py-3 sm:py-4 flex items-center space-x-4">
-                            <div class="flex-shrink-0">
-                                <img class="w-8 h-8 rounded-full" src="https://placehold.co/100x100" alt="user image">
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <p class="text-sm font-medium text-gray-900 truncate">John Doe</p>
-                                <p class="text-sm text-gray-500 truncate">john.deo&#64;email.com</p>
-                            </div>
-                            <div class="text-base font-semibold text-gray-900"></div>
-                        </li>
-                    </ul>
-                    <div class="flex justify-between font-medium text-sm pt-5">
-                        <div class="text-gray-500">
-                            <h5 class="inline-flex">Total</h5> 6 of 300
-                        </div>
-                        <a href="#" class="text-emerald-500 hover:underline">View Sales Report</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card p-6 bg-gray-100 rounded-lg shadow-sm xl:col-span-2">
-                <div class="card-title flex justify-between items-center mb-4">
-                    <h3 class="text-xl font-bold text-gray-900">Upcoming Events</h3>
-                </div>
-                <div class="overflow-y-auto overflow-x-hidden pr-4" style="max-height: 500px;">
-                    <div class="block md:flex md:items-center gap-6 py-4 my-4 border-b">
-                        <div class="relative hidden lg:block">
-                            <img src="https://placehold.co/600x400" alt="event image" class="w-48 rounded-lg">
-                            <span class="absolute bottom-0 right-0 w-10 h-7 bg-emerald-500 text-center border rounded-tl-lg rounded-br-lg text-white flex items-center justify-center">
-                                <i class="bi bi-calendar2-event text-xl"></i>
-                            </span>
-                        </div>
-                        <div class="flex-1 my-3">
-                            <h4 class="text-lg font-semibold text-gray-900">Envato International Online Meetup 2020</h4>
-                            <p class="my-1 text-emerald-500">California, USA</p>
-                            <p class="text-xs text-gray-600">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sint ipsa vero illum quos vitae dolorum, earum recusandae est modi ea possimus nihil aspernatur libero unde itaque error quis, sit tenetur esse quam harum corrupti! Quia, tenetur provident, vero, recusandae aliquam possimus at mollitia quo perspiciatis adipisci in? Odio, impedit cumque.</p>
-                        </div>
-                        <div class="w-80 flex justify-between">
-                            <div class="text-center text-emerald-600">
-                                <div class="flex items-center justify-center bg-emerald-50 rounded-full shadow-sm shadow-gray-200 w-12 h-12 xl:w-16 xl:h-16">
-                                    <i class="bi bi-cash text-2xl block"></i>
-                                </div>
-                                <p class="text-sm mt-2">$200</p>
-                            </div>
-                            <div class="text-center text-emerald-600">
-                                <div class="flex items-center justify-center bg-gray-50 rounded-full shadow-sm shadow-gray-200 w-12 h-12 xl:w-16 xl:h-16">
-                                    <i class="bi-ticket-perforated text-2xl block"></i>
-                                </div>
-                                <p class="text-sm mt-2">150 pcs left</p>
-                            </div>
-                            <div class="text-center text-emerald-600">
-                                <div class="flex items-center justify-center bg-emerald-50 rounded-full shadow-sm shadow-gray-200 w-12 h-12 xl:w-16 xl:h-16">
-                                    <i class="bi bi-calendar2-check text-2xl block"></i>
-                                </div>
-                                <p class="text-sm mt-2">eventDate</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="text-center text-gray-500">
-                        <i class="bi bi-arrow-clockwise"></i>
-                        loading...
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="grid grid-cols-1 my-6 xl:grid-cols-2 gap-6">
-            <div class="card p-6 bg-gray-100 rounded-lg shadow-sm">
-                <div class="card-title flex justify-between items-center mb-4">
-                    <h3 class="text-xl font-bold text-gray-900">Area Wise Sale</h3>
-                </div>
-                <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
-                    <div class="xl:col-span-2">
-                        <canvas id="areaWiseSale" class="w-full h-64"></canvas>
-                    </div>
-                    <div class="xl:col-span-1">
-                        <p class="text-gray-500">Chart Data</p>
-                    </div>
-                </div>
-            </div>
-            <div class="card p-6 bg-emerald-600 text-gray-50 rounded-lg shadow-sm">
-                <h3 class="text-2xl font-bold">Ticket Sold Today</h3>
-                <h2 class="my-5 text-4xl font-bold">278 <span class="text-lg">pieces</span></h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque molestiae incidunt officiis veritatis, architecto nam soluta, exercitationem minima laudantium harum qui.</p>
-                <div class="my-5"></div>
-                <a href="#" class="text-emerald-200 hover:underline">View Details <i class="bi bi-arrow-right"></i></a>
-            </div>
-        </section>
+		<div class="container flex">
+  <!-- Top 5 Section -->
+  <div class="top-5-section p-3 bg-gray-100 rounded-lg shadow-sm max-w-xs flex-1">
+    <div class="flex justify-between items-center mb-2">
+      <h3 class="text-lg font-bold text-gray-900">Top 5</h3>
+      <a href="/owner/product" class="text-xs font-medium text-emerald-500 hover:underline">View All</a>
     </div>
+    <div class="flow-root">
+      <ul role="list" class="divide-y divide-gray-200">
+        <li class="py-2 sm:py-3 flex items-center space-x-3" *ngFor="let item of top5Statistics">
+          <div class="flex-shrink-0">
+            <img class="avatar" [src]="item.image" alt="{{item.name}}">
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-xs font-medium text-gray-900 truncate">{{item.name}}</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Dashboard Section -->
+  <div class="dashboard-section flex-1 ml-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+      <div class="dashboard-item" *ngFor="let item of dashboardItems">
+        <div [ngClass]="item.class" class="item-content">
+          <h6 class="text-lg font-semibold mb-2">{{ item.title }}</h6>
+          <p class="text-md mb-2">{{ item.description }}</p>
+          <b class="text-6xl">{{ item.value }}</b>
+          <a [href]="item.link" class="btn btn-link mt-3">Xem chi tiết</a>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+	</div>
+</div>
+<app-loading [loading]="loading"></app-loading>

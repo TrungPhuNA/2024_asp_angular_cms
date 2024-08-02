@@ -220,7 +220,8 @@ const route: Routes = [
 		ChangepasswordOwnerComponent,
 		GuestconsultationPageComponent,
 		AddNewConsultationComponent,
-		UpdateConsultationComponent
+		UpdateConsultationComponent,
+		DashboardAdminPageComponent
 	],
 	imports: [
 		FormsModule,

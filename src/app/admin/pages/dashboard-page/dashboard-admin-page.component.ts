@@ -27,17 +27,18 @@ export class DashboardAdminPageComponent implements OnInit {
     { title: 'Owner', description: 'Total Account', value: 0, link: '/admin/account', class: 'box p-3 mb-2' },
     { title: 'Owner', description: 'Total Account Banned', value: 0, link: '/admin/account', class: 'box p-3 mb-2' },
     { title: 'Advertisement', description: 'Total Advertisement', value: 0, link: '/admin/blog', class: 'box p-3 mb-2' },
-    { title: 'Product', description: 'Tổng doanh thu tháng này', value: 0, link: '/revenue', class: 'box p-3 mb-2' },
-    { title: 'Order', description: 'totalOrders', value: 0, link: '/revenue', class: 'box p-3 mb-2' },
-    { title: 'Order', description: 'successfulOrders', value: 0, link: '/revenue', class: 'box p-3 mb-2' },
-    { title: 'Order', description: 'failedOrders', value: 0, link: '/revenue', class: 'box p-3 mb-2' },
-    { title: 'Order', description: 'canceledOrders', value: 0, link: '/revenue', class: 'box p-3 mb-2' },
-    { title: 'Order', description: 'totalRevenue', value: 0, link: '/revenue', class: 'box p-3 mb-2' },
-    { title: 'Doanh thu', description: 'Tổng doanh thu tháng này', value: 0, link: '/revenue', class: 'box p-3 mb-2' }
+    { title: 'Product', description: 'Total Product', value: 0, link: '/admin/product', class: 'box p-3 mb-2' },
+    { title: 'Order', description: 'Total Orders', value: 0, link: '/admin/dashboard', class: 'box p-3 mb-2' },
+    { title: 'Order', description: 'Success Full Orders', value: 0, link: '/admin/dashboard', class: 'box p-3 mb-2' },
+    { title: 'Order', description: 'Failed Orders', value: 0, link: '/admin/dashboard', class: 'box p-3 mb-2' },
+    { title: 'Order', description: 'Canceled Orders', value: 0, link: '/admin/dashboard', class: 'box p-3 mb-2' },
+    { title: 'Order', description: 'Total Revenue', value: 0, link: '/admin/dashboard', class: 'box p-3 mb-2' },
+    { title: 'Doanh thu', description: 'Tổng doanh thu tháng này', value: 0, link: '/admin/dashboard', class: 'box p-3 mb-2' }
   ];
 
   accountUser: any;
   blogStatistics: any;
+  orderStatistics: any
 
   constructor(private statisticsService: StatisticsService) {}
 
@@ -71,6 +72,17 @@ export class DashboardAdminPageComponent implements OnInit {
         this.loading = false;
       }
     );
+    this.statisticsService.order({}).subscribe(
+      (data) => {
+        this.orderStatistics = data;
+        console.log('data',this.orderStatistics)
+        this.updateDashboardItems(); // Update dashboard items after blog data is received
+      },
+      (error) => {
+        console.error('Error fetching blog statistics', error);
+        this.loading = false;
+      }
+    );
   }
 
   updateDashboardItems(): void {
@@ -80,14 +92,12 @@ export class DashboardAdminPageComponent implements OnInit {
       this.dashboardItems[2].value = this.accountUser.totalOwner;
       this.dashboardItems[3].value = this.accountUser.totalOwnerBanned;
       this.dashboardItems[4].value = this.blogStatistics.totalAdversisement;
-      // Uncomment and update with appropriate statistics when available
-      // this.dashboardItems[5].value = this.statistics.totalProductRevenue;
-      // this.dashboardItems[6].value = this.statistics.totalOrders;
-      // this.dashboardItems[7].value = this.statistics.successfulOrders;
-      // this.dashboardItems[8].value = this.statistics.failedOrders;
-      // this.dashboardItems[9].value = this.statistics.canceledOrders;
-      // this.dashboardItems[10].value = this.statistics.totalRevenue;
-      // this.dashboardItems[11].value = this.statistics.totalMonthlyRevenue;
+      this.dashboardItems[6].value = this.orderStatistics.totalOrders;
+      this.dashboardItems[7].value = this.orderStatistics.successfulOrders;
+      this.dashboardItems[8].value = this.orderStatistics.failedOrders;
+      this.dashboardItems[9].value = this.orderStatistics.canceledOrders;
+      this.dashboardItems[10].value = this.orderStatistics.totalRevenue;
+      this.dashboardItems[11].value = this.orderStatistics.totalMonthlyRevenue;
 
       this.loading = false; // Set loading to false after updating dashboard
     }
