@@ -5,6 +5,7 @@ import { INIT_PAGING } from '../../helpers/constant';
 import { VoucherService } from '../../services/voucher.service';
 import { OwnerService } from '../../services/owner.service';
 import { AuthenService } from '../../../admin/services/authen.service';
+import { StaffService } from '../../services/staff.service';
 
 @Component({
 	selector: 'app-voucher-page',
@@ -28,6 +29,7 @@ export class VoucherPageComponent {
 		private alertService: AlertService,
 		private ownerService: OwnerService,
 		private authenService: AuthenService,
+		private staffService: StaffService
 	) {
 
 	}
@@ -45,40 +47,36 @@ export class VoucherPageComponent {
 
 	ngOnInit(): void {
 		const user = this.authenService.getUser();
-		this.ownerId = user?.id ?? null;
 		this.userType = user?.userType ?? '';
-		if (this.userType === 'Owner') {
-			console.log(this.ownerId);
-			this.getDataList({
-				searchQuery: null,
-				page: this.paging,
-				pageSize: 10000,
-				ownerId: this.ownerId
-			}
-			);
-		}
-		// this.service.getLists({ 
-		// 	searchQuery: null,  // Truy vấn tìm kiếm
-		// 	page: 1,              // Số trang
-		// 	pageSize: 10,         // Kích thước trang
-		// 	ownerId: this.ownerId // ID người dùng
-		// }).subscribe(
-		// 	(res: any) => {
-		// 		// Xử lý phản hồi từ API
-		// 		console.log('Data received:', res);
-		// 	},
-		// 	(error) => {
-		// 		console.error('Error fetching data:', error);
-		// 	}
-		// );
+		this.ownerId = user?.id ?? null;
+		if (this.userType == 'Staff') (
+			this.staffService.show(user?.id ?? null).subscribe((res: any) => {
+				this.ownerId = res?.data?.ownerId;
+				console.log('ID của Onwer', this.ownerId)
+				console.log('Lấy ID của Staff xong lấy OwnerId')
+				if (this.userType === 'Owner' || this.userType === 'Staff') {
+					console.log('id này số mấy', this.ownerId);
+					
+				}
+			})
+		);
+		else (console.log('UserTyle là Owner', this.userType)
 
+		);
+		this.getDataList({
+			searchQuery: null,
+			page: this.paging,
+			pageSize: 10000,
+			ownerId: this.ownerId
+		}
+		);
 		this.getOwners()
 	}
 
 	dataListAll = []
 	getDataList(params: any) {
 		this.loading = true;
-		this.service.getLists({ 
+		this.service.getLists({
 			searchQuery: this.formSearch.value.name,  // Truy vấn tìm kiếm
 			page: 1,              // Số trang
 			pageSize: 10000,         // Kích thước trang
@@ -156,7 +154,7 @@ export class VoucherPageComponent {
 		} else {
 			this.loading = true;
 			let dataForm = data?.form;
-			console.log('data form',dataForm);
+			console.log('data form', dataForm);
 			delete (dataForm.password);
 			this.service.createOrUpdateData(dataForm, data.id).subscribe((res: any) => {
 				this.loading = false;

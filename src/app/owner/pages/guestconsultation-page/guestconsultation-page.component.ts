@@ -5,6 +5,7 @@ import { OwnerService } from '../../services/owner.service';
 import { AuthenService } from '../../../admin/services/authen.service';
 import { INIT_PAGING } from '../../helpers/constant';
 import { GuestconsultationService } from '../../services/guestconsultation.service';
+import { StaffService } from '../../services/staff.service';
 
 @Component({
 	selector: 'app-guestconsultation-page',
@@ -61,25 +62,51 @@ export class GuestconsultationPageComponent {
 		private alertService: AlertService,
 		private ownerService: OwnerService,
 		private authenService: AuthenService,
-		private guestService: GuestconsultationService
+		private guestService: GuestconsultationService,
+		private staffService: StaffService
 	) {
 
 	}
 
 	ngOnInit(): void {
 		const user = this.authenService.getUser();
-		this.ownerId = user?.id ?? null;
 		this.userType = user?.userType ?? '';
-		if (this.userType === 'Owner') {
-			console.log(this.ownerId);
-			this.getDataList({
-				searchQuery: null,
-				page: this.paging,
-				pageSize: 10000,
-				ownerId: this.ownerId
-			}
-			);
-		}
+		if (this.userType == 'Staff') (
+			this.staffService.show(user?.id ?? null).subscribe((res: any) => {
+				this.ownerId = res?.data?.ownerId;
+				console.log('ID của Onwer', this.ownerId)
+				console.log('Lấy ID của Staff xong lấy OwnerId')
+				if (this.userType === 'Owner' || this.userType === 'Staff') {
+					console.log('id này số mấy', this.ownerId);
+					this.getDataList({
+						searchQuery: null,
+						page: this.paging,
+						pageSize: 10000,
+						ownerId: this.ownerId
+					}
+					);
+				}
+			})
+		);
+		else (console.log('UserTyle là Owner', this.userType)
+
+		);
+		console.log('UserTyle là Owner', this.userType)
+
+		// this.ownerId = user?.id ?? null;
+		// this.userType = user?.userType ?? '';
+		// if (this.userType === 'Owner' || this.userType === 'Staff') {
+		// 	console.log('id này số mấy',this.ownerId);
+		// 	this.getDataList({
+		// 		searchQuery: null,
+		// 		page: this.paging,
+		// 		pageSize: 10000,
+		// 		ownerId: this.ownerId
+		// 	}
+		// 	);
+		// } else (console.log('UserTyle là Owner',this.userType))
+		console.log('data du lieu', this.ownerId);
+		console.log('userType', this.userType);
 	}
 	changeTab(type: string) {
 		this.tabType = type;

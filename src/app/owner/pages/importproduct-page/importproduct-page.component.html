@@ -9,7 +9,7 @@
 			<form [formGroup]="formSearch" (ngSubmit)="search()">
 				<div class="row mb-5 align-items-end">
 				  <div class="col-md-3 col-xs-12">
-					<label class="form-label">Order Name: </label>
+					<label class="form-label">Import Product: </label>
 					<input formControlName="id" type="text" class="form-control" placeholder="" />
 				  </div>
 				  <div class="col-md-6 col-xs-12 justify-content-between align-items-center">
@@ -31,7 +31,7 @@
 					<tr>
 						<th class="text-center align-middle" style="min-width: 5%;">STT</th>
 						<th class="text-center align-middle" style="min-width: 80px;">Import Date</th>
-						<th class="text-center align-middle" style="min-width: 300px;">Origin</th>
+						<th class="text-center align-middle" style="min-width: 80px;">Origin</th>
 						<th class="text-center align-middle" style="min-width: 10%;">Quantity</th>
 						<th class="text-center align-middle" style="min-width: 10%;">Total Price</th>
 						<th class="text-center align-middle" style="min-width: 10%;">Actions</th>
@@ -44,22 +44,17 @@
 								<input type="checkbox" [(ngModel)]="item.selected">
 							</td> -->
 							<td class="text-center align-middle">{{ (paging.page - 1) * paging.pageSize + i + 1 }}</td>
+							<!-- <td class="text-center align-middle">{{ item.importDate}}</td> -->
 							<td class="text-center align-middle">
-								<div class="image-container">
-									<img [src]="item.image" alt="{{ item.name }}" class="thumbnail" width="80"
-										height="80" />
-								</div>
+								<ul class="date-list">
+									<li><strong>Hours:</strong> {{ item.importDate | date: 'HH:mm' }}</li>
+									<li><strong>Day:</strong> {{ item.importDate | date: 'dd/MM/yyyy' }}</li>
+								</ul>
 							</td>
-							<td class="text-center align-middle">{{ item.title }}</td>
-							<td class="text-center align-middle content-cell">
-								<p class="text-break">
-									{{ item.content }}
-								</p>
-							</td>
-							<td class="text-center align-middle">{{ item?.service.name}}</td>
-							<!-- <td class="text-center align-middle">{{ item?.ownerName || item.ownerId}}</td> -->
+							<td class="text-center align-middle">{{ item.origin}}</td>
+							<td class="text-center align-middle"><strong>$</strong>{{ item.quantity}}</td>
+							<td class="text-center align-middle"><strong>$</strong>{{ item.totalPrice}}</td>
 							<td class="text-center align-middle">
-
 								<button mat-icon-button [matMenuTriggerFor]="menu"
 									class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary">
 									<i class="fa fa-ellipsis-v" aria-hidden="true"></i>
@@ -74,7 +69,7 @@
 					</ng-container>
 					<ng-container *ngIf="dataList?.length <= 0">
 						<tr>
-							<td colspan="9">No data</td>
+							<td colspan="7">No data</td>
 						</tr>
 					</ng-container>
 

@@ -72,6 +72,14 @@ h1 {
   flex-grow: 1;
 }
 
+.table-responsive {
+  max-height: 400px; /* Đặt chiều cao tối đa cho bảng */
+  overflow-y: auto; /* Cho phép cuộn dọc nếu nội dung vượt quá chiều cao này */
+  border: 1px solid #ddd; /* Thêm viền cho bảng */
+  border-radius: 5px; /* Thêm bo tròn cho viền bảng */
+  padding: 10px; /* Thêm khoảng cách giữa viền và nội dung bảng */
+}
+
 .table {
   width: 100%;
   border-collapse: collapse;
@@ -85,7 +93,25 @@ h1 {
 }
 
 .table th {
-  background-color: #f2f2f2;
+  background-color: #f2f2f2; /* Màu nền của hàng tiêu đề */
+  color: #333; /* Màu chữ của hàng tiêu đề */
+}
+
+.table thead th {
+  position: -webkit-sticky; /* Đối với trình duyệt WebKit */
+  position: sticky;
+  top: 0; /* Cố định hàng tiêu đề ở trên cùng */
+  background-color: #f8f9fa; /* Màu nền của hàng tiêu đề */
+  z-index: 2; /* Đảm bảo hàng tiêu đề không bị che khuất */
+  border-bottom: 2px solid #dee2e6; /* Thêm đường viền dưới hàng tiêu đề để dễ phân biệt */
+}
+
+.text-center {
+  text-align: center;
+}
+
+.align-middle {
+  vertical-align: middle;
 }
 
 .thumbnail {
@@ -146,89 +172,4 @@ h1 {
   float: right;
   font-size: 24px;
   cursor: pointer;
-}
-
-.text-center {
-  text-align: center;
-}
-
-.align-middle {
-  vertical-align: middle;
-}
-
-.image-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%; /* Ensure it takes the full height of the table cell */
-}
-
-.thumbnail {
-  display: block;
-  max-width: 100%;
-  max-height: 100%;
-}
-
-.nav-tabs .nav-link.active {
-color: #6c5ce7;
-  border-bottom: 2px solid #6c5ce7;
-}
-/* Badge Styles */
-.badge {
-  display: inline-block;
-  padding: 0.3em 0.6em; /* Cùng một padding */
-  font-size: 85%;
-  font-weight: 400;
-  line-height: 1;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: baseline;
-  border-radius: 0.25rem;
-  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  width: 70%; /* Đặt kích thước cố định nếu cần */
-  height: 100%; /* Đặt kích thước cố định nếu cần */
-}
-
-.badge-waiting {
-  color: #000; /* Black text color */
-  background-color: #ffc107; /* Orange background */
-}
-
-.badge-accept {
-  color: #fff;
-  background-color: #1e7e34; /* Green background */
-}
-
-.badge-deny {
-  color: #fff;
-  background-color: #dc3545; /* Red background */
-}
-.table td.content-cell {
-  max-width: 300px; /* Giới hạn chiều rộng tối đa của cột Content */
-  overflow: hidden; /* Ẩn nội dung vượt quá chiều rộng cột */
-  text-overflow: ellipsis; /* Thêm dấu ba chấm (...) khi nội dung quá dài */
-  white-space: nowrap; /* Ngăn nội dung xuống dòng */
-}
-
-.table td.content-cell p {
-  margin: 0; /* Đảm bảo không có margin thừa */
-}
-.date-list {
-  display: flex;
-  flex-direction: column;
-  justify-content: center; /* Căn giữa theo chiều dọc */
-  align-items: center; /* Căn giữa theo chiều ngang */
-  height: 100%; /* Đảm bảo các ô có cùng chiều cao */
-  padding: 0;
-  margin: 0;
-  list-style-type: none;
-}
-
-.date-list li {
-  text-align: left; /* Align text to the left */
-}
-
-.date-list li strong {
-  display: inline-block;
-  font-weight: bold; /* Ensure text is bold */
 }

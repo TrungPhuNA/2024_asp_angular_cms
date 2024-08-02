@@ -33,8 +33,8 @@ export class HeaderAdminComponent {
 			if (this.user) {
 				this.userId = Number(this.user.id);
 				this.userType = this.user.userType;
-				console.log('id',this.userId);
-				console.log('userType',this.user.userType);
+				//console.log('id',this.userId);
+				//console.log('userType',this.user.userType);
 				
 			  }
 		});
@@ -49,15 +49,15 @@ export class HeaderAdminComponent {
 	}
 
 	loadUserProfile(): void {
-		console.log('user id:', this.userId)
+		//console.log('user id:', this.userId)
 		if (this.userType  === 'Admin' && this.userId !== null) {
-			console.log('admin id:', this.userId)
+			//console.log('admin id:', this.userId)
 			this.loadAdminProfile();
 		} else if (this.userType  === 'Owner' && this.userId !== null) {
-			console.log('owner id:', this.userId)
+			//console.log('owner id:', this.userId)
 			this.loadOwnerProfile();
 		} else if(this.userType === 'Staff' && this.userId !== null) {
-			console.log('staff id:', this.userId)
+			//console.log('staff id:', this.userId)
 			this.loadStaffProfile();
 		}
 	}
@@ -69,9 +69,9 @@ export class HeaderAdminComponent {
 				this.loading = false;
 				this.profileImage = res?.data?.image || '';
 				this.fullname = res?.data?.fullname;
-				console.log('Owner profile image:', res?.data?.image);
+				//console.log('Owner profile image:', res?.data?.image);
 				console.log('Owner ID:', res?.data?.ownerId);
-				console.log('Owner Name:', res?.data?.fullname);
+				//console.log('Owner Name:', res?.data?.fullname);
 				console.log('Owner Email:', res?.data?.email);
 			},
 			(error) => {
@@ -88,9 +88,9 @@ export class HeaderAdminComponent {
 				this.loading = false;
 				this.profileImage = res?.image || '';
 				this.fullname = res?.fullname;
-				console.log('Admin profile image:', res?.image);
+				//console.log('Admin profile image:', res?.image);
 				console.log('Admin ID:', res?.accountId);
-				console.log('Admin Name:', res?.fullname);
+				//console.log('Admin Name:', res?.fullname);
 				console.log('Admin Email:', res?.email);
 			},
 			(error) => {
@@ -107,10 +107,10 @@ export class HeaderAdminComponent {
 				this.loading = false;
 				this.profileImage = res?.data?.image || '';
 				this.fullname = res?.data?.fullname;
-				console.log(res)
-				console.log('Staff profile image:', res?.data?.image);
+				//console.log(res)
+				//console.log('Staff profile image:', res?.data?.image);
 				console.log('Staff ID:', res?.data?.staffId);
-				console.log('Staff Name:', res?.data?.fullname);
+				//console.log('Staff Name:', res?.data?.fullname);
 				console.log('Staff Email:', res?.data?.email);
 			},
 			(error) => {

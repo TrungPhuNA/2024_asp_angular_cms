@@ -32,12 +32,14 @@
 			<!-- Dashboard Section -->
 			<div class="dashboard-section">
 				<div class="grid-container">
-					<div class="dashboard-item" *ngFor="let item of dashboardItems">
+					<!-- <div class="dashboard-item" *ngFor="let item of dashboardItems"> -->
+						<div class="dashboard-item" *ngFor="let item of filteredDashboardItems()">
 						<div [ngClass]="item.class" class="item-content">
 							<h6 class="item-title">{{ item.title }}</h6>
 							<p class="item-description">{{ item.description }}</p>
-							<div class="item-value">{{ item.value }}</div>
-							<a [href]="item.link" class="btn-link">Xem chi tiết</a>
+							<!-- <div class="item-value">{{ item.value }}</div> -->
+							<div class="item-value">{{ item.formattedValue || item.value }}</div>
+							<a [href]="item.link" class="btn-link">See Details</a>
 						</div>
 					</div>
 				</div>

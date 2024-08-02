@@ -74,6 +74,7 @@ import { GuestconsultationPageComponent } from './pages/guestconsultation-page/g
 import { AddNewConsultationComponent } from './components/guestconsultation/add-new-consultation/add-new-consultation.component';
 import { UpdateConsultationComponent } from './components/guestconsultation/update-consultation/update-consultation.component';
 import { ImportproductPageComponent } from './pages/importproduct-page/importproduct-page.component';
+import { ImportproductDetailComponent } from './pages/importproduct-detail/importproduct-detail.component';
 
 const route: Routes = [
 	{
@@ -153,6 +154,11 @@ const route: Routes = [
 				path: 'importproduct',
 				component: ImportproductPageComponent,
 				title: 'Manage Import Product'
+			},
+			{
+				path: 'importproduct-detail',
+				component: ImportproductDetailComponent,
+				title: 'Manage Import Product Detail'
 			}
 
 		],
@@ -228,7 +234,14 @@ const route: Routes = [
 		AddNewConsultationComponent,
 		UpdateConsultationComponent,
 		DashboardAdminPageComponent,
-		ImportproductPageComponent
+		ImportproductPageComponent,
+		BrandAdminPageComponent,
+		BlogAdminPageComponent,
+		ProductAdminPageComponent,
+		OrderAdminPageComponent,
+		VoucherPageComponent,
+		ImportproductPageComponent,
+  ImportproductDetailComponent
 	],
 	imports: [
 		FormsModule,

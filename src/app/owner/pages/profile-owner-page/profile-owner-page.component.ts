@@ -6,6 +6,7 @@ import { AlertService } from '../../helpers/alert.service';
 import { cloudinaryConfig } from '../../../../../cloudinary.config';
 import moment from 'moment';
 import { OwnerService } from '../../services/owner.service';
+import { StaffService } from '../../services/staff.service';
 
 
 @Component({
@@ -41,6 +42,7 @@ export class ProfileOwnerPageComponent {
 		private alertService: AlertService,
 		private ownerService: OwnerService,
 		private http: HttpClient,
+		private staffService: StaffService
 	) {
 
 	}

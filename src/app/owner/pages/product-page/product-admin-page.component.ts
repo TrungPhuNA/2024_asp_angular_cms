@@ -8,7 +8,8 @@ import { BrandService } from '../../services/brand.service';
 import { OwnerService } from '../../services/owner.service';
 import { DescriptionService } from '../../services/description.service';
 import { AuthenService } from '../../../admin/services/authen.service';
-
+import { StaffService } from '../../services/staff.service';
+import { Router } from '@angular/router';
 @Component({
 	selector: 'app-product-admin-page',
 	templateUrl: './product-admin-page.component.html',
@@ -38,6 +39,8 @@ export class ProductAdminPageComponent {
 		private categoryService: CategoryService,
 		private descriptionService: DescriptionService,
 		private authenService: AuthenService,
+		private staffService: StaffService,
+		private router: Router,
 	) {
 
 	}
@@ -54,16 +57,41 @@ export class ProductAdminPageComponent {
 	];
 
 	ngOnInit(): void {
+
 		const user = this.authenService.getUser();
-		this.ownerId = user?.id ?? null;
 		this.userType = user?.userType ?? '';
-		// this.ownerId = this.getUserIdFromLocalStorage(); // Lấy ID người dùng từ local storage		
-		// this.userType = this.authenService.getUser();
-		if (this.userType === 'Owner') {
-			this.getDataList({ ...this.paging, pageSize: 10000 });
-			this.getDataRelation();
-		}
+		this.ownerId = user?.id ?? null;
+		if (this.userType == 'Staff') (
+			this.staffService.show(user?.id ?? null).subscribe((res: any) => {
+				this.ownerId = res?.data?.ownerId;
+				console.log('ID của Onwer', this.ownerId)
+				console.log('Lấy ID của Staff xong lấy OwnerId')
+				if (this.userType === 'Owner' || this.userType === 'Staff') {
+					console.log('id này số mấy', this.ownerId);
+					
+				}
+			})
+		);
+		else (console.log('UserTyle là Owner', this.userType)
+
+		);
+
+		this.getDataList({ ...this.paging, pageSize: 10000 });
+		this.getDataRelation();
+		// 	const user = this.authenService.getUser();
+		// 	this.ownerId = user?.id ?? null;
+		// 	this.userType = user?.userType ?? '';
+		// 	// this.ownerId = this.getUserIdFromLocalStorage(); // Lấy ID người dùng từ local storage		
+		// 	// this.userType = this.authenService.getUser();
+		// 	if (this.userType === 'Owner') {
+		// 		this.getDataList({ ...this.paging, pageSize: 10000 });
+		// 		this.getDataRelation();
+		// 	}
 	}
+
+
+
+
 	getUserIdFromLocalStorage(): number | null {
 		const user = this.authenService.getUser();
 		return user?.id ?? null; // Giả sử user có trường id
@@ -73,23 +101,23 @@ export class ProductAdminPageComponent {
 		this.productService.getLists(this.ownerId).subscribe((res: any) => {
 			this.loading = false;
 			this.dataListAll = res;
-	
+
 			if (this.dataListAll?.length > 0) {
 				let start = (this.paging?.page - 1) * this.paging.pageSize;
 				let end = this.paging?.page * this.paging.pageSize;
-	
+
 				// Filter images where isdelete is false
 				this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end);
-	
+
 				this.dataList.forEach((item: any) => {
 					item.images = item.images.filter((image: any) => !image.isdelete); // Filter images
 				});
 			}
-	
+
 			this.paging.total = res?.length || 0;
 		});
 	}
-	
+
 
 	categories = []
 	owners = [];
@@ -119,6 +147,8 @@ export class ProductAdminPageComponent {
 	createItem() {
 		this.modalTitle = 'Create Product';
 		this.createModal = true;
+		
+		
 	}
 
 	closeModal() {
@@ -128,8 +158,8 @@ export class ProductAdminPageComponent {
 		this.selected = null; // Reset dữ liệu được chọn
 		console.log('Modal closed and state reset.');
 	}
-	
-	  
+
+
 
 	search() {
 		if (this.userType === 'Owner') {
@@ -141,8 +171,8 @@ export class ProductAdminPageComponent {
 	handleUpdateSuccess() {
 		// this.resetSearchForm();
 		this.getDataList({ ...this.paging, pageSize: 10000 });
-	  }
-	
+	}
+
 	resetSearchForm() {
 		this.formSearch.reset();
 		// this.search();
@@ -198,7 +228,7 @@ export class ProductAdminPageComponent {
 			this.updateModal = true;
 		}
 	}
-	
+
 
 	deleteItem(id: number) {
 		this.alertService.fireConfirm(
@@ -247,7 +277,7 @@ export class ProductAdminPageComponent {
 					if (res?.message == `Product ${isBan ? 'is banned' : 'has been unbanned'} successfully.`) {
 						this.alertService.fireSmall('success', res?.message);
 						this.getDataList({ page: 1, pageSize: 10 })
-					} else if (res?.errors) {	
+					} else if (res?.errors) {
 						this.alertService.showListError(res?.errors);
 					} else {
 						this.alertService.fireSmall('error', res?.message || `${isBan ? 'banned' : 'unbanned'}  Product failed!`);
@@ -307,14 +337,14 @@ export class ProductAdminPageComponent {
 
 	pageChanged(e: any) {
 		this.paging.page = e;
-	
+
 		if (this.dataListAll?.length > 0) {
 			const start = (this.paging.page - 1) * this.paging.pageSize;
 			const end = this.paging.page * this.paging.pageSize;
-	
+
 			// Kiểm tra từ khóa tìm kiếm
 			const searchTerm = this.formSearch.value?.name?.trim().toLowerCase();
-	
+
 			if (searchTerm) {
 				// Lọc dữ liệu theo từ khóa tìm kiếm
 				const totalSearch = this.dataListAll?.filter((item: any) =>
@@ -329,5 +359,5 @@ export class ProductAdminPageComponent {
 			}
 		}
 	}
-	
+
 }

@@ -21,6 +21,7 @@ import { VerifyCodeUserComponent } from './user/pages/verify-code-user/verify-co
 import { RegisterUserComponent } from './user/pages/register-user/register-user.component';
 import { CartPageComponent } from './user/pages/cart-page/cart-page.component';
 import { ProfileOwnerPageComponent } from './owner/pages/profile-owner-page/profile-owner-page.component';
+import { ImportproductDetailComponent } from './owner/pages/importproduct-detail/importproduct-detail.component';
 
 const routes: Routes = [
   { path: '', redirectTo: "/homepage", pathMatch: "full" },
@@ -41,6 +42,7 @@ const routes: Routes = [
   { path: "products", component: ProductPageComponent, title: "Products" },
   { path: "product-detail/:id", component: ProductDetailComponent, title: "Product Detail" },
   { path: "services", component: ServicePageComponent, title: "Services" },
+  // { path: "importproduct-deital", component: ImportproductDetailComponent, title: "Import Product Detail" },
   // { path: "profile-owner", component: ProfileOwnerPageComponent, title: "Hồ sơ" },
 
   {

@@ -4,6 +4,7 @@ import { OrderService } from '../../services/order.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { INIT_PAGING } from '../../helpers/constant';
 import { AuthenService } from '../../../admin/services/authen.service';
+import { StaffService } from '../../services/staff.service';
 
 @Component({
 	selector: 'app-order-admin-page',
@@ -34,7 +35,8 @@ export class OrderAdminPageComponent implements OnInit {
 	constructor(
 		private orderService: OrderService,
 		private alertService: AlertService,
-		private authenService: AuthenService
+		private authenService: AuthenService,
+		private staffService: StaffService
 	) { }
 
 	// Thêm các biến lưu dữ liệu cho từng trạng thái
@@ -62,11 +64,30 @@ export class OrderAdminPageComponent implements OnInit {
 
 	ngOnInit(): void {
 		const user = this.authenService.getUser();
-		this.ownerId = user?.id ?? null;
 		this.userType = user?.userType ?? '';
-		if (this.userType === 'Owner') {
-		  this.getDataListAll({ ...this.paging });
-		}
+		if (this.userType == 'Staff') (
+			this.staffService.show(user?.id ?? null).subscribe((res: any) => {
+				this.ownerId = res?.data?.ownerId;
+				console.log('ID của Onwer', this.ownerId)
+				console.log('Lấy ID của Staff xong lấy OwnerId')
+				if (this.userType === 'Owner' || this.userType === 'Staff') {
+					console.log('id này số mấy', this.ownerId);
+					this.getDataListAll({ ...this.paging });
+				}
+			})
+		);
+		else (console.log('UserTyle là Owner', this.userType)
+
+		);
+
+		// const user = this.authenService.getUser();
+		// this.ownerId = user?.id ?? null;
+		// this.userType = user?.userType ?? '';
+		// if (this.userType === 'Owner') {
+		//   this.getDataListAll({ ...this.paging });
+		// }
+
+
 		console.log('User ID:', this.ownerId);
 		console.log('User Type:', this.userType);
 	}

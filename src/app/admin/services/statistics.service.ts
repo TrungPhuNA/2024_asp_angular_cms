@@ -35,7 +35,8 @@ export class StatisticsService {
   WarehouseDetail(warehouseId: any) {
     return this.baseApiService.getMethod('WarehouseDetail/SumOfKindProdSizeStatistics',{warehouseId});
   }
-  // PriceVoucherUsedStatistics(ownerId: any) {
-  //   return this.baseApiService.getMethod('Voucher/PriceVoucherUsedStatistics',{ownerId});
-  // }
+  importproduct(params: any) {
+		const {warehouseId, importId, ownerId } = params;
+		return this.baseApiService.getMethod('ImportProduct/ViewImportProductStatistics', { warehouseId, importId, ownerId });
+	}
 }

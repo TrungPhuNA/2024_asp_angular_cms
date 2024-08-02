@@ -4,6 +4,8 @@ import { INIT_PAGING } from "../../helpers/constant";
 import { BrandService } from "../../services/brand.service";
 import { FormControl, FormGroup } from "@angular/forms";
 import { CategoryService } from '../../services/category.service';
+import { StaffService } from '../../services/staff.service';
+import { AuthenService } from '../../../admin/services/authen.service';
 
 @Component({
 	selector: 'app-brand-admin-page',
@@ -25,11 +27,14 @@ export class BrandAdminPageComponent {
 	loading = false;
 
 	categories: any = [];
-
+	ownerId: number | null = null;
+	userType: string = '';
 	constructor(
 		private brandService: BrandService,
 		private categoryService: CategoryService,
-		private alertService: AlertService
+		private alertService: AlertService,
+		private staffService: StaffService,
+		private authenService: AuthenService,
 	) {
 
 	}
@@ -46,6 +51,24 @@ export class BrandAdminPageComponent {
 	];
 
 	ngOnInit(): void {
+		const user = this.authenService.getUser();
+		this.userType = user?.userType ?? '';
+		if (this.userType == 'Staff') (
+			this.staffService.show(user?.id ?? null).subscribe((res: any) => {
+				this.ownerId = res?.data?.ownerId;
+				console.log('ID của Onwer', this.ownerId)
+				console.log('Lấy ID của Staff xong lấy OwnerId')
+				if (this.userType === 'Owner' || this.userType === 'Staff') {
+					console.log('id này số mấy', this.ownerId);
+					this.getDataList({ ...this.paging });
+					this.getCategories()
+				}
+			})
+		);
+		else (console.log('UserTyle là Owner', this.userType)
+
+		);
+
 		this.getDataList({ ...this.paging });
 		this.getCategories()
 	}
@@ -185,13 +208,13 @@ export class BrandAdminPageComponent {
 		if (this.dataListAll?.length > 0) {
 			let start = (this.paging?.page - 1) * this.paging.pageSize;
 			let end = this.paging?.page * this.paging.pageSize;
-			console.log('brand---->',start, end, this.formSearch.value?.name);
-			if(this.formSearch.value?.name) {
+			console.log('brand---->', start, end, this.formSearch.value?.name);
+			if (this.formSearch.value?.name) {
 				let totalSearch = this.dataListAll?.filter((item: any) => item?.name?.includes(this.formSearch.value?.name?.trim()));
 				this.paging.total = totalSearch?.length || 0;
-				this.dataList = totalSearch?.filter((item: any, index: number) => index >= start && index < end && item?.name?.includes(this.formSearch.value?.name?.trim()) )
+				this.dataList = totalSearch?.filter((item: any, index: number) => index >= start && index < end && item?.name?.includes(this.formSearch.value?.name?.trim()))
 			} else {
-				this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end )
+				this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
 			}
 		}
 	}
