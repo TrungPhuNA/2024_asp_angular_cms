@@ -1,4 +1,3 @@
-<!-- product-details.component.html -->
 <div class="card w-100">
     <div class="card-body w-100">
         <app-breadcrum [items]="breadCrumb"></app-breadcrum>
@@ -13,38 +12,41 @@
                     <tr>
                         <th class="text-center align-middle" style="width: 5%;">STT</th>
                         <th class="text-center align-middle" style="min-width: 80px;">Product</th>
-                        <th class="text-center align-middle" style="min-width: 80px;">Size</th>
+                        <th class="text-center align-middle" style="width: 10%;">Size</th>
                         <th class="text-center align-middle" style="width: 10%;">Price</th>
                         <th class="text-center align-middle" style="width: 10%;">Quantity Received</th>
                         <th class="text-center align-middle" style="width: 10%;">Actions</th>
                     </tr>
                 </thead>
-            </table>
-            <table class="table">
                 <tbody>
                     <tr *ngFor="let row of rows; let i = index">
                         <td class="text-center align-middle">{{ i + 1 }}</td>
                         <td class="text-center align-middle">
-                            <select [(ngModel)]="row.product" class="form-control">
-                                <option *ngFor="let product of products" [value]="product">{{ product }}</option>
+                            <select [(ngModel)]="row.product" [ngClass]="{'disabled-input': isRowDisabled(i)}" class="form-control" [attr.disabled]="isRowDisabled(i) ? true : null">
+                                <option *ngFor="let name of product" [value]="product">{{ name }}</option>
                             </select>
                         </td>
                         <td class="text-center align-middle">
-                            <select [(ngModel)]="row.size" class="form-control">
-                                <option *ngFor="let size of sizes" [value]="size">{{ size }}</option>
-                            </select>
+                            <ng-select [items]="size" bindLabel="name" bindValue="size" formControlName="size"
+                                class="form-control" [ngClass]="{'disabled-input': isRowDisabled(i)}"
+                                [attr.disabled]="isRowDisabled(i) ? true : null">
+                            </ng-select>
                         </td>
                         <td class="text-center align-middle">
-                            <input type="number" [(ngModel)]="row.price" class="form-control" />
+                            <input type="number" [(ngModel)]="row.price" [ngClass]="{'disabled-input': isRowDisabled(i)}" class="form-control" [attr.disabled]="isRowDisabled(i) ? true : null" />
                         </td>
                         <td class="text-center align-middle">
-                            <input type="number" [(ngModel)]="row.quantity" class="form-control" />
+                            <input type="number" [(ngModel)]="row.quantity" [ngClass]="{'disabled-input': isRowDisabled(i)}" class="form-control" [attr.disabled]="isRowDisabled(i) ? true : null" />
                         </td>
                         <td class="text-center align-middle">
                             <button (click)="removeRow(i)" class="btn btn-danger">Remove</button>
                         </td>
                     </tr>
                 </tbody>
+                
+                
+                
+                
             </table>
         </div>
         <button (click)="addRow()" class="btn btn-primary mt-2">Add Row</button>

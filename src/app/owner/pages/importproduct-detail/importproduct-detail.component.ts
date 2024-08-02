@@ -12,6 +12,8 @@ import { SizeService } from '../../services/size.service';
 	styleUrl: './importproduct-detail.component.scss'
 })
 export class ImportproductDetailComponent {
+	ownerId: number | null = null;
+	userType: string = '';
 	breadCrumb: any = [
 		{
 			label: 'Owner',
@@ -34,27 +36,39 @@ export class ImportproductDetailComponent {
 	}
 	product = [];
 	size = [];
-	products = ['Product 1', 'Product 2', 'Product 3']; // danh sách sản phẩm
-	sizes = ['Small', 'Medium', 'Large']; // danh sách kích thước
+	products = ['Product 1', 'Product 2', 'Product 3'];
+	sizes = ['Small', 'Medium', 'Large'];
 	rows = Array.from({ length: 10 }, () => ({ product: '', size: '', price: 0, quantity: 0 }));
-	ngOnInit(): void { }
-
-	addRow() {
-		this.rows.push({ product: '', size: '', price: 0, quantity: 0 });
-	}
-
-	removeRow(index: number) {
-		this.rows.splice(index, 1);
-	}
+	ngOnInit(): void {
+		const user = this.authenService.getUser();
+		this.userType = user?.userType ?? '';
+		this.ownerId = user?.id ?? null;
+		if (this.userType == 'Staff') (
+			this.staffService.show(user?.id ?? null).subscribe((res: any) => {
+				this.ownerId = res?.data?.ownerId;
+				console.log('ID của Onwer', this.ownerId)
+				console.log('Lấy ID của Staff xong lấy OwnerId')
+				if (this.userType === 'Owner' || this.userType === 'Staff') {
+					console.log('id này số mấy', this.ownerId);
+					
+				}
+			})
+		);
+		this.getDataRelation(this.ownerId);
+	 }
 	
 	getDataRelation(ownerId: any) {
 		this.sizeService.getListSize({ page: 1, pageSize: 100, ownerId }).subscribe((res: any) => {
 			if (res?.data) {
 				this.size = res;
+				console.log('data',res.data)
+				console.log('data',this.size);
 			}
 		});
 		this.productService.getLists(ownerId).subscribe((res: any) => {
 			this.product = res;
+			console.log('data',res)
+			console.log('data',this.product)
 		});
 
 		// this.ownerService.getLists({ page: 1, pageSize: 100 }).subscribe((res: any) => {
@@ -63,4 +77,26 @@ export class ImportproductDetailComponent {
 		// 	}
 		// });
 	}
+	addRow() {
+		this.rows.push({ product: '', size: '', price: 0, quantity: 0 });
+	}
+
+	removeRow(index: number) {
+		if (this.rows.length > 1) {
+			this.rows.splice(index, 1);
+		}
+	}
+
+	isRowDisabled(index: number): boolean {
+		if (index === 0) {
+			return false; // Always allow editing for the first row
+		}
+	
+		const prevRow = this.rows[index - 1];
+		const isPreviousRowComplete = prevRow.product && prevRow.size && prevRow.price > 0 && prevRow.quantity > 0;
+	
+		return !isPreviousRowComplete;
+	}
+	
+	
 }
