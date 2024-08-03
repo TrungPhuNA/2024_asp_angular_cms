@@ -75,6 +75,7 @@ import { AddNewConsultationComponent } from './components/guestconsultation/add-
 import { UpdateConsultationComponent } from './components/guestconsultation/update-consultation/update-consultation.component';
 import { ImportproductPageComponent } from './pages/importproduct-page/importproduct-page.component';
 import { ImportproductDetailComponent } from './pages/importproduct-detail/importproduct-detail.component';
+import { NotificationPageComponent } from './pages/notification-page/notification-page.component';
 
 const route: Routes = [
 	{
@@ -159,6 +160,11 @@ const route: Routes = [
 				path: 'importproduct-detail',
 				component: ImportproductDetailComponent,
 				title: 'Manage Import Product Detail'
+			},
+			{
+				path: 'notification',
+				component: NotificationPageComponent,
+				title: 'Manage Notification'
 			}
 
 		],
@@ -241,7 +247,8 @@ const route: Routes = [
 		OrderAdminPageComponent,
 		VoucherPageComponent,
 		ImportproductPageComponent,
-  ImportproductDetailComponent
+  ImportproductDetailComponent,
+  NotificationPageComponent
 	],
 	imports: [
 		FormsModule,

@@ -48,7 +48,7 @@ export class DescriptionService {
         return this.baseApiService.postMethod('Description/UpdateDesctiption', formData);
     }
     
-    deleteData(id: any) {
-        return this.baseApiService.patchMethod(`Description/DeleteDescription/${id}`, {});
+    deleteData(id: number) {
+        return this.baseApiService.patchMethod(`Description/DeleteDesctiption/${id}`, {});
     }
 }

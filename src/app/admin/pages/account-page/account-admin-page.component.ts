@@ -70,7 +70,7 @@ export class AccountAdminPageComponent {
 		console.log('Executing getDataList() with parameters:', params);
 		this.loading = true;
 		if (this.tabType == 'user') {
-			this.accountService.getLists({ ...params, pageSize: 100 }).subscribe((res: any) => {
+			this.accountService.getLists({ ...params, pageSize: 10 }).subscribe((res: any) => {
 				this.loading = false;
 				console.log('User', res);
 				this.dataListAll = res;

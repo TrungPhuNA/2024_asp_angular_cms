@@ -5,6 +5,7 @@ import { OwnerService } from '../../services/owner.service';
 import { AuthenService } from '../../../admin/services/authen.service';
 import { WarehouseService } from '../../services/warehouse.service';
 import { FormControl, FormGroup } from '@angular/forms';
+import { StaffService } from '../../services/staff.service';
 
 @Component({
 	selector: 'app-warehouse-page',
@@ -33,7 +34,8 @@ export class WarehousePageComponent {
 		private alertService: AlertService,
 		private ownerService: OwnerService,
 		private authenService: AuthenService,
-		private warehouseService: WarehouseService
+		private warehouseService: WarehouseService,
+		private staffService: StaffService
 	) {
 
 	}
@@ -51,14 +53,36 @@ export class WarehousePageComponent {
 
 	ngOnInit(): void {
 		const user = this.authenService.getUser();
-		this.ownerId = user?.id ?? null;
 		this.userType = user?.userType ?? '';
-		if (this.userType === 'Owner') {
-			this.getDataList({ ...this.paging, pageSize: 10000 });
+		this.ownerId = user?.id ?? null;
+		if (this.userType == 'Staff') {
+			this.staffService.show(user?.id ?? null).subscribe((res: any) => {
+				this.ownerId = res?.data?.ownerId;
+				console.log('ID của Onwer', this.ownerId)
+				console.log('Lấy ID của Staff xong lấy OwnerId')
+				if (this.userType === 'Owner' || this.userType === 'Staff') {
+					console.log('id này số mấy', this.ownerId);
+					this.getDataList({ ...this.paging, pageSize: 10000 });
+				}
+			})
 		}
-		console.log('User ID:', this.ownerId);
-		console.log('User Type:', this.userType);
+		else {
+			console.log('UserTyle là Owner', this.userType)
+			this.getDataList({ ...this.paging, pageSize: 10000 });
+		};
+		// const user = this.authenService.getUser();
+		// this.ownerId = user?.id ?? null;
+		// this.userType = user?.userType ?? '';
+		// if (this.userType === 'Owner') {
+		// 	this.getDataList({ ...this.paging, pageSize: 10000 });
+		// }
+		// console.log('User ID:', this.ownerId);
+		// console.log('User Type:', this.userType);
+
+
 	}
+
+
 	getUserIdFromLocalStorage(): number | null {
 		const user = this.authenService.getUser();
 		return user?.id ?? null; // Giả sử user có trường id
@@ -67,17 +91,19 @@ export class WarehousePageComponent {
 		this.loading = true;
 		this.warehouseService.getLists(this.ownerId).subscribe((res: any) => {
 			this.loading = false;
-			this.dataListAll = res?.data?.warehouseDetails;
-			console.log('data', this.dataListAll);
-			if (this.dataListAll?.length > 0) {
-				let start = (this.paging?.page - 1) * this.paging.pageSize;
-				let end = this.paging?.page * this.paging.pageSize;
-				this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end);
-				console.log('dataList', this.dataList);
+			this.dataListAll = res?.data?.warehouseDetails || [];
+			if (this.dataListAll.length > 0) {
+				let start = (this.paging.page - 1) * this.paging.pageSize;
+				let end = this.paging.page * this.paging.pageSize;
+				this.dataList = this.dataListAll.slice(start, end);
+				this.paging.total = res?.data?.totalCount || this.dataListAll.length; // Cập nhật tổng số dữ liệu nếu có
+			} else {
+				this.dataList = [];
+				this.paging.total = 0;
 			}
-			this.paging.total = res?.length || 0;
-		})
+		});
 	}
+	
 	createItem() {
 		this.modalTitle = 'Create Warehouse';
 		this.openModal = true;
@@ -90,11 +116,11 @@ export class WarehousePageComponent {
 	}
 
 	search() {
-		if (this.userType === 'Owner') {
-			this.getDataList({ ...this.paging, page: 1, ...this.formSearch.value })
-			// this.getDataList({ ...this.paging, pageSize: 10000, ...this.formSearch.value })
+		if (this.userType === 'Owner' || this.userType === 'Staff') {
+			this.getDataList({ ...this.paging, page: 1, ...this.formSearch.value });
 		}
 	}
+	
 
 	resetSearchForm() {
 		this.formSearch.reset();
@@ -145,11 +171,12 @@ export class WarehousePageComponent {
 	}
 
 	editItem(id: number) {
-		const data = this.dataList.find((c: any) =>{ console.log('warehouseId', c.warehouseId); c.warehouseId === id });
+		const data = this.dataList.find((c: any) => { console.log('warehouseId', c.warehouseId); c.warehouseId === id });
 		console.log('edit', data);
 		this.selected = { ...data };
 		this.modalTitle = 'Edit Warehouse';
 		this.openModal = true;
+		this.typeForm = 3
 	}
 
 	deleteItem(id: number) {
@@ -195,25 +222,14 @@ export class WarehousePageComponent {
 		if (this.dataListAll?.length > 0) {
 			let start = (this.paging?.page - 1) * this.paging.pageSize;
 			let end = this.paging?.page * this.paging.pageSize;
-			console.log('product---->', start, end, this.formSearch.value?.name);
-			// Chuyển đổi từ khóa tìm kiếm về chữ thường
-			const searchTerm = this.formSearch.value?.name?.trim().toLowerCase();
-
-			if (searchTerm) {
-				// Tìm kiếm không phân biệt chữ hoa chữ thường
-				let totalSearch = this.dataListAll?.filter((item: any) =>
-					item?.name?.toLowerCase().includes(searchTerm)
-				);
+			if (this.formSearch.value?.name) {
+				let totalSearch = this.dataListAll?.filter((item: any) => item?.voucherId?.toLowerCase()?.includes(this.formSearch.value?.name?.toLowerCase().trim()));
 				this.paging.total = totalSearch?.length || 0;
-				this.dataList = totalSearch?.filter((item: any, index: number) =>
-					index >= start && index < end
-				);
+				this.dataList = totalSearch?.filter((item: any, index: number) => index >= start && index < end && item?.voucherId?.toLowerCase()?.includes(this.formSearch.value?.name?.toLowerCase().trim()))
 			} else {
-				// Gọi lại phương thức resetSearchForm khi từ khóa tìm kiếm trống
-				this.resetSearchForm();
+				this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
 			}
 		}
-		// this.getDataList({ ...this.paging, ...this.formSearch.value })
 	}
 
 }

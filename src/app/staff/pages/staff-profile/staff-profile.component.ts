@@ -126,6 +126,7 @@ export class StaffProfileComponent {
 				this.image = response.secure_url;
 				this.form.patchValue({ image: this.image as string | null });
 				this.selectedFile = null;
+				console.log('ảnh staff',this.form.value);
 				this.ownerService.updateImage(this.form.value).subscribe(resApi => {
 					console.log(resApi);
 				})

@@ -31,11 +31,11 @@ export class BlogService {
     deleteData(id: any) {
         return this.baseApiService.deleteMethod(`Advertisement/${id}`);
     }
-    updateStatus(adId: number, statusPostId: number) {
+    updateStatus(adId: number, statusPostId: string) {
         // Tạo URL với các tham số query string
-        const url = `Advertisement/UpdateStatusAdvertisementById?adId=${adId}&StatusPostId=${statusPostId}`;
+        const url = `Advertisement/UpdateStatusAdvertisement?adId=${adId}&StatusPost=${statusPostId}`;
         console.log('URL update status', url);
-        
+        // UpdateStatusAdvertisement?adId=4&statusPost=ACCEPT
         // Gửi yêu cầu PUT với URL
         return this.baseApiService.putMethod(url, true);
     }

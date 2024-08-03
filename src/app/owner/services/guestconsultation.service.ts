@@ -40,6 +40,6 @@ export class GuestconsultationService {
 
 	updateStatus(guestId: number, statusGuestId: number) {
 		const url = `GuestConsultation/UpdateStatusGuestConsultationtById?guestId=${guestId}&statusGuestId=${statusGuestId}`;
-		return this.baseApiService.putMethod(url, {});
+		return this.baseApiService.putMethod(url,true);
 	}
 }

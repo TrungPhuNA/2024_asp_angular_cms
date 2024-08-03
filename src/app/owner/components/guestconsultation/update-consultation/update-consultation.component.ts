@@ -74,7 +74,7 @@ export class UpdateConsultationComponent {
 				statusGuestId: this.data?.statusGuestId,
 				statusGuestName: this.data?.statusGuestName,
 				adId: this.data?.adId,
-				advertisementTitle: this.data?.advertisementTitle
+				advertisementTitle: this.data?.ad.title
 			});
 
 			if (this.typeForm == 2) {

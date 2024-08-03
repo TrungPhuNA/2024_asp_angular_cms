@@ -67,6 +67,7 @@ import { StaffProfileComponent } from './pages/staff-profile/staff-profile.compo
 import { staffGuardGuard } from './staff-guard.guard';
 import { GuestconsultationPageComponent } from '../owner/pages/guestconsultation-page/guestconsultation-page.component';
 import { ImportproductPageComponent } from '../owner/pages/importproduct-page/importproduct-page.component';
+import { NotificationPageComponent } from '../owner/pages/notification-page/notification-page.component';
 
 const route: Routes = [
 	{
@@ -126,6 +127,11 @@ const route: Routes = [
 				component: ImportproductPageComponent,
 				title: 'Manage Import Product'
 			},
+			{
+				path: 'notification',
+				component: NotificationPageComponent,
+				title: 'Manage Notification'
+			}
 
 
 		]

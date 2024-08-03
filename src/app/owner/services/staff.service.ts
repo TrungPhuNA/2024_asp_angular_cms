@@ -24,14 +24,18 @@ export class StaffService {
 		}
 		return this.baseApiService.postMethod('Staff/CreateStaff', params, true);
 	}
-	updateAvatar(image: File, staffId: number) {
-		const formData = new FormData();
-		formData.append('StaffId', staffId.toString());
-		formData.append('Image', image);
-	
-		return this.baseApiService.putMethod('Staff/UpdateAvatarStaff', formData, true);
-	  }
+	// updateAvatar(image: File, staffId: number) {
+	// 	const formData = new FormData();
+	// 	formData.append('StaffId', staffId.toString());
+	// 	formData.append('Image', image);
 
+	// 	return this.baseApiService.putMethod('Staff/UpdateAvatarStaff', formData, true);
+	//   }
+	updateImage(data: any) {
+		const params = this.baseApiService.setFormData(data);
+		return this.baseApiService.putMethod(`Staff/UpdateAvatarStaff`, params);
+
+	}
 	deleteData(id: any) {
 		return this.baseApiService.deleteMethod(`Staff/DeleteStaff/${id}`);
 	}

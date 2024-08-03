@@ -40,6 +40,7 @@ export class DetailOrderComponent {
     ngOnChanges(): void {
     this.form.reset();
     if (this.order) {
+      console.log('data order ben component',this.order)
       this.form.patchValue({
         codeOrder: this.order?.codeOrder,
         fullName: this.order?.fullName,

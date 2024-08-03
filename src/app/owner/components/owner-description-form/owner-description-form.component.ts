@@ -50,7 +50,7 @@ export class OwnerDescriptionFormComponent {
 				Title: this.data?.title,
 				Content: this.data?.content,
 				Image: this.data?.imageLinks,
-				IsDelete: this.data?.isdelete
+				// IsDelete: this.data?.isdelete
 			});
 			console.log('Patched form values:', this.form.value);
 			if (this.typeForm == 2) {

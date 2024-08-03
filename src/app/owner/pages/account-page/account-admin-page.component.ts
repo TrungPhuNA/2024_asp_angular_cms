@@ -141,7 +141,8 @@ export class AccountAdminPageComponent {
 			this.staffService.createOrUpdateData(data?.form, data.form.staffId).subscribe((res: any) => {
 				this.loading = false;
 				if (res?.message?.includes('successfully')) {
-				  this.staffService.updateAvatar(data.form.image, data.form.staffId).subscribe(() => {
+					console.log('ảnh staff',data);
+				  this.staffService.updateImage(data.form).subscribe(() => {
 					console.log('update ảnh')
 					this.alertService.fireSmall('success', res?.message);
 					this.closeModal();

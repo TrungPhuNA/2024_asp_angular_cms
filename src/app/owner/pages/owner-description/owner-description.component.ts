@@ -174,7 +174,7 @@ export class OwnerDescriptionComponent {
 						} else if (res?.errors) {
 							this.alertService.showListError(res?.errors);
 						} else {
-							this.alertService.fireSmall('error', res?.message || "Product description  deleted failed!");
+							this.alertService.fireSmall('error', res?.message || "Description deleted failed!");
 						}
 					})
 				}

@@ -13,7 +13,7 @@ export class OrderService {
 
     getLists(params: any) {
         console.log('getLists Params:', params); // Debug log
-    
+
         if (params.codeOrder) {
             // Search by codeOrder
             console.log('Searching by codeOrder:', params.codeOrder); // Debug log
@@ -24,15 +24,17 @@ export class OrderService {
             return this.baseApiService.getMethod(`Order/owner/${params.ownerId}`, {});
         }
     }
-    
 
+    getData(ownerId: number) {
+        return this.baseApiService.getMethod(`Order/owner/${ownerId}`, {});
+    }
     show(id: any) {
         return this.baseApiService.getMethod(`order/${id}`, {});
     }
     status(id: number, statusId: number) {
         return this.baseApiService.putMethod(`Order/confirm/${id}/${statusId}`, {});
     }
-    detail(id: any){
+    detail(id: any) {
         return this.baseApiService.getMethod(`OrderDetail/${id}`, {});
     }
     createOrUpdateData(formData: any, id?: any) {
