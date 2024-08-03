@@ -86,17 +86,19 @@ export class DetailProductComponent {
 				OwnerId: this.product?.ownerId,
 				CategoryId: this.product?.categoryId,
 			});
-			
-			this.form.disable()
+
+			this.form.disable();
+
+			console.log('data', this.product)
+			this.formattedDescription = this.product?.description?.content.replace(/\n/g, '<br>');
+			if (this.product?.images?.length > 0) {
+				this.mainImageUrl = this.product.images[0].linkImage;
+			}
+			console.log('Product sizes:', this.productSizes);
+			this.loadProductSizes(this.product?.productId);
+			this.loadComments(this.product?.productId);
 		}
-		console.log('data',this.product)
-		this.formattedDescription = this.product.description.content.replace(/\n/g, '<br>');
-		if (this.product.images && this.product.images.length > 0) {
-			this.mainImageUrl = this.product.images[0].linkImage;
-		  }
-		  console.log('Product sizes:', this.productSizes);
-		  this.loadProductSizes(this.product.productId);
-		this.loadComments(this.product.productId);
+
 	}
 	scrollThumbnails(direction: 'left' | 'right') {
 		const thumbnails = document.querySelector('.thumbnail-images') as HTMLElement;
@@ -126,20 +128,20 @@ export class DetailProductComponent {
 
 
 	}
-	
+
 	decreaseQuantity() {
 		if (this.quantity > 1) {
-		  this.quantity--;
+			this.quantity--;
 		}
-	  }
+	}
 
 
-	  increaseQuantity() {
+	increaseQuantity() {
 		if (this.quantity < this.maxQuantity) {
-		  this.quantity++;
+			this.quantity++;
 		}
-	  }
-	
+	}
+
 	updateMainImage(imageUrl: string) {
 		this.mainImageUrl = imageUrl;
 		this.checkScrollable();
@@ -148,42 +150,42 @@ export class DetailProductComponent {
 	toggleReviews() {
 		this.showReviews = !this.showReviews;
 	}
-	
+
 
 	comments: any[] = [];
-	  loadComments(productId: number): void {
+	loadComments(productId: number): void {
 		this.productService.getComments(productId).subscribe(
-		  (data) => {
-			this.comments = data.map((comment: any) => {
-			  return {
-				...comment,
-				formattedTimestamp: formatDate(comment.timestamp, 'medium', 'en-US'),
-				formattedReplyTimestamp: comment.replyTimestamp ? formatDate(comment.replyTimestamp, 'medium', 'en-US') : null
-			  };
-			});
-			this.commentCount = this.comments.length; // Cập nhật số lượng bình luận
-		  },
-		  (error) => {
-			console.error('There was an error fetching comments!', error);
-		  }
+			(data) => {
+				this.comments = data.map((comment: any) => {
+					return {
+						...comment,
+						formattedTimestamp: formatDate(comment.timestamp, 'medium', 'en-US'),
+						formattedReplyTimestamp: comment.replyTimestamp ? formatDate(comment.replyTimestamp, 'medium', 'en-US') : null
+					};
+				});
+				this.commentCount = this.comments.length; // Cập nhật số lượng bình luận
+			},
+			(error) => {
+				console.error('There was an error fetching comments!', error);
+			}
 		);
 		console.log()
-	  }
+	}
 	addToCart() {
 		if (!this.selectedSize) {
-		  alert('Please select a size');
-		  return;
+			alert('Please select a size');
+			return;
 		}
-	
+
 		// const accountId = this.authenService.getAccountIdFromToken();
 		// if (accountId === null) {
 		//   console.error('Account ID is null!');
 		//   return;
 		// }
-	
+
 		// const ownerId = this.product.ownerId;
 		// const productSizeId = this.selectedSize.productSizeId;
-	
+
 		// this.cartService.createCartItem(accountId, productSizeId, ownerId, this.quantity).subscribe(
 		//   (data) => {
 		// 	console.log('Product added to cart:', data);
@@ -194,10 +196,10 @@ export class DetailProductComponent {
 		// 	console.error('There was an error adding the product to the cart!', error);
 		//   }
 		// );
-	  }
-	  findInStore() {
+	}
+	findInStore() {
 		console.log('Finding product in store');
-	  }
+	}
 	getStars(ratePoint: number): any[] {
 		const totalStars = 5;
 		const fullStars = Math.floor(ratePoint);
@@ -228,7 +230,7 @@ export class DetailProductComponent {
 	// 	this.isDescriptionFullView = !this.isDescriptionFullView;
 	// 	const descriptionElement = document.querySelector('.description');
 	// 	const toggleButton = document.querySelector('.toggle-button');
-	
+
 	// 	if (descriptionElement && toggleButton) {
 	// 	  if (this.isDescriptionFullView) {
 	// 		descriptionElement.classList.add('full-view');

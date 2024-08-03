@@ -71,9 +71,9 @@
 					<div style="font-size: 16px; margin-right: 15%; margin-top: 10px;">Size</div>
 					<div class="size-options">
 						<button class="size-option" *ngFor="let size of productSizes" (click)="selectSize(size)"
-							[class.selected]="size === selectedSize" [class.out-of-stock]="size.quantity === 0"
-							[disabled]="size.quantity === 0">
-							<span [class.text-strikethrough]="size.quantity === 0">{{size.size.name}}</span>
+							[class.selected]="size === selectedSize" [class.out-of-stock]="size?.quantity === 0"
+							[disabled]="size?.quantity === 0">
+							<span [class.text-strikethrough]="size?.quantity === 0">{{size?.sizeName}}</span>
 						</button>
 					</div>
 				</div>

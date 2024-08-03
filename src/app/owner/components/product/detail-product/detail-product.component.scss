@@ -15,7 +15,8 @@
 
 .modal-content {
 	background-color: #fefefe;
-	margin: 15% auto;
+	margin: auto;
+	max-height: 90vh;
 	padding: 20px;
 	border: 1px solid #888;
 	width: 55%;
@@ -38,7 +39,10 @@
 .product-page {
 	display: flex;
 	justify-content: space-between;
-	padding-top: 3%
+	padding-top: 3%;
+	height: 70vh;
+	overflow-y:scroll ;
+	padding-bottom: 20px;
 }
 
 .product-images {

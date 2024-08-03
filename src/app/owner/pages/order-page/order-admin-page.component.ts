@@ -73,7 +73,7 @@ export class OrderAdminPageComponent implements OnInit {
 				console.log('Lấy ID của Staff xong lấy OwnerId')
 				if (this.userType === 'Owner' || this.userType === 'Staff') {
 					console.log('id này số mấy', this.ownerId);
-					
+
 				}
 			})
 		);
@@ -125,22 +125,30 @@ export class OrderAdminPageComponent implements OnInit {
 	getDataListAll(params: any) {
 		this.loading = true;
 		this.orderService.getLists({ ownerId: this.ownerId }).subscribe((res: any) => {
-		  this.loading = false;
-		  this.dataListAll = res;
-		  this.paging.total = this.dataListAll.length;
-		  this.updateDataListForCurrentTab();
-		  console.log('Initial Data:', this.dataListAll);
+			this.loading = false;
+			this.dataListAll = res;
+			this.paging.total = this.dataListAll.length;
+			this.updateDataListForCurrentTab();
+			console.log('Initial Data:', this.dataListAll);
 		});
-	  }
-	  updateDataListForCurrentTab() {
-		const currentPaging = this.getPageSizeForCurrentTab();
-		const startIndex = (currentPaging.page - 1) * currentPaging.pageSize;
-		const endIndex = currentPaging.page * currentPaging.pageSize;
-		this.dataList = this.dataListAll.slice(startIndex, endIndex);
+	}
+
+	updateDataListForCurrentTab() {
+		let name = this.formSearch.value?.name?.trim()?.toLowerCase();
+		name = String(name) || null
+		let start = (this.paging?.page - 1) * this.paging.pageSize;
+		let end = this.paging?.page * this.paging.pageSize;
+		if (name && name != '') {
+			let totalSearch = this.dataListAll?.filter((item: any) => item?.codeOrder?.toLowerCase()?.includes(name));
+			this.paging.total = totalSearch?.length || 0;
+			this.dataList = totalSearch?.filter((item: any, index: number) => index >= start && index < end && item?.codeOrder?.toLowerCase()?.includes(name))
+		} else {
+			this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
+		}
 		console.log('Data List for Current Tab:', this.dataList);
-	  }
-			
-	
+	}
+
+
 
 	getDataListPending(params: any) {
 		this.loading = true;
@@ -333,29 +341,29 @@ export class OrderAdminPageComponent implements OnInit {
 	}
 	search() {
 		if (this.tabType !== 'all') {
-		  // Only search in "All" tab
-		  return;
+			// Only search in "All" tab
+			return;
 		}
-	  
-		const searchValue = this.formSearch.value.id;
+
+		const searchValue = this.formSearch.value.name;
 		const searchParams = searchValue ? String(searchValue).trim().toLowerCase() : '';
-	  
+
 		this.paging.page = 1;
-	  
-		if (searchParams) {
-		  this.dataList = this.dataListAll.filter((item: any) =>
-			item.codeOrder.toLowerCase().includes(searchParams)
-		  );
-		} else {
-		  this.dataList = this.dataListAll;
-		}
-	  
-		this.paging.total = this.dataList.length;
+
+		// if (searchParams) {
+		// 	this.dataList = this.dataListAll.filter((item: any) =>
+		// 		item.codeOrder.toLowerCase().includes(searchParams)
+		// 	);
+		// } else {
+		// 	this.dataList = this.dataListAll;
+		// }
+
+		// this.paging.total = this.dataList.length;
 		this.updateDataListForCurrentTab();
 		console.log('Filtered Data List:', this.dataList);
-	  }
-	  
-	  
+	}
+
+
 
 
 	resetSearchForm() {
@@ -371,8 +379,8 @@ export class OrderAdminPageComponent implements OnInit {
 		this.openModal = true;
 	}
 
-	formSearch = new FormGroup({
-		id: new FormControl('')
-	  });
-	  
+	formSearch: any = new FormGroup({
+		name: new FormControl('')
+	});
+
 }

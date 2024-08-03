@@ -78,7 +78,7 @@ export class BaseApiService {
 	}
 
 	deleteMethod(url: string) {
-		return this.http.delete(`${URL_API}` + url)
+		return this.http.delete(`${URL_API}` + url, {headers: this.headers })
 			.pipe(delay(500), catchError((e: any) => {
 
 				return of(e?.error)
