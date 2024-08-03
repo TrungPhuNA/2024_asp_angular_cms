@@ -142,6 +142,7 @@ export class AccountAdminPageComponent {
 				this.loading = false;
 				if (res?.message?.includes('successfully')) {
 				  this.staffService.updateAvatar(data.form.image, data.form.staffId).subscribe(() => {
+					console.log('update ảnh')
 					this.alertService.fireSmall('success', res?.message);
 					this.closeModal();
 					this.getDataList({ page: 1, pageSize: 10 });

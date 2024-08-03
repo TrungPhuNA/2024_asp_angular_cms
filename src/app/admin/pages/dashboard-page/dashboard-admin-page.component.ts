@@ -33,7 +33,7 @@ export class DashboardAdminPageComponent implements OnInit {
     { title: 'Order', description: 'Failed Orders', value: 0, link: '/admin/dashboard', class: 'box p-3 mb-2' },
     { title: 'Order', description: 'Canceled Orders', value: 0, link: '/admin/dashboard', class: 'box p-3 mb-2' },
     { title: 'Order', description: 'Total Revenue', value: 0, link: '/admin/dashboard', class: 'box p-3 mb-2' },
-    { title: 'Doanh thu', description: 'Tổng doanh thu tháng này', value: 0, link: '/admin/dashboard', class: 'box p-3 mb-2' }
+    // { title: 'Doanh thu', description: 'Tổng doanh thu tháng này', value: 0, link: '/admin/dashboard', class: 'box p-3 mb-2' }
   ];
 
   accountUser: any;
@@ -97,7 +97,7 @@ export class DashboardAdminPageComponent implements OnInit {
       this.dashboardItems[8].value = this.orderStatistics.failedOrders;
       this.dashboardItems[9].value = this.orderStatistics.canceledOrders;
       this.dashboardItems[10].value = this.orderStatistics.totalRevenue;
-      this.dashboardItems[11].value = this.orderStatistics.totalMonthlyRevenue;
+      // this.dashboardItems[11].value = this.orderStatistics.totalMonthlyRevenue;
 
       this.loading = false; // Set loading to false after updating dashboard
     }

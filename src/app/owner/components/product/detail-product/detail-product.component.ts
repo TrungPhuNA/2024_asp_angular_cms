@@ -218,6 +218,7 @@ export class DetailProductComponent {
 		this.productService.getProductSizesByProductId(productId).subscribe(
 			(data) => {
 				this.productSizes = data.data.sort((a: any, b: any) => parseFloat(a.sizeName) - parseFloat(b.sizeName));
+				console.log('size giay',this.productSizes);
 			},
 			(error) => {
 				console.error('There was an error fetching product sizes!', error);
