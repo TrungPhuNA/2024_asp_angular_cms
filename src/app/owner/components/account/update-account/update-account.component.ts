@@ -40,13 +40,21 @@ export class UpdateAccountComponent {
 
 	ngOnChanges(): void {
 		
-		console.log('NgOnChanges account:', this.account);
-		this.form.reset();
+		console.log('NgOnChanges account:', this.isVisible, this.typeForm, this.account);
 		if (!this.isVisible) {
 			this.form.reset();
 			this.form.enable();
+		} else {
+			
 		}
-		console.log('data',this.account);
+		if(this.typeForm == 1) {
+			this.form.get('password')?.setValidators(Validators.required);
+			this.form.get('password')?.updateValueAndValidity();
+		} else {
+			this.form.get('password')?.clearValidators();
+			this.form.get('password')?.updateValueAndValidity();
+		}
+
 		if (this.account && this.typeForm != 1) {
 			this.form.patchValue({
 				staffId: this.account?.staffId,
@@ -55,19 +63,12 @@ export class UpdateAccountComponent {
 				image: this.account?.image,
 				phone: this.account?.phone,
 			});
-			console.log(this.typeForm);
 			if(this.typeForm == 2) {
 				this.form.disable();
 			}
 			this.form.get('password')?.clearValidators();
 			this.form.get('password')?.updateValueAndValidity();
-			if(this.typeForm == 1) {
-				this.form.get('password')?.setValidators(Validators.required);
-				this.form.get('password')?.updateValueAndValidity();
-			} else {
-				this.form.get('password')?.clearValidators();
-				this.form.get('password')?.updateValueAndValidity();
-			}
+			
 		}
 	}
 	onFileSelected(event: any): void {

@@ -102,6 +102,7 @@ export class AccountAdminPageComponent {
 	closeModal() {
 		this.openModal = false;
 		this.typeForm = 0;
+		this.selected = null;
 
 	}
 

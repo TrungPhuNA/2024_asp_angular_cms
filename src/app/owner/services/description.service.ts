@@ -40,11 +40,12 @@ export class DescriptionService {
     
         // Kiểm tra URL và phương thức yêu cầu
         if (id) {
-            return this.baseApiService.putMethod(`Description/UpdateDescription/${id}`, formData); // Cập nhật URL nếu cần
+			formData.append('DescriptionId', id)
+            return this.baseApiService.putMethod(`Description/UpdateDesctiption`, formData); // Cập nhật URL nếu cần
         }
     
         console.log('Creating new entry');
-        return this.baseApiService.postMethod('Description/CreateDescription', formData);
+        return this.baseApiService.postMethod('Description/UpdateDesctiption', formData);
     }
     
     deleteData(id: any) {

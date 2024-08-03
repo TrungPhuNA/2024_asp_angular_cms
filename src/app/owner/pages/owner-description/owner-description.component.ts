@@ -45,7 +45,6 @@ export class OwnerDescriptionComponent {
 	}
 	dataListAll: any;
 	getDataListParent(params: any) {
-		console.log('data áđâs kiểm tra trướcs',this.typeForm);
 		this.loading = true;
 		this.descriptionService.getLists({...params, pageSize:10000}).subscribe((res: any) => {
 			this.loading = false;
@@ -54,7 +53,6 @@ export class OwnerDescriptionComponent {
 				let start = (this.paging?.page - 1) * this.paging.pageSize;
 				let end = this.paging?.page * this.paging.pageSize;
 				this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
-				console.log('xem dữ liệu khi trả về của API',this.dataList[0]);
 			}
 			this.paging.total = res?.data?.length || 0;
 		})

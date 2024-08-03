@@ -88,6 +88,8 @@
 </div>
 <app-loading [loading]="loading"></app-loading>
 <!-- Trong template HTML của trang mà bạn muốn hiển thị UpdateAccountComponent -->
-<app-update-account [account]="selected" [typeForm]="typeForm" [modalTitle]="modalTitle" [isVisible]="openModal"
+<app-update-account [account]="selected" 
+[typeForm]="typeForm" [modalTitle]="modalTitle" 
+[isVisible]="openModal"
     (save)="saveItem($event)" (close)="closeModal()">
 </app-update-account>
