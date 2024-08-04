@@ -21,8 +21,7 @@ export class OwnerDescriptionFormComponent {
 	form = new FormGroup({
 		Title: new FormControl(null, Validators.required),
 		Content: new FormControl(null, Validators.required),
-		Image: new FormControl(null as string | null, Validators.required),
-		IsDelete: new FormControl(null, Validators.required)
+		ImageLinks: new FormControl(null as string | null, Validators.required),
 	});
 	@ViewChild('fileInput') fileInput!: ElementRef;
 	selectedFile: File | null = null;
@@ -49,9 +48,9 @@ export class OwnerDescriptionFormComponent {
 			this.form.patchValue({
 				Title: this.data?.title,
 				Content: this.data?.content,
-				Image: this.data?.imageLinks,
-				// IsDelete: this.data?.isdelete
+				ImageLinks: this.data?.imageLinks
 			});
+			
 			console.log('Patched form values:', this.form.value);
 			if (this.typeForm == 2) {
 				this.form.disable();
@@ -87,7 +86,7 @@ export class OwnerDescriptionFormComponent {
 		  .subscribe((response: any) => {
 			this.image = response.secure_url;
 			console.log('Uploaded image URL:', this.image);
-			this.form.patchValue({ Image: this.image as string | null });
+			this.form.patchValue({ ImageLinks: this.image as string | null });
 			console.log('Form after image upload:', this.form.value);
 			if (this.data) {
 				this.data.imageLinks = this.image;
@@ -101,16 +100,18 @@ export class OwnerDescriptionFormComponent {
 	submit() {
 		console.log('submit called');
         console.log('Form validity:', this.form.invalid);
+		console.log('Form validity:', this.form);
 		if (this.form.invalid) {
 
 			this.alertService.fireSmall('error', "Form is invalid");
 			return;
 		}
-		if (this.data) {
-            this.data.title = this.form.value.Title;
-            this.data.content = this.form.value.Content;
-            this.data.imageLinks = this.form.value.Image;
-        }
+		// if (this.data) {
+		// 	this.data = this.form.value;
+        //     this.data.title = this.form.value.title;
+        //     this.data.content = this.form.value.content;
+        //     this.data.imageLinks = this.form.value.linkImage;
+        // }
 		console.log('Form values before emit:', this.form.value);
         console.log('DescriptionId:', this.data?.descriptionId);
 		this.save.emit({

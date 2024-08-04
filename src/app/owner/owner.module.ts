@@ -77,6 +77,10 @@ import { ImportproductPageComponent } from './pages/importproduct-page/importpro
 import { ImportproductDetailComponent } from './pages/importproduct-detail/importproduct-detail.component';
 import { NotificationPageComponent } from './pages/notification-page/notification-page.component';
 
+import { AddNewDescriptionComponent } from './components/owner-description-form/add-new-description/add-new-description.component';
+import { DetailDescriptionComponent } from './components/owner-description-form/detail-description/detail-description.component';
+import { UpdateDescriptionComponent } from './components/owner-description-form/update-description/update-description.component';
+
 const route: Routes = [
 	{
 		path: '',
@@ -247,8 +251,11 @@ const route: Routes = [
 		OrderAdminPageComponent,
 		VoucherPageComponent,
 		ImportproductPageComponent,
-  ImportproductDetailComponent,
-  NotificationPageComponent
+		ImportproductDetailComponent,
+		NotificationPageComponent,
+		AddNewDescriptionComponent,
+		DetailDescriptionComponent,
+		UpdateDescriptionComponent
 	],
 	imports: [
 		FormsModule,

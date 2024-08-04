@@ -9,20 +9,23 @@ import { OwnerService } from '../../services/owner.service';
 import { DescriptionService } from '../../services/description.service';
 
 @Component({
-  selector: 'app-owner-description',
-  templateUrl: './owner-description.component.html',
-  styleUrl: './owner-description.component.scss'
+	selector: 'app-owner-description',
+	templateUrl: './owner-description.component.html',
+	styleUrl: './owner-description.component.scss'
 })
 export class OwnerDescriptionComponent {
 	dataList: any = [];
 	modalTitle: string = '';
 	openModal: boolean = false;
+	selectedDescription: any = {};
 
 	paging: any = { ...INIT_PAGING }
 	loading = false;
 
 	typeForm = 0;
-
+	showAddNewModal: boolean = false;
+	showDetailModal: boolean = false;
+	showUpdateModal: boolean = false;
 	constructor(
 		private descriptionService: DescriptionService,
 		private alertService: AlertService
@@ -46,7 +49,7 @@ export class OwnerDescriptionComponent {
 	dataListAll: any;
 	getDataListParent(params: any) {
 		this.loading = true;
-		this.descriptionService.getLists({...params, pageSize:10000}).subscribe((res: any) => {
+		this.descriptionService.getLists({ ...params, pageSize: 10000 }).subscribe((res: any) => {
 			this.loading = false;
 			this.dataListAll = res?.data || [];
 			if (this.dataListAll?.length > 0) {
@@ -59,9 +62,9 @@ export class OwnerDescriptionComponent {
 	}
 
 	createItem() {
+		this.selectedDescription = {title: '', content: '', image: '', selected: false };
 		this.modalTitle = 'Create Description ';
-		this.openModal = true;
-		this.typeForm = 1;
+		this.showAddNewModal = true;
 	}
 	closeModal() {
 		this.openModal = false;
@@ -79,80 +82,59 @@ export class OwnerDescriptionComponent {
 	saveItem(data: any) {
 		console.log('TypeForm:', this.typeForm);
 		console.log('Data received in saveItem:', data);
-	
-		// Xác thực dữ liệu trước khi gửi cho API
+		
 		let form = data.form;
 		console.log('Form data before validation:', form);
 		if (!form) {
-			this.alertService.fireSmall('error', 'Dữ liệu không hợp lệ!');
-			this.loading = false;
-			return;
+		  this.alertService.fireSmall('error', 'Dữ liệu không hợp lệ!');
+		  this.loading = false;
+		  return;
 		}
-	
-		// // Kiểm tra các trường dữ liệu cần thiết
-		// const requiredFields = ['content', 'descriptionId', 'imageLinks', 'isdelete', 'title'];
-		// for (const field of requiredFields) {
-		// 	if (!form[field]) {
-		// 		console.log(`Missing field: ${field}`);
-		// 		this.alertService.fireSmall('error', `Trường ${field} không được để trống!`);
-		// 		this.loading = false;
-		// 		return;
-		// 	}
-		// }
-	
-		if (this.typeForm === 1) {
-			// Đối với tạo mới
-			this.loading = true;
-			this.descriptionService.createOrUpdateData(form).subscribe((res: any) => {
-				this.loading = false;
-				if (res?.data || res?.message?.includes('successfully')) {
-					this.alertService.fireSmall('success', res?.message);
-					this.closeModal();
-					this.getDataListParent({ page: 1, pageSize: 1000 });
-				} else if (res?.errors) {
-					this.alertService.showListError(res?.errors);
-				} else {
-					this.alertService.fireSmall('error', res?.message || "Add Description failed!");
-				}
-			});
-		} else if (this.typeForm === 2 || this.typeForm === 3) {
-			// Đối với chỉnh sửa và xem
-			this.loading = true;
-			this.descriptionService.createOrUpdateData(form, data.id).subscribe((res: any) => {
-				this.loading = false;
-				console.log('API response:', res);
-				if (res?.data || res?.message?.includes('successfully')) {
-					this.alertService.fireSmall('success', res?.message);
-					this.closeModal();
-					this.getDataListParent({ page: 1, pageSize: 10 });
-				} else if (res?.errors) {
-					this.alertService.showListError(res?.errors);
-				} else {
-					this.alertService.fireSmall('error', res?.message || "Updated Description failed!");
-				}
-			});
+		
+		console.log('Form data before API call:', form);
+	  
+		if (this.typeForm === 1) { // Create
+		  this.loading = true;
+		  this.descriptionService.create(form).subscribe(
+			(res: any) => {
+			  this.loading = false;
+			  console.log('API response:', res);
+			  if (res?.data || res?.message?.includes('successfully')) {
+				this.alertService.fireSmall('success', res?.message);
+				this.closeModal();
+				this.getDataListParent({ page: 1, pageSize: 1000 });
+			  } else if (res?.errors) {
+				this.alertService.showListError(res?.errors);
+			  } else {
+				this.alertService.fireSmall('error', res?.message || "Add Description failed!");
+			  }
+			},
+			(error: any) => {
+			  this.alertService.fireSmall('error', "An error occurred while creating the description.");
+			  this.loading = false;
+			}
+		  );
 		}
-	}
+	  }
+	  
 	
+
 	selected: any;
 	viewItem(id: number) {
-		
 		const data = this.dataList.find((c: any) => c.descriptionId === id);
-		console.log('data view',data);
 		this.selected = { ...data };
 		this.modalTitle = 'View Description';
 		this.openModal = true;
 		this.typeForm = 2;
 	}
 	editItem(id: number) {
-		
+
 		const data = this.dataList.find((c: any) => c.descriptionId === id);
-		console.log('data edit',data);
+		console.log('data edit', data);
 		this.selected = { ...data };
-		console.log('data selected',this.selected);
+		console.log('data selected', this.selected);
 		this.modalTitle = 'Edit Description';
-		this.openModal = true;
-		this.typeForm = 3;
+		this.showAddNewModal = true;
 
 	}
 	deleteItem(id: number) {
@@ -191,12 +173,12 @@ export class OwnerDescriptionComponent {
 		if (this.dataListAll?.length > 0) {
 			let start = (this.paging?.page - 1) * this.paging.pageSize;
 			let end = this.paging?.page * this.paging.pageSize;
-			if(this.formSearch.value?.name) {
+			if (this.formSearch.value?.name) {
 				let totalSearch = this.dataListAll?.filter((item: any) => item?.title?.toLowerCase().includes(this.formSearch.value?.name?.toLowerCase().trim()));
 				this.paging.total = totalSearch?.length || 0;
-				this.dataList = totalSearch?.filter((item: any, index: number) => index >= start && index < end && item?.title?.toLowerCase().includes(this.formSearch.value?.name?.toLowerCase().trim()) )
+				this.dataList = totalSearch?.filter((item: any, index: number) => index >= start && index < end && item?.title?.toLowerCase().includes(this.formSearch.value?.name?.toLowerCase().trim()))
 			} else {
-				this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end )
+				this.dataList = this.dataListAll?.filter((item: any, index: number) => index >= start && index < end)
 			}
 		}
 	}

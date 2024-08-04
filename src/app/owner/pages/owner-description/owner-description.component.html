@@ -86,11 +86,14 @@
 	
 </div>
 
-<app-owner-description-form [data]="selected" 
+<!-- <app-owner-description-form [data]="selected" 
 	[modalTitle]="modalTitle" 
 	[typeForm]="typeForm" 
 	[isVisible]="openModal" 
 	(save)="saveItem($event)" (close)="closeModal()">
-</app-owner-description-form>
+</app-owner-description-form> -->
 
+<app-add-new-description [modalTitle]="modalTitle"  [isVisible]="showAddNewModal"
+	(save)="saveItem($event)" (close)="closeModal()">
+</app-add-new-description>
 <app-loading [loading]="loading"></app-loading>
